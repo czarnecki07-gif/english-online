@@ -1,0 +1,21 @@
+angielski-v2/
+├── index.html                  ← strona główna ucznia
+├── config.js                   ← konfiguracja (tematy, opisy)
+├── style.css
+├── script.js                   ← nawigacja, karty lekcji
+├── sciagawka.html              ← ściągawka (z zakładkami)
+├── lekcje/                     ← 192 pliki HTML
+│   ├── G1A1.html
+│   ├── G1A2.html
+│   ├── G1B1.html
+│   ├── G1B2.html
+│   ├── G1C1.html
+│   ├── G1TEST.html
+│   ├── G2A1.html
+│   ├── ...
+│   ├── G16TEST.html
+│   ├── T1A1.html
+│   ├── ...
+│   └── T16TEST.html
+└── archiwum/
+    └── pdf/                    ← stare PDF-y (nieużywane)

@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sprawdzian – generator</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; background: #f7f5f0; color: #1f2933; font-size: 15px; line-height: 1.6; }
+  header { background: #1e3a5f; color: #fff; padding: 18px 26px; display: flex; justify-content: space-between; align-items: center; border-bottom: 4px solid #b45309; }
+  header h1 { font-family: Georgia, serif; font-size: 1.2rem; font-weight: 600; }
+  header a { color: #fff; text-decoration: none; border: 1px solid rgba(255,255,255,.4); padding: 7px 16px; border-radius: 4px; font-size: .85rem; }
+  header a:hover { background: rgba(255,255,255,.15); }
+  main { max-width: 1100px; margin: 26px auto; padding: 0 20px; }
+  section { background: #fff; border: 1px solid #e8e4dc; border-radius: 6px; padding: 22px 26px; margin-bottom: 20px; }
+  section h2 { font-family: Georgia, serif; color: #1e3a5f; font-size: 1.05rem; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid #e8e4dc; letter-spacing: .5px; }
+
+  .filters { display: flex; flex-wrap: wrap; gap: 18px; margin-bottom: 14px; align-items: center; }
+  .filters > div { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+  .filters strong { color: #6b7280; font-size: .85rem; }
+  .chip { padding: 6px 14px; border: 1px solid #c8c2b5; background: #fff; border-radius: 20px; cursor: pointer; font-size: .82rem; font-family: inherit; transition: .15s; }
+  .chip:hover { background: #fbfaf7; }
+  .chip.active { background: #1e3a5f; color: #fff; border-color: #1e3a5f; }
+
+  .akcje-listy { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+  .akcje-listy button { padding: 7px 14px; border: 1px solid #b45309; color: #b45309; background: #fff; border-radius: 4px; cursor: pointer; font-size: .82rem; font-weight: 600; font-family: inherit; }
+  .akcje-listy button:hover { background: #b45309; color: #fff; }
+
+  .dzial-grupa { margin-bottom: 16px; }
+  .dzial-naglowek { display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #fbfaf7; border-radius: 4px; margin-bottom: 6px; }
+  .dzial-naglowek strong { color: #1e3a5f; font-size: .95rem; }
+  .dzial-naglowek button { padding: 4px 12px; border: 1px solid #c8c2b5; background: #fff; border-radius: 4px; cursor: pointer; font-size: .78rem; font-family: inherit; color: #6b7280; }
+  .dzial-naglowek button:hover { background: #1e3a5f; color: #fff; border-color: #1e3a5f; }
+  .lekcje { display: flex; flex-direction: column; gap: 3px; padding-left: 12px; }
+  .lekcja-chk { display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 5px 10px; border-radius: 4px; font-size: .88rem; }
+  .lekcja-chk:hover { background: #fbfaf7; }
+  .lekcja-chk input { accent-color: #1e3a5f; }
+  .lekcja-chk .poziom { background: #b45309; color: #fff; padding: 1px 8px; border-radius: 3px; font-size: .7rem; font-weight: 700; letter-spacing: .5px; }
+  .lekcja-chk .tytul { color: #1f2933; }
+  .lekcja-chk .ile { color: #9ca3af; font-size: .78rem; margin-left: auto; }
+
+  .podsumowanie { padding: 12px 16px; background: #fffbeb; border-left: 4px solid #b45309; margin-top: 14px; font-size: .88rem; color: #78350f; }
+
+  .ustawienia { display: flex; flex-wrap: wrap; gap: 22px; align-items: center; }
+  .ustawienia label { display: flex; align-items: center; gap: 8px; font-size: .9rem; }
+  .ustawienia input[type="number"] { width: 90px; padding: 8px 12px; border: 1px solid #c8c2b5; border-radius: 4px; font-family: inherit; font-size: .95rem; }
+  .ustawienia input[type="number"]:focus { outline: none; border-color: #b45309; box-shadow: 0 0 0 3px rgba(180,83,9,.12); }
+  .ustawienia input[type="checkbox"] { accent-color: #b45309; }
+  .ustawienia .podpowiedz { color: #9ca3af; font-size: .78rem; }
+
+  .generuj-btn { background: #1e3a5f; color: #fff; border: none; padding: 14px 40px; border-radius: 4px; font-weight: 600; font-size: 1rem; cursor: pointer; letter-spacing: 1.5px; text-transform: uppercase; font-family: inherit; transition: .15s; box-shadow: 0 4px 14px rgba(30,58,95,.2); }
+  .generuj-btn:hover { background: #152a47; transform: translateY(-1px); }
+
+  #wynik { display: none; }
+  .arkusz { background: #fff; border: 1px solid #e8e4dc; border-radius: 6px; padding: 40px 50px; margin-bottom: 20px; }
+  .arkusz-naglowek { text-align: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 2px solid #1e3a5f; }
+  .arkusz-naglowek h2 { font-family: Georgia, serif; font-size: 1.5rem; color: #1e3a5f; margin-bottom: 6px; }
+  .arkusz-naglowek .wersja-badge { display: inline-block; background: #b45309; color: #fff; padding: 4px 16px; border-radius: 4px; font-weight: 700; letter-spacing: 2px; margin-bottom: 10px; font-size: .9rem; }
+  .arkusz-naglowek .meta { color: #6b7280; font-size: .9rem; }
+  .arkusz-naglowek .pola { display: flex; gap: 30px; justify-content: center; margin-top: 20px; font-size: .9rem; color: #6b7280; flex-wrap: wrap; }
+  .arkusz-naglowek .pola span { border-bottom: 1px solid #c8c2b5; min-width: 180px; display: inline-block; }
+  .pytanie { margin-bottom: 22px; page-break-inside: avoid; }
+  .pytanie .tresc { font-weight: 600; margin-bottom: 10px; color: #1f2933; display: flex; gap: 10px; }
+  .pytanie .nr { color: #b45309; font-weight: 700; min-width: 26px; }
+  .pytanie .opcje { display: flex; flex-direction: column; gap: 5px; padding-left: 36px; }
+  .pytanie .opcje label { display: flex; gap: 10px; align-items: baseline; padding: 4px 0; font-size: .93rem; }
+  .pytanie .opcje .litera { font-weight: 700; color: #6b7280; min-width: 20px; }
+  .pytanie .opcje .box { display: inline-block; width: 14px; height: 14px; border: 1.5px solid #1f2933; border-radius: 2px; margin-right: 6px; vertical-align: middle; flex-shrink: 0; }
+
+  .klucz { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 6px; padding: 22px 26px; margin-top: 20px; }
+  .klucz h2 { color: #166534; font-family: Georgia, serif; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid #bbf7d0; }
+  .klucz .wersja-sekcja { margin-bottom: 22px; }
+  .klucz .wersja-sekcja:last-child { margin-bottom: 0; }
+  .klucz .wersja-sekcja h3 { color: #166534; font-size: 1rem; margin-bottom: 8px; letter-spacing: 1px; }
+  .klucz .odp { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px 20px; font-size: .9rem; }
+  .klucz .odp div { padding: 4px 0; }
+  .klucz .odp .nr { color: #166534; font-weight: 700; }
+  .klucz .odp .litera { color: #166534; font-weight: 700; }
+
+  .pasek-akcji { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+  .pasek-akcji button { padding: 10px 22px; border-radius: 4px; cursor: pointer; font-family: inherit; font-weight: 600; font-size: .88rem; border: 1px solid #1e3a5f; background: #fff; color: #1e3a5f; transition: .15s; }
+  .pasek-akcji button:hover { background: #1e3a5f; color: #fff; }
+  .pasek-akcji button.pierwszorzedny { background: #1e3a5f; color: #fff; }
+  .pasek-akcji button.pierwszorzedny:hover { background: #152a47; }
+
+  .brak-lekcji { color: #991b1b; padding: 20px; text-align: center; font-size: .95rem; }
+
+  @media print {
+    body { background: #fff; }
+    header, .pasek-akcji, #wybor, #ustawienia, #akcje-panel { display: none !important; }
+    .arkusz { border: none; padding: 0; margin: 0 0 20px 0; page-break-after: always; }
+    .arkusz:last-child { page-break-after: auto; }
+    .klucz { page-break-before: always; margin-top: 0; border: none; padding: 20px 0; background: #fff; }
+    .klucz h2, .klucz .wersja-sekcja h3 { color: #000; }
+    main { max-width: none; margin: 0; padding: 0; }
+  }
+</style>
+</head>
+<body>
+
+<script src="strażnik.js"></script>
+
+<header>
+  <h1>Generator sprawdzianu</h1>
+  <a href="index.html">← Powrót</a>
+</header>
+
+<main>
+
+  <section id="wybor">
+    <h2>1. Wybierz lekcje, z których losować pytania</h2>
+
+    <div class="filters">
+      <div>
+        <strong>Poziom:</strong>
+        <button class="chip active" data-filtr-poziom="all">Wszystkie</button>
+        <button class="chip" data-filtr-poziom="A1">A1</button>
+        <button class="chip" data-filtr-poziom="A2">A2</button>
+        <button class="chip" data-filtr-poziom="B1">B1</button>
+        <button class="chip" data-filtr-poziom="B2">B2</button>
+        <button class="chip" data-filtr-poziom="C1">C1</button>
+      </div>
+      <div>
+        <strong>Typ:</strong>
+        <button class="chip active" data-filtr-typ="all">Wszystkie</button>
+        <button class="chip" data-filtr-typ="gramatyka">Gramatyka</button>
+        <button class="chip" data-filtr-typ="tematyka">Tematyka</button>
+      </div>
+    </div>
+
+    <div class="akcje-listy">
+      <button id="zaznaczWidoczne">Zaznacz wszystkie widoczne</button>
+      <button id="odznaczWszystkie">Odznacz wszystkie</button>
+    </div>
+
+    <div id="listaLekcji">
+      <p class="brak-lekcji">Ładowanie lekcji…</p>
+    </div>
+
+    <div class="podsumowanie">
+      Zaznaczono: <strong id="licznikZaznaczonych">0</strong> lekcji.
+      Dostępnych pytań w zaznaczonych: <strong id="licznikPytan">0</strong>.
+    </div>
+  </section>
+
+  <section id="ustawienia">
+    <h2>2. Ustawienia sprawdzianu</h2>
+    <div class="ustawienia">
+      <label>Liczba pytań: <input type="number" id="liczbaPytan" value="20" min="1" max="200"></label>
+      <label>Liczba wersji: <input type="number" id="liczbaWersji" value="1" min="1" max="26">
+        <span class="podpowiedz">(A, B, C, D…)</span>
+      </label>
+      <label><input type="checkbox" id="losoweOdp" checked> Losowa kolejność odpowiedzi (A/B/C/D)</label>
+    </div>
+  </section>
+
+  <section id="akcje-panel">
+    <h2>3. Generuj</h2>
+    <button class="generuj-btn" id="generujBtn">Generuj sprawdzian</button>
+  </section>
+
+  <div id="wynik">
+    <div class="pasek-akcji">
+      <button class="pierwszorzedny" onclick="window.print()">Drukuj / zapisz jako PDF</button>
+      <button onclick="generuj()">Losuj ponownie (nowe pytania)</button>
+      <button onclick="przewinDoGory()">Wróć do ustawień</button>
+    </div>
+
+    <div id="arkusze"></div>
+    <div class="klucz" id="klucz"></div>
+  </div>
+
+</main>
+
+<script>
+var PLIKI = ["G-A1","G-A2","G-B1","G-B2","G-C1","T-A1","T-A2","T-B1","T-B2","T-C1"];
+var DATA = {};
+var filtrPoziom = "all";
+var filtrTyp = "all";
+
+function wczytajWszystkie(cb) {
+  var zaladowane = 0;
+  PLIKI.forEach(function(g) {
+    var s = document.createElement("script");
+    s.src = "dane/" + g + ".js";
+    s.onload = s.onerror = function() {
+      zaladowane++;
+      if (zaladowane === PLIKI.length) cb();
+    };
+    document.head.appendChild(s);
+  });
+}
+
+function zebierzDane() {
+  DATA = {};
+  if (!window.LESSON_DATA) return;
+  Object.keys(window.LESSON_DATA).forEach(function(id) {
+    var lek = window.LESSON_DATA[id];
+    if (lek && lek.test && lek.test.length) {
+      DATA[id] = {
+        tytul: lek.tytul || id,
+        poziom: lek.poziom || "",
+        dzial: lek.dzial || "",
+        test: lek.test
+      };
+    }
+  });
+}
+
+function pasujeDoFiltrow(id) {
+  var l = DATA[id];
+  if (filtrPoziom !== "all" && l.poziom !== filtrPoziom) return false;
+  if (filtrTyp === "gramatyka" && id.charAt(0) !== "G") return false;
+  if (filtrTyp === "tematyka" && id.charAt(0) !== "T") return false;
+  return true;
+}
+
+function renderLista() {
+  var kontener = document.getElementById("listaLekcji");
+  var widoczne = Object.keys(DATA).filter(pasujeDoFiltrow).sort();
+  if (!widoczne.length) {
+    kontener.innerHTML = '<p class="brak-lekcji">Brak lekcji dla wybranych filtrów.</p>';
+    return;
+  }
+  var grupy = {};
+  widoczne.forEach(function(id) {
+    var m = id.match(/^([GT]\d+)/);
+    var dzial = m ? m[1] : "?";
+    if (!grupy[dzial]) grupy[dzial] = [];
+    grupy[dzial].push(id);
+  });
+  var zapamietane = wczytajZaznaczenia();
+  var html = "";
+  Object.keys(grupy).sort().forEach(function(dzial) {
+    html += '<div class="dzial-grupa">';
+    html += '<div class="dzial-naglowek">';
+    html += '<strong>' + dzial + '</strong>';
+    html += '<button class="zaznacz-dzial" data-dzial="' + dzial + '">Zaznacz dział</button>';
+    html += '</div>';
+    html += '<div class="lekcje">';
+    grupy[dzial].forEach(function(id) {
+      var l = DATA[id];
+      var checked = zapamietane.indexOf(id) !== -1 ? " checked" : "";
+      html += '<label class="lekcja-chk">';
+      html += '<input type="checkbox" data-id="' + id + '"' + checked + '> ';
+      html += '<span class="poziom">' + l.poziom + '</span> ';
+      html += '<span class="tytul">' + id + ' — ' + l.tytul + '</span>';
+      html += '<span class="ile">' + l.test.length + ' pytań</span>';
+      html += '</label>';
+    });
+    html += '</div></div>';
+  });
+  kontener.innerHTML = html;
+  podepnijZdarzeniaListy();
+  aktualizujLiczniki();
+}
+
+function podepnijZdarzeniaListy() {
+  document.querySelectorAll(".lekcja-chk input[type=checkbox]").forEach(function(c) {
+    c.addEventListener("change", function() {
+      aktualizujLiczniki();
+      zapiszZaznaczenia();
+    });
+  });
+  document.querySelectorAll(".zaznacz-dzial").forEach(function(btn) {
+    btn.addEventListener("click", function() {
+      var dzial = btn.dataset.dzial;
+      var wszystkieZaznaczone = true;
+      document.querySelectorAll('.lekcja-chk input[data-id^="' + dzial + '"]').forEach(function(c) {
+        if (!c.checked) wszystkieZaznaczone = false;
+      });
+      document.querySelectorAll('.lekcja-chk input[data-id^="' + dzial + '"]').forEach(function(c) {
+        c.checked = !wszystkieZaznaczone;
+      });
+      aktualizujLiczniki();
+      zapiszZaznaczenia();
+    });
+  });
+}
+
+function aktualizujLiczniki() {
+  var zaznaczone = pobierzZaznaczone();
+  var ilePytan = 0;
+  zaznaczone.forEach(function(id) { ilePytan += DATA[id].test.length; });
+  document.getElementById("licznikZaznaczonych").textContent = zaznaczone.length;
+  document.getElementById("licznikPytan").textContent = ilePytan;
+}
+
+function pobierzZaznaczone() {
+  var out = [];
+  document.querySelectorAll('.lekcja-chk input[type=checkbox]:checked').forEach(function(c) {
+    out.push(c.dataset.id);
+  });
+  return out;
+}
+
+function zapiszZaznaczenia() {
+  var z = pobierzZaznaczone();
+  try { localStorage.setItem("sprawdzian_zaznaczone", JSON.stringify(z)); } catch (e) {}
+}
+function wczytajZaznaczenia() {
+  try {
+    var s = localStorage.getItem("sprawdzian_zaznaczone");
+    return s ? JSON.parse(s) : [];
+  } catch (e) { return []; }
+}
+
+function shuffle(arr) {
+  var a = arr.slice();
+  for (var i = a.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var t = a[i]; a[i] = a[j]; a[j] = t;
+  }
+  return a;
+}
+
+function literaWersji(n) {
+  var out = "";
+  while (n >= 0) {
+    out = String.fromCharCode(65 + (n % 26)) + out;
+    n = Math.floor(n / 26) - 1;
+  }
+  return out;
+}
+
+function generuj() {
+  var zaznaczone = pobierzZaznaczone();
+  if (!zaznaczone.length) { alert("Zaznacz co najmniej jedną lekcję."); return; }
+
+  var liczba = parseInt(document.getElementById("liczbaPytan").value) || 20;
+  if (liczba < 1) liczba = 1;
+
+  var liczbaWersji = parseInt(document.getElementById("liczbaWersji").value) || 1;
+  if (liczbaWersji < 1) liczbaWersji = 1;
+  if (liczbaWersji > 26) liczbaWersji = 26;
+
+  var losujOdp = document.getElementById("losoweOdp").checked;
+
+  var pula = [];
+  zaznaczone.forEach(function(id) {
+    DATA[id].test.forEach(function(q) {
+      pula.push({ id: id, tytul: DATA[id].tytul, q: q });
+    });
+  });
+
+  if (pula.length < liczba) {
+    alert("Za mało pytań w wybranych lekcjach (jest " + pula.length + ", a chcesz " + liczba + ").\n\nZmniejsz liczbę pytań albo zaznacz więcej lekcji.");
+    return;
+  }
+
+  // Bazowa pula pytań wylosowana raz
+  var bazoweWybrane = shuffle(pula).slice(0, liczba);
+
+  // Dla każdej wersji: przemieszaj kolejność pytań i (opcjonalnie) odpowiedzi
+  var wersje = [];
+  for (var w = 0; w < liczbaWersji; w++) {
+    var pytaniaWersji = bazoweWybrane.map(function(item) {
+      var q = item.q;
+      var opcje = q.opcje.slice();
+      var poprawna = q.poprawna;
+      if (losujOdp) {
+        var idx = opcje.map(function(_, i) { return i; });
+        var przemieszane = shuffle(idx);
+        opcje = przemieszane.map(function(i) { return q.opcje[i]; });
+        poprawna = przemieszane.indexOf(q.poprawna);
+      }
+      return {
+        q: q.q,
+        opcje: opcje,
+        poprawna: poprawna,
+        wyjasnienie: q.wyjasnienie || ""
+      };
+    });
+    // Przemieszaj kolejność pytań w wersji
+    pytaniaWersji = shuffle(pytaniaWersji);
+    wersje.push({ litera: literaWersji(w), pytania: pytaniaWersji });
+  }
+
+  renderSprawdzian(wersje, liczba);
+  document.getElementById("wynik").style.display = "block";
+  document.getElementById("wynik").scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function renderSprawdzian(wersje, liczba) {
+  var html = "";
+  wersje.forEach(function(wersja) {
+    html += '<div class="arkusz">';
+    html += '<div class="arkusz-naglowek">';
+    if (wersje.length > 1) {
+      html += '<div class="wersja-badge">WERSJA ' + wersja.litera + '</div>';
+    }
+    html += '<h2>Sprawdzian</h2>';
+    html += '<div class="meta">Liczba pytań: ' + liczba + ' &nbsp;·&nbsp; Czas: 30 min</div>';
+    html += '<div class="pola">';
+    html += '<div>Imię i nazwisko: <span></span></div>';
+    html += '<div>Klasa: <span></span></div>';
+    html += '<div>Data: <span></span></div>';
+    html += '</div>';
+    html += '</div>';
+
+    wersja.pytania.forEach(function(pyt, idx) {
+      html += '<div class="pytanie">';
+      html += '<div class="tresc"><span class="nr">' + (idx + 1) + '.</span><span>' + pyt.q + '</span></div>';
+      html += '<div class="opcje">';
+      pyt.opcje.forEach(function(op, j) {
+        html += '<label>';
+        html += '<span class="box"></span>';
+        html += '<span class="litera">' + String.fromCharCode(65 + j) + ')</span>';
+        html += '<span>' + op + '</span>';
+        html += '</label>';
+      });
+      html += '</div></div>';
+    });
+    html += '</div>';
+  });
+
+  document.getElementById("arkusze").innerHTML = html;
+
+  // Klucz odpowiedzi
+  var khtml = '<h2>Klucz odpowiedzi (dla nauczyciela)</h2>';
+  wersje.forEach(function(wersja) {
+    khtml += '<div class="wersja-sekcja">';
+    if (wersje.length > 1) {
+      khtml += '<h3>Wersja ' + wersja.litera + '</h3>';
+    }
+    khtml += '<div class="odp">';
+    wersja.pytania.forEach(function(pyt, idx) {
+      var litera = String.fromCharCode(65 + pyt.poprawna);
+      khtml += '<div><span class="nr">' + (idx + 1) + '.</span> <span class="litera">' + litera + '</span> — ' + pyt.opcje[pyt.poprawna] + '</div>';
+    });
+    khtml += '</div></div>';
+  });
+  document.getElementById("klucz").innerHTML = khtml;
+}
+
+function przewinDoGory() {
+  document.getElementById("wybor").scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+  document.querySelectorAll(".chip").forEach(function(btn) {
+    btn.addEventListener("click", function() {
+      if (btn.dataset.filtrPoziom !== undefined) {
+        filtrPoziom = btn.dataset.filtrPoziom;
+        document.querySelectorAll("[data-filtr-poziom]").forEach(function(b) { b.classList.remove("active"); });
+        btn.classList.add("active");
+      } else if (btn.dataset.filtrTyp !== undefined) {
+        filtrTyp = btn.dataset.filtrTyp;
+        document.querySelectorAll("[data-filtr-typ]").forEach(function(b) { b.classList.remove("active"); });
+        btn.classList.add("active");
+      }
+      renderLista();
+    });
+  });
+
+  document.getElementById("zaznaczWidoczne").addEventListener("click", function() {
+    document.querySelectorAll(".lekcja-chk input[type=checkbox]").forEach(function(c) { c.checked = true; });
+    aktualizujLiczniki();
+    zapiszZaznaczenia();
+  });
+  document.getElementById("odznaczWszystkie").addEventListener("click", function() {
+    document.querySelectorAll(".lekcja-chk input[type=checkbox]").forEach(function(c) { c.checked = false; });
+    aktualizujLiczniki();
+    zapiszZaznaczenia();
+  });
+
+  var lp = document.getElementById("liczbaPytan");
+  var zapisanaLiczba = localStorage.getItem("sprawdzian_liczba");
+  if (zapisanaLiczba) lp.value = zapisanaLiczba;
+  lp.addEventListener("change", function() {
+    try { localStorage.setItem("sprawdzian_liczba", lp.value); } catch (e) {}
+  });
+
+  var lw = document.getElementById("liczbaWersji");
+  var zapisanaWersji = localStorage.getItem("sprawdzian_wersji");
+  if (zapisanaWersji) lw.value = zapisanaWersji;
+  lw.addEventListener("change", function() {
+    try { localStorage.setItem("sprawdzian_wersji", lw.value); } catch (e) {}
+  });
+
+  document.getElementById("generujBtn").addEventListener("click", generuj);
+
+  wczytajWszystkie(function() {
+    zebierzDane();
+    if (!Object.keys(DATA).length) {
+      document.getElementById("listaLekcji").innerHTML =
+        '<p class="brak-lekcji">Nie udało się wczytać lekcji. Sprawdź, czy folder <code>dane/</code> istnieje i zawiera pliki <code>G-A1.js</code>, <code>G-A2.js</code>, <code>G-B1.js</code>, <code>G-B2.js</code>, <code>G-C1.js</code> oraz <code>T-A1.js</code>, <code>T-A2.js</code>, <code>T-B1.js</code>, <code>T-B2.js</code>, <code>T-C1.js</code>.</p>';
+      return;
+    }
+    renderLista();
+  });
+});
+</script>
+
+</body>
+</html>

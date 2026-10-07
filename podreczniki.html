@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Podręczniki — mapa do kursu</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; background: #f7f5f0; color: #1f2933; font-size: 15px; line-height: 1.6; }
+  header { background: #1e3a5f; color: #fff; padding: 14px 26px; display: flex; justify-content: space-between; align-items: center; border-bottom: 4px solid #b45309; gap: 14px; flex-wrap: wrap; }
+  header h1 { font-family: Georgia, serif; font-size: 1.15rem; font-weight: 600; }
+  header .akcje { display: flex; gap: 8px; align-items: center; }
+  header button, header a { color: #fff; text-decoration: none; background: transparent; border: 1px solid rgba(255,255,255,.4); padding: 6px 14px; border-radius: 4px; font-family: inherit; font-size: .82rem; cursor: pointer; }
+  header button:hover, header a:hover { background: rgba(255,255,255,.15); }
+  header button.admin-on { background: #b45309; border-color: #b45309; font-weight: 700; }
+  main { max-width: 1150px; margin: 24px auto; padding: 0 20px; }
+  section { background: #fff; border: 1px solid #e8e4dc; border-radius: 6px; padding: 20px 24px; margin-bottom: 18px; }
+  section h2 { font-family: Georgia, serif; color: #1e3a5f; font-size: 1.02rem; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid #e8e4dc; letter-spacing: .5px; display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+  .wybor-podrecznika { width: 100%; padding: 11px 14px; border: 2px solid #c8c2b5; border-radius: 6px; font-family: inherit; font-size: 1rem; background: #fff; cursor: pointer; margin-bottom: 12px; }
+  .wybor-podrecznika:focus { outline: none; border-color: #1e3a5f; }
+
+  .akcje-glowne { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+  .btn { padding: 9px 18px; border: 1px solid #1e3a5f; background: #fff; color: #1e3a5f; border-radius: 4px; cursor: pointer; font-family: inherit; font-weight: 600; font-size: .85rem; transition: .15s; }
+  .btn:hover:not(:disabled) { background: #1e3a5f; color: #fff; }
+  .btn:disabled { opacity: .4; cursor: not-allowed; }
+  .btn.pierwszorzedny { background: #1e3a5f; color: #fff; }
+  .btn.pierwszorzedny:hover { background: #152a47; }
+  .btn.warm { border-color: #b45309; color: #b45309; }
+  .btn.warm:hover { background: #b45309; color: #fff; }
+  .btn.czerwony { border-color: #991b1b; color: #991b1b; }
+  .btn.czerwony:hover { background: #991b1b; color: #fff; }
+  .btn.admin-only { display: none; }
+  body.admin .btn.admin-only { display: inline-block; }
+
+  .info-podrecznika { background: #f0f4fb; border-left: 4px solid #1e3a5f; padding: 14px 18px; margin-bottom: 16px; border-radius: 0 4px 4px 0; font-size: .92rem; }
+  .info-podrecznika strong { color: #1e3a5f; }
+
+  .unit { background: #fbfaf7; border: 1px solid #e8e4dc; border-radius: 6px; padding: 14px 18px; margin-bottom: 10px; }
+  .unit-naglowek { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; gap: 10px; flex-wrap: wrap; }
+  .unit-naglowek h3 { font-family: Georgia, serif; color: #1e3a5f; font-size: 1rem; }
+  .unit-naglowek .kod { background: #b45309; color: #fff; padding: 2px 10px; border-radius: 3px; font-size: .72rem; font-weight: 700; letter-spacing: 1px; }
+  .unit-edit { display: none; flex-direction: column; gap: 8px; margin-bottom: 10px; padding: 10px; background: #fff; border: 1px dashed #b45309; border-radius: 4px; }
+  body.admin .unit.editing .unit-edit { display: flex; }
+  .unit-edit label { font-size: .82rem; font-weight: 600; color: #4b5563; }
+  .unit-edit input { padding: 7px 10px; border: 1px solid #c8c2b5; border-radius: 4px; font-family: inherit; font-size: .88rem; }
+  .unit-edit .rzad { display: flex; gap: 8px; flex-wrap: wrap; }
+
+  .lekcje-linki { display: flex; flex-wrap: wrap; gap: 8px; }
+  .lekcje-linki a { display: inline-block; padding: 7px 14px; background: #fff; border: 1px solid #1e3a5f; border-radius: 4px; text-decoration: none; color: #1e3a5f; font-size: .82rem; font-weight: 600; transition: .15s; }
+  .lekcje-linki a:hover { background: #1e3a5f; color: #fff; }
+  .lekcje-linki a .opis { color: #6b7280; font-weight: 400; margin-left: 6px; }
+  .lekcje-linki a:hover .opis { color: #dbeafe; }
+
+  .pusty { color: #9ca3af; font-style: italic; padding: 8px 0; font-size: .88rem; }
+  .info-uwaga { background: #fffbeb; border-left: 4px solid #b45309; padding: 12px 16px; margin-bottom: 16px; font-size: .88rem; color: #78350f; border-radius: 0 4px 4px 0; }
+  body.admin .info-uwaga { display: none; }
+
+  .modal-tlo { position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 1000; display: none; align-items: center; justify-content: center; padding: 20px; }
+  .modal-tlo.on { display: flex; }
+  .modal { background: #fff; border-radius: 8px; padding: 26px 30px; max-width: 640px; width: 100%; max-height: 90vh; overflow-y: auto; }
+  .modal h3 { font-family: Georgia, serif; color: #1e3a5f; font-size: 1.15rem; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid #e8e4dc; }
+  .modal label { display: block; margin: 10px 0 4px; font-weight: 600; font-size: .85rem; color: #4b5563; }
+  .modal input, .modal textarea, .modal select { width: 100%; padding: 9px 12px; border: 1px solid #c8c2b5; border-radius: 4px; font-family: inherit; font-size: .92rem; }
+  .modal textarea { min-height: 200px; font-family: 'SF Mono', Consolas, monospace; font-size: .82rem; resize: vertical; }
+  .modal .stopka { display: flex; gap: 8px; justify-content: flex-end; margin-top: 18px; flex-wrap: wrap; }
+  .modal .info-match { background: #f0fdf4; border-left: 4px solid #166534; padding: 10px 14px; margin-top: 8px; font-size: .85rem; color: #166534; border-radius: 0 4px 4px 0; }
+
+  /* PLAN ROCZNY — do druku */
+  #planRoczny { display: none; }
+  #planRoczny.on { display: block; position: fixed; inset: 0; background: #fff; z-index: 2000; overflow-y: auto; padding: 40px 50px; }
+  #planRoczny .plan-header { text-align: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 2px solid #1e3a5f; }
+  #planRoczny .plan-header h1 { font-family: Georgia, serif; font-size: 1.6rem; color: #1e3a5f; margin-bottom: 6px; }
+  #planRoczny .plan-header .meta { color: #6b7280; font-size: .92rem; }
+  #planRoczny .plan-tabela { width: 100%; border-collapse: collapse; margin-top: 20px; }
+  #planRoczny .plan-tabela th, #planRoczny .plan-tabela td { padding: 10px 12px; text-align: left; border-bottom: 1px solid #e8e4dc; font-size: .9rem; vertical-align: top; }
+  #planRoczny .plan-tabela th { background: #1e3a5f; color: #fff; font-size: .78rem; letter-spacing: 1px; text-transform: uppercase; }
+  #planRoczny .plan-tabela tr:nth-child(even) td { background: #fbfaf7; }
+  #planRoczny .plan-tabela .unit-nr { font-weight: 700; color: #b45309; width: 90px; }
+  #planRoczny .plan-tabela .lekcje-lista { font-family: 'SF Mono', Consolas, monospace; font-size: .82rem; color: #1e3a5f; }
+  #planRoczny .pasek-akcji { display: flex; gap: 10px; margin-bottom: 20px; }
+  #planRoczny .pasek-akcji button { padding: 10px 22px; border-radius: 4px; cursor: pointer; font-family: inherit; font-weight: 600; font-size: .88rem; border: 1px solid #1e3a5f; background: #fff; color: #1e3a5f; }
+  #planRoczny .pasek-akcji button.pierwszorzedny { background: #1e3a5f; color: #fff; }
+
+  @media print {
+    body > header, main { display: none !important; }
+    #planRoczny { position: static !important; padding: 0 !important; }
+    #planRoczny .pasek-akcji { display: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<script src="strażnik.js"></script>
+<script src="admin.js"></script>
+
+<header>
+  <h1>Podręczniki — mapa do kursu</h1>
+  <div class="akcje">
+    <a href="panel-nauczyciela.html">Panel nauczyciela</a>
+    <a href="index.html">← Powrót</a>
+  </div>
+</header>
+
+<main>
+
+  <section>
+    <h2>Wybierz podręcznik</h2>
+    <div class="info-uwaga">
+    Wybierz podręcznik z listy poniżej. Zobaczysz, które lekcje pasują do każdego unitu.
+    </div>
+    <select id="wyborPodrecznika" class="wybor-podrecznika">
+      <option value="">— wybierz podręcznik —</option>
+    </select>
+    <div class="akcje-glowne">
+      <button class="btn pierwszorzedny admin-only" id="dodajPodrecznikBtn">+ Dodaj podręcznik</button>
+      <button class="btn" id="eksportPlanuBtn" disabled>Eksport rocznego planu</button>
+      <button class="btn warm admin-only" id="autoMatchAllBtn" disabled>Auto-dopasuj cały podręcznik</button>
+      <button class="btn admin-only" id="eksportDanychBtn">Eksport JSON</button>
+      <button class="btn admin-only" id="importDanychBtn">Import JSON</button>
+      <button class="btn czerwony admin-only" id="resetBtn">Reset (przywróć oryginał)</button>
+      <input type="file" id="plikImport" accept=".json" style="display:none">
+    </div>
+    <div id="infoPodrecznika"></div>
+  </section>
+
+  <section id="sekcjaUnitow" style="display:none">
+    <h2>
+      <span>Unity i przypisane lekcje</span>
+      <button class="btn admin-only" id="dodajUnitBtn">+ Dodaj unit</button>
+    </h2>
+    <div id="listaUnitow"></div>
+  </section>
+
+</main>
+
+<div class="modal-tlo" id="modalTryb">
+  <div class="modal">
+    <h3>Tryb admina</h3>
+    <label>Hasło</label>
+    <input type="password" id="hasloAdmin" placeholder="hasło administratora">
+    <div class="stopka">
+      <button class="btn" id="modalAnuluj">Anuluj</button>
+      <button class="btn pierwszorzedny" id="modalOk">Wejdź</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-tlo" id="modalNowy">
+  <div class="modal">
+    <h3 id="modalNowyTytul">Nowy podręcznik</h3>
+    <label>Nazwa podręcznika</label>
+    <input type="text" id="nNowyNazwa" placeholder="np. English Class A1">
+    <label>Wydawnictwo</label>
+    <input type="text" id="nNowyWyd" placeholder="np. Pearson">
+    <label>Numer dopuszczenia (opcjonalnie)</label>
+    <input type="text" id="nNowyNumer" placeholder="np. 1130/1/2022">
+    <label>Poziom</label>
+    <input type="text" id="nNowyPoziom" placeholder="np. A1/A2">
+    <label>Unity (jedna linia = jeden unit, format: <code>UNIT 1 | Tytuł unitu</code>)</label>
+    <textarea id="nNoweUnity" placeholder="UNIT 1 | My typical day&#10;UNIT 2 | Crazy about sport&#10;UNIT 3 | Clothes from around the world"></textarea>
+    <label><input type="checkbox" id="nAutoMatch" checked style="width:auto;margin-right:6px"> Automatycznie dopasuj nasze lekcje do tytułów unitów</label>
+    <div id="nWynikAuto" class="info-match" style="display:none"></div>
+    <div class="stopka">
+      <button class="btn" id="nAnuluj">Anuluj</button>
+      <button class="btn pierwszorzedny" id="nZapisz">Zapisz</button>
+    </div>
+  </div>
+</div>
+
+<div id="planRoczny">
+  <div class="pasek-akcji">
+    <button class="pierwszorzedny" onclick="window.print()">Drukuj / zapisz jako PDF</button>
+    <button onclick="zamknijPlan()">← Wróć</button>
+  </div>
+  <div id="planTresc"></div>
+</div>
+
+<script src="dane-podreczniki.js"></script>
+<script>
+/* ============================================================
+   OPISY NASZYCH LEKCJI
+============================================================ */
+var OPISY = {
+  G1: "Present Tenses", G2: "Past Tenses", G3: "Future Forms", G4: "Modal Verbs",
+  G5: "Conditionals", G6: "Reported Speech", G7: "Passive Voice", G8: "Inversion & Emphasis",
+  G9: "Articles", G10: "Quantifiers", G11: "Prepositions", G12: "Comparatives & Superlatives",
+  G13: "Gerunds & Infinitives", G14: "Relative Clauses", G15: "Question Formation", G16: "Phrasal Verbs",
+  T1: "Człowiek", T2: "Rodzina, relacje", T3: "Dom", T4: "Czas wolny, hobby",
+  T5: "Jedzenie", T6: "Szkoła, edukacja", T7: "Praca, kariera", T8: "Natura, środowisko",
+  T9: "Technologia", T10: "Media", T11: "Komunikacja w pracy", T12: "Prawa, obowiązki",
+  T13: "Przyszłość, AI", T14: "Problemy, etyka", T15: "Ubrania, moda", T16: "Podróże"
+};
+function opisLekcji(id) {
+  var m = id.match(/^([GT])(\d+)/);
+  if (!m) return "";
+  return OPISY[m[1] + m[2]] || "";
+}
+
+/* ============================================================
+   AUTO-DOPASOWANIE TEMATÓW
+============================================================ */
+var SLOWA_TEMATY = [
+  { lekcje: ["T1"], slowa: ["człowiek","identity","people","personal","personality","character","appearance"] },
+  { lekcje: ["T2"], slowa: ["family","rodzina","relationship","relacje","friends","friend"] },
+  { lekcje: ["T3"], slowa: ["home","dom","house","flat","neighbourhood","mieszkan","room"] },
+  { lekcje: ["T4"], slowa: ["free time","hobby","sport","leisure","czas wolny","entertainment","pastime"] },
+  { lekcje: ["T5"], slowa: ["food","jedzenie","health","zdrowie","eating","restaurant","diet"] },
+  { lekcje: ["T6"], slowa: ["school","szkoła","education","edukacja","university","study","learning"] },
+  { lekcje: ["T7"], slowa: ["work","praca","job","career","kariera","employment","profession","office"] },
+  { lekcje: ["T8"], slowa: ["nature","natura","environment","środowisko","weather","animals","climate","world of nature"] },
+  { lekcje: ["T9"], slowa: ["technology","technologia","computer","internet","device","gadget","innovation","science and technology"] },
+  { lekcje: ["T10"], slowa: ["media","culture","kultura","film","tv","art","music","news"] },
+  { lekcje: ["T11"], slowa: ["communication","komunikacja","meeting","negotiation","email","business"] },
+  { lekcje: ["T12"], slowa: ["society","społeczeństwo","rights","prawa","law","citizen","państwo","government"] },
+  { lekcje: ["T13"], slowa: ["future","przyszłość","ai","robot","tomorrow","innovation and ideas"] },
+  { lekcje: ["T14"], slowa: ["ethics","etyka","problem","dilemma","moral","conflict"] },
+  { lekcje: ["T15"], slowa: ["clothes","ubrania","fashion","moda","shopping","zakupy","wear"] },
+  { lekcje: ["T16"], slowa: ["travel","podróż","holiday","wakacje","tourism","turystyka","transport","journey","trip"] }
+];
+var SLOWA_GRAMATYKA = [
+  { lekcje: ["G1"], slowa: ["present","teraźniejsz","simple present","continuous"] },
+  { lekcje: ["G2"], slowa: ["past","przeszł","irregular"] },
+  { lekcje: ["G3"], slowa: ["future","przyszł","will","going to","plans"] },
+  { lekcje: ["G4"], slowa: ["modal","can","must","should","may","permission"] },
+  { lekcje: ["G5"], slowa: ["conditional","warunkow","if"] },
+  { lekcje: ["G6"], slowa: ["reported","mowa zależna","indirect speech"] },
+  { lekcje: ["G7"], slowa: ["passive","bierna","passive voice"] },
+  { lekcje: ["G8"], slowa: ["inversion","emfaza","emphasis","cleft"] },
+  { lekcje: ["G9"], slowa: ["article","przedimek","a/an/the"] },
+  { lekcje: ["G10"], slowa: ["quantifier","określnik","countable","uncountable"] },
+  { lekcje: ["G11"], slowa: ["preposition","przyimek","in on at"] },
+  { lekcje: ["G12"], slowa: ["comparative","superlative","stopniowanie"] },
+  { lekcje: ["G13"], slowa: ["gerund","infinitive","-ing","bezokolicznik"] },
+  { lekcje: ["G14"], slowa: ["relative","przydawk","who which that"] },
+  { lekcje: ["G15"], slowa: ["question","pytanie","tags"] },
+  { lekcje: ["G16"], slowa: ["phrasal","czasowniki frazowe"] }
+];
+
+function poziomDoId(poziom) {
+  if (!poziom) return "A1";
+  var p = poziom.toUpperCase();
+  if (p.indexOf("A1") !== -1 && p.indexOf("A2") !== -1) return "A2";
+  if (p.indexOf("A1") !== -1) return "A1";
+  if (p.indexOf("A2") !== -1) return "A2";
+  if (p.indexOf("B1") !== -1 && p.indexOf("B2") !== -1) return "B2";
+  if (p.indexOf("B1") !== -1) return "B1";
+  if (p.indexOf("B2") !== -1) return "B2";
+  if (p.indexOf("C1") !== -1) return "C1";
+  return "A1";
+}
+
+function dopasujLekcje(tytul, poziom, maxWynikow) {
+  maxWynikow = maxWynikow || 3;
+  var t = (tytul || "").toLowerCase();
+  var p = poziomDoId(poziom);
+  var wyniki = [];
+
+  function sprawdz(lista, prefiks) {
+    lista.forEach(function(wpis) {
+      var trafienie = false;
+      wpis.slowa.forEach(function(s) {
+        if (t.indexOf(s.toLowerCase()) !== -1) trafienie = true;
+      });
+      if (trafienie) {
+        wpis.lekcje.forEach(function(baza) {
+          wyniki.push(baza + p);
+        });
+      }
+    });
+  }
+  sprawdz(SLOWA_GRAMATYKA, "G");
+  sprawdz(SLOWA_TEMATY, "T");
+
+  // Unikaty, w kolejności
+  var out = [];
+  wyniki.forEach(function(id) { if (out.indexOf(id) === -1) out.push(id); });
+  return out.slice(0, maxWynikow);
+}
+
+/* ============================================================
+   DANE (baza + edycje lokalne)
+============================================================ */
+var DANE = null;
+var ADMIN = false;
+
+function wczytajDane() {
+  var zapisane = null;
+  try { zapisane = JSON.parse(localStorage.getItem("podreczniki_dane")); } catch (e) {}
+  if (zapisane && Object.keys(zapisane).length) DANE = zapisane;
+  else DANE = JSON.parse(JSON.stringify(window.PODRECZNIKI || {}));
+}
+function zapiszDane() {
+  try { localStorage.setItem("podreczniki_dane", JSON.stringify(DANE)); } catch (e) {}
+}
+
+/* ============================================================
+   LISTA PODRĘCZNIKÓW
+============================================================ */
+function wypelnijListe() {
+  var sel = document.getElementById("wyborPodrecznika");
+  var obecny = sel.value;
+  sel.innerHTML = '<option value="">— wybierz podręcznik —</option>';
+  var klucze = Object.keys(DANE).sort(function(a, b) {
+    return (DANE[a].nazwa || "").localeCompare(DANE[b].nazwa || "");
+  });
+  klucze.forEach(function(k) {
+    var p = DANE[k];
+    var opt = document.createElement("option");
+    opt.value = k;
+    opt.textContent = (p.wydawnictwo || "?") + " — " + (p.nazwa || k) + (p.numer ? " (" + p.numer + ")" : "");
+    sel.appendChild(opt);
+  });
+  if (obecny) sel.value = obecny;
+}
+
+/* ============================================================
+   RENDER PODRĘCZNIKA
+============================================================ */
+function renderPodrecznik(id) {
+  var sekcja = document.getElementById("sekcjaUnitow");
+  var info = document.getElementById("infoPodrecznika");
+  var lista = document.getElementById("listaUnitow");
+  var btnPlan = document.getElementById("eksportPlanuBtn");
+  var btnAuto = document.getElementById("autoMatchAllBtn");
+
+  if (!id || !DANE[id]) {
+    sekcja.style.display = "none";
+    info.innerHTML = "";
+    if (btnPlan) btnPlan.disabled = true;
+    if (btnAuto) btnAuto.disabled = true;
+    return;
+  }
+  var p = DANE[id];
+  info.innerHTML =
+    '<div class="info-podrecznika">' +
+    '<strong>' + p.nazwa + '</strong> — ' + p.wydawnictwo +
+    (p.numer ? ' · numer dopuszczania: <strong>' + p.numer + '</strong>' : '') +
+    ' · poziom: <strong>' + (p.poziom || "?") + '</strong>' +
+    '</div>';
+
+  var html = "";
+  var unitsKeys = Object.keys(p.units || {});
+  unitsKeys.forEach(function(u, idx) {
+    var unit = p.units[u];
+    var unitId = u.replace(/\s+/g, "_");
+    html += '<div class="unit" data-unit="' + u + '" id="unit-' + unitId + '">';
+    html += '<div class="unit-naglowek">';
+    html += '<h3>' + u + ' — ' + (unit.tytul || '') + '</h3>';
+    html += '<div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">';
+    html += '<span class="kod">' + ((unit.nasze_lekcje || []).length) + ' lekcji</span>';
+    html += '<button class="btn admin-only unit-edit-btn" data-u="' + u + '" style="padding:4px 10px;font-size:.78rem">Edytuj</button>';
+    html += '<button class="btn admin-only unit-auto-btn" data-u="' + u + '" style="padding:4px 10px;font-size:.78rem">Auto</button>';
+    html += '<button class="btn czerwony admin-only unit-del-btn" data-u="' + u + '" style="padding:4px 10px;font-size:.78rem">Usuń</button>';
+    html += '</div></div>';
+    html += '<div class="unit-edit">';
+    html += '<label>Tytuł unitu</label><input type="text" class="unit-t" value="' + escapeAttr(unit.tytul || '') + '">';
+    html += '<label>Nasze lekcje (oddzielone przecinkami, np. T1A2, G1B1, G14B1)</label><input type="text" class="unit-l" value="' + escapeAttr((unit.nasze_lekcje || []).join(", ")) + '">';
+    html += '<div class="rzad"><button class="btn pierwszorzedny unit-save-btn" style="padding:6px 14px;font-size:.82rem">Zapisz</button><button class="btn unit-cancel-btn" style="padding:6px 14px;font-size:.82rem">Anuluj</button></div>';
+    html += '</div>';
+    if (unit.nasze_lekcje && unit.nasze_lekcje.length) {
+      html += '<div class="lekcje-linki">';
+      unit.nasze_lekcje.forEach(function(lid) {
+        html += '<a href="lekcja.html?id=' + lid + '" target="_blank">' + lid + '<span class="opis">' + opisLekcji(lid) + '</span></a>';
+      });
+      html += '</div>';
+    } else {
+      html += '<p class="pusty">Brak przypisanych lekcji. Kliknij „Auto" (w trybie admina), żeby dopasować automatycznie.</p>';
+    }
+    html += '</div>';
+  });
+  lista.innerHTML = html;
+  podepnijEdycje();
+  sekcja.style.display = "block";
+  if (btnPlan) btnPlan.disabled = false;
+  if (btnAuto) btnAuto.disabled = false;
+}
+
+function escapeAttr(s) {
+  return String(s || "").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+function escapeHtml(s) {
+  return String(s || "").replace(/[&<>"']/g, function(c) {
+    return { "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c];
+  });
+}
+
+function podepnijEdycje() {
+  var id = document.getElementById("wyborPodrecznika").value;
+  if (!id) return;
+
+  document.querySelectorAll(".unit-edit-btn").forEach(function(btn) {
+    btn.addEventListener("click", function() {
+      btn.closest(".unit").classList.add("editing");
+    });
+  });
+  document.querySelectorAll(".unit-cancel-btn").forEach(function(btn) {
+    btn.addEventListener("click", function() {
+      btn.closest(".unit").classList.remove("editing");
+    });
+  });
+  document.querySelectorAll(".unit-save-btn").forEach(function(btn) {
+    btn.addEventListener("click", function() {
+      var unitEl = btn.closest(".unit");
+      var u = unitEl.dataset.unit;
+      var nowyT = unitEl.querySelector(".unit-t").value.trim();
+      var nowaL = unitEl.querySelector(".unit-l").value.split(/\s*,\s*/).filter(function(x) { return x.length > 0; });
+      DANE[id].units[u] = { tytul: nowyT, nasze_lekcje: nowaL };
+      zapiszDane();
+      renderPodrecznik(id);
+    });
+  });
+  document.querySelectorAll(".unit-auto-btn").forEach(function(btn) {
+    btn.addEventListener("click", function() {
+      var u = btn.dataset.u;
+      var unit = DANE[id].units[u];
+      var dopasowane = dopasujLekcje(unit.tytul, DANE[id].poziom, 3);
+      if (!dopasowane.length) { alert("Brak dopasowania dla tytułu: " + unit.tytul); return; }
+      unit.nasze_lekcje = dopasowane;
+      zapiszDane();
+      renderPodrecznik(id);
+    });
+  });
+  document.querySelectorAll(".unit-del-btn").forEach(function(btn) {
+    btn.addEventListener("click", function() {
+      var u = btn.dataset.u;
+      if (!confirm("Usunąć unit: " + u + "?")) return;
+      delete DANE[id].units[u];
+      zapiszDane();
+      renderPodrecznik(id);
+    });
+  });
+}
+
+/* ============================================================
+   AUTO-DOPASUJ CAŁY PODRĘCZNIK
+============================================================ */
+document.getElementById("autoMatchAllBtn").addEventListener("click", function() {
+  var id = document.getElementById("wyborPodrecznika").value;
+  if (!id) return;
+  if (!confirm("Auto-dopasować lekcje we wszystkich unitach tego podręcznika?\n\nNadpisze obecne przypisania.")) return;
+  var p = DANE[id];
+  var ile = 0;
+  Object.keys(p.units).forEach(function(u) {
+    var unit = p.units[u];
+    var dopasowane = dopasujLekcje(unit.tytul, p.poziom, 3);
+    if (dopasowane.length) {
+      unit.nasze_lekcje = dopasowane;
+      ile++;
+    }
+  });
+  zapiszDane();
+  renderPodrecznik(id);
+  alert("Zaktualizowano " + ile + " z " + Object.keys(p.units).length + " unitów.");
+});
+
+/* ============================================================
+   DODAWANIE PODRĘCZNIKA
+============================================================ */
+document.getElementById("dodajPodrecznikBtn").addEventListener("click", function() {
+  document.getElementById("modalNowy").classList.add("on");
+  document.getElementById("modalNowyTytul").textContent = "Nowy podręcznik";
+  ["nNowyNazwa","nNowyWyd","nNowyNumer","nNowyPoziom","nNoweUnity"].forEach(function(f) {
+    document.getElementById(f).value = "";
+  });
+  document.getElementById("nWynikAuto").style.display = "none";
+});
+document.getElementById("nAnuluj").addEventListener("click", function() {
+  document.getElementById("modalNowy").classList.remove("on");
+});
+document.getElementById("nAutoMatch").addEventListener("change", function() {
+  podgladAutoMatch();
+});
+document.getElementById("nNoweUnity").addEventListener("input", podgladAutoMatch);
+document.getElementById("nNowyPoziom").addEventListener("input", podgladAutoMatch);
+
+function podgladAutoMatch() {
+  var chk = document.getElementById("nAutoMatch").checked;
+  var box = document.getElementById("nWynikAuto");
+  if (!chk) { box.style.display = "none"; return; }
+  var poziom = document.getElementById("nNowyPoziom").value;
+  var tekst = document.getElementById("nNoweUnity").value;
+  var linie = tekst.split("\n").filter(function(l) { return l.trim(); });
+  if (!linie.length) { box.style.display = "none"; return; }
+  var html = "<strong>Podgląd auto-dopasowania:</strong><br>";
+  linie.slice(0, 10).forEach(function(l) {
+    var czesci = l.split("|");
+    var tytul = (czesci[1] || czesci[0] || "").trim();
+    var dop = dopasujLekcje(tytul, poziom, 3);
+    html += "• " + escapeHtml(tytul) + " → " + (dop.length ? dop.join(", ") : "<em>brak dopasowania</em>") + "<br>";
+  });
+  if (linie.length > 10) html += "… i " + (linie.length - 10) + " więcej";
+  box.innerHTML = html;
+  box.style.display = "block";
+}
+
+document.getElementById("nZapisz").addEventListener("click", function() {
+  var nazwa = document.getElementById("nNowyNazwa").value.trim();
+  var wyd = document.getElementById("nNowyWyd").value.trim();
+  var numer = document.getElementById("nNowyNumer").value.trim();
+  var poziom = document.getElementById("nNowyPoziom").value.trim();
+  var tekst = document.getElementById("nNoweUnity").value;
+  var autoMatch = document.getElementById("nAutoMatch").checked;
+  if (!nazwa) { alert("Podaj nazwę podręcznika."); return; }
+  if (!tekst.trim()) { alert("Podaj co najmniej jeden unit."); return; }
+
+  var klucz = nazwa.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+  while (DANE[klucz]) klucz += "_";
+
+  var units = {};
+  tekst.split("\n").filter(function(l) { return l.trim(); }).forEach(function(l) {
+    var czesci = l.split("|");
+    var unitId = (czesci[0] || "").trim();
+    var tytul = (czesci[1] || czesci[0] || "").trim();
+    if (!unitId) return;
+    var lekcje = autoMatch ? dopasujLekcje(tytul, poziom, 3) : [];
+    units[unitId] = { tytul: tytul, nasze_lekcje: lekcje };
+  });
+
+  DANE[klucz] = { nazwa: nazwa, wydawnictwo: wyd, numer: numer, poziom: poziom, units: units };
+  zapiszDane();
+  wypelnijListe();
+  document.getElementById("wyborPodrecznika").value = klucz;
+  renderPodrecznik(klucz);
+  document.getElementById("modalNowy").classList.remove("on");
+});
+
+/* ============================================================
+   DODAWANIE UNITU
+============================================================ */
+document.getElementById("dodajUnitBtn").addEventListener("click", function() {
+  var id = document.getElementById("wyborPodrecznika").value;
+  if (!id) return;
+  var u = prompt("Nazwa nowego unitu (np. UNIT 9):");
+  if (!u) return;
+  var t = prompt("Tytuł unitu (np. Travel and tourism):", "");
+  if (t === null) return;
+  DANE[id].units[u] = { tytul: t, nasze_lekcje: dopasujLekcje(t, DANE[id].poziom, 3) };
+  zapiszDane();
+  renderPodrecznik(id);
+});
+
+/* ============================================================
+   EKSPORT / IMPORT DANYCH
+============================================================ */
+document.getElementById("eksportDanychBtn").addEventListener("click", function() {
+  var blob = new Blob([JSON.stringify(DANE, null, 2)], { type: "application/json" });
+  var a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "podreczniki-" + new Date().toISOString().slice(0,10) + ".json";
+  a.click();
+});
+document.getElementById("importDanychBtn").addEventListener("click", function() {
+  document.getElementById("plikImport").click();
+});
+document.getElementById("plikImport").addEventListener("change", function(e) {
+  var f = e.target.files[0];
+  if (!f) return;
+  var r = new FileReader();
+  r.onload = function(ev) {
+    try {
+      var d = JSON.parse(ev.target.result);
+      if (!d || typeof d !== "object") throw new Error("zły format");
+      if (!confirm("Import nadpisze obecne dane. Kontynuować?")) return;
+      DANE = d;
+      zapiszDane();
+      wypelnijListe();
+      document.getElementById("wyborPodrecznika").value = "";
+      renderPodrecznik("");
+    } catch (err) { alert("Nie udało się zaimportować: " + err.message); }
+  };
+  r.readAsText(f);
+  e.target.value = "";
+});
+document.getElementById("resetBtn").addEventListener("click", function() {
+  if (!confirm("Przywrócić oryginalne dane z pliku dane-podreczniki.js?\n\nWszystkie zmiany w tej przeglądarce zostaną utracone.")) return;
+  localStorage.removeItem("podreczniki_dane");
+  DANE = JSON.parse(JSON.stringify(window.PODRECZNIKI || {}));
+  wypelnijListe();
+  document.getElementById("wyborPodrecznika").value = "";
+  renderPodrecznik("");
+});
+
+/* ============================================================
+   EKSPORT ROCZNEGO PLANU
+============================================================ */
+document.getElementById("eksportPlanuBtn").addEventListener("click", function() {
+  var id = document.getElementById("wyborPodrecznika").value;
+  if (!id) return;
+  var p = DANE[id];
+
+  var html = '<div class="plan-header">';
+  html += '<h1>Roczny plan nauczania</h1>';
+  html += '<div class="meta"><strong>' + escapeHtml(p.nazwa) + '</strong> — ' + escapeHtml(p.wydawnictwo);
+  if (p.numer) html += ' · nr dopuszczenia: ' + escapeHtml(p.numer);
+  if (p.poziom) html += ' · poziom: ' + escapeHtml(p.poziom);
+  html += '</div>';
+  html += '<div class="meta" style="margin-top:8px;color:#9ca3af">Wygenerowano: ' + new Date().toLocaleDateString("pl") + '</div>';
+  html += '</div>';
+
+  html += '<table class="plan-tabela">';
+  html += '<thead><tr><th>Unit</th><th>Tytuł</th><th>Nasze lekcje (przypisane)</th><th>Liczba godz.</th></tr></thead><tbody>';
+  var wszystkieLekcje = [];
+  Object.keys(p.units).forEach(function(u) {
+    var unit = p.units[u];
+    var lekcje = (unit.nasze_lekcje || []);
+    lekcje.forEach(function(l) { if (wszystkieLekcje.indexOf(l) === -1) wszystkieLekcje.push(l); });
+    var godz = Math.max(2, lekcje.length * 2); // szacunek: 2 godz. na lekcję
+    html += '<tr>';
+    html += '<td class="unit-nr">' + escapeHtml(u) + '</td>';
+    html += '<td>' + escapeHtml(unit.tytul || '') + '</td>';
+    html += '<td class="lekcje-lista">' + (lekcje.length ? lekcje.join(', ') : '<em>— brak —</em>') + '</td>';
+    html += '<td>' + godz + '</td>';
+    html += '</tr>';
+  });
+  html += '</tbody></table>';
+  html += '<p style="margin-top:20px;font-size:.9rem;color:#6b7280"><strong>Łącznie:</strong> ' +
+    Object.keys(p.units).length + ' unitów, ' +
+    wszystkieLekcje.length + ' unikalnych lekcji naszego kursu, ' +
+    'szacunkowo ' + Object.keys(p.units).reduce(function(a, u) { return a + Math.max(2, (p.units[u].nasze_lekcje || []).length * 2); }, 0) + ' godzin lekcyjnych.</p>';
+  html += '<p style="margin-top:12px;font-size:.82rem;color:#9ca3af;font-style:italic">Uwaga: liczba godzin to szacunek (2 godz. na lekcję). Zależnie od tempa klasy — może się różnić.</p>';
+
+  document.getElementById("planTresc").innerHTML = html;
+  document.getElementById("planRoczny").classList.add("on");
+});
+function zamknijPlan() {
+  document.getElementById("planRoczny").classList.remove("on");
+}
+
+/* ============================================================
+   START
+============================================================ */
+document.addEventListener("DOMContentLoaded", function() {
+  if (!window.PODRECZNIKI) {
+    document.getElementById("wyborPodrecznika").innerHTML = '<option>Błąd — brak pliku dane-podreczniki.js</option>';
+    return;
+  }
+  wczytajDane();
+  wypelnijListe();
+  document.getElementById("wyborPodrecznika").addEventListener("change", function() {
+    renderPodrecznik(this.value);
+  });
+});
+</script>
+</body>
+</html>

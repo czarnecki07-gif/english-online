@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panel nauczyciela</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; background: #f7f5f0; color: #1f2933; font-size: 15px; line-height: 1.6; }
+  header { background: #1e3a5f; color: #fff; padding: 16px 26px; display: flex; justify-content: space-between; align-items: center; border-bottom: 4px solid #b45309; }
+  header h1 { font-family: Georgia, serif; font-size: 1.15rem; }
+  header a { color: #fff; text-decoration: none; border: 1px solid rgba(255,255,255,.4); padding: 6px 14px; border-radius: 4px; font-size: .85rem; }
+  header a:hover { background: rgba(255,255,255,.15); }
+  nav { background: #fff; border-bottom: 1px solid #e8e4dc; padding: 0 26px; display: flex; gap: 4px; flex-wrap: wrap; }
+  nav button { background: transparent; border: none; padding: 14px 18px; cursor: pointer; font-family: inherit; font-size: .92rem; font-weight: 600; color: #6b7280; border-bottom: 3px solid transparent; transition: .15s; }
+  nav button:hover { color: #1e3a5f; }
+  nav button.active { color: #1e3a5f; border-bottom-color: #b45309; }
+  main { max-width: 1100px; margin: 24px auto; padding: 0 20px; }
+  section { background: #fff; border: 1px solid #e8e4dc; border-radius: 6px; padding: 22px 26px; margin-bottom: 18px; display: none; }
+  section.active { display: block; }
+  section h2 { font-family: Georgia, serif; color: #1e3a5f; font-size: 1.05rem; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid #e8e4dc; }
+  label { display: block; margin-bottom: 6px; font-weight: 600; font-size: .88rem; color: #4b5563; }
+  input[type=text], input[type=number], textarea, select { width: 100%; padding: 10px 13px; border: 1px solid #c8c2b5; border-radius: 4px; font-family: inherit; font-size: .95rem; }
+  input[type=text]:focus, input[type=number]:focus, textarea:focus, select:focus { outline: none; border-color: #1e3a5f; box-shadow: 0 0 0 3px rgba(30,58,95,.08); }
+  textarea { resize: vertical; min-height: 80px; font-family: 'SF Mono', Consolas, monospace; font-size: .85rem; }
+  .rzad { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 14px; }
+  .rzad > div { flex: 1; min-width: 180px; }
+  .glowne { background: #1e3a5f; color: #fff; border: none; padding: 13px 32px; border-radius: 4px; font-family: inherit; font-weight: 700; font-size: .95rem; cursor: pointer; letter-spacing: 1px; text-transform: uppercase; }
+  .glowne:hover { background: #152a47; }
+  .glowne:disabled { opacity: .5; cursor: not-allowed; }
+  .drugie { background: #fff; color: #1e3a5f; border: 1px solid #1e3a5f; padding: 10px 22px; border-radius: 4px; font-family: inherit; font-weight: 600; font-size: .88rem; cursor: pointer; margin-left: 8px; }
+  .drugie:hover { background: #1e3a5f; color: #fff; }
+  .drugie.czerwony { color: #991b1b; border-color: #991b1b; }
+  .drugie.czerwony:hover { background: #991b1b; color: #fff; }
+
+  .lista-lekcji { max-height: 380px; overflow-y: auto; border: 1px solid #e8e4dc; border-radius: 4px; padding: 12px 16px; margin-bottom: 14px; background: #fbfaf7; }
+  .lista-lekcji .grupa { margin-bottom: 12px; }
+  .lista-lekcji .grupa-t { font-weight: 700; color: #1e3a5f; margin-bottom: 4px; font-size: .92rem; }
+  .lista-lekcji label { display: flex; align-items: center; gap: 8px; padding: 4px 6px; font-weight: 400; color: #1f2933; font-size: .87rem; cursor: pointer; border-radius: 3px; margin-bottom: 0; }
+  .lista-lekcji label:hover { background: #fff; }
+  .lista-lekcji label input { accent-color: #1e3a5f; }
+  .lista-lekcji .ile { color: #9ca3af; font-size: .78rem; margin-left: auto; }
+  .filtry { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; align-items: center; }
+  .filtry strong { font-size: .85rem; color: #6b7280; }
+  .chip { padding: 5px 12px; border: 1px solid #c8c2b5; background: #fff; border-radius: 20px; cursor: pointer; font-size: .8rem; font-family: inherit; }
+  .chip.active { background: #1e3a5f; color: #fff; border-color: #1e3a5f; }
+
+  .info-box { padding: 12px 16px; background: #fffbeb; border-left: 4px solid #b45309; margin-bottom: 16px; font-size: .88rem; color: #78350f; border-radius: 0 4px 4px 0; }
+  .kod-box { background: #f0f4fb; border: 1px solid #c8d5e8; border-radius: 6px; padding: 14px 16px; margin-bottom: 12px; }
+  .kod-box label { margin-bottom: 4px; }
+  .kod-box .kod-url { font-family: 'SF Mono', Consolas, monospace; font-size: .78rem; word-break: break-all; background: #fff; padding: 10px 12px; border-radius: 4px; border: 1px solid #dbeafe; }
+  .kod-box .kod-krotki { font-family: 'SF Mono', Consolas, monospace; font-size: .8rem; word-break: break-all; background: #fff; padding: 8px 12px; border-radius: 4px; border: 1px solid #dbeafe; max-height: 80px; overflow-y: auto; }
+  .kopia-info { color: #166534; font-weight: 600; font-size: .85rem; margin-top: 6px; display: none; }
+
+  table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: .9rem; }
+  th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid #e8e4dc; }
+  th { background: #fbfaf7; font-weight: 700; color: #1e3a5f; font-size: .82rem; text-transform: uppercase; letter-spacing: .5px; }
+  tbody tr:hover { background: #fbfaf7; }
+  .pusta { text-align: center; color: #9ca3af; padding: 24px; font-style: italic; }
+  .wynik-dobry { color: #166534; font-weight: 700; }
+  .wynik-sredni { color: #b45309; font-weight: 700; }
+  .wynik-zly { color: #991b1b; font-weight: 700; }
+</style>
+</head>
+<body>
+
+<script src="strażnik.js"></script>
+
+<header>
+  <h1>Panel nauczyciela</h1>
+  <a href="index.html">← Powrót</a>
+  <a href="podreczniki.html" style="margin-left:8px">Podręczniki</a>
+</header>
+
+<nav>
+  <button data-tab="konfig" class="active">Konfiguracja</button>
+  <button data-tab="nowy">Nowy test</button>
+  <button data-tab="testy">Aktywne testy</button>
+  <button data-tab="wyniki">Wyniki uczniów</button>
+</nav>
+
+<main>
+
+<section id="tab-konfig" class="active">
+  <h2>Konfiguracja</h2>
+  <div class="rzad">
+    <div>
+      <label>Imię i nazwisko nauczyciela</label>
+      <input type="text" id="nauczyciel" placeholder="np. prof. Anna Kowalska">
+    </div>
+    <div>
+      <label>Szkoła / instytucja (opcjonalnie)</label>
+      <input type="text" id="szkola" placeholder="np. Liceum nr 3">
+    </div>
+  </div>
+  <button class="glowne" id="zapiszKonfigBtn">Zapisz konfigurację</button>
+  <div class="info-box" style="margin-top:18px">
+    Dane są zapisywane w tej przeglądarce. Jeśli chcesz przenieść testy na inny komputer, użyj zakładki „Wyniki uczniów" → Eksport JSON.
+  </div>
+</section>
+
+<section id="tab-nowy">
+  <h2>Nowy test interaktywny</h2>
+  <div class="rzad">
+    <div>
+      <label>Klasa</label>
+      <input type="text" id="nowaKlasa" placeholder="np. 3A">
+    </div>
+    <div>
+      <label>Czas (minuty, 0 = bez limitu)</label>
+      <input type="number" id="nowyCzas" value="30" min="0" max="180">
+    </div>
+    <div>
+      <label>Liczba pytań</label>
+      <input type="number" id="nowaLiczba" value="20" min="1" max="200">
+    </div>
+  </div>
+
+  <label>Wybierz lekcje, z których losować pytania:</label>
+  <div class="filtry">
+    <strong>Poziom:</strong>
+    <button class="chip active" data-fp="all">Wszystkie</button>
+    <button class="chip" data-fp="A1">A1</button>
+    <button class="chip" data-fp="A2">A2</button>
+    <button class="chip" data-fp="B1">B1</button>
+    <button class="chip" data-fp="B2">B2</button>
+    <button class="chip" data-fp="C1">C1</button>
+    <button class="chip" id="zaznaczWszystkieLekcje" style="margin-left:auto;background:#b45309;color:#fff;border-color:#b45309;">Zaznacz wszystkie</button>
+    <button class="chip" id="odznaczWszystkieLekcje">Odznacz wszystkie</button>
+  </div>
+
+  <div class="lista-lekcji" id="listaLekcji"><em>Ładowanie lekcji…</em></div>
+
+  <div class="info-box" id="infoWyboru">Zaznaczono 0 lekcji, dostępnych 0 pytań.</div>
+
+  <button class="glowne" id="generujBtn">Generuj kod dla uczniów</button>
+
+  <div id="wynikGenerowania" style="display:none;margin-top:20px">
+    <div class="kod-box">
+      <label>Link dla uczniów (udostępnij przez Teams/Classroom):</label>
+      <div class="kod-url" id="kodUrl"></div>
+      <button class="drugie" style="margin-top:8px" data-kopiuj="kodUrl">Skopiuj link</button>
+      <div class="kopia-info">✓ Skopiowano</div>
+    </div>
+    <div class="kod-box">
+      <label>Surowy kod (alternatywnie, do wpisania ręcznie):</label>
+      <div class="kod-krotki" id="kodSurowy"></div>
+      <button class="drugie" style="margin-top:8px" data-kopiuj="kodSurowy">Skopiuj kod</button>
+      <div class="kopia-info">✓ Skopiowano</div>
+    </div>
+  </div>
+</section>
+
+<section id="tab-testy">
+  <h2>Aktywne testy</h2>
+  <div id="listaTestow"><div class="pusta">Brak wygenerowanych testów.</div></div>
+</section>
+
+<section id="tab-wyniki">
+  <h2>Wyniki uczniów</h2>
+  <div class="rzad">
+    <div style="flex:2">
+      <label>Wybierz test</label>
+      <select id="wyborTestu"><option value="">— brak —</option></select>
+    </div>
+  </div>
+
+  <label style="margin-top:14px">Wklej kody uczniów (po jednym w linii):</label>
+  <textarea id="kodyUczniow" placeholder="Wklej tutaj kody skopiowane od uczniów..."></textarea>
+  <div style="margin-top:10px">
+    <button class="glowne" id="dodajWynikiBtn">Dodaj wyniki</button>
+    <button class="drugie" id="eksportJson">Eksport JSON</button>
+    <button class="drugie" id="importJson">Import JSON</button>
+    <input type="file" id="plikImport" accept=".json" style="display:none">
+  </div>
+
+  <div id="tabelaWynikow" style="margin-top:20px"></div>
+</section>
+
+</main>
+
+<script>
+/* ========== DEKODOWANIE ========== */
+function b64Decode(s) {
+  s = s.replace(/-/g, "+").replace(/_/g, "/");
+  while (s.length % 4) s += "=";
+  try {
+    var bin = atob(s);
+    var bytes = new Uint8Array(bin.length);
+    for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+    return new TextDecoder().decode(bytes);
+  } catch (e) { return null; }
+}
+function b64Encode(str) {
+  var bytes = new TextEncoder().encode(str);
+  var bin = "";
+  bytes.forEach(function(b) { bin += String.fromCharCode(b); });
+  return btoa(bin).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+}
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, function(c) {
+    return { "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c];
+  });
+}
+function shuffle(a) {
+  a = a.slice();
+  for (var i = a.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var t = a[i]; a[i] = a[j]; a[j] = t;
+  }
+  return a;
+}
+function krotkiId() {
+  var s = "abcdefghijklmnopqrstuvwxyz0123456789";
+  var r = "";
+  for (var i = 0; i < 6; i++) r += s[Math.floor(Math.random() * s.length)];
+  return r;
+}
+
+/* ========== STAN ========== */
+var PLIKI = ["G-A1","G-A2","G-B1","G-B2","G-C1","T-A1","T-A2","T-B1","T-B2","T-C1"];
+var DATA = {};
+var filtrPoziom = "all";
+
+var KONFIG = JSON.parse(localStorage.getItem("pn_konfig") || "{}");
+var TESTY  = JSON.parse(localStorage.getItem("pn_testy")  || "[]");
+var WYNIKI = JSON.parse(localStorage.getItem("pn_wyniki") || "{}");
+
+function zapiszKonfig() { localStorage.setItem("pn_konfig", JSON.stringify(KONFIG)); }
+function zapiszTesty()  { localStorage.setItem("pn_testy",  JSON.stringify(TESTY)); }
+function zapiszWyniki() { localStorage.setItem("pn_wyniki", JSON.stringify(WYNIKI)); }
+
+/* ========== TABS ========== */
+document.querySelectorAll("nav button").forEach(function(btn) {
+  btn.addEventListener("click", function() {
+    document.querySelectorAll("nav button").forEach(function(b) { b.classList.remove("active"); });
+    document.querySelectorAll("section").forEach(function(s) { s.classList.remove("active"); });
+    btn.classList.add("active");
+    document.getElementById("tab-" + btn.dataset.tab).classList.add("active");
+    if (btn.dataset.tab === "testy") renderTesty();
+    if (btn.dataset.tab === "wyniki") renderSelectTestow(), renderWyniki();
+  });
+});
+
+/* ========== KONFIG ========== */
+document.addEventListener("DOMContentLoaded", function() {
+  document.getElementById("nauczyciel").value = KONFIG.nauczyciel || "";
+  document.getElementById("szkola").value = KONFIG.szkola || "";
+  document.getElementById("zapiszKonfigBtn").addEventListener("click", function() {
+    KONFIG.nauczyciel = document.getElementById("nauczyciel").value.trim();
+    KONFIG.szkola = document.getElementById("szkola").value.trim();
+    zapiszKonfig();
+    alert("Zapisano.");
+  });
+
+  // Ładuj lekcje
+  wczytajWszystkie(function() {
+    zebierzDane();
+    renderListaLekcji();
+    renderSelectTestow();
+    renderTesty();
+  });
+
+  // Filtry
+  document.querySelectorAll(".chip[data-fp]").forEach(function(btn) {
+    btn.addEventListener("click", function() {
+      filtrPoziom = btn.dataset.fp;
+      document.querySelectorAll(".chip[data-fp]").forEach(function(b) { b.classList.remove("active"); });
+      btn.classList.add("active");
+      renderListaLekcji();
+    });
+  });
+  document.getElementById("zaznaczWszystkieLekcje").addEventListener("click", function() {
+    document.querySelectorAll("#listaLekcji input[type=checkbox]").forEach(function(c) { c.checked = true; });
+    aktualizujInfoWyboru();
+  });
+  document.getElementById("odznaczWszystkieLekcje").addEventListener("click", function() {
+    document.querySelectorAll("#listaLekcji input[type=checkbox]").forEach(function(c) { c.checked = false; });
+    aktualizujInfoWyboru();
+  });
+
+  // Generuj
+  document.getElementById("generujBtn").addEventListener("click", generujNowyTest);
+
+  // Kopiuj
+  document.querySelectorAll("[data-kopiuj]").forEach(function(btn) {
+    btn.addEventListener("click", function() {
+      var el = document.getElementById(btn.dataset.kopiuj);
+      var text = el.textContent || el.value || "";
+      navigator.clipboard.writeText(text).then(function() {
+        var info = btn.parentElement.querySelector(".kopia-info");
+        if (info) { info.style.display = "block"; setTimeout(function() { info.style.display = "none"; }, 2500); }
+      }).catch(function() {
+        var r = document.createRange(); r.selectNode(el);
+        window.getSelection().removeAllRanges(); window.getSelection().addRange(r);
+        document.execCommand("copy");
+        var info = btn.parentElement.querySelector(".kopia-info");
+        if (info) { info.style.display = "block"; setTimeout(function() { info.style.display = "none"; }, 2500); }
+      });
+    });
+  });
+
+  // Wyniki
+  document.getElementById("dodajWynikiBtn").addEventListener("click", dodajWyniki);
+  document.getElementById("wyborTestu").addEventListener("change", renderWyniki);
+  document.getElementById("eksportJson").addEventListener("click", eksportJSON);
+  document.getElementById("importJson").addEventListener("click", function() { document.getElementById("plikImport").click(); });
+  document.getElementById("plikImport").addEventListener("change", importJSON);
+});
+
+/* ========== ŁADOWANIE LEKCJI ========== */
+function wczytajWszystkie(cb) {
+  var n = 0;
+  PLIKI.forEach(function(g) {
+    var s = document.createElement("script");
+    s.src = "dane/" + g + ".js";
+    s.onload = s.onerror = function() { n++; if (n === PLIKI.length) cb(); };
+    document.head.appendChild(s);
+  });
+}
+function zebierzDane() {
+  DATA = {};
+  if (!window.LESSON_DATA) return;
+  Object.keys(window.LESSON_DATA).forEach(function(id) {
+    var l = window.LESSON_DATA[id];
+    if (l && l.test && l.test.length) {
+      DATA[id] = { tytul: l.tytul || id, poziom: l.poziom || "", test: l.test };
+    }
+  });
+}
+
+/* ========== LISTA LEKCJI ========== */
+function renderListaLekcji() {
+  var kont = document.getElementById("listaLekcji");
+  var ids = Object.keys(DATA).filter(function(id) {
+    if (filtrPoziom !== "all" && DATA[id].poziom !== filtrPoziom) return false;
+    return true;
+  }).sort();
+  if (!ids.length) { kont.innerHTML = "<em>Brak lekcji.</em>"; return; }
+
+  var grupy = {};
+  ids.forEach(function(id) {
+    var m = id.match(/^([GT]\d+)/);
+    var g = m ? m[1] : "?";
+    (grupy[g] = grupy[g] || []).push(id);
+  });
+
+  var html = "";
+  Object.keys(grupy).sort().forEach(function(g) {
+    html += '<div class="grupa"><div class="grupa-t">' + g + '</div>';
+    grupy[g].forEach(function(id) {
+      var l = DATA[id];
+      html += '<label><input type="checkbox" data-id="' + id + '"> ';
+      html += id + " — " + escapeHtml(l.tytul);
+      html += ' <span class="ile">' + l.test.length + ' pytań</span></label>';
+    });
+    html += '</div>';
+  });
+  kont.innerHTML = html;
+  kont.querySelectorAll("input[type=checkbox]").forEach(function(c) {
+    c.addEventListener("change", aktualizujInfoWyboru);
+  });
+  aktualizujInfoWyboru();
+}
+
+function pobierzZaznaczone() {
+  var out = [];
+  document.querySelectorAll("#listaLekcji input[type=checkbox]:checked").forEach(function(c) {
+    out.push(c.dataset.id);
+  });
+  return out;
+}
+
+function aktualizujInfoWyboru() {
+  var z = pobierzZaznaczone();
+  var ile = 0;
+  z.forEach(function(id) { ile += DATA[id].test.length; });
+  document.getElementById("infoWyboru").textContent =
+    "Zaznaczono " + z.length + " lekcji, dostępnych " + ile + " pytań.";
+}
+
+/* ========== GENEROWANIE TESTU ========== */
+function generujNowyTest() {
+  var klasa = document.getElementById("nowaKlasa").value.trim();
+  var czas = parseInt(document.getElementById("nowyCzas").value) || 0;
+  var liczba = parseInt(document.getElementById("nowaLiczba").value) || 20;
+  var zaznaczone = pobierzZaznaczone();
+
+  if (!klasa) { alert("Wpisz nazwę klasy."); return; }
+  if (!zaznaczone.length) { alert("Zaznacz co najmniej jedną lekcję."); return; }
+  if (liczba < 1) { alert("Liczba pytań musi być większa od zera."); return; }
+
+  var pula = [];
+  zaznaczone.forEach(function(id) {
+    DATA[id].test.forEach(function(q) { pula.push(q); });
+  });
+  if (pula.length < liczba) {
+    alert("Za mało pytań (jest " + pula.length + ", chcesz " + liczba + "). Zmniejsz liczbę lub zaznacz więcej lekcji.");
+    return;
+  }
+
+  var wybrane = shuffle(pula).slice(0, liczba);
+  var test = {
+    v: 1,
+    id: krotkiId(),
+    klasa: klasa,
+    nauczyciel: KONFIG.nauczyciel || "",
+    czas: czas,
+    data: new Date().toISOString(),
+    pytania: wybrane.map(function(q) { return { q: q.q, o: q.opcje, p: q.poprawna }; })
+  };
+
+  var kod = b64Encode(JSON.stringify(test));
+  var base = location.href.substring(0, location.href.lastIndexOf("/"));
+  var url = base + "/uczen.html?k=" + kod;
+
+  TESTY.push(test);
+  zapiszTesty();
+
+  document.getElementById("kodUrl").textContent = url;
+  document.getElementById("kodSurowy").textContent = kod;
+  document.getElementById("wynikGenerowania").style.display = "block";
+  document.getElementById("wynikGenerowania").scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+/* ========== AKTYWNE TESTY ========== */
+function renderTesty() {
+  var kont = document.getElementById("listaTestow");
+  if (!TESTY.length) { kont.innerHTML = '<div class="pusta">Brak wygenerowanych testów.</div>'; return; }
+  var html = '<table><thead><tr><th>ID</th><th>Klasa</th><th>Pytań</th><th>Czas</th><th>Data</th><th>Akcje</th></tr></thead><tbody>';
+  TESTY.slice().reverse().forEach(function(t) {
+    var base = location.href.substring(0, location.href.lastIndexOf("/"));
+    var url = base + "/uczen.html?k=" + b64Encode(JSON.stringify(t));
+    html += '<tr>';
+    html += '<td><code>' + t.id + '</code></td>';
+    html += '<td>' + escapeHtml(t.klasa) + '</td>';
+    html += '<td>' + t.pytania.length + '</td>';
+    html += '<td>' + (t.czas ? t.czas + " min" : "—") + '</td>';
+    html += '<td>' + new Date(t.data).toLocaleString("pl") + '</td>';
+    html += '<td>';
+    html += '<button class="drugie" data-copy-url="' + t.id + '">Kopiuj link</button> ';
+    html += '<button class="drugie czerwony" data-del="' + t.id + '">Usuń</button>';
+    html += '</td>';
+    html += '</tr>';
+  });
+  html += '</tbody></table>';
+  kont.innerHTML = html;
+
+  kont.querySelectorAll("[data-copy-url]").forEach(function(btn) {
+    btn.addEventListener("click", function() {
+      var t = TESTY.find(function(x) { return x.id === btn.dataset.copyUrl; });
+      var base = location.href.substring(0, location.href.lastIndexOf("/"));
+      var url = base + "/uczen.html?k=" + b64Encode(JSON.stringify(t));
+      navigator.clipboard.writeText(url).then(function() {
+        btn.textContent = "✓ Skopiowano"; setTimeout(function() { btn.textContent = "Kopiuj link"; }, 2000);
+      });
+    });
+  });
+  kont.querySelectorAll("[data-del]").forEach(function(btn) {
+    btn.addEventListener("click", function() {
+      if (!confirm("Usunąć ten test? (Wyniki uczniów pozostaną)")) return;
+      TESTY = TESTY.filter(function(x) { return x.id !== btn.dataset.del; });
+      zapiszTesty(); renderTesty(); renderSelectTestow();
+    });
+  });
+}
+
+/* ========== WYNIKI ========== */
+function renderSelectTestow() {
+  var sel = document.getElementById("wyborTestu");
+  var obecny = sel.value;
+  sel.innerHTML = '<option value="">— brak —</option>';
+  TESTY.forEach(function(t) {
+    var opt = document.createElement("option");
+    opt.value = t.id;
+    opt.textContent = t.id + " · " + t.klasa + " · " + new Date(t.data).toLocaleDateString("pl");
+    sel.appendChild(opt);
+  });
+  if (obecny) sel.value = obecny;
+}
+
+function dodajWyniki() {
+  var text = document.getElementById("kodyUczniow").value.trim();
+  if (!text) { alert("Wklej co najmniej jeden kod ucznia."); return; }
+  var linie = text.split(/\s*\n\s*/).filter(function(l) { return l.length > 0; });
+  var dodane = 0, bledne = 0;
+  var ostatniTid = null;
+  linie.forEach(function(l) {
+    var json = b64Decode(l.trim());
+    if (!json) { bledne++; return; }
+    var rec;
+    try { rec = JSON.parse(json); } catch (e) { bledne++; return; }
+    if (!rec.tid || !rec.a) { bledne++; return; }
+    if (!WYNIKI[rec.tid]) WYNIKI[rec.tid] = [];
+    WYNIKI[rec.tid].push(rec);
+    ostatniTid = rec.tid;
+    dodane++;
+  });
+  zapiszWyniki();
+  document.getElementById("kodyUczniow").value = "";
+  alert("Dodano: " + dodane + (bledne ? ", błędnych kodów: " + bledne : ""));
+  if (ostatniTid) {
+    document.getElementById("wyborTestu").value = ostatniTid;
+    renderWyniki();
+  }
+}
+
+function renderWyniki() {
+  var id = document.getElementById("wyborTestu").value;
+  var kont = document.getElementById("tabelaWynikow");
+  if (!id) { kont.innerHTML = ""; return; }
+  var test = TESTY.find(function(t) { return t.id === id; });
+  if (!test) { kont.innerHTML = '<div class="pusta">Nie znaleziono testu.</div>'; return; }
+  var res = WYNIKI[id] || [];
+  if (!res.length) { kont.innerHTML = '<div class="pusta">Brak wyników dla tego testu. Wklej kody uczniów powyżej.</div>'; return; }
+
+  var html = '<table><thead><tr><th>#</th><th>Uczeń</th><th>Punkty</th><th>%</th><th>Ocena</th><th>Data</th></tr></thead><tbody>';
+  res.forEach(function(r, i) {
+    var punkty = 0;
+    (r.a || []).forEach(function(odp, j) {
+      if (test.pytania[j] && odp === test.pytania[j].p) punkty++;
+    });
+    var max = test.pytania.length;
+    var pct = max ? Math.round(punkty / max * 100) : 0;
+    var klasa = pct >= 80 ? "wynik-dobry" : (pct >= 50 ? "wynik-sredni" : "wynik-zly");
+    var ocena = pct >= 90 ? "5" : pct >= 75 ? "4" : pct >= 50 ? "3" : pct >= 30 ? "2" : "1";
+    html += '<tr>';
+    html += '<td>' + (i + 1) + '</td>';
+    html += '<td>' + escapeHtml(r.u || "?") + '</td>';
+    html += '<td>' + punkty + ' / ' + max + '</td>';
+    html += '<td class="' + klasa + '">' + pct + '%</td>';
+    html += '<td class="' + klasa + '">' + ocena + '</td>';
+    html += '<td>' + new Date(r.d).toLocaleString("pl") + '</td>';
+    html += '</tr>';
+  });
+  html += '</tbody></table>';
+  kont.innerHTML = html;
+}
+
+/* ========== EKSPORT / IMPORT ========== */
+function eksportJSON() {
+  var dane = { konfig: KONFIG, testy: TESTY, wyniki: WYNIKI };
+  var blob = new Blob([JSON.stringify(dane, null, 2)], { type: "application/json" });
+  var a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "panel-nauczyciela-" + new Date().toISOString().slice(0, 10) + ".json";
+  a.click();
+}
+
+function importJSON(e) {
+  var f = e.target.files[0];
+  if (!f) return;
+  var reader = new FileReader();
+  reader.onload = function(ev) {
+    try {
+      var d = JSON.parse(ev.target.result);
+      if (d.konfig) { KONFIG = d.konfig; zapiszKonfig(); }
+      if (d.testy) { TESTY = d.testy; zapiszTesty(); }
+      if (d.wyniki) { WYNIKI = d.wyniki; zapiszWyniki(); }
+      alert("Zaimportowano.");
+      location.reload();
+    } catch (err) { alert("Nie udało się zaimportować pliku."); }
+  };
+  reader.readAsText(f);
+}
+</script>
+</body>
+</html>

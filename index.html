@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Angielski online — strona główna</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; background: #f7f5f0; color: #1f2933; font-size: 15px; line-height: 1.65; }
+  header.topbar { background: #1e3a5f; color: #fff; padding: 18px 26px; display: flex; justify-content: space-between; align-items: center; border-bottom: 4px solid #b45309; flex-wrap: wrap; gap: 12px; }
+  header.topbar h1 { font-family: Georgia, serif; font-size: 1.25rem; font-weight: 600; }
+  header.topbar .meta { font-size: .85rem; display: flex; gap: 10px; align-items: center; }
+  header.topbar .meta button { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,.4); padding: 6px 14px; border-radius: 4px; font-family: inherit; font-size: .82rem; cursor: pointer; }
+  header.topbar .meta button:hover { background: rgba(255,255,255,.15); }
+  header.topbar .meta .rola { background: rgba(255,255,255,.12); padding: 3px 12px; border-radius: 3px; font-size: .75rem; letter-spacing: 1px; text-transform: uppercase; font-weight: 600; }
+  main { max-width: 1150px; margin: 30px auto; padding: 0 20px; }
+  .hero { text-align: center; margin-bottom: 36px; padding: 30px 20px; background: #fff; border: 1px solid #e8e4dc; border-radius: 8px; }
+  .hero h2 { font-family: Georgia, serif; font-size: 1.7rem; color: #1e3a5f; margin-bottom: 10px; font-weight: 600; }
+  .hero p { color: #6b7280; font-size: .98rem; max-width: 640px; margin: 0 auto; }
+  .hero .badge { display: inline-block; background: #fffbeb; color: #78350f; border: 1px solid #fde68a; padding: 4px 14px; border-radius: 20px; font-size: .78rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 14px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 18px; margin-bottom: 36px; }
+  .kafel { background: #fff; border: 1px solid #e8e4dc; border-radius: 8px; padding: 24px 26px; text-decoration: none; color: inherit; display: flex; flex-direction: column; gap: 10px; transition: .18s; position: relative; overflow: hidden; }
+  .kafel::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: #1e3a5f; }
+  .kafel.t::before { background: #b45309; }
+  .kafel.d::before { background: #0f766e; }
+  .kafel:hover { box-shadow: 0 6px 20px rgba(30,58,95,.12); transform: translateY(-2px); border-color: #c8c2b5; }
+  .kafel h3 { font-family: Georgia, serif; font-size: 1.15rem; color: #1e3a5f; font-weight: 700; }
+  .kafel p { color: #6b7280; font-size: .9rem; line-height: 1.55; flex: 1; }
+  .kafel .tag { display: inline-block; font-size: .72rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #b45309; }
+  .kafel.d .tag { color: #0f766e; }
+  .kafel .arrow { color: #b45309; font-weight: 700; font-size: .9rem; margin-top: 4px; }
+  footer { text-align: center; padding: 30px 20px; color: #9ca3af; font-size: .85rem; border-top: 1px solid #e8e4dc; margin-top: 30px; }
+  footer .maly-link { color: #9ca3af; text-decoration: none; font-size: .82rem; }
+  footer .maly-link:hover { color: #1e3a5f; text-decoration: underline; }
+  .ukryj { display: none !important; }
+</style>
+</head>
+<body>
+
+<script src="admin.js"></script>
+<script>
+(function() {
+  var d = null;
+  try { d = JSON.parse(localStorage.getItem("angielski_dostep") || "null"); } catch (e) {}
+  window.CZY_NAUCZYCIEL = !!(d && d.wazne && d.wazne > Date.now());
+})();
+</script>
+
+<header class="topbar">
+  <h1>Angielski online</h1>
+  <div class="meta">
+    <span class="rola" id="rolaBadge">—</span>
+    <button id="wylogujBtn" style="display:none">Wyloguj</button>
+  </div>
+</header>
+
+<main>
+
+  <section class="hero">
+    <div class="badge" id="heroBadge">Wersja testowa</div>
+    <h2 id="heroTytul">Witaj w kursie angielskiego</h2>
+    <p id="heroOpis">Wybierz sekcję, którą chcesz otworzyć.</p>
+  </section>
+
+  <div class="grid">
+
+    <a class="kafel" href="kurs.html">
+      <span class="tag">Kurs</span>
+      <h3>Lekcje — 16 działów gramatyki i 16 tematów</h3>
+      <p>Każdy dział na pięciu poziomach A1–C1. Omówienie tematu, karta pracy, test. Kliknij dowolne angielskie słowo, aby usłyszeć wymowę.</p>
+      <span class="arrow">Otwórz kurs →</span>
+    </a>
+
+    <a class="kafel t kafel-naucz" href="podreczniki.html">
+      <span class="tag">Podręczniki</span>
+      <h3>Mapa podręczników szkolnych</h3>
+      <p>Wybierz podręcznik i zobacz, które lekcje pasują do każdego unitu. Eksport rocznego planu.</p>
+      <span class="arrow">Otwórz mapę →</span>
+    </a>
+
+    <a class="kafel d kafel-naucz" href="sprawdzian.html">
+      <span class="tag">Sprawdzian</span>
+      <h3>Generator sprawdzianu do druku</h3>
+      <p>Wybierz lekcje, liczbę pytań i wersji (A, B, C…). Wygeneruj arkusz + klucz odpowiedzi.</p>
+      <span class="arrow">Generuj sprawdzian →</span>
+    </a>
+
+    <a class="kafel d kafel-naucz" href="panel-nauczyciela.html">
+      <span class="tag">Sprawdzian online</span>
+      <h3>Panel nauczyciela — testy interaktywne</h3>
+      <p>Wygeneruj test dla klasy, wyślij uczniom link. Uczniowie rozwiązują w przeglądarce, dostajesz kody wyników.</p>
+      <span class="arrow">Otwórz panel →</span>
+    </a>
+
+    <a class="kafel kafel-naucz" href="instrukcja.html">
+      <span class="tag">Pomoc</span>
+      <h3>Instrukcja dla nauczyciela</h3>
+      <p>Krótki przewodnik: jak używać kursu, jak generować sprawdziany, jak odbierać wyniki uczniów.</p>
+      <span class="arrow">Czytaj →</span>
+    </a>
+
+    <a class="kafel" href="instrukcja-ucznia.html">
+      <span class="tag">Pomoc</span>
+      <h3>Instrukcja dla ucznia</h3>
+      <p>Jak wchodzić na lekcję, jak rozwiązywać karty pracy i testy, jak wysłać nauczycielowi wynik sprawdzianu.</p>
+      <span class="arrow">Czytaj →</span>
+    </a>
+
+  </div>
+
+</main>
+
+<footer>
+  Angielski online &copy; 2026 · Wersja testowa
+  <span id="stopkaLogin" style="display:none">
+    <br><a class="maly-link" href="bramka.html">Zaloguj jako nauczyciel</a>
+  </span>
+  <span id="stopkaWylog" style="display:none">
+    <br><a class="maly-link" href="#" id="linkWylog">Wyloguj nauczyciela</a>
+  </span>
+</footer>
+
+<script>
+(function() {
+  var jest = window.CZY_NAUCZYCIEL;
+  document.getElementById("rolaBadge").textContent = jest ? "Nauczyciel" : "Uczeń";
+  if (jest) {
+    document.getElementById("wylogujBtn").style.display = "inline-block";
+    document.getElementById("heroBadge").textContent = "Nauczyciel — pełny dostęp";
+    document.getElementById("heroTytul").textContent = "Witaj, nauczycielu";
+    document.getElementById("heroOpis").textContent = "Masz dostęp do wszystkich narzędzi: kurs, podręczniki, generator sprawdzianu, panel testów.";
+    document.getElementById("stopkaWylog").style.display = "inline";
+  } else {
+    document.querySelectorAll(".kafel-naucz").forEach(function(el) { el.classList.add("ukryj"); });
+    document.getElementById("heroBadge").textContent = "Dostęp uczniowski";
+    document.getElementById("heroTytul").textContent = "Witaj w kursie angielskiego";
+    document.getElementById("heroOpis").textContent = "Otwórz kurs i wybierz lekcję. Aby oddać sprawdzian, użyj linku od nauczyciela.";
+    document.getElementById("stopkaLogin").style.display = "inline";
+  }
+})();
+
+document.getElementById("wylogujBtn").addEventListener("click", function() {
+  if (!confirm("Wylogować nauczyciela?")) return;
+  localStorage.removeItem("angielski_dostep");
+  window.location.reload();
+});
+document.getElementById("linkWylog").addEventListener("click", function(e) {
+  e.preventDefault();
+  if (!confirm("Wylogować nauczyciela?")) return;
+  localStorage.removeItem("angielski_dostep");
+  window.location.reload();
+});
+</script>
+
+</body>
+</html>

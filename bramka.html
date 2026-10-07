@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Angielski online — dostęp</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+    background: #f7f5f0;
+    color: #1f2933;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background-image:
+      radial-gradient(circle at 20% 50%, rgba(180,83,9,.05) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(15,118,110,.05) 0%, transparent 50%);
+  }
+  .karta {
+    background: #fff;
+    border: 1px solid #e8e4dc;
+    border-radius: 10px;
+    padding: 40px 44px;
+    max-width: 460px;
+    width: 100%;
+    box-shadow: 0 8px 32px rgba(30,58,95,.1);
+    position: relative;
+    overflow: hidden;
+  }
+  .karta::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, #1e3a5f, #b45309, #0f766e);
+  }
+  .logo {
+    text-align: center;
+    margin-bottom: 26px;
+  }
+  .logo h1 {
+    font-family: Georgia, serif;
+    font-size: 1.5rem;
+    color: #1e3a5f;
+    font-weight: 600;
+    letter-spacing: .3px;
+    margin-bottom: 4px;
+  }
+  .logo p {
+    color: #6b7280;
+    font-size: .88rem;
+  }
+  label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    font-size: .88rem;
+    color: #4b5563;
+  }
+  input[type="password"], input[type="text"] {
+    width: 100%;
+    padding: 13px 16px;
+    border: 2px solid #c8c2b5;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 1rem;
+    transition: .15s;
+  }
+  input[type="password"]:focus, input[type="text"]:focus {
+    outline: none;
+    border-color: #1e3a5f;
+    box-shadow: 0 0 0 3px rgba(30,58,95,.1);
+  }
+  button {
+    margin-top: 16px;
+    width: 100%;
+    padding: 14px 24px;
+    background: #1e3a5f;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: .95rem;
+    cursor: pointer;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    transition: .15s;
+  }
+  button:hover { background: #152a47; }
+  button:disabled { opacity: .5; cursor: not-allowed; }
+  .blad {
+    margin-top: 12px;
+    padding: 10px 14px;
+    background: #fef2f2;
+    color: #991b1b;
+    border-left: 3px solid #991b1b;
+    border-radius: 0 4px 4px 0;
+    font-size: .88rem;
+    display: none;
+  }
+  .blad.on { display: block; }
+  .info {
+    margin-top: 22px;
+    padding-top: 18px;
+    border-top: 1px solid #e8e4dc;
+    font-size: .82rem;
+    color: #9ca3af;
+    line-height: 1.55;
+    text-align: center;
+  }
+  .info code {
+    background: #f0f4fb;
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-family: 'SF Mono', Consolas, monospace;
+    color: #1e3a5f;
+    font-size: .85em;
+  }
+</style>
+</head>
+<body>
+
+<div class="karta">
+  <div class="logo">
+    <h1>Angielski online</h1>
+    <p>Dostęp dla nauczycieli</p>
+  </div>
+
+  <label for="haslo">Hasło dostępu</label>
+  <input type="password" id="haslo" placeholder="Wpisz hasło…" autocomplete="current-password" autofocus>
+  <button id="wejdzBtn">Wejdź</button>
+  <div id="blad" class="blad">Błędne hasło. Spróbuj ponownie.</div>
+
+  <div class="info">
+    Hasło dostaniesz od administratora kursu.<br>
+    Logowanie zapamiętamy na 30 dni.
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   HASŁO DOSTĘPU — zmień tutaj
+============================================================ */
+var HASLO = "nauczyciel2026";
+
+/* Klucz w localStorage i czas ważności (30 dni w ms) */
+var KLUCZ = "angielski_dostep";
+var WAZNOSC = 30 * 24 * 60 * 60 * 1000;
+
+/* Jeśli już zalogowany i sesja ważna — idź od razu do index */
+(function() {
+  try {
+    var dane = JSON.parse(localStorage.getItem(KLUCZ) || "null");
+    if (dane && dane.wazne && dane.wazne > Date.now()) {
+      window.location.replace("index.html");
+    }
+  } catch (e) {}
+})();
+
+function wejdz() {
+  var pole = document.getElementById("haslo");
+  var blad = document.getElementById("blad");
+  var wpisane = pole.value;
+
+  if (wpisane === HASLO) {
+    try {
+      localStorage.setItem(KLUCZ, JSON.stringify({
+        wazne: Date.now() + WAZNOSC
+      }));
+    } catch (e) {}
+    blad.classList.remove("on");
+    window.location.replace("index.html");
+  } else {
+    blad.classList.add("on");
+    pole.value = "";
+    pole.focus();
+  }
+}
+
+document.getElementById("wejdzBtn").addEventListener("click", wejdz);
+document.getElementById("haslo").addEventListener("keydown", function(e) {
+  if (e.key === "Enter") wejdz();
+});
+</script>
+</body>
+</html>
