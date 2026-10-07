@@ -58,7 +58,11 @@
   .info-box { padding: 12px 16px; background: #fffbeb; border-left: 4px solid #b45309; margin-bottom: 16px; font-size: .88rem; color: #78350f; border-radius: 0 4px 4px 0; }
 
   /* QR WERSJE */
-  .wersje-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; margin: 16px 0; }
+    .wersje-grid { display: flex; flex-direction: column; gap: 16px; margin: 16px 0; max-width: 420px; }
+  .wersja-karta { display: flex; align-items: center; gap: 20px; text-align: left; }
+  .wersja-karta .litera { min-width: 90px; margin-bottom: 0; }
+  .wersja-karta .qr-holder { flex-shrink: 0; }
+  .wersja-karta button, .wersja-karta .link, .wersja-karta .kod-awaryjny { width: 100%; }
   .wersja-karta { background: #fff; border: 2px solid #1e3a5f; border-radius: 8px; padding: 16px; text-align: center; }
   .wersja-karta .litera { font-family: Georgia, serif; font-size: 1.6rem; color: #1e3a5f; font-weight: 700; letter-spacing: 2px; margin-bottom: 10px; }
   .wersja-karta .qr-holder { background: #fff; padding: 8px; display: flex; justify-content: center; align-items: center; min-height: 200px; }
