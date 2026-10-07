@@ -1,0 +1,2674 @@
+window.LESSON_DATA = window.LESSON_DATA || {};
+
+/* ============================================================
+   G1C1 – Present Tenses – poziom biegłości
+============================================================ */
+window.LESSON_DATA["G1C1"] = {
+  tytul: "Czasy teraźniejsze – poziom biegłości",
+  poziom: "C1",
+  dzial: "G1",
+  teoria: `
+    <h3>Tekst do zapamiętania</h3>
+    <p class="en" style="display:block; padding:14px 18px; line-height:1.9;">
+      So there I am, standing in the middle of a crowded station, when suddenly this man walks up to me and asks for directions. I\'ve been living in this city for years, but even I get lost sometimes. He tells me he\'s been trying to find his hotel for over an hour and that his phone has just died. I\'ve always found that cities reveal themselves to you slowly – you can\'t rush them. I\'m forever telling my friends that getting lost is part of the experience. That\'s what I love about travel: you never quite know what\'s going to happen next.
+    </p>
+
+    <h3>Present tenses w narracji – historic present</h3>
+    <p>W opowiadaniach, anegdotach, recenzjach i streszczeniach często używamy czasu teraźniejszego, żeby <b>ożywić narrację</b>:</p>
+    <table>
+      <tr><td class="en">So I\'m walking down the street, and this guy comes up to me and says…</td></tr>
+      <tr><td class="en">In chapter three, the hero decides to leave everything behind.</td></tr>
+      <tr><td class="en">At the end of the film, she realises that she\'s been wrong all along.</td></tr>
+    </table>
+    <p>Efekt: czytelnik/słuchacz <b>jest w środku wydarzeń</b> – narracja staje się bardziej bezpośrednia.</p>
+
+    <h3>Present Continuous – irytacja, nawyki, emfaza</h3>
+    <table>
+      <tr><th>Konstrukcja</th><th>Znaczenie</th><th>Przykład</th></tr>
+      <tr><td class="en">always / constantly / forever / continually + -ing</td><td>irytacja, dezaprobata</td><td class="en">He\'s always leaving the lights on.</td></tr>
+      <tr><td class="en">forever + -ing</td><td>irytacja (silniejsza)</td><td class="en">She\'s forever complaining about something.</td></tr>
+      <tr><td class="en">keep + -ing</td><td>ciągle coś robić</td><td class="en">He keeps interrupting me.</td></tr>
+      <tr><td class="en">temporary habit</td><td>chwilowy nawyk</td><td class="en">I\'m eating a lot of junk food these days.</td></tr>
+    </table>
+
+    <h3>Present Perfect – niuanse użycia</h3>
+    <table>
+      <tr><th>Użycie</th><th>Znaczenie</th><th>Przykład</th></tr>
+      <tr><td>Doświadczenie życiowe</td><td>kiedykolwiek w życiu</td><td class="en">I\'ve travelled to thirty countries.</td></tr>
+      <tr><td>Skutek teraz</td><td>widoczny rezultat</td><td class="en">I\'ve cut my finger. (krwawi)</td></tr>
+      <tr><td>Niedokończony okres</td><td>do tej pory</td><td class="en">I\'ve written three chapters so far.</td></tr>
+      <tr><td>Powtarzalne do teraz</td><td>seria</td><td class="en">I\'ve been to that café several times.</td></tr>
+      <tr><td>Świeżo zakończone</td><td>just</td><td class="en">I\'ve just seen him – he looks terrible.</td></tr>
+      <tr><td>Emocjonalny nacisk w listach</td><td>rozpoczęcie nowiny</td><td class="en">I\'m writing to tell you some wonderful news – I\'ve got engaged!</td></tr>
+    </table>
+
+    <h3>Present Perfect Simple vs Continuous – niuanse C1</h3>
+    <table>
+      <tr><th>Simple</th><th>Continuous</th></tr>
+      <tr>
+        <td>• <b>skutek, liczba, koniec</b><br>
+        <span class="en">I\'ve painted the whole house.</span><br>
+        <span class="en">How many pages have you written?</span></td>
+        <td>• <b>trwanie, proces, atmosfera</b><br>
+        <span class="en">I\'ve been painting all day.</span><br>
+        <span class="en">My eyes are red – I\'ve been reading.</span></td>
+      </tr>
+      <tr>
+        <td>• powtarzalne czynności:<br>
+        <span class="en">I\'ve written to her three times.</span></td>
+        <td>• ciągła czynność:<br>
+        <span class="en">I\'ve been writing to her for years.</span></td>
+      </tr>
+    </table>
+
+    <h3>Różnice znaczeń – czasowniki wieloznaczne</h3>
+    <table>
+      <tr><th>Czasownik</th><th>Znaczenie 1 (Simple)</th><th>Znaczenie 2 (Continuous)</th></tr>
+      <tr><td class="en">think</td><td>sądzić: <span class="en">I think…</span></td><td>rozważać: <span class="en">I\'m thinking about…</span></td></tr>
+      <tr><td class="en">have</td><td>posiadać: <span class="en">She has a car.</span></td><td>doświadczać: <span class="en">She\'s having a hard time.</span></td></tr>
+      <tr><td class="en">see</td><td>rozumieć / widzieć: <span class="en">I see what you mean.</span></td><td>spotykać się: <span class="en">I\'m seeing someone new.</span></td></tr>
+      <tr><td class="en">be</td><td>być: <span class="en">He\'s kind.</span></td><td>zachowywać się: <span class="en">He\'s being difficult today.</span></td></tr>
+      <tr><td class="en">taste</td><td>smakować: <span class="en">This soup tastes odd.</span></td><td>próbować: <span class="en">Why are you tasting it?</span></td></tr>
+      <tr><td class="en">look</td><td>wyglądać: <span class="en">You look tired.</span></td><td>patrzeć: <span class="en">She\'s looking at me.</span></td></tr>
+    </table>
+
+    <h3>Present Perfect z "this is the first time…"</h3>
+    <table>
+      <tr><td class="en">This is the first time I\'ve been here.</td></tr>
+      <tr><td class="en">This is the best meal I\'ve ever eaten.</td></tr>
+      <tr><td class="en">That\'s the third time he\'s called today.</td></tr>
+    </table>
+    <p><b>Uwaga:</b> struktura: <span class="en">This is the [superlative / first / second / only] + Present Perfect</span>.</p>
+
+    <h3>Formal Present Perfect – kontekst formalny</h3>
+    <table>
+      <tr><td class="en">I am pleased to inform you that your application has been accepted.</td></tr>
+      <tr><td class="en">We regret to announce that the event has been cancelled.</td></tr>
+      <tr><td class="en">I have been asked to remind you about the deadline.</td></tr>
+    </table>
+
+    <div class="tip-box">
+      <b>Zapamiętaj:</b><br>
+      <b>historic present</b> – teraźniejszość dla narracji (ożywia opowieść)<br>
+      <b>always + -ing</b> – irytacja/nawyki: <span class="en">He\'s always losing his keys.</span><br>
+      <b>This is the first time I\'ve…</b> – utrwalone: tylko Present Perfect
+    </div>
+  `,
+  karta: [
+    { type: "header", text: "A. Wybierz właściwy czas" },
+    { type: "gap", text: '<span class="en">So I ________ (stand) in the queue, when this woman ________ (walk) up to me and ________ (ask) for directions.</span>', answers: ["am standing, walks, asks"] },
+    { type: "gap", text: '<span class="en">She ________ (always / lose) her keys – it\'s so annoying!</span>', answers: ["is always losing", "\'s always losing"] },
+    { type: "gap", text: '<span class="en">He ________ (forever / complain) about the weather.</span>', answers: ["is forever complaining", "\'s forever complaining"] },
+    { type: "gap", text: '<span class="en">She ________ (keep) interrupting me while I\'m talking.</span>', answers: ["keeps"] },
+    { type: "gap", text: '<span class="en">I ________ (read) that book – it was brilliant.</span>', answers: ["have read"] },
+    { type: "gap", text: '<span class="en">I ________ (read) all morning and I\'m exhausted.</span>', answers: ["have been reading"] },
+    { type: "gap", text: '<span class="en">This is the first time I ________ (try) sushi.</span>', answers: ["have tried"] },
+    { type: "gap", text: '<span class="en">This is the best film I ________ (ever / see).</span>', answers: ["have ever seen"] },
+    { type: "gap", text: '<span class="en">That\'s the third time he ________ (call) today.</span>', answers: ["has called"] },
+    { type: "header", text: "B. Simple czy Continuous – różnice znaczeń" },
+    { type: "gap", text: '<span class="en">I ________ (think) it\'s a great idea.</span>', answers: ["think"] },
+    { type: "gap", text: '<span class="en">I ________ (think) about changing my career.</span>', answers: ["am thinking"] },
+    { type: "gap", text: '<span class="en">He ________ (be) really difficult today.</span>', answers: ["is being"] },
+    { type: "gap", text: '<span class="en">He ________ (be) usually very easy-going.</span>', answers: ["is"] },
+    { type: "gap", text: '<span class="en">I ________ (see) what you mean – that\'s a fair point.</span>', answers: ["see"] },
+    { type: "gap", text: '<span class="en">I ________ (see) someone new at the moment.</span>', answers: ["am seeing"] },
+    { type: "header", text: "C. Popraw błędy" },
+    { type: "gap", text: '<span class="en">I have been knowing him for years. → ________</span>', answers: ["i have known him for years", "i have known him for years.", "i\'ve known him for years", "i\'ve known him for years."], wide: true },
+    { type: "gap", text: '<span class="en">He is always to lose his keys. → ________</span>', answers: ["he is always losing his keys", "he is always losing his keys.", "he\'s always losing his keys", "he\'s always losing his keys."], wide: true },
+    { type: "gap", text: '<span class="en">This is the first time I am here. → ________</span>', answers: ["this is the first time i have been here", "this is the first time i have been here.", "this is the first time i\'ve been here", "this is the first time i\'ve been here."], wide: true },
+    { type: "gap", text: '<span class="en">She keeps to interrupt me. → ________</span>', answers: ["she keeps interrupting me", "she keeps interrupting me."], wide: true },
+    { type: "header", text: "D. Przetłumacz" },
+    { type: "gap", text: '<span class="pl">Więc stoję w kolejce, a tu nagle podchodzi do mnie kobieta i pyta o drogę.</span>', answers: ["so i am standing in the queue when this woman walks up to me and asks for directions", "so i\'m standing in the queue when this woman walks up to me and asks for directions", "so i\'m standing in a queue and this woman comes up to me and asks for directions"], wide: true },
+    { type: "gap", text: '<span class="pl">Ona ciągle gubi klucze – to takie irytujące!</span>', answers: ["she is always losing her keys - it\'s so annoying", "she\'s always losing her keys - it\'s so annoying", "she\'s always losing her keys, it\'s so annoying"], wide: true },
+    { type: "gap", text: '<span class="pl">To pierwszy raz, kiedy próbuję sushi.</span>', answers: ["this is the first time i have tried sushi", "this is the first time i have tried sushi.", "this is the first time i\'ve tried sushi", "this is the first time i\'ve tried sushi."], wide: true },
+    { type: "gap", text: '<span class="pl">To najlepszy film, jaki kiedykolwiek widziałem.</span>', answers: ["this is the best film i have ever seen", "this is the best film i have ever seen.", "this is the best film i\'ve ever seen", "this is the best film i\'ve ever seen.", "this is the best movie i have ever seen"], wide: true },
+    { type: "gap", text: '<span class="pl">Rozważam zmianę pracy.</span>', answers: ["i am thinking about changing my job", "i am thinking about changing my job.", "i\'m thinking about changing my job", "i\'m thinking about changing my job.", "i am thinking of changing my job"], wide: true },
+    { type: "header", text: "E. Napisz" },
+    { type: "open", text: "Opowiedz anegdotę (5-6 zdań) używając historic present – tak, jakbyś opowiadał ją znajomemu. Użyj też 'I\'ve always...' i 'This is the first time I\'ve...'.", placeholder: "np. So I\'m walking down the street, and suddenly this guy comes up to me and says..." }
+  ],
+  test: [
+    { q: "She ______ her keys – it\'s so annoying!", opcje: ["always loses", "is always losing", "has always lost", "always lost"], poprawna: 1, wyjasnienie: "always + Continuous = irytacja." },
+    { q: "So I ______ in the queue, when this woman comes up to me.", opcje: ["stand", "am standing", "have stood", "stood"], poprawna: 1, wyjasnienie: "Historic present – użycie Continuous dla scenerii." },
+    { q: "This is the first time I ______ sushi.", opcje: ["try", "am trying", "have tried", "tried"], poprawna: 2, wyjasnienie: "This is the first time + Present Perfect." },
+    { q: "I ______ him for years – he\'s like a brother to me.", opcje: ["have known", "have been knowing", "know", "am knowing"], poprawna: 0, wyjasnienie: "know = czasownik statyczny – bez -ing." },
+    { q: "I ______ about changing my career.", opcje: ["think", "am thinking", "have thought", "thought"], poprawna: 1, wyjasnienie: "think about = rozważać → Present Continuous." },
+    { q: "He ______ difficult today – something\'s bothering him.", opcje: ["is", "is being", "has been", "was being"], poprawna: 1, wyjasnienie: "be + being = zachowywać się w danej chwili." },
+    { q: "I ______ what you mean – that\'s a fair point.", opcje: ["am seeing", "have seen", "see", "was seeing"], poprawna: 2, wyjasnienie: "see = rozumieć → Present Simple." },
+    { q: "I ______ reading all morning – I\'m exhausted.", opcje: ["have read", "have been reading", "read", "am reading"], poprawna: 1, wyjasnienie: "Proces, widoczny efekt → Present Perfect Continuous." },
+    { q: "He ______ interrupting me while I\'m talking.", opcje: ["keeps", "is keeping", "has kept", "kept"], poprawna: 0, wyjasnienie: "keep + -ing = ciągle coś robić." },
+    { q: "This is the best meal I ______ ever ______.", opcje: ["have / eaten", "have / been eating", "had / eaten", "am / eating"], poprawna: 0, wyjasnienie: "This is the best … I\'ve ever + III." }
+  ]
+};
+
+/* ============================================================
+   G2C1 – Past Tenses – poziom biegłości
+============================================================ */
+window.LESSON_DATA["G2C1"] = {
+  tytul: "Czasy przeszłe – poziom biegłości",
+  poziom: "C1",
+  dzial: "G2",
+  teoria: `
+    <h3>Tekst do zapamiętania</h3>
+    <p class="en" style="display:block; padding:14px 18px; line-height:1.9;">
+      Had I known how difficult the project would turn out to be, I would never have agreed to it. Looking back, I realise I had been putting off the decision for months. I was to have submitted the report by Friday, but I simply couldn\'t bring myself to start. I\'d rather I had never taken on the responsibility in the first place. It\'s high time I faced up to the fact that I\'m not Superman. If only I had listened to my colleagues when they warned me. Oh well – live and learn, as my grandmother used to say.
+    </p>
+
+    <h3>Past Simple vs Past Continuous vs Past Perfect – niuanse C1</h3>
+    <table>
+      <tr><th>Czas</th><th>Użycie zaawansowane</th><th>Przykład</th></tr>
+      <tr><td>Past Simple</td><td>narracja, „suche fakty"</td><td class="en">He walked in, sat down and lit a cigarette.</td></tr>
+      <tr><td>Past Continuous</td><td>sceneria + irytacja w przeszłości</td><td class="en">He was constantly asking stupid questions.</td></tr>
+      <tr><td>Past Perfect</td><td>retrospekcja, distans</td><td class="en">I had already met her somewhere – I was sure of it.</td></tr>
+      <tr><td>Past Perfect Continuous</td><td>podkreślone trwanie przed momentem</td><td class="en">I had been waiting for hours before he finally showed up.</td></tr>
+    </table>
+
+    <h3>Used to / Would / Be used to / Get used to – pogłębione</h3>
+    <table>
+      <tr><th>Konstrukcja</th><th>Znaczenie</th><th>Uwaga</th></tr>
+      <tr><td class="en"><b>used to + V</b></td><td>kiedyś (a już nie)</td><td>dotyczy przeszłości; nie ma formy Present</td></tr>
+      <tr><td class="en"><b>would + V</b></td><td>powtarzalne czynności (narracja literacka)</td><td>NIE dla stanów: <span class="en">❌ I would have a bike</span></td></tr>
+      <tr><td class="en"><b>be used to + -ing</b></td><td>być przyzwyczajonym</td><td>stan – czasy Simple</td></tr>
+      <tr><td class="en"><b>get used to + -ing</b></td><td>przyzwyczajać się</td><td>proces – czasy Continuous</td></tr>
+    </table>
+    <table>
+      <tr><td class="en">I used to live in Paris. <span class="pl">(kiedyś)</span></td></tr>
+      <tr><td class="en">Every summer we would go to the seaside. <span class="pl">(powtarzalne)</span></td></tr>
+      <tr><td class="en">I\'m used to getting up early. <span class="pl">(przyzwyczajony)</span></td></tr>
+      <tr><td class="en">I\'m slowly getting used to living alone. <span class="pl">(przyzwyczajam się)</span></td></tr>
+    </table>
+
+    <h3>Distance / politeness – Past dla uprzejmości</h3>
+    <p>W formalnym kontekście używamy czasu przeszłego, żeby <b>zdystansować się</b> i być uprzejmym:</p>
+    <table>
+      <tr><td class="en">I was wondering if you could help me. <span class="pl">(uprzejma prośba)</span></td></tr>
+      <tr><td class="en">Did you want to see me? <span class="pl">(nieinwazyjnie)</span></td></tr>
+      <tr><td class="en">I hoped you might have a moment. <span class="pl">(ostrożnie)</span></td></tr>
+      <tr><td class="en">I thought you might like to know. <span class="pl">(delikatnie)</span></td></tr>
+    </table>
+
+    <h3>Unreal Past – przeszłość nierzeczywista</h3>
+    <table>
+      <tr><th>Konstrukcja</th><th>Znaczenie</th><th>Przykład</th></tr>
+      <tr><td class="en"><b>It\'s (high) time + Past Simple</b></td><td>najwyższy czas, żeby</td><td class="en">It\'s time we left.</td></tr>
+      <tr><td class="en"><b>I\'d rather + Past Simple</b></td><td>wolałbym, żeby (o teraz)</td><td class="en">I\'d rather you didn\'t smoke.</td></tr>
+      <tr><td class="en"><b>I\'d rather + Past Perfect</b></td><td>wolałbym, żeby (o przeszłość)</td><td class="en">I\'d rather I hadn\'t said that.</td></tr>
+      <tr><td class="en"><b>If only + Past Simple</b></td><td>gdyby tylko (teraz)</td><td class="en">If only I had more time!</td></tr>
+      <tr><td class="en"><b>If only + Past Perfect</b></td><td>gdyby tylko (o przeszłości – żal)</td><td class="en">If only I had listened!</td></tr>
+      <tr><td class="en"><b>wish + Past Simple</b></td><td>żałuję, że nie jest…</td><td class="en">I wish I spoke French.</td></tr>
+      <tr><td class="en"><b>wish + Past Perfect</b></td><td>żałuję, że nie zrobiłem…</td><td class="en">I wish I had studied harder.</td></tr>
+    </table>
+
+    <h3>Be to have done – formalne plany, które się nie zrealizowały</h3>
+    <table>
+      <tr><td class="en">I was to have submitted the report by Friday. <span class="pl">(miałem złożyć, ale nie złożyłem)</span></td></tr>
+      <tr><td class="en">The meeting was to have taken place last Monday.</td></tr>
+      <tr><td class="en">She was to have been promoted this year.</td></tr>
+    </table>
+
+    <h3>Narrative techniques – jak opowiadać po mistrzowsku</h3>
+    <table>
+      <tr><td class="en"><b>Punkt kulminacyjny:</b> Past Continuous dla tła, Past Simple dla wydarzenia</td><td class="en">I was walking home when suddenly…</td></tr>
+      <tr><td class="en"><b>Retrospekcja:</b> Past Perfect</td><td class="en">I realised I had seen him before.</td></tr>
+      <tr><td class="en"><b>Dystans / irytacja:</b> Past Continuous z always</td><td class="en">He was always complaining about something.</td></tr>
+      <tr><td class="en"><b>Zwrot akcji:</b> Past Perfect Continuous</td><td class="en">I had been expecting this for months.</td></tr>
+    </table>
+
+    <h3>Inwersja w past perfect (formalnie)</h3>
+    <table>
+      <tr><td class="en">Had I known… = If I had known…</td></tr>
+      <tr><td class="en">Had it not been for her help, I would have failed.</td></tr>
+      <tr><td class="en">Hardly had I sat down when the phone rang.</td></tr>
+    </table>
+
+    <div class="tip-box">
+      <b>Zapamiętaj:</b><br>
+      <b>used to</b> = kiedyś · <b>would</b> = powtarzalne (nie dla stanów) · <b>be used to + -ing</b> = przyzwyczajony<br>
+      <b>It\'s high time + Past</b> – utrwalone, nie Present!<br>
+      <b>I\'d rather</b> + Past / Past Perfect – wolałbym, żeby…
+    </div>
+  `,
+  karta: [
+    { type: "header", text: "A. Wybierz właściwy czas" },
+    { type: "gap", text: '<span class="en">________ I ________ (know) how difficult it would be, I would never have agreed. (inwersja)</span>', answers: ["had, known"] },
+    { type: "gap", text: '<span class="en">When I finally arrived, they ________ (wait) for hours.</span>', answers: ["had been waiting"] },
+    { type: "gap", text: '<span class="en">I ________ (put off) the decision for months before I finally acted.</span>', answers: ["had been putting off"] },
+    { type: "gap", text: '<span class="en">He ________ (constantly / ask) stupid questions – it drove me mad.</span>', answers: ["was constantly asking"] },
+    { type: "gap", text: '<span class="en">I ________ (already / meet) her somewhere – I was sure of it.</span>', answers: ["had already met"] },
+    { type: "header", text: "B. Used to / Would / Be used to / Get used to" },
+    { type: "gap", text: '<span class="en">I ________ (live) in Paris when I was a child.</span>', answers: ["used to live"] },
+    { type: "gap", text: '<span class="en">Every summer we ________ (go) to the seaside.</span>', answers: ["would go"] },
+    { type: "gap", text: '<span class="en">I ________ (get up) early – I do it every day.</span>', answers: ["am used to getting up"] },
+    { type: "gap", text: '<span class="en">I\'m slowly ________ (live) on my own.</span>', answers: ["getting used to living"] },
+    { type: "gap", text: '<span class="en">She ________ (have) long hair when she was young.</span>', answers: ["used to have"] },
+    { type: "header", text: "C. Unreal Past" },
+    { type: "gap", text: '<span class="en">It\'s high time we ________ (leave).</span>', answers: ["left"] },
+    { type: "gap", text: '<span class="en">I\'d rather you ________ (not / smoke) in here.</span>', answers: ["didn\'t smoke", "did not smoke"] },
+    { type: "gap", text: '<span class="en">I\'d rather I ________ (not / say) that.</span>', answers: ["hadn\'t said", "had not said"] },
+    { type: "gap", text: '<span class="en">If only I ________ (have) more time!</span>', answers: ["had"] },
+    { type: "gap", text: '<span class="en">If only I ________ (listen) to my colleagues!</span>', answers: ["had listened"] },
+    { type: "gap", text: '<span class="en">I wish I ________ (speak) French fluently.</span>', answers: ["spoke"] },
+    { type: "gap", text: '<span class="en">I wish I ________ (study) harder when I was at school.</span>', answers: ["had studied"] },
+    { type: "header", text: "D. Be to have done – plany niezrealizowane" },
+    { type: "gap", text: '<span class="en">I ________ (submit) the report by Friday. (miałem, ale nie złożyłem)</span>', answers: ["was to have submitted"] },
+    { type: "gap", text: '<span class="en">The meeting ________ (take place) last Monday. (nie odbyło się)</span>', answers: ["was to have taken place"] },
+    { type: "header", text: "E. Popraw błędy" },
+    { type: "gap", text: '<span class="en">It\'s time we leave. → ________</span>', answers: ["it\'s time we left", "it\'s time we left.", "it is time we left", "it is time we left."], wide: true },
+    { type: "gap", text: '<span class="en">I\'d rather you don\'t smoke. → ________</span>', answers: ["i\'d rather you didn\'t smoke", "i\'d rather you didn\'t smoke.", "i would rather you didn\'t smoke"], wide: true },
+    { type: "gap", text: '<span class="en">I use to live in Paris. → ________</span>', answers: ["i used to live in paris", "i used to live in paris."], wide: true },
+    { type: "gap", text: '<span class="en">I am used to get up early. → ________</span>', answers: ["i am used to getting up early", "i am used to getting up early.", "i\'m used to getting up early", "i\'m used to getting up early."], wide: true },
+    { type: "header", text: "F. Przetłumacz" },
+    { type: "gap", text: '<span class="pl">Gdybym wiedział, jak trudne to będzie, nigdy bym się nie zgodził.</span>', answers: ["had i known how difficult it would be i would never have agreed", "had i known how difficult it would be, i would never have agreed", "if i had known how difficult it would be i would never have agreed"], wide: true },
+    { type: "gap", text: '<span class="pl">Najwyższy czas, żebyśmy wyszli.</span>', answers: ["it\'s high time we left", "it\'s high time we left.", "it is high time we left", "it is high time we left."], wide: true },
+    { type: "gap", text: '<span class="pl">Wolałbym, żebyś nie palił w środku.</span>', answers: ["i\'d rather you didn\'t smoke inside", "i\'d rather you didn\'t smoke inside.", "i would rather you didn\'t smoke inside", "i would rather you did not smoke inside."], wide: true },
+    { type: "gap", text: '<span class="pl">Żałuję, że nie uczyłem się pilniej w szkole.</span>', answers: ["i wish i had studied harder at school", "i wish i had studied harder at school.", "i wish i\'d studied harder at school", "i wish i\'d studied harder at school."], wide: true },
+    { type: "gap", text: '<span class="pl">Miałem złożyć raport do piątku, ale nie zdążyłem.</span>', answers: ["i was to have submitted the report by friday but i didn\'t", "i was to have submitted the report by friday, but i didn\'t", "i was to have submitted the report by friday but i didn\'t manage"], wide: true },
+    { type: "header", text: "G. Napisz" },
+    { type: "open", text: "Opisz sytuację, w której żałujesz swojej decyzji. Użyj konstrukcji: if only, I wish, I\'d rather, It\'s high time.", placeholder: "np. If only I had... I wish I... I\'d rather I hadn\'t..." }
+  ],
+  test: [
+    { q: "________ I known, I would never have agreed.", opcje: ["If", "Had", "Were", "Did"], poprawna: 1, wyjasnienie: "Inwersja: Had I known = If I had known." },
+    { q: "It\'s high time we ______.", opcje: ["leave", "left", "will leave", "have left"], poprawna: 1, wyjasnienie: "It\'s high time + Past Simple." },
+    { q: "I\'d rather you ______ in here.", opcje: ["don\'t smoke", "didn\'t smoke", "not smoke", "won\'t smoke"], poprawna: 1, wyjasnienie: "I\'d rather + Past Simple (o teraz)." },
+    { q: "I\'d rather I ______ that.", opcje: ["didn\'t say", "hadn\'t said", "don\'t say", "won\'t say"], poprawna: 1, wyjasnienie: "I\'d rather + Past Perfect (żal o przeszłość)." },
+    { q: "If only I ______ to my colleagues!", opcje: ["listened", "had listened", "listen", "would listen"], poprawna: 1, wyjasnienie: "If only + Past Perfect = żal o przeszłość." },
+    { q: "I ______ in Paris when I was a child.", opcje: ["use to live", "used to live", "am used to live", "used to living"], poprawna: 1, wyjasnienie: "used to + bezokolicznik." },
+    { q: "Every summer we ______ go to the seaside.", opcje: ["would", "will", "use to", "were used to"], poprawna: 0, wyjasnienie: "would + V dla powtarzalnych czynności w przeszłości." },
+    { q: "I\'m ______ getting up early.", opcje: ["used to", "use to", "used for", "using to"], poprawna: 0, wyjasnienie: "be used to + -ing." },
+    { q: "I ______ the report by Friday, but I didn\'t.", opcje: ["was to submit", "was to have submitted", "have submitted", "must submit"], poprawna: 1, wyjasnienie: "was to have + III = plan niezrealizowany." },
+    { q: "I wish I ______ French fluently.", opcje: ["spoke", "speak", "had spoken", "would speak"], poprawna: 0, wyjasnienie: "wish + Past Simple = żałuję, że nie (teraz)." }
+  ]
+};
+
+/* ============================================================
+   G3C1 – Future Forms – poziom biegłości
+============================================================ */
+window.LESSON_DATA["G3C1"] = {
+  tytul: "Formy przyszłości – poziom biegłości",
+  poziom: "C1",
+  dzial: "G3",
+  teoria: `
+    <h3>Tekst do zapamiętania</h3>
+    <p class="en" style="display:block; padding:14px 18px; line-height:1.9;">
+      By the time this letter reaches you, I will have been travelling for three months. I\'ll be writing from a small town on the coast of Portugal – you\'ll have to imagine the smell of salt and orange trees. I\'m due to fly home in April, though I may well have run out of money by then. The plan is that I will be staying with my parents until I find a job. It\'s bound to be strange after so long on the road. Whatever happens, one thing is certain – I\'m about to start a completely new chapter of my life.
+    </p>
+
+    <h3>Pogłębione formy przyszłości</h3>
+    <table>
+      <tr><th>Forma</th><th>Użycie</th><th>Przykład</th></tr>
+      <tr><td>will</td><td>decyzja teraz, obietnica, przewidywanie</td><td class="en">I\'ll help you.</td></tr>
+      <tr><td>going to</td><td>zamiar, przewidywanie na podstawie oznak</td><td class="en">Look! It\'s going to rain.</td></tr>
+      <tr><td>Present Continuous</td><td>ustalone plany, umowy</td><td class="en">I\'m meeting Tom at 6.</td></tr>
+      <tr><td>Present Simple</td><td>rozkłady, harmonogramy</td><td class="en">The train leaves at 8.</td></tr>
+      <tr><td>Future Continuous</td><td>czynność w toku, uprzejme pytania</td><td class="en">Will you be using the car tonight?</td></tr>
+      <tr><td>Future Perfect</td><td>zakończone przed momentem</td><td class="en">By 2030 I will have finished.</td></tr>
+      <tr><td>Future Perfect Continuous</td><td>jak długo do momentu</td><td class="en">By June I\'ll have been working here for five years.</td></tr>
+    </table>
+
+    <h3>Be to / Be about to / Be on the point of / Be due to</h3>
+    <table>
+      <tr><th>Konstrukcja</th><th>Znaczenie</th><th>Przykład</th></tr>
+      <tr><td class="en"><b>be to + V</b></td><td>oficjalny plan, zarządzenie</td><td class="en">The President is to visit Paris next week.</td></tr>
+      <tr><td class="en"><b>be about to + V</b></td><td>za chwilę, w tej chwili</td><td class="en">She\'s about to leave.</td></tr>
+      <tr><td class="en"><b>be on the point of + -ing</b></td><td>właśnie ma zamiar</td><td class="en">I\'m on the point of finishing.</td></tr>
+      <tr><td class="en"><b>be due to + V</b></td><td>zgodnie z planem/rozkładem</td><td class="en">I\'m due to fly home in April.</td></tr>
+      <tr><td class="en"><b>be bound to + V</b></td><td>na pewno się zdarzy</td><td class="en">He\'s bound to succeed.</td></tr>
+      <tr><td class="en"><b>be likely / unlikely to + V</b></td><td>prawdopodobnie / raczej nie</td><td class="en">It\'s likely to rain.</td></tr>
+    </table>
+
+    <h3>Formalne formy przyszłości</h3>
+    <table>
+      <tr><td class="en">shall (formalnie / w pytaniach o ofertę)</td><td class="en">Shall I open the window? Shall we begin?</td></tr>
+      <tr><td class="en">will + be + -ing (formalne plany)</td><td class="en">The Minister will be arriving at 10 a.m.</td></tr>
+      <tr><td class="en">will have + III (formalny termin)</td><td class="en">The report will have been submitted by Friday.</td></tr>
+      <tr><td class="en">be to be + III (formalny rozkaz)</td><td class="en">All forms are to be signed in triplicate.</td></tr>
+    </table>
+
+    <h3>Hedging – ostrożne mówienie o przyszłości</h3>
+    <p>W formalnym kontekście często unikamy kategorycznych stwierdzeń:</p>
+    <table>
+      <tr><td class="en">may well + V</td><td>całkiem możliwe, że</td><td class="en">I may well have run out of money.</td></tr>
+      <tr><td class="en">might conceivably + V</td><td>można sobie wyobrazić, że</td><td class="en">It might conceivably happen.</td></tr>
+      <tr><td class="en">I doubt if / whether + V</td><td>wątpię, czy</td><td class="en">I doubt if he\'ll come.</td></tr>
+      <tr><td class="en">I shouldn\'t think + V</td><td>chyba nie</td><td class="en">I shouldn\'t think it will matter.</td></tr>
+      <tr><td class="en">assuming (that) + Present</td><td>zakładając, że</td><td class="en">Assuming you pass, we can celebrate.</td></tr>
+      <tr><td class="en">providing / provided (that)</td><td>pod warunkiem, że</td><td class="en">Providing you pay on time, everything is fine.</td></tr>
+    </table>
+
+    <h3>Future in the past – pogłębione</h3>
+    <table>
+      <tr><td class="en"><b>would + V</b></td><td>przyszłość z perspektywy przeszłości</td><td class="en">He said he would come.</td></tr>
+      <tr><td class="en"><b>was going to + V</b></td><td>zamiar, który się nie zrealizował</td><td class="en">I was going to call you, but I forgot.</td></tr>
+      <tr><td class="en"><b>was to have + III</b></td><td>plan, który się nie zrealizował</td><td class="en">I was to have submitted the report.</td></tr>
+      <tr><td class="en"><b>was on the point of + -ing</b></td><td>już miał coś zrobić</td><td class="en">I was on the point of leaving when he arrived.</td></tr>
+    </table>
+
+    <h3>Zdania czasowe i warunkowe – pogłębione</h3>
+    <p>Po <b>when / before / after / as soon as / until / by the time / the moment / once</b> – Present Simple (nigdy will):</p>
+    <table>
+      <tr><td class="en">By the time this letter reaches you, I will have been travelling for three months. ✅</td></tr>
+      <tr><td class="en">The moment I hear from him, I\'ll let you know. ✅</td></tr>
+      <tr><td class="en">Once you have submitted the form, we\'ll process it. ✅ (Present Perfect – podkreśla zakończenie)</td></tr>
+    </table>
+
+    <h3>Future Continuous – niuanse</h3>
+    <table>
+      <tr><th>Użycie</th><th>Przykład</th></tr>
+      <tr><td>czynność w toku w przyszłości</td><td class="en">This time tomorrow I\'ll be flying to Rome.</td></tr>
+      <tr><td>uprzejme pytanie o plany (nieinwazyjne)</td><td class="en">Will you be using the car tonight?</td></tr>
+      <tr><td>stały porządek, rutyna</td><td class="en">I\'ll be seeing Tom at the meeting anyway.</td></tr>
+      <tr><td>taktowne zapytanie o zamiary</td><td class="en">Will you be coming to the party?</td></tr>
+    </table>
+
+    <div class="tip-box">
+      <b>Zapamiętaj:</b><br>
+      <b>be to</b> = oficjalny plan · <b>be about to</b> = za chwilę · <b>be due to</b> = zgodnie z planem<br>
+      <b>may well / I doubt if</b> – hedging (ostrożne mówienie o przyszłości)<br>
+      <b>Once / The moment / By the time</b> + Present Simple (nie will)
+    </div>
+  `,
+  karta: [
+    { type: "header", text: "A. Wybierz właściwą formę" },
+    { type: "gap", text: '<span class="en">By the time this letter ________ (reach) you, I will have been travelling for three months.</span>', answers: ["reaches"] },
+    { type: "gap", text: '<span class="en">This time tomorrow I ________ (fly) to Rome.</span>', answers: ["will be flying", "\'ll be flying"] },
+    { type: "gap", text: '<span class="en">By April I ________ (work) here for five years.</span>', answers: ["will have been working", "\'ll have been working"] },
+    { type: "gap", text: '<span class="en">The Minister ________ (arrive) at 10 a.m. (formalny plan)</span>', answers: ["will be arriving", "\'ll be arriving"] },
+    { type: "gap", text: '<span class="en">She ________ (about to / leave) – say goodbye!</span>', answers: ["is about to leave", "\'s about to leave"] },
+    { type: "gap", text: '<span class="en">I ________ (due to / fly) home in April.</span>', answers: ["am due to fly", "\'m due to fly"] },
+    { type: "gap", text: '<span class="en">The President ________ (be to / visit) Paris next week.</span>', answers: ["is to visit"] },
+    { type: "gap", text: '<span class="en">It\'s ________ (bound to) be strange after so long on the road.</span>', answers: ["bound to"] },
+    { type: "gap", text: '<span class="en">The project ________ (likely to) be delayed.</span>', answers: ["is likely to", "\'s likely to"] },
+    { type: "header", text: "B. Hedging – ostrożne mówienie" },
+    { type: "gap", text: '<span class="en">I ________ well have run out of money by then.</span>', answers: ["may", "might"] },
+    { type: "gap", text: '<span class="en">I ________ if he will come – he\'s very busy.</span>', answers: ["doubt"] },
+    { type: "gap", text: '<span class="en">I ________ think it will matter.</span>', answers: ["shouldn\'t", "should not"] },
+    { type: "gap", text: '<span class="en">________ you pass, we can celebrate.</span>', answers: ["assuming"] },
+    { type: "gap", text: '<span class="en">________ you pay on time, everything is fine.</span>', answers: ["providing", "provided"] },
+    { type: "header", text: "C. Future in the past" },
+    { type: "gap", text: '<span class="en">He said he ________ (come) later.</span>', answers: ["would come"] },
+    { type: "gap", text: '<span class="en">I ________ (going to / call) you, but I forgot.</span>', answers: ["was going to call"] },
+    { type: "gap", text: '<span class="en">I ________ (to have / submit) the report by Friday, but I didn\'t.</span>', answers: ["was to have submitted"] },
+    { type: "gap", text: '<span class="en">I ________ (on the point of / leave) when he arrived.</span>', answers: ["was on the point of leaving"] },
+    { type: "header", text: "D. Zdania czasowe" },
+    { type: "gap", text: '<span class="en">The moment I ________ (hear) from him, I\'ll let you know.</span>', answers: ["hear"] },
+    { type: "gap", text: '<span class="en">Once you ________ (submit) the form, we\'ll process it.</span>', answers: ["have submitted", "submit"] },
+    { type: "gap", text: '<span class="en">I\'ll wait until you ________ (finish).</span>', answers: ["finish"] },
+    { type: "gap", text: '<span class="en">We\'ll start as soon as everyone ________ (be) ready.</span>', answers: ["is"] },
+    { type: "header", text: "E. Popraw błędy" },
+    { type: "gap", text: '<span class="en">By the time you will read this, I will have left. → ________</span>', answers: ["by the time you read this i will have left", "by the time you read this, i will have left", "by the time you read this i\'ll have left", "by the time you read this, i\'ll have left"], wide: true },
+    { type: "gap", text: '<span class="en">I\'ll call you when I will arrive. → ________</span>', answers: ["i\'ll call you when i arrive", "i\'ll call you when i arrive.", "i will call you when i arrive", "i will call you when i arrive."], wide: true },
+    { type: "gap", text: '<span class="en">The Minister will arrive at 10. → (formalnie)</span>', answers: ["the minister will be arriving at 10", "the minister will be arriving at 10.", "the minister will be arriving at 10 a.m."], wide: true },
+    { type: "gap", text: '<span class="en">I\'m going to call you, but I forgot. → ________</span>', answers: ["i was going to call you but i forgot", "i was going to call you, but i forgot", "i was going to call you, but i forgot."], wide: true },
+    { type: "header", text: "F. Przetłumacz" },
+    { type: "gap", text: '<span class="pl">Zanim ten list do ciebie dotrze, będę podróżować już od trzech miesięcy.</span>', answers: ["by the time this letter reaches you i will have been travelling for three months", "by the time this letter reaches you, i will have been travelling for three months", "by the time this letter reaches you, i\'ll have been travelling for three months"], wide: true },
+    { type: "gap", text: '<span class="pl">Jutro o tej porze będę lecieć do Rzymu.</span>', answers: ["this time tomorrow i will be flying to rome", "this time tomorrow i will be flying to rome.", "this time tomorrow i\'ll be flying to rome", "this time tomorrow i\'ll be flying to rome."], wide: true },
+    { type: "gap", text: '<span class="pl">Zgodnie z planem mam lecieć do domu w kwietniu.</span>', answers: ["i am due to fly home in april", "i am due to fly home in april.", "i\'m due to fly home in april", "i\'m due to fly home in april."], wide: true },
+    { type: "gap", text: '<span class="pl">Możliwe, że do tego czasu skończą mi się pieniądze.</span>', answers: ["i may well have run out of money by then", "i may well have run out of money by then.", "i might well have run out of money by then"], wide: true },
+    { type: "gap", text: '<span class="pl">Wątpię, czy on przyjdzie – jest bardzo zajęty.</span>', answers: ["i doubt if he will come - he is very busy", "i doubt if he will come - he\'s very busy", "i doubt whether he will come - he\'s very busy"], wide: true },
+    { type: "header", text: "G. Napisz" },
+    { type: "open", text: "Napisz list do przyjaciela o swoich planach na najbliższe pół roku. Użyj be due to, be about to, may well, will have been itd.", placeholder: "np. By the time you read this, I will have been... I\'m due to... I may well..." }
+  ],
+  test: [
+    { q: "By the time this letter ______ you, I\'ll have been travelling for months.", opcje: ["will reach", "reaches", "is reaching", "will be reaching"], poprawna: 1, wyjasnienie: "Po 'by the time' → Present Simple." },
+    { q: "This time tomorrow I ______ to Rome.", opcje: ["will fly", "will be flying", "will have flown", "am flying"], poprawna: 1, wyjasnienie: "Czynność w toku w przyszłości → Future Continuous." },
+    { q: "I ______ fly home in April – the tickets are booked.", opcje: ["am due to", "am to", "will to", "am about to"], poprawna: 0, wyjasnienie: "be due to = zgodnie z planem." },
+    { q: "She ______ leave – the taxi is waiting.", opcje: ["is about to", "is due to", "will", "is to"], poprawna: 0, wyjasnienie: "be about to = za chwilę." },
+    { q: "The President ______ visit Paris next week.", opcje: ["is to", "is due", "is about to", "will to"], poprawna: 0, wyjasnienie: "be to + V = oficjalny plan." },
+    { q: "I ______ well have run out of money by then.", opcje: ["may", "must", "should", "will"], poprawna: 0, wyjasnienie: "may well = całkiem możliwe, że." },
+    { q: "I ______ if he\'ll come – he\'s very busy.", opcje: ["doubt", "hope", "think", "believe"], poprawna: 0, wyjasnienie: "I doubt if = wątpię, czy." },
+    { q: "I ______ call you, but I forgot.", opcje: ["was going to", "am going to", "will", "was to"], poprawna: 0, wyjasnienie: "was going to = zamiar, który się nie zrealizował." },
+    { q: "I ______ the report by Friday, but I didn\'t.", opcje: ["was to submit", "was to have submitted", "must submit", "have submitted"], poprawna: 1, wyjasnienie: "was to have + III = plan niezrealizowany." },
+    { q: "The moment I ______ from him, I\'ll let you know.", opcje: ["will hear", "hear", "am hearing", "would hear"], poprawna: 1, wyjasnienie: "Po 'The moment' → Present Simple." }
+  ]
+};
+
+/* ============================================================
+   G4C1 – Modal Verbs – poziom biegłości
+============================================================ */
+window.LESSON_DATA["G4C1"] = {
+  tytul: "Czasowniki modalne – poziom biegłości",
+  poziom: "C1",
+  dzial: "G4",
+  teoria: `
+    <h3>Tekst do zapamiętania</h3>
+    <p class="en" style="display:block; padding:14px 18px; line-height:1.9;">
+      She needn\'t have worried so much – everything turned out fine in the end. Still, I can see why she might have been anxious; she must have felt under enormous pressure. I should have reassured her earlier, but I was too caught up in my own problems. You can\'t blame her for wanting some certainty. One might argue that she overreacted, but I don\'t think that\'s fair. We\'re all capable of behaving irrationally when we\'re stressed. She\'d better take some time off – she\'ll make herself ill otherwise. I dare say she\'ll come round eventually.
+    </p>
+
+    <h3>Modal perfect – pogłębione znaczenia</h3>
+    <table>
+      <tr><th>Konstrukcja</th><th>Znaczenie</th><th>Przykład</th></tr>
+      <tr><td class="en">must have + III</td><td>na pewno tak było (dedukcja)</td><td class="en">She must have missed the train.</td></tr>
+      <tr><td class="en">can\'t have + III</td><td>na pewno tak nie było</td><td class="en">He can\'t have said that!</td></tr>
+      <tr><td class="en">might / may / could have + III</td><td>możliwe, że tak było</td><td class="en">She might have forgotten.</td></tr>
+      <tr><td class="en">should have + III</td><td>powinien był (krytyka, żal)</td><td class="en">You should have told me.</td></tr>
+      <tr><td class="en">shouldn\'t have + III</td><td>nie powinien był</td><td class="en">I shouldn\'t have said that.</td></tr>
+      <tr><td class="en">could have + III</td><td>mógł (ale nie zrobił) / możliwe</td><td class="en">We could have won.</td></tr>
+      <tr><td class="en">needn\'t have + III</td><td>nie było potrzeby, a zrobił</td><td class="en">You needn\'t have come.</td></tr>
+      <tr><td class="en">would have + III</td><td>zrobiłby (III conditional)</td><td class="en">I would have helped if I\'d known.</td></tr>
+    </table>
+
+    <h3>Needn\'t have vs Didn\'t need to – różnica</h3>
+    <table>
+      <tr><th>Konstrukcja</th><th>Znaczenie</th><th>Przykład</th></tr>
+      <tr><td class="en"><b>needn\'t have + III</b></td><td>zrobił coś, ale nie było potrzeby</td><td class="en">You needn\'t have cooked – we\'d already eaten.</td></tr>
+      <tr><td class="en"><b>didn\'t need to + V</b></td><td>nie zrobił (bo nie było potrzeby)</td><td class="en">I didn\'t need to cook – we ordered pizza.</td></tr>
+    </table>
+
+    <h3>Modalne dla krytyki i dezaprobaty</h3>
+    <table>
+      <tr><td class="en">You <b>could have</b> told me! <span class="pl">(wyrzut)</span></td></tr>
+      <tr><td class="en">You <b>might have</b> warned me! <span class="pl">(oburzenie)</span></td></tr>
+      <tr><td class="en">You <b>should have</b> been more careful. <span class="pl">(krytyka)</span></td></tr>
+      <tr><td class="en">You <b>might at least have</b> apologised. <span class="pl">(wyrzut)</span></td></tr>
+    </table>
+
+    <h3>Modalne dla dedukcji – pogłębione</h3>
+    <table>
+      <tr><th>Pewność</th><th>Forma</th><th>Przykład</th></tr>
+      <tr><td>99% tak</td><td class="en">must</td><td class="en">He must be at work.</td></tr>
+      <tr><td>99% nie</td><td class="en">can\'t</td><td class="en">He can\'t be serious.</td></tr>
+      <tr><td>75% tak</td><td class="en">should / ought to</td><td class="en">He should be home by now.</td></tr>
+      <tr><td>50% tak</td><td class="en">may / might / could</td><td class="en">He may be on his way.</td></tr>
+      <tr><td>50% nie</td><td class="en">may / might not</td><td class="en">He might not have heard.</td></tr>
+      <tr><td>zaskoczenie</td><td class="en">can / could (pytanie)</td><td class="en">Can it really be true?</td></tr>
+    </table>
+
+    <h3>Formalne modalne – akademicki i urzędowy styl</h3>
+    <table>
+      <tr><td class="en">The results <b>should not be regarded as</b> conclusive.</td></tr>
+      <tr><td class="en">It <b>may be assumed that</b> the data is accurate.</td></tr>
+      <tr><td class="en">The applicant <b>shall be required to</b> submit three references.</td></tr>
+      <tr><td class="en">Regulations <b>must be complied with</b> at all times.</td></tr>
+      <tr><td class="en">Visitors <b>are not permitted to</b> smoke on the premises.</td></tr>
+    </table>
+
+    <h3>Dare / Need / Had better / Would rather</h3>
+    <table>
+      <tr><th>Konstrukcja</th><th>Znaczenie</th><th>Przykład</th></tr>
+      <tr><td class="en">I <b>dare say</b> + V</td><td>śmiem twierdzić, że</td><td class="en">I dare say she\'ll come round.</td></tr>
+      <tr><td class="en">I <b>daren\'t</b> + V</td><td>nie śmiem</td><td class="en">I daren\'t tell her the truth.</td></tr>
+      <tr><td class="en">You <b>needn\'t</b> + V</td><td>nie musisz</td><td class="en">You needn\'t come tomorrow.</td></tr>
+      <tr><td class="en">You <b>had better</b> + V</td><td>lepiej byś (silna rada)</td><td class="en">You\'d better take some time off.</td></tr>
+      <tr><td class="en">I <b>would rather</b> + V</td><td>wolałbym</td><td class="en">I\'d rather stay home tonight.</td></tr>
+      <tr><td class="en">I <b>would sooner</b> + V</td><td>wolałbym (literacko)</td><td class="en">I\'d sooner not discuss it.</td></tr>
+    </table>
+
+    <h3>Modalne dla przyzwolenia / zakazu / obowiązku – formalnie</h3>
+    <table>
+      <tr><td class="en">be permitted to</td><td>mieć pozwolenie</td><td class="en">Visitors are permitted to park here.</td></tr>
+      <tr><td class="en">be allowed to</td><td>mieć pozwolenie (neutralnie)</td><td class="en">We\'re allowed to leave early on Fridays.</td></tr>
+      <tr><td class="en">be prohibited / forbidden</td><td>być zabronionym</td><td class="en">Smoking is strictly prohibited.</td></tr>
+      <tr><td class="en">be obliged / required to</td><td>być zobowiązanym</td><td class="en">You are required to wear a seat belt.</td></tr>
+      <tr><td class="en">be supposed to</td><td>mieć coś zrobić (oczekiwanie)</td><td class="en">You\'re supposed to call me when you\'re late.</td></tr>
+    </table>
+
+    <h3>Modalne dla spekulacji w przyszłości</h3>
+    <table>
+      <tr><td class="en">may / might / could well + V</td><td class="en">She may well become the next director.</td></tr>
+      <tr><td class="en">must surely + V</td><td class="en">He must surely realise by now.</td></tr>
+      <tr><td class="en">can hardly + V</td><td class="en">They can hardly expect us to agree.</td></tr>
+      <tr><td class="en">could conceivably + V</td><td class="en">It could conceivably happen.</td></tr>
+    </table>
+
+    <div class="tip-box">
+      <b>Zapamiętaj:</b><br>
+      <b>needn\'t have done</b> = zrobił, a nie było potrzeby<br>
+      <b>didn\'t need to do</b> = nie zrobił, bo nie było potrzeby<br>
+      <b>could/might have done</b> – wyraża wyrzut: <span class="en">You could have told me!</span><br>
+      <b>had better</b> + V (bez to) – silna rada
+    </div>
+  `,
+  karta: [
+    { type: "header", text: "A. Modal perfect – uzupełnij" },
+    { type: "gap", text: '<span class="en">She ________ (must / miss) the train – she isn\'t here yet.</span>', answers: ["must have missed"] },
+    { type: "gap", text: '<span class="en">He ________ (can\'t / say) that – it\'s not like him.</span>', answers: ["can\'t have said", "cannot have said"] },
+    { type: "gap", text: '<span class="en">She ________ (might / forget) – I\'ll call her.</span>', answers: ["might have forgotten", "may have forgotten", "could have forgotten"] },
+    { type: "gap", text: '<span class="en">You ________ (should / tell) me earlier!</span>', answers: ["should have told"] },
+    { type: "gap", text: '<span class="en">I ________ (shouldn\'t / say) that – I regret it.</span>', answers: ["shouldn\'t have said", "should not have said"] },
+    { type: "gap", text: '<span class="en">We ________ (could / win), but we played badly.</span>', answers: ["could have won"] },
+    { type: "gap", text: '<span class="en">You ________ (needn\'t / come) – everything was fine.</span>', answers: ["needn\'t have come", "need not have come"] },
+    { type: "header", text: "B. Needn\'t have vs Didn\'t need to" },
+    { type: "gap", text: '<span class="en">You ________ (needn\'t / cook) – we\'d already eaten. (a ugotowałaś)</span>', answers: ["needn\'t have cooked", "need not have cooked"] },
+    { type: "gap", text: '<span class="en">I ________ (not need / cook) – we ordered pizza. (i nie gotowałam)</span>', answers: ["didn\'t need to cook", "did not need to cook"] },
+    { type: "gap", text: '<span class="en">She ________ (needn\'t / worry) – everything turned out fine.</span>', answers: ["needn\'t have worried", "need not have worried"] },
+    { type: "header", text: "C. Krytyka, wyrzut, dezaprobata" },
+    { type: "gap", text: '<span class="en">You ________ (could / tell) me! (wyrzut)</span>', answers: ["could have told"] },
+    { type: "gap", text: '<span class="en">You ________ (might / warn) me! (oburzenie)</span>', answers: ["might have warned"] },
+    { type: "gap", text: '<span class="en">You ________ (should / be) more careful. (krytyka)</span>', answers: ["should have been"] },
+    { type: "gap", text: '<span class="en">You might at least ________ (apologise). (wyrzut)</span>', answers: ["have apologised", "have apologized"] },
+    { type: "header", text: "D. Dedukcja – wybierz właściwy modal" },
+    { type: "gap", text: '<span class="en">He ________ be at work – his car is in the car park.</span>', answers: ["must"] },
+    { type: "gap", text: '<span class="en">She ________ be serious – that\'s absurd!</span>', answers: ["can\'t", "cannot"] },
+    { type: "gap", text: '<span class="en">They ________ be home by now – they left hours ago.</span>', answers: ["should", "ought to"] },
+    { type: "gap", text: '<span class="en">He ________ be on his way – I\'m not sure.</span>', answers: ["may", "might", "could"] },
+    { type: "header", text: "E. Formalne modalne – uzupełnij" },
+    { type: "gap", text: '<span class="en">The results ________ not be regarded as conclusive.</span>', answers: ["should"] },
+    { type: "gap", text: '<span class="en">It ________ be assumed that the data is accurate.</span>', answers: ["may", "might"] },
+    { type: "gap", text: '<span class="en">Visitors are not ________ to smoke on the premises.</span>', answers: ["permitted", "allowed"] },
+    { type: "gap", text: '<span class="en">Smoking is strictly ________ here.</span>', answers: ["prohibited", "forbidden"] },
+    { type: "gap", text: '<span class="en">You are ________ to wear a seat belt.</span>', answers: ["required", "obliged"] },
+    { type: "header", text: "F. Popraw błędy" },
+    { type: "gap", text: '<span class="en">She must have went home. → ________</span>', answers: ["she must have gone home", "she must have gone home."], wide: true },
+    { type: "gap", text: '<span class="en">You should have came earlier. → ________</span>', answers: ["you should have come earlier", "you should have come earlier."], wide: true },
+    { type: "gap", text: '<span class="en">You needn\'t to have worried. → ________</span>', answers: ["you needn\'t have worried", "you needn\'t have worried.", "you need not have worried"], wide: true },
+    { type: "gap", text: '<span class="en">I\'d better to take some time off. → ________</span>', answers: ["i\'d better take some time off", "i\'d better take some time off.", "i had better take some time off"], wide: true },
+    { type: "gap", text: '<span class="en">You could have told me! (wyrzut) → (poprawnie po angielsku)</span>', answers: ["you could have told me", "you could have told me!"], wide: true },
+    { type: "header", text: "G. Przetłumacz" },
+    { type: "gap", text: '<span class="pl">Niepotrzebnie się martwiła – wszystko dobrze się skończyło.</span>', answers: ["she needn\'t have worried - everything turned out fine", "she needn\'t have worried - everything turned out fine.", "she need not have worried - everything turned out fine", "she didn\'t need to worry - everything turned out fine"], wide: true },
+    { type: "gap", text: '<span class="pl">Musiała czuć ogromną presję.</span>', answers: ["she must have felt under enormous pressure", "she must have felt under enormous pressure."], wide: true },
+    { type: "gap", text: '<span class="pl">Powinienem był ją wcześniej uspokoić.</span>', answers: ["i should have reassured her earlier", "i should have reassured her earlier."], wide: true },
+    { type: "gap", text: '<span class="pl">Mogłeś mi powiedzieć! (wyrzut)</span>', answers: ["you could have told me", "you could have told me!", "you might have told me", "you might have told me!"], wide: true },
+    { type: "gap", text: '<span class="pl">Lepiej weź trochę wolnego.</span>', answers: ["you\'d better take some time off", "you\'d better take some time off.", "you had better take some time off", "you had better take some time off."], wide: true },
+    { type: "header", text: "H. Napisz" },
+    { type: "open", text: "Opisz sytuację, w której ktoś niepotrzebnie się czymś przejmował. Użyj konstrukcji: needn\'t have, must have, should have, might have.", placeholder: "np. My friend needn\'t have worried because... She must have felt... I should have..." }
+  ],
+  test: [
+    { q: "She ______ the train – she isn\'t here yet.", opcje: ["must miss", "must have missed", "must missed", "must has missed"], poprawna: 1, wyjasnienie: "Dedukcja o przeszłości → must have + III." },
+    { q: "He ______ said that – it\'s not like him.", opcje: ["can\'t have", "mustn\'t have", "couldn\'t have", "shouldn\'t have"], poprawna: 0, wyjasnienie: "Na pewno nie → can\'t have + III." },
+    { q: "You ______ told me earlier!", opcje: ["should have", "should has", "should had", "should have been"], poprawna: 0, wyjasnienie: "should have + III = wyrzut, żal." },
+    { q: "I ______ said that – I really regret it.", opcje: ["shouldn\'t have", "mustn\'t have", "couldn\'t have", "needn\'t have"], poprawna: 0, wyjasnienie: "Żal → shouldn\'t have + III." },
+    { q: "You ______ come – everything was fine.", opcje: ["needn\'t have", "mustn\'t have", "shouldn\'t have", "couldn\'t have"], poprawna: 0, wyjasnienie: "Zrobił a nie było potrzeby → needn\'t have + III." },
+    { q: "I ______ cook – we ordered pizza.", opcje: ["needn\'t have", "didn\'t need to", "mustn\'t have", "shouldn\'t have"], poprawna: 1, wyjasnienie: "Nie zrobił, bo nie było potrzeby → didn\'t need to + V." },
+    { q: "You ______ me! (wyrzut)", opcje: ["could have told", "could told", "could have tell", "could to tell"], poprawna: 0, wyjasnienie: "could have + III = wyrzut." },
+    { q: "He ______ be at work – his car is in the car park.", opcje: ["must", "can\'t", "might", "should"], poprawna: 0, wyjasnienie: "Dedukcja teraz, pewność → must." },
+    { q: "You\'d better ______ some time off.", opcje: ["take", "to take", "taking", "took"], poprawna: 0, wyjasnienie: "had better + V (bez to)." },
+    { q: "Visitors are not ______ to smoke on the premises.", opcje: ["permitted", "permit", "permitting", "permission"], poprawna: 0, wyjasnienie: "be permitted to – formalne." }
+  ]
+};
+
+
+/* ============================================================
+   G5C1 – Conditionals – poziom biegłości
+============================================================ */
+window.LESSON_DATA["G5C1"] = {
+  tytul: "Okresy warunkowe – poziom biegłości",
+  poziom: "C1",
+  dzial: "G5",
+  teoria: `
+    <h3>Tekst do zapamiętania</h3>
+    <p class="en" style="display:block; padding:14px 18px; line-height:1.9;">
+      Had it not been for my mentor\'s advice, I would never have applied for the scholarship. But for her encouragement, I would still be stuck in a job I hated. Were I to start all over again, I would make the same choices – only sooner. Supposing you were offered a place at Oxford, would you take it? Unless you\'re absolutely certain, I\'d suggest thinking about it carefully. But for the fact that my family lives here, I would probably have moved abroad years ago. Given the circumstances, I think we did the best we could.
+    </p>
+
+    <h3>Trzy okresy warunkowe – przypomnienie</h3>
+    <table>
+      <tr><th>Typ</th><th>Budowa</th><th>Znaczenie</th></tr>
+      <tr><td>Zero</td><td class="en">If + Present, Present</td><td>fakt, prawda ogólna</td></tr>
+      <tr><td>First</td><td class="en">If + Present, will + V</td><td>realna przyszłość</td></tr>
+      <tr><td>Second</td><td class="en">If + Past, would + V</td><td>hipoteza teraźniejsza</td></tr>
+      <tr><td>Third</td><td class="en">If + Past Perfect, would have + III</td><td>żal o przeszłość</td></tr>
+    </table>
+
+    <h3>Mixed conditionals – pogłębione</h3>
+    <table>
+      <tr><th>Typ</th><th>Budowa</th><th>Przykład</th></tr>
+      <tr>
+        <td>Przeszłość → teraźniejszość</td>
+        <td class="en">If + Past Perfect, would + V</td>
+        <td class="en">If I had studied medicine, I would be a doctor now.</td>
+      </tr>
+      <tr>
+        <td>Teraźniejszość → przeszłość</td>
+        <td class="en">If + Past, would have + III</td>
+        <td class="en">If I were braver, I would have spoken up.</td>
+      </tr>
+      <tr>
+        <td>Przeszłość → przyszłość</td>
+        <td class="en">If + Past Perfect, would be going to + V</td>
+        <td class="en">If he had accepted the offer, he would be moving to Berlin next month.</td>
+      </tr>
+    </table>
+
+    <h3>Formalne warianty "if"</h3>
+    <table>
+      <tr><th>Konstrukcja</th><th>Znaczenie</th><th>Przykład</th></tr>
+      <tr><td class="en"><b>Had it not been for</b> + N</td><td>gdyby nie</td><td class="en">Had it not been for her help, I would have failed.</td></tr>
+      <tr><td class="en"><b>But for</b> + N</td><td>gdyby nie (formalnie)</td><td class="en">But for the rain, we would have arrived on time.</td></tr>
+      <tr><td class="en"><b>Were it not for</b> + N</td><td>gdyby nie (o teraz)</td><td class="en">Were it not for you, I wouldn\'t be here.</td></tr>
+      <tr><td class="en"><b>If it were not for</b> + N</td><td>gdyby nie (o teraz)</td><td class="en">If it weren\'t for the traffic, I would be there.</td></tr>
+      <tr><td class="en"><b>Were I to</b> + V</td><td>gdybym miał (formalnie)</td><td class="en">Were I to start again, I would do the same.</td></tr>
+      <tr><td class="en"><b>Should you</b> + V</td><td>gdybyś (uprzejmie)</td><td class="en">Should you need anything, let me know.</td></tr>
+    </table>
+
+    <h3>Alternatywy dla if – pogłębione</h3>
+    <table>
+      <tr><td class="en"><b>unless</b> = if not</td><td class="en">Unless you hurry, you\'ll be late.</td></tr>
+      <tr><td class="en"><b>provided / providing (that)</b> = pod warunkiem</td><td class="en">I\'ll help, provided you ask nicely.</td></tr>
+      <tr><td class="en"><b>as long as</b> = dopóki, o ile</td><td class="en">You can stay as long as you\'re quiet.</td></tr>
+      <tr><td class="en"><b>on condition that</b> = pod warunkiem, że</td><td class="en">I\'ll lend it on condition that you return it.</td></tr>
+      <tr><td class="en"><b>suppose / supposing</b> = przypuśćmy, że</td><td class="en">Suppose you won the lottery, what would you do?</td></tr>
+      <tr><td class="en"><b>what if</b> = co jeśli</td><td class="en">What if they don\'t come?</td></tr>
+      <tr><td class="en"><b>otherwise</b> = w przeciwnym razie</td><td class="en">Hurry up, otherwise we\'ll miss it.</td></tr>
+      <tr><td class="en"><b>in case</b> = na wypadek gdyby</td><td class="en">Take an umbrella in case it rains.</td></tr>
+      <tr><td class="en"><b>given (that)</b> = biorąc pod uwagę, że</td><td class="en">Given the circumstances, I think we did well.</td></tr>
+    </table>
+
+    <h3>Wish / If only – pogłębione</h3>
+    <table>
+      <tr><th>Konstrukcja</th><th>Znaczenie</th><th>Przykład</th></tr>
+      <tr><td class="en">wish / if only + Past Simple</td><td>żal o teraźniejszość</td><td class="en">I wish I knew the answer.</td></tr>
+      <tr><td class="en">wish / if only + Past Perfect</td><td>żal o przeszłość</td><td class="en">I wish I had studied harder.</td></tr>
+      <tr><td class="en">wish / if only + would + V</td><td>irytacja, życzenie zmiany</td><td class="en">I wish you would stop interrupting.</td></tr>
+      <tr><td class="en">wish + were</td><td>żal (formalnie)</td><td class="en">I wish it were summer.</td></tr>
+    </table>
+
+    <h3>Unreal past w innych strukturach</h3>
+    <table>
+      <tr><td class="en"><b>It\'s (high) time</b> + Past</td><td class="en">It\'s high time you found a job.</td></tr>
+      <tr><td class="en"><b>I\'d rather / sooner</b> + Past</td><td class="en">I\'d rather you didn\'t tell anyone.</td></tr>
+      <tr><td class="en"><b>As if / as though</b> + Past</td><td class="en">He talks as if he knew everything.</td></tr>
+      <tr><td class="en"><b>As if / as though</b> + Past Perfect</td><td class="en">He looked as if he had seen a ghost.</td></tr>
+    </table>
+
+    <div class="tip-box">
+      <b>Zapamiętaj:</b><br>
+      <b>Had it not been for</b> / <b>But for</b> / <b>Were it not for</b> = gdyby nie<br>
+      <b>Were I to</b> + V – formalne "gdybym"<br>
+      <b>Should you</b> + V – uprzejme "gdybyś"
+    </div>
+  `,
+  karta: [
+    { type: "header", text: "A. Uzupełnij formalną formę warunku" },
+    { type: "gap", text: '<span class="en">________ it not been for her help, I would have failed. (inwersja)</span>', answers: ["had"] },
+    { type: "gap", text: '<span class="en">________ for the rain, we would have arrived on time. (bez = gdyby nie)</span>', answers: ["but"] },
+    { type: "gap", text: '<span class="en">________ it not for you, I wouldn\'t be here. (formalnie, o teraz)</span>', answers: ["were"] },
+    { type: "gap", text: '<span class="en">________ I to start again, I would do the same.</span>', answers: ["were"] },
+    { type: "gap", text: '<span class="en">________ you need anything, let me know. (formalnie)</span>', answers: ["should"] },
+    { type: "header", text: "B. Mixed conditionals" },
+    { type: "gap", text: '<span class="en">If I ________ (study) medicine, I ________ (be) a doctor now.</span>', answers: ["had studied, would be"] },
+    { type: "gap", text: '<span class="en">If I ________ (be) braver, I ________ (speak) up yesterday.</span>', answers: ["were, would have spoken"] },
+    { type: "gap", text: '<span class="en">If he ________ (accept) the offer, he ________ (be moving) to Berlin next month.</span>', answers: ["had accepted, would be moving"] },
+    { type: "gap", text: '<span class="en">If she ________ (not / miss) the flight, she ________ (be) here with us.</span>', answers: ["hadn\'t missed, would be", "had not missed, would be"] },
+    { type: "header", text: "C. Alternatywy dla if" },
+    { type: "gap", text: '<span class="en">________ you hurry, you\'ll be late.</span>', answers: ["unless"] },
+    { type: "gap", text: '<span class="en">I\'ll help you ________ you ask nicely.</span>', answers: ["provided", "providing", "as long as"] },
+    { type: "gap", text: '<span class="en">I\'ll lend it to you ________ condition that you return it.</span>', answers: ["on"] },
+    { type: "gap", text: '<span class="en">Hurry up – ________ we\'ll miss the bus.</span>', answers: ["otherwise"] },
+    { type: "gap", text: '<span class="en">Take an umbrella ________ it rains.</span>', answers: ["in case"] },
+    { type: "gap", text: '<span class="en">________ the circumstances, I think we did well.</span>', answers: ["given"] },
+    { type: "header", text: "D. Wish / If only" },
+    { type: "gap", text: '<span class="en">I wish I ________ (know) the answer.</span>', answers: ["knew"] },
+    { type: "gap", text: '<span class="en">I wish I ________ (study) harder when I was younger.</span>', answers: ["had studied"] },
+    { type: "gap", text: '<span class="en">I wish you ________ (stop) interrupting!</span>', answers: ["would stop"] },
+    { type: "gap", text: '<span class="en">If only it ________ (be) summer!</span>', answers: ["were", "was"] },
+    { type: "gap", text: '<span class="en">He talks as if he ________ (know) everything.</span>', answers: ["knew"] },
+    { type: "gap", text: '<span class="en">He looked as if he ________ (see) a ghost.</span>', answers: ["had seen"] },
+    { type: "header", text: "E. Popraw błędy" },
+    { type: "gap", text: '<span class="en">If I would have known, I would have told you. → ________</span>', answers: ["if i had known i would have told you", "if i had known, i would have told you", "if i had known, i would have told you."], wide: true },
+    { type: "gap", text: '<span class="en">But for she helped me, I would have failed. → ________</span>', answers: ["but for her help i would have failed", "but for her help, i would have failed", "but for her help, i would have failed."], wide: true },
+    { type: "gap", text: '<span class="en">If I was you, I would apologise. → ________</span>', answers: ["if i were you i would apologise", "if i were you, i would apologise", "if i were you i would apologize", "if i were you, i would apologize"], wide: true },
+    { type: "gap", text: '<span class="en">I wish I would know the answer. → ________</span>', answers: ["i wish i knew the answer", "i wish i knew the answer."], wide: true },
+    { type: "header", text: "F. Przetłumacz" },
+    { type: "gap", text: '<span class="pl">Gdyby nie jej pomoc, poniósłbym porażkę.</span>', answers: ["had it not been for her help i would have failed", "had it not been for her help, i would have failed", "but for her help i would have failed", "but for her help, i would have failed"], wide: true },
+    { type: "gap", text: '<span class="pl">Gdybym studiował medycynę, byłbym teraz lekarzem.</span>', answers: ["if i had studied medicine i would be a doctor now", "if i had studied medicine, i would be a doctor now", "if i had studied medicine, i would be a doctor now."], wide: true },
+    { type: "gap", text: '<span class="pl">Gdybym zaczynał od nowa, zrobiłbym to samo.</span>', answers: ["were i to start again i would do the same", "were i to start again, i would do the same", "were i to start again, i would do the same."], wide: true },
+    { type: "gap", text: '<span class="pl">Gdybyś czegoś potrzebował, daj mi znać.</span>', answers: ["should you need anything let me know", "should you need anything, let me know", "should you need anything, let me know."], wide: true },
+    { type: "gap", text: '<span class="pl">Żałuję, że nie uczyłem się pilniej.</span>', answers: ["i wish i had studied harder", "i wish i had studied harder.", "i wish i\'d studied harder", "i wish i\'d studied harder."], wide: true },
+    { type: "header", text: "G. Napisz" },
+    { type: "open", text: "Napisz 5 zdań z refleksją nad przeszłością i hipotezami. Użyj mixed conditionals i formalnych form (Had it not been for, But for, Were I to...).", placeholder: "np. Had it not been for..., I would... If I had..., I would be... now." }
+  ],
+  test: [
+    { q: "______ it not been for her help, I would have failed.", opcje: ["If", "Had", "Were", "Should"], poprawna: 1, wyjasnienie: "Had it not been for = gdyby nie (inwersja)." },
+    { q: "______ for the rain, we would have arrived on time.", opcje: ["Except", "But", "If", "Save"], poprawna: 1, wyjasnienie: "But for = gdyby nie (formalnie)." },
+    { q: "______ I to start again, I would do the same.", opcje: ["If", "Were", "Should", "Had"], poprawna: 1, wyjasnienie: "Were I to + V = gdybym miał (formalnie)." },
+    { q: "______ you need anything, let me know.", opcje: ["If", "Should", "Were", "Had"], poprawna: 1, wyjasnienie: "Should you + V = gdybyś (formalnie)." },
+    { q: "If I ______ medicine, I would be a doctor now.", opcje: ["studied", "had studied", "would study", "study"], poprawna: 1, wyjasnienie: "Mixed: przeszłość → teraźniejszość." },
+    { q: "If I ______ braver, I would have spoken up.", opcje: ["were", "had been", "would be", "am"], poprawna: 0, wyjasnienie: "Mixed: teraźniejszość → przeszłość." },
+    { q: "I\'ll help you ______ you ask nicely.", opcje: ["unless", "provided", "in case", "otherwise"], poprawna: 1, wyjasnienie: "provided = pod warunkiem, że." },
+    { q: "I wish I ______ the answer.", opcje: ["know", "knew", "had known", "would know"], poprawna: 1, wyjasnienie: "wish + Past Simple = żal o teraźniejszość." },
+    { q: "He talks as if he ______ everything.", opcje: ["knows", "knew", "had known", "would know"], poprawna: 1, wyjasnienie: "as if + Past = nierzeczywiste teraz." },
+    { q: "Które zdanie jest poprawne?", opcje: ["If I would have known, I would have told you.", "If I had known, I would have told you.", "If I have known, I would have told you.", "If I knew, I would have told you."], poprawna: 1, wyjasnienie: "III conditional: If + Past Perfect, would have + III." }
+  ]
+};
+
+/* ============================================================
+   G6C1 – Reported Speech – poziom biegłości
+============================================================ */
+window.LESSON_DATA["G6C1"] = {
+  tytul: "Mowa zależna – poziom biegłości",
+  poziom: "C1",
+  dzial: "G6",
+  teoria: `
+    <h3>Tekst do zapamiętania</h3>
+    <p class="en" style="display:block; padding:14px 18px; line-height:1.9;">
+      My manager asked me whether I would be prepared to relocate to the Berlin office. I replied that I would need to think about it. She suggested that we meet again the following week and promised to send me the details in writing. Later, a colleague warned me not to rush into a decision. She reminded me that she had turned down a similar offer years ago and had regretted it ever since. I admitted that she had a point. I told her I\'d rather take a few days to weigh up the pros and cons before giving my answer.
+    </p>
+
+    <h3>Zmiana czasów – pogłębione</h3>
+    <table>
+      <tr><th>Direct</th><th>Reported</th></tr>
+      <tr><td class="en">Present Simple</td><td class="en">Past Simple</td></tr>
+      <tr><td class="en">Present Continuous</td><td class="en">Past Continuous</td></tr>
+      <tr><td class="en">Present Perfect</td><td class="en">Past Perfect</td></tr>
+      <tr><td class="en">Past Simple</td><td class="en">Past Perfect</td></tr>
+      <tr><td class="en">Past Continuous</td><td class="en">Past Perfect Continuous</td></tr>
+      <tr><td class="en">will</td><td class="en">would</td></tr>
+      <tr><td class="en">can</td><td class="en">could</td></tr>
+      <tr><td class="en">may</td><td class="en">might</td></tr>
+      <tr><td class="en">must</td><td class="en">had to / must</td></tr>
+      <tr><td class="en">shall</td><td class="en">should / would</td></tr>
+      <tr><td class="en">would / could / should / might</td><td>bez zmian</td></tr>
+    </table>
+
+    <h3>Kiedy NIE cofamy czasów?</h3>
+    <table>
+      <tr><th>Sytuacja</th><th>Przykład</th></tr>
+      <tr><td>Wciąż prawda</td><td class="en">He said he <b>is</b> a vegetarian. (nadal jest)</td></tr>
+      <tr><td>Prawda ogólna / naukowa</td><td class="en">She said water <b>boils</b> at 100°C.</td></tr>
+      <tr><td>Czasownik wprowadzający w Present</td><td class="en">He says he <b>is</b> tired.</td></tr>
+      <tr><td>Dopiero co powiedziane</td><td class="en">She just told me she <b>wants</b> to come.</td></tr>
+      <tr><td>Powtarzające się zdarzenia</td><td class="en">He said he <b>goes</b> to the gym every day.</td></tr>
+    </table>
+
+    <h3>Reporting verbs – konstrukcje C1</h3>
+    <table>
+      <tr><th>Verb</th><th>Konstrukcja</th><th>Przykład</th></tr>
+      <tr><td class="en">admit / deny</td><td>+ -ing</td><td class="en">He admitted breaking the vase.</td></tr>
+      <tr><td class="en">accuse sb of</td><td>+ -ing</td><td class="en">She accused him of lying.</td></tr>
+      <tr><td class="en">insist on</td><td>+ -ing</td><td class="en">He insisted on paying.</td></tr>
+      <tr><td class="en">congratulate sb on</td><td>+ -ing</td><td class="en">I congratulated her on passing.</td></tr>
+      <tr><td class="en">blame sb for</td><td>+ -ing</td><td class="en">She blamed me for ruining the evening.</td></tr>
+      <tr><td class="en">apologise for</td><td>+ -ing</td><td class="en">He apologised for being late.</td></tr>
+      <tr><td class="en">suggest</td><td>+ -ing / + that + V (bez should)</td><td class="en">She suggested that we leave early.</td></tr>
+      <tr><td class="en">recommend</td><td>+ -ing / + that + V</td><td class="en">I recommend taking the train.</td></tr>
+      <tr><td class="en">insist</td><td>+ that + V (bez should)</td><td class="en">He insisted that I stay.</td></tr>
+      <tr><td class="en">demand</td><td>+ that + V</td><td class="en">They demanded that he resign.</td></tr>
+      <tr><td class="en">threaten / promise / refuse</td><td>+ to + V</td><td class="en">He threatened to leave.</td></tr>
+      <tr><td class="en">advise / warn / remind</td><td>+ sb + to + V</td><td class="en">I advised her to wait.</td></tr>
+      <tr><td class="en">offer / agree / volunteer</td><td>+ to + V</td><td class="en">She offered to help.</td></tr>
+      <tr><td class="en">claim / pretend</td><td>+ to + V</td><td class="en">He claimed to have seen a UFO.</td></tr>
+    </table>
+
+    <h3>Reported questions – pogłębione</h3>
+    <table>
+      <tr><th>Typ</th><th>Direct</th><th>Reported</th></tr>
+      <tr><td>Yes/No</td><td class="en">"Are you coming?"</td><td class="en">She asked if / whether I was coming.</td></tr>
+      <tr><td>Wh-</td><td class="en">"Where did you go?"</td><td class="en">He asked where I had gone.</td></tr>
+      <tr><td>Question tags</td><td class="en">"You\'re Polish, aren\'t you?"</td><td class="en">He asked if I was Polish.</td></tr>
+      <tr><td>Short answers</td><td class="en">"Yes, I do."</td><td class="en">She said (that) she did.</td></tr>
+    </table>
+
+    <h3>Reported commands – pogłębione</h3>
+    <table>
+      <tr><th>Direct</th><th>Reported</th></tr>
+      <tr><td class="en">"Close the door."</td><td class="en">He told me to close the door.</td></tr>
+      <tr><td class="en">"Don\'t touch it."</td><td class="en">She told me not to touch it.</td></tr>
+      <tr><td class="en">"Please help me."</td><td class="en">He asked me to help him.</td></tr>
+      <tr><td class="en">"Would you mind waiting?"</td><td class="en">She asked me to wait.</td></tr>
+      <tr><td class="en">"Let\'s go."</td><td class="en">He suggested going / suggested that we go.</td></tr>
+    </table>
+
+    <h3>Zmiana określeń czasu i miejsca</h3>
+    <table>
+      <tr><td class="en">now → then / at that time</td></tr>
+      <tr><td class="en">today → that day</td></tr>
+      <tr><td class="en">tomorrow → the next day / the following day</td></tr>
+      <tr><td class="en">yesterday → the day before / the previous day</td></tr>
+      <tr><td class="en">next week → the following week</td></tr>
+      <tr><td class="en">last week → the week before</td></tr>
+      <tr><td class="en">here → there</td></tr>
+      <tr><td class="en">this → that</td></tr>
+      <tr><td class="en">these → those</td></tr>
+      <tr><td class="en">ago → before</td></tr>
+    </table>
+
+    <h3>Formal reported speech – media, nauka, urzędy</h3>
+    <table>
+      <tr><td class="en">The Minister <b>stated that</b> the reforms would come into effect next year.</td></tr>
+      <tr><td class="en">Researchers <b>reported that</b> the drug had shown promising results.</td></tr>
+      <tr><td class="en">A spokesperson <b>confirmed that</b> the meeting had been postponed.</td></tr>
+      <tr><td class="en">The report <b>claims that</b> the company has been evading taxes.</td></tr>
+    </table>
+
+    <div class="tip-box">
+      <b>Zapamiętaj:</b><br>
+      <b>suggest / recommend / insist / demand</b> + that + V (bez "should") w brytyjskim formalnym<br>
+      <span class="en">He insisted that I stay. (= should stay)</span><br>
+      <b>Nie cofamy czasów</b>, gdy prawda wciąż aktualna.
+    </div>
+  `,
+  karta: [
+    { type: "header", text: "A. Przekształć na mowę zależną (statements)" },
+    { type: "gap", text: '<span class="en">"I am working on a new project." → He said he ________ on a new project.</span>', answers: ["was working"], wide: true },
+    { type: "gap", text: '<span class="en">"I have finished the report." → She said she ________ the report.</span>', answers: ["had finished"], wide: true },
+    { type: "gap", text: '<span class="en">"I saw him yesterday." → He said he ________ him ________.</span>', answers: ["had seen, the day before"] },
+    { type: "gap", text: '<span class="en">"I will call you tomorrow." → She said she ________ call me ________.</span>', answers: ["would, the next day"] },
+    { type: "gap", text: '<span class="en">"I can help you." → He said he ________ help me.</span>', answers: ["could"], wide: true },
+    { type: "gap", text: '<span class="en">"I may be late." → She said she ________ be late.</span>', answers: ["might"], wide: true },
+    { type: "header", text: "B. Reported questions" },
+    { type: "gap", text: '<span class="en">"Are you coming?" → She asked me ________ I was coming.</span>', answers: ["if", "whether"], wide: true },
+    { type: "gap", text: '<span class="en">"Where did you go?" → He asked where I ________.</span>', answers: ["had gone"], wide: true },
+    { type: "gap", text: '<span class="en">"What time does it start?" → She asked what time it ________.</span>', answers: ["started"], wide: true },
+    { type: "gap", text: '<span class="en">"Have you finished?" → He asked if I ________.</span>', answers: ["had finished"], wide: true },
+    { type: "gap", text: '<span class="en">"Can you help me?" → She asked if I ________ help her.</span>', answers: ["could"], wide: true },
+    { type: "header", text: "C. Reporting verbs – uzupełnij" },
+    { type: "gap", text: '<span class="en">He ________ breaking the vase. (admit)</span>', answers: ["admitted"] },
+    { type: "gap", text: '<span class="en">She ________ him of lying. (accuse)</span>', answers: ["accused"] },
+    { type: "gap", text: '<span class="en">He ________ on paying. (insist)</span>', answers: ["insisted"] },
+    { type: "gap", text: '<span class="en">I ________ her on passing the exam. (congratulate)</span>', answers: ["congratulated"] },
+    { type: "gap", text: '<span class="en">She ________ me for ruining the evening. (blame)</span>', answers: ["blamed"] },
+    { type: "gap", text: '<span class="en">She suggested ________ (leave) early.</span>', answers: ["leaving"] },
+    { type: "gap", text: '<span class="en">He insisted that I ________ (stay).</span>', answers: ["stay"] },
+    { type: "gap", text: '<span class="en">They demanded that he ________ (resign).</span>', answers: ["resign"] },
+    { type: "gap", text: '<span class="en">He claimed ________ (see) a UFO.</span>', answers: ["to have seen"] },
+    { type: "header", text: "D. Kiedy NIE cofamy czasów?" },
+    { type: "gap", text: '<span class="en">He said he ________ a vegetarian. (wciąż jest)</span>', answers: ["is"] },
+    { type: "gap", text: '<span class="en">She said water ________ at 100°C. (prawda naukowa)</span>', answers: ["boils"] },
+    { type: "gap", text: '<span class="en">He says he ________ tired. (Present Simple – nie cofamy)</span>', answers: ["is"] },
+    { type: "gap", text: '<span class="en">She just told me she ________ to come. (dopiero co)</span>', answers: ["wants"] },
+    { type: "header", text: "E. Formal reported speech – media" },
+    { type: "gap", text: '<span class="en">The Minister ________ that the reforms would come into effect next year. (stated)</span>', answers: ["stated"] },
+    { type: "gap", text: '<span class="en">Researchers ________ that the drug had shown promising results. (reported)</span>', answers: ["reported"] },
+    { type: "gap", text: '<span class="en">A spokesperson ________ that the meeting had been postponed. (confirmed)</span>', answers: ["confirmed"] },
+    { type: "gap", text: '<span class="en">The report ________ that the company has been evading taxes. (claims)</span>', answers: ["claims"] },
+    { type: "header", text: "F. Popraw błędy" },
+    { type: "gap", text: '<span class="en">He said me he was tired. → ________</span>', answers: ["he told me he was tired", "he told me he was tired.", "he said he was tired", "he said he was tired."], wide: true },
+    { type: "gap", text: '<span class="en">She asked me where did I live. → ________</span>', answers: ["she asked me where i lived", "she asked me where i lived."], wide: true },
+    { type: "gap", text: '<span class="en">He suggested to go out. → ________</span>', answers: ["he suggested going out", "he suggested going out."], wide: true },
+    { type: "gap", text: '<span class="en">She accused me to lie. → ________</span>', answers: ["she accused me of lying", "she accused me of lying."], wide: true },
+    { type: "gap", text: '<span class="en">He insisted to pay. → ________</span>', answers: ["he insisted on paying", "he insisted on paying."], wide: true },
+    { type: "header", text: "G. Przetłumacz" },
+    { type: "gap", text: '<span class="pl">Powiedział, że pracuje nad nowym projektem.</span>', answers: ["he said he was working on a new project", "he said he was working on a new project.", "he said that he was working on a new project"], wide: true },
+    { type: "gap", text: '<span class="pl">Zapytała, czy przyjdę na spotkanie.</span>', answers: ["she asked if i would come to the meeting", "she asked if i would come to the meeting.", "she asked whether i would come to the meeting", "she asked whether i would come to the meeting."], wide: true },
+    { type: "gap", text: '<span class="pl">Zasugerował, żebyśmy wyszli wcześniej.</span>', answers: ["he suggested that we leave early", "he suggested that we leave early.", "he suggested leaving early", "he suggested leaving early."], wide: true },
+    { type: "gap", text: '<span class="pl">Oskarżyła go o kłamstwo.</span>', answers: ["she accused him of lying", "she accused him of lying."], wide: true },
+    { type: "gap", text: '<span class="pl">Nalegał, żebym został.</span>', answers: ["he insisted that i stay", "he insisted that i stay.", "he insisted that i should stay", "he insisted on me staying"], wide: true },
+    { type: "header", text: "H. Napisz" },
+    { type: "open", text: "Przekształć 5 zdań na mowę zależną, używając różnych czasowników wprowadzających (suggest, insist, admit, accuse, warn).", placeholder: "np. He suggested that... She insisted that... They accused him of..." }
+  ],
+  test: [
+    { q: "He said he ______ on a new project.", opcje: ["works", "was working", "has worked", "is working"], poprawna: 1, wyjasnienie: "Present Continuous → Past Continuous." },
+    { q: "She asked me ______ I was coming.", opcje: ["if", "that", "what", "when"], poprawna: 0, wyjasnienie: "Yes/No question → if / whether." },
+    { q: "He asked where I ______.", opcje: ["did go", "had gone", "have gone", "go"], poprawna: 1, wyjasnienie: "Past Simple → Past Perfect w reported question." },
+    { q: "He ______ breaking the vase.", opcje: ["admitted", "admit", "admitting", "admits"], poprawna: 0, wyjasnienie: "admit + -ing." },
+    { q: "She ______ him of lying.", opcje: ["accused", "blamed", "told", "said"], poprawna: 0, wyjasnienie: "accuse sb of doing." },
+    { q: "He insisted ______ paying.", opcje: ["on", "in", "at", "for"], poprawna: 0, wyjasnienie: "insist on + -ing." },
+    { q: "She suggested ______ early.", opcje: ["leaving", "to leave", "leave", "left"], poprawna: 0, wyjasnienie: "suggest + -ing." },
+    { q: "He insisted that I ______.", opcje: ["stay", "stayed", "stays", "would stay"], poprawna: 0, wyjasnienie: "insist that + V (bez should)." },
+    { q: "He said he ______ a vegetarian – and he still is.", opcje: ["is", "was", "had been", "would be"], poprawna: 0, wyjasnienie: "Wciąż prawda → nie cofamy czasów." },
+    { q: "Które zdanie jest poprawne?", opcje: ["He said me he was tired.", "He told me he was tired.", "He told to me he was tired.", "He said to me he was tired."], poprawna: 1, wyjasnienie: "tell sb = powiedzieć komuś." }
+  ]
+};
+
+/* ============================================================
+   G7C1 – Passive Voice – poziom biegłości
+============================================================ */
+window.LESSON_DATA["G7C1"] = {
+  tytul: "Strona bierna – poziom biegłości",
+  poziom: "C1",
+  dzial: "G7",
+  teoria: `
+    <h3>Tekst do zapamiętania</h3>
+    <p class="en" style="display:block; padding:14px 18px; line-height:1.9;">
+      The novel is widely regarded as one of the greatest works of the twentieth century. It is said to have been written in just three months. Since its publication, it has been translated into over fifty languages and has been adapted for both stage and screen. The original manuscript is believed to be kept in a private collection. Some claim that it was inspired by the author\'s own childhood, though this has never been confirmed. The book is being reassessed by a new generation of critics, who argue that it deserves more attention than it has so far received.
+    </p>
+
+    <h3>Wszystkie czasy w stronie biernej</h3>
+    <table>
+      <tr><th>Czas</th><th>Budowa</th><th>Przykład</th></tr>
+      <tr><td>Present Simple</td><td class="en">am/is/are + III</td><td class="en">The room is cleaned.</td></tr>
+      <tr><td>Present Continuous</td><td class="en">am/is/are being + III</td><td class="en">The house is being renovated.</td></tr>
+      <tr><td>Present Perfect</td><td class="en">have/has been + III</td><td class="en">The work has been finished.</td></tr>
+      <tr><td>Past Simple</td><td class="en">was/were + III</td><td class="en">The bridge was built.</td></tr>
+      <tr><td>Past Continuous</td><td class="en">was/were being + III</td><td class="en">The car was being repaired.</td></tr>
+      <tr><td>Past Perfect</td><td class="en">had been + III</td><td class="en">The work had been completed.</td></tr>
+      <tr><td>Future Simple</td><td class="en">will be + III</td><td class="en">The work will be done.</td></tr>
+      <tr><td>Future Perfect</td><td class="en">will have been + III</td><td class="en">The bridge will have been completed.</td></tr>
+      <tr><td>Modal</td><td class="en">modal + be + III</td><td class="en">The work must be done.</td></tr>
+      <tr><td>Modal Perfect</td><td class="en">modal + have been + III</td><td class="en">The letter should have been sent.</td></tr>
+    </table>
+
+    <h3>Impersonal Passive – formy zaawansowane</h3>
+    <table>
+      <tr><th>Konstrukcja</th><th>Przykład</th></tr>
+      <tr><td class="en"><b>It is said / believed / thought / reported that…</b></td><td class="en">It is said that he is very rich.</td></tr>
+      <tr><td class="en"><b>Sb is said / believed to + V</b> (teraźniejszość)</td><td class="en">He is said to be very rich.</td></tr>
+      <tr><td class="en"><b>Sb is said to have + III</b> (przeszłość)</td><td class="en">He is said to have left the country.</td></tr>
+      <tr><td class="en"><b>Sb is said to be + -ing</b> (w trakcie)</td><td class="en">She is said to be writing a new novel.</td></tr>
+    </table>
+    <p><b>Czasowniki impersonale:</b> say, believe, think, report, claim, know, consider, expect, suppose, rumour, allege.</p>
+    <table>
+      <tr><td class="en">People say he is a genius. = <b>It is said that he is a genius.</b> = <b>He is said to be a genius.</b></td></tr>
+      <tr><td class="en">People believe she stole the money. = <b>It is believed that she stole the money.</b> = <b>She is believed to have stolen the money.</b></td></tr>
+    </table>
+
+    <h3>Have / Get something done – pogłębione</h3>
+    <table>
+      <tr><th>Konstrukcja</th><th>Znaczenie</th><th>Przykład</th></tr>
+      <tr><td class="en"><b>have sth done</b></td><td>ktoś zrobił coś dla mnie</td><td class="en">I had my hair cut.</td></tr>
+      <tr><td class="en"><b>get sth done</b></td><td>potocznie</td><td class="en">I got my car fixed.</td></tr>
+      <tr><td class="en"><b>have sb do sth</b></td><td>ktoś zrobił dla mnie (bez "to")</td><td class="en">I had the plumber fix the tap.</td></tr>
+      <tr><td class="en"><b>get sb to do sth</b></td><td>namówić kogoś, żeby zrobił</td><td class="en">I got my brother to help me.</td></tr>
+      <tr><td class="en"><b>have sth done</b> – doświadczenie</td><td>coś się stało (złe)</td><td class="en">He had his wallet stolen.</td></tr>
+    </table>
+
+    <h3>Passive + infinitive / gerund</h3>
+    <table>
+      <tr><td class="en">He wants <b>to be promoted</b>.</td></tr>
+      <tr><td class="en">She hates <b>being told</b> what to do.</td></tr>
+      <tr><td class="en">This needs <b>to be cleaned</b> / <b>cleaning</b>.</td></tr>
+      <tr><td class="en">I don\'t like <b>being criticised</b>.</td></tr>
+      <tr><td class="en">He is said <b>to have been</b> very generous.</td></tr>
+    </table>
+
+    <h3>Passive z "by" i "with"</h3>
+    <table>
+      <tr><th>by</th><th>with</th></tr>
+      <tr>
+        <td>wykonawca (osoba / rzecz działająca)</td>
+        <td>narzędzie, materiał</td>
+      </tr>
+      <tr>
+        <td class="en">The book was written by Orwell.</td>
+        <td class="en">The cake was made with chocolate.</td>
+      </tr>
+      <tr>
+        <td class="en">The building was designed by an architect.</td>
+        <td class="en">The room was filled with smoke.</td>
+      </tr>
+    </table>
+
+    <h3>Passive z czasownikami z dwoma dopełnieniami</h3>
+    <table>
+      <tr><th>Active</th><th>Passive 1 (bardziej naturalne)</th><th>Passive 2</th></tr>
+      <tr><td class="en">They gave me a present.</td><td class="en">I was given a present.</td><td class="en">A present was given to me.</td></tr>
+      <tr><td class="en">They will send you the details.</td><td class="en">You will be sent the details.</td><td class="en">The details will be sent to you.</td></tr>
+      <tr><td class="en">Someone has told him the news.</td><td class="en">He has been told the news.</td><td class="en">The news has been told to him.</td></tr>
+    </table>
+
+    <h3>Passive w formalnym i naukowym stylu</h3>
+    <table>
+      <tr><td class="en">The experiment <b>was carried out</b> under controlled conditions.</td></tr>
+      <tr><td class="en">The data <b>have been analysed</b> using standard statistical methods.</td></tr>
+      <tr><td class="en">A new approach <b>is being developed</b> to tackle the problem.</td></tr>
+      <tr><td class="en">Further research <b>needs to be conducted</b> before conclusions can be drawn.</td></tr>
+      <tr><td class="en">The results <b>should not be regarded as</b> definitive.</td></tr>
+    </table>
+
+    <h3>Passive + causative get</h3>
+    <table>
+      <tr><td class="en">He got himself fired. <span class="pl">(sam się doprowadził do zwolnienia)</span></td></tr>
+      <tr><td class="en">She got her article published. <span class="pl">(udało się opublikować)</span></td></tr>
+      <tr><td class="en">I got my money back. <span class="pl">(odzyskałem)</span></td></tr>
+    </table>
+
+    <div class="tip-box">
+      <b>Zapamiętaj:</b><br>
+      <b>It is said that…</b> / <b>Sb is said to…</b> – impersonal passive, bardzo formalne<br>
+      <b>have / get sth done</b> – ktoś inny wykonuje czynność<br>
+      <b>by</b> = wykonawca, <b>with</b> = narzędzie
+    </div>
+  `,
+  karta: [
+    { type: "header", text: "A. Uzupełnij passive we właściwym czasie" },
+    { type: "gap", text: '<span class="en">The house ________ (renovate) at the moment.</span>', answers: ["is being renovated"] },
+    { type: "gap", text: '<span class="en">The car ________ (repair) when I arrived.</span>', answers: ["was being repaired"] },
+    { type: "gap", text: '<span class="en">The work ________ (finish) already.</span>', answers: ["has been finished"] },
+    { type: "gap", text: '<span class="en">The documents ________ (send) before the meeting.</span>', answers: ["had been sent"] },
+    { type: "gap", text: '<span class="en">The bridge ________ (complete) by June.</span>', answers: ["will have been completed"] },
+    { type: "gap", text: '<span class="en">The letter ________ (should / send) yesterday.</span>', answers: ["should have been sent"] },
+    { type: "gap", text: '<span class="en">The novel ________ (regard) as one of the greatest works.</span>', answers: ["is regarded"] },
+    { type: "gap", text: '<span class="en">The manuscript ________ (believe) to be kept in a private collection.</span>', answers: ["is believed"] },
+    { type: "header", text: "B. Impersonal passive – przekształć" },
+    { type: "gap", text: '<span class="en">People say he is a genius. → It ________ that he is a genius.</span>', answers: ["is said"], wide: true },
+    { type: "gap", text: '<span class="en">People believe she stole the money. → She ________ to have stolen the money.</span>', answers: ["is believed"], wide: true },
+    { type: "gap", text: '<span class="en">They report that the company will close. → It ________ that the company will close.</span>', answers: ["is reported"], wide: true },
+    { type: "gap", text: '<span class="en">People think he lives abroad. → He ________ to live abroad.</span>', answers: ["is thought"], wide: true },
+    { type: "gap", text: '<span class="en">People claim the painting is a fake. → The painting ________ to be a fake.</span>', answers: ["is claimed"], wide: true },
+    { type: "gap", text: '<span class="en">People consider her the best candidate. → She ________ to be the best candidate.</span>', answers: ["is considered"], wide: true },
+    { type: "header", text: "C. Have / Get something done" },
+    { type: "gap", text: '<span class="en">I ________ my hair ________ yesterday. (cut)</span>', answers: ["had, cut"] },
+    { type: "gap", text: '<span class="en">She ________ her car ________ last week. (repair)</span>', answers: ["had, repaired"] },
+    { type: "gap", text: '<span class="en">We are ________ our house ________. (paint)</span>', answers: ["having, painted"] },
+    { type: "gap", text: '<span class="en">He ________ his wallet ________ on the bus. (steal)</span>', answers: ["had, stolen"] },
+    { type: "gap", text: '<span class="en">I ________ my brother ________ (help) me. (namówić)</span>', answers: ["got, to help"] },
+    { type: "gap", text: '<span class="en">She ________ her article ________ (publish). (udało się)</span>', answers: ["got, published"] },
+    { type: "header", text: "D. Passive + infinitive / gerund" },
+    { type: "gap", text: '<span class="en">He wants ________ (promote).</span>', answers: ["to be promoted"] },
+    { type: "gap", text: '<span class="en">She hates ________ (tell) what to do.</span>', answers: ["being told"] },
+    { type: "gap", text: '<span class="en">This needs ________ (clean).</span>', answers: ["to be cleaned", "cleaning"] },
+    { type: "gap", text: '<span class="en">I don\'t like ________ (criticise).</span>', answers: ["being criticised", "being criticized"] },
+    { type: "gap", text: '<span class="en">He is said ________ (be) very generous.</span>', answers: ["to have been"] },
+    { type: "header", text: "E. By czy with?" },
+    { type: "gap", text: '<span class="en">The book was written ________ Orwell.</span>', answers: ["by"] },
+    { type: "gap", text: '<span class="en">The cake was made ________ chocolate.</span>', answers: ["with"] },
+    { type: "gap", text: '<span class="en">The room was filled ________ smoke.</span>', answers: ["with"] },
+    { type: "gap", text: '<span class="en">The building was designed ________ an architect.</span>', answers: ["by"] },
+    { type: "header", text: "F. Popraw błędy" },
+    { type: "gap", text: '<span class="en">The house is being build. → ________</span>', answers: ["the house is being built", "the house is being built."], wide: true },
+    { type: "gap", text: '<span class="en">The work has being finished. → ________</span>', answers: ["the work has been finished", "the work has been finished."], wide: true },
+    { type: "gap", text: '<span class="en">People say he is rich. → (impersonal)</span>', answers: ["it is said that he is rich", "it is said that he is rich.", "he is said to be rich", "he is said to be rich."], wide: true },
+    { type: "gap", text: '<span class="en">I cut my hair yesterday. (u fryzjera) → ________</span>', answers: ["i had my hair cut yesterday", "i had my hair cut yesterday."], wide: true },
+    { type: "header", text: "G. Przetłumacz" },
+    { type: "gap", text: '<span class="pl">Mówi się, że powieść została napisana w trzy miesiące.</span>', answers: ["the novel is said to have been written in three months", "the novel is said to have been written in three months.", "it is said that the novel was written in three months", "it is said that the novel was written in three months."], wide: true },
+    { type: "gap", text: '<span class="pl">Wierzy się, że rękopis znajduje się w prywatnej kolekcji.</span>', answers: ["the manuscript is believed to be kept in a private collection", "the manuscript is believed to be kept in a private collection.", "it is believed that the manuscript is kept in a private collection"], wide: true },
+    { type: "gap", text: '<span class="pl">Książka jest obecnie poddawana ponownej ocenie przez nowe pokolenie krytyków.</span>', answers: ["the book is being reassessed by a new generation of critics", "the book is being reassessed by a new generation of critics."], wide: true },
+    { type: "gap", text: '<span class="pl">Obciąłem wczoraj włosy (u fryzjera).</span>', answers: ["i had my hair cut yesterday", "i had my hair cut yesterday."], wide: true },
+    { type: "gap", text: '<span class="pl">Skradziono mu portfel.</span>', answers: ["he had his wallet stolen", "he had his wallet stolen.", "his wallet was stolen", "his wallet was stolen."], wide: true },
+    { type: "header", text: "H. Napisz" },
+    { type: "open", text: "Opisz znane dzieło sztuki, film, książkę lub budynek, używając różnych form strony biernej (impersonal passive, passive perfect, passive continuous).", placeholder: "np. The novel is regarded as... It is said to have been written... It has been translated into..." }
+  ],
+  test: [
+    { q: "The house ______ at the moment.", opcje: ["is renovating", "is being renovated", "is renovated", "has renovated"], poprawna: 1, wyjasnienie: "Present Continuous Passive." },
+    { q: "The work ______ already.", opcje: ["has finished", "has been finished", "is finishing", "was finish"], poprawna: 1, wyjasnienie: "Present Perfect Passive." },
+    { q: "The bridge ______ by June.", opcje: ["will complete", "will be completed", "will have been completed", "is completing"], poprawna: 2, wyjasnienie: "Future Perfect Passive." },
+    { q: "People say he is a genius. → ______ said that he is a genius.", opcje: ["He is", "It is", "There is", "That is"], poprawna: 1, wyjasnienie: "Impersonal Passive → It is said that…" },
+    { q: "People believe she stole the money. → She is believed ______ stolen the money.", opcje: ["have", "has", "having", "had"], poprawna: 0, wyjasnienie: "is believed to have + III." },
+    { q: "I had my hair ______ yesterday.", opcje: ["cut", "cutting", "to cut", "cuts"], poprawna: 0, wyjasnienie: "have sth done → III forma." },
+    { q: "The book was written ______ Orwell.", opcje: ["by", "from", "with", "of"], poprawna: 0, wyjasnienie: "by + wykonawca." },
+    { q: "The cake was made ______ chocolate.", opcje: ["by", "with", "from", "of"], poprawna: 1, wyjasnienie: "with + materiał/narzędzie." },
+    { q: "She hates ______ what to do.", opcje: ["telling", "being told", "to tell", "told"], poprawna: 1, wyjasnienie: "hate + being + III (passive gerund)." },
+    { q: "He is said ______ very generous.", opcje: ["to be", "to have been", "being", "been"], poprawna: 1, wyjasnienie: "is said to have been – o przeszłości." }
+  ]
+};
+
+/* ============================================================
+   G8C1 – Inversion & Emphasis – poziom biegłości
+============================================================ */
+window.LESSON_DATA["G8C1"] = {
+  tytul: "Inwersja i emfaza – poziom biegłości",
+  poziom: "C1",
+  dzial: "G8",
+  teoria: `
+    <h3>Tekst do zapamiętania</h3>
+    <p class="en" style="display:block; padding:14px 18px; line-height:1.9;">
+      Never before had I witnessed such a breathtaking performance. Not only did the actress deliver every line with perfect precision, but she also moved the entire audience to tears. Rarely does one encounter such raw talent on a small stage. Hardly had the curtain fallen when the applause began. Only later, when the lights came up, did I realise that I had been holding my breath for the final scene. No sooner had we left the theatre than we began planning to return. It was the kind of evening one never forgets – and not for a moment did I doubt that she would go on to become a star.
+    </p>
+
+    <h3>Inwersja po wyrażeniach negatywnych i ograniczających</h3>
+    <table>
+      <tr><th>Bez inwersji</th><th>Z inwersją</th></tr>
+      <tr><td class="en">I have never seen such a thing.</td><td class="en"><b>Never have I seen</b> such a thing.</td></tr>
+      <tr><td class="en">I have rarely encountered such talent.</td><td class="en"><b>Rarely have I encountered</b> such talent.</td></tr>
+      <tr><td class="en">I seldom complain.</td><td class="en"><b>Seldom do I</b> complain.</td></tr>
+      <tr><td class="en">I little knew that…</td><td class="en"><b>Little did I know</b> that…</td></tr>
+      <tr><td class="en">She had hardly arrived when…</td><td class="en"><b>Hardly had she arrived</b> when…</td></tr>
+      <tr><td class="en">I had no sooner left than…</td><td class="en"><b>No sooner had I left</b> than…</td></tr>
+      <tr><td class="en">We not only lost, but…</td><td class="en"><b>Not only did we lose</b>, but…</td></tr>
+      <tr><td class="en">I have never before met him.</td><td class="en"><b>Never before have I met</b> him.</td></tr>
+      <tr><td class="en">Nowhere else can you find such food.</td><td class="en"><b>Nowhere else can you find</b> such food.</td></tr>
+      <tr><td class="en">At no time did she lose her calm.</td><td class="en"><b>At no time did she lose</b> her calm.</td></tr>
+      <tr><td class="en">On no account should you touch it.</td><td class="en"><b>On no account should you touch</b> it.</td></tr>
+      <tr><td class="en">Under no circumstances can we allow this.</td><td class="en"><b>Under no circumstances can we allow</b> this.</td></tr>
+    </table>
+
+    <h3>Inwersja po "only"</h3>
+    <table>
+      <tr><td class="en">I realised only later that…</td><td class="en"><b>Only later did I realise</b> that…</td></tr>
+      <tr><td class="en">I understood only then.</td><td class="en"><b>Only then did I understand</b>.</td></tr>
+      <tr><td class="en">We can succeed only by working together.</td><td class="en"><b>Only by working together can we succeed</b>.</td></tr>
+      <tr><td class="en">I found out only when she called.</td><td class="en"><b>Only when she called did I find out</b>.</td></tr>
+      <tr><td class="en">Only after the meeting did I understand.</td><td class="en"><b>Only after the meeting did I understand</b>.</td></tr>
+    </table>
+
+    <h3>Inwersja warunkowa (formalnie)</h3>
+    <table>
+      <tr><th>If-forma</th><th>Inwersja</th></tr>
+      <tr><td class="en">If I had known…</td><td class="en"><b>Had I known</b>…</td></tr>
+      <tr><td class="en">If it had not been for…</td><td class="en"><b>Had it not been for</b>…</td></tr>
+      <tr><td class="en">If I were you…</td><td class="en"><b>Were I you</b>…</td></tr>
+      <tr><td class="en">If she should come…</td><td class="en"><b>Should she come</b>…</td></tr>
+    </table>
+
+    <h3>So / Such – emfaza</h3>
+    <table>
+      <tr><th>Konstrukcja</th><th>Znaczenie</th><th>Przykład</th></tr>
+      <tr><td class="en"><b>so + przymiotnik + that</b></td><td>tak … że</td><td class="en">The view was so beautiful that we stopped.</td></tr>
+      <tr><td class="en"><b>such a + przymiotnik + rzeczownik + that</b></td><td>taki … że</td><td class="en">It was such a difficult test that many failed.</td></tr>
+      <tr><td class="en"><b>so + przysłówek</b></td><td>tak</td><td class="en">She spoke so quietly that I couldn\'t hear.</td></tr>
+      <tr><td class="en"><b>so much / so many</b></td><td>tak dużo / tak wiele</td><td class="en">There were so many people that we couldn\'t move.</td></tr>
+    </table>
+    <p>W emfatycznej inwersji na początku zdania:</p>
+    <table>
+      <tr><td class="en"><b>So beautiful was the view</b> that we stopped.</td></tr>
+      <tr><td class="en"><b>Such was the force</b> of the wind that the windows shook.</td></tr>
+      <tr><td class="en"><b>So loudly did she shout</b> that everyone turned around.</td></tr>
+    </table>
+
+    <h3>Emfaza przez do / does / did</h3>
+    <table>
+      <tr><td class="en">I <b>do</b> like this song! <span class="pl">(naprawdę lubię)</span></td></tr>
+      <tr><td class="en">She <b>does</b> care about you.</td></tr>
+      <tr><td class="en">I <b>did</b> tell you! <span class="pl">(mówiłem ci!)</span></td></tr>
+      <tr><td class="en">He <b>does</b> seem to be enjoying himself.</td></tr>
+    </table>
+
+    <h3>Cleft sentences – zdania rozszczepione</h3>
+    <table>
+      <tr><th>Typ</th><th>Budowa</th><th>Przykład</th></tr>
+      <tr><td>It-cleft</td><td class="en">It is / was … that / who</td><td class="en">It was John who broke the window.</td></tr>
+      <tr><td>Wh-cleft</td><td class="en">What … is / was</td><td class="en">What I need is a holiday.</td></tr>
+      <tr><td>All-cleft</td><td class="en">All … is / was</td><td class="en">All I want is peace and quiet.</td></tr>
+      <tr><td>The thing/reason</td><td class="en">The thing / reason … is / was</td><td class="en">The reason I called is to apologise.</td></tr>
+      <tr><td>Reversed wh-cleft</td><td class="en">A holiday is what I need.</td><td class="en">A holiday is what I need.</td></tr>
+    </table>
+
+    <h3>Emfaza przez "the very", "indeed", "on earth", "at all"</h3>
+    <table>
+      <tr><td class="en">This is <b>the very</b> book I was looking for!</td></tr>
+      <tr><td class="en">Thank you <b>very much indeed</b>.</td></tr>
+      <tr><td class="en">What <b>on earth</b> are you doing?</td></tr>
+      <tr><td class="en">I don\'t understand <b>at all</b>.</td></tr>
+      <tr><td class="en">It was <b>himself</b> who called. <span class="pl">(on sam)</span></td></tr>
+    </table>
+
+    <div class="tip-box">
+      <b>Zapamiętaj:</b><br>
+      Inwersja po: <b>Never, Rarely, Seldom, Hardly, No sooner, Little, Not only, Nowhere, At no time, On no account, Under no circumstances</b><br>
+      <b>Hardly had … when …</b> · <b>No sooner had … than …</b> – typowe pary<br>
+      <b>Had I known… = If I had known…</b> – warunek formalny
+    </div>
+  `,
+  karta: [
+    { type: "header", text: "A. Przekształć na inwersję" },
+    { type: "gap", text: '<span class="en">I have never seen such a thing. → Never ________ such a thing.</span>', answers: ["have i seen"], wide: true },
+    { type: "gap", text: '<span class="en">I rarely complain. → Rarely ________ complain.</span>', answers: ["do i"], wide: true },
+    { type: "gap", text: '<span class="en">She had hardly arrived when the phone rang. → Hardly ________ when the phone rang.</span>', answers: ["had she arrived"], wide: true },
+    { type: "gap", text: '<span class="en">I had no sooner left than it started raining. → No sooner ________ than it started raining.</span>', answers: ["had i left"], wide: true },
+    { type: "gap", text: '<span class="en">I little knew that she would become famous. → Little ________ that she would become famous.</span>', answers: ["did i know"], wide: true },
+    { type: "gap", text: '<span class="en">I only realised later that I had made a mistake. → Only later ________ that I had made a mistake.</span>', answers: ["did i realise", "did i realize"], wide: true },
+    { type: "gap", text: '<span class="en">We can succeed only by working together. → Only by working together ________.</span>', answers: ["can we succeed"], wide: true },
+    { type: "gap", text: '<span class="en">At no time did she lose her calm. → On no account ________ her calm.</span>', answers: ["should she lose"], wide: true },
+    { type: "gap", text: '<span class="en">Under no circumstances can we allow this. → Under no circumstances ________ this.</span>', answers: ["can we allow"], wide: true },
+    { type: "header", text: "B. Inwersja warunkowa" },
+    { type: "gap", text: '<span class="en">If I had known… → ________ I known…</span>', answers: ["had"] },
+    { type: "gap", text: '<span class="en">If I were you… → ________ I you…</span>', answers: ["were"] },
+    { type: "gap", text: '<span class="en">If she should come… → ________ she come…</span>', answers: ["should"] },
+    { type: "gap", text: '<span class="en">If it had not been for… → ________ it not been for…</span>', answers: ["had"] },
+    { type: "header", text: "C. So / Such – inwersja" },
+    { type: "gap", text: '<span class="en">The view was so beautiful that we stopped. → So beautiful ________ the view that we stopped.</span>', answers: ["was"], wide: true },
+    { type: "gap", text: '<span class="en">Such was the force of the wind that… → ________ was the force of the wind that…</span>', answers: ["such"] },
+    { type: "gap", text: '<span class="en">She shouted so loudly that everyone turned around. → So loudly ________ that everyone turned around.</span>', answers: ["did she shout"], wide: true },
+    { type: "header", text: "D. Emfaza przez do / does / did" },
+    { type: "gap", text: '<span class="en">I ________ like this song! (naprawdę lubię)</span>', answers: ["do"] },
+    { type: "gap", text: '<span class="en">She ________ care about you. (naprawdę jej zależy)</span>', answers: ["does"] },
+    { type: "gap", text: '<span class="en">I ________ tell you! (mówiłem ci!)</span>', answers: ["did"] },
+    { type: "gap", text: '<span class="en">He ________ seem to be enjoying himself.</span>', answers: ["does"] },
+    { type: "header", text: "E. Cleft sentences" },
+    { type: "gap", text: '<span class="en">John broke the window. → It was John ________ broke the window.</span>', answers: ["who", "that"], wide: true },
+    { type: "gap", text: '<span class="en">I need a holiday. → What I need ________ a holiday.</span>', answers: ["is"], wide: true },
+    { type: "gap", text: '<span class="en">I want peace and quiet. → All I want ________ peace and quiet.</span>', answers: ["is"], wide: true },
+    { type: "gap", text: '<span class="en">I called to apologise. → The reason I called ________ to apologise.</span>', answers: ["is", "was"], wide: true },
+    { type: "gap", text: '<span class="en">A holiday is what I need. → (reversed)</span>', answers: ["what i need is a holiday", "what i need is a holiday."], wide: true },
+    { type: "header", text: "F. Popraw błędy" },
+    { type: "gap", text: '<span class="en">Never I have seen such a thing. → ________</span>', answers: ["never have i seen such a thing", "never have i seen such a thing."], wide: true },
+    { type: "gap", text: '<span class="en">Rarely I complain. → ________</span>', answers: ["rarely do i complain", "rarely do i complain."], wide: true },
+    { type: "gap", text: '<span class="en">Little I knew that... → ________</span>', answers: ["little did i know that", "little did i know that..."], wide: true },
+    { type: "gap", text: '<span class="en">Not only she sang, but she also danced. → ________</span>', answers: ["not only did she sing but she also danced", "not only did she sing, but she also danced", "not only did she sing but she also danced."], wide: true },
+    { type: "header", text: "G. Przetłumacz" },
+    { type: "gap", text: '<span class="pl">Nigdy wcześniej nie widziałem takiego przedstawienia.</span>', answers: ["never before had i witnessed such a performance", "never before had i witnessed such a performance.", "i had never before witnessed such a performance", "i had never before witnessed such a performance."], wide: true },
+    { type: "gap", text: '<span class="pl">Ledwo opadła kurtyna, gdy rozpoczęły się brawa.</span>', answers: ["hardly had the curtain fallen when the applause began", "hardly had the curtain fallen when the applause began.", "hardly had the curtain fallen when the applause started"], wide: true },
+    { type: "gap", text: '<span class="pl">Dopiero później zdałem sobie sprawę, że wstrzymałem oddech.</span>', answers: ["only later did i realise that i had been holding my breath", "only later did i realise that i had been holding my breath.", "only later did i realize that i had been holding my breath"], wide: true },
+    { type: "gap", text: '<span class="pl">Nie tylko zagrała każdą scenę perfekcyjnie, ale też wzruszyła publiczność do łez.</span>', answers: ["not only did she deliver every scene perfectly but she also moved the audience to tears", "not only did she deliver every scene perfectly, but she also moved the audience to tears", "not only did she play every scene perfectly but she also moved the audience to tears"], wide: true },
+    { type: "gap", text: '<span class="pl">Gdybym wiedział, powiedziałbym ci.</span>', answers: ["had i known i would have told you", "had i known, i would have told you", "had i known, i would have told you."], wide: true },
+    { type: "header", text: "H. Napisz" },
+    { type: "open", text: "Napisz recenzję filmu, książki lub spektaklu, używając inwersji i emfazy (Never have I..., Not only did..., Only later..., It was ... who...).", placeholder: "np. Never have I seen such a... Not only did the actor..., but he also... Only later did I realise..." }
+  ],
+  test: [
+    { q: "Never ______ such a thing.", opcje: ["I have seen", "have I seen", "I saw", "did I see"], poprawna: 1, wyjasnienie: "Inwersja po 'Never' na początku." },
+    { q: "Rarely ______ complain.", opcje: ["do I", "I do", "I", "am I"], poprawna: 0, wyjasnienie: "Inwersja po 'Rarely'." },
+    { q: "Hardly ______ when the phone rang.", opcje: ["had she arrived", "she had arrived", "she arrived", "did she arrive"], poprawna: 0, wyjasnienie: "Hardly had + podmiot + III." },
+    { q: "No sooner ______ than it started raining.", opcje: ["had I left", "I had left", "I left", "did I leave"], poprawna: 0, wyjasnienie: "No sooner had + podmiot + III." },
+    { q: "Little ______ that she would become famous.", opcje: ["I knew", "did I know", "I did know", "knew I"], poprawna: 1, wyjasnienie: "Inwersja po 'Little'." },
+    { q: "Only later ______ my mistake.", opcje: ["I realised", "did I realise", "I did realise", "realised I"], poprawna: 1, wyjasnienie: "Po 'Only later' – inwersja." },
+    { q: "______ I known, I would have told you.", opcje: ["If", "Had", "Were", "Should"], poprawna: 1, wyjasnienie: "Had I known = If I had known." },
+    { q: "So beautiful ______ the view that we stopped.", opcje: ["it was", "was", "was it", "the view was"], poprawna: 1, wyjasnienie: "So + przymiotnik + was + podmiot." },
+    { q: "______ John who broke the window.", opcje: ["It was", "There was", "He was", "That was"], poprawna: 0, wyjasnienie: "It-cleft: It was … who/that." },
+    { q: "______ I need is a holiday.", opcje: ["What", "That", "Which", "It"], poprawna: 0, wyjasnienie: "Wh-cleft: What I need is…" }
+  ]
+};
+
+
+/* ============================================================
+   G9C1 – Articles – poziom biegłości
+============================================================ */
+window.LESSON_DATA["G9C1"] = {
+  tytul: "Przedimki – poziom biegłości",
+  poziom: "C1",
+  dzial: "G9",
+  teoria: `
+    <h3>Tekst do zapamiętania</h3>
+    <p class="en" style="display:block; padding:14px 18px; line-height:1.9;">
+      There\'s a growing consensus among economists that the current model of unlimited growth is unsustainable. The problem is that most of us take the planet\'s resources for granted. We treat nature as an endless source of wealth, when in fact it is a fragile system. In the long run, the consequences of ignoring this will be catastrophic. On the whole, I think there is still time to act – but only if we act now. As a species, we have always managed to adapt to change. The question is whether we can do so quickly enough this time.
+    </p>
+
+    <h3>Zaawansowane użycie THE</h3>
+    <table>
+      <tr><th>Kiedy "the"</th><th>Przykład</th></tr>
+      <tr><td>Unikaty</td><td class="en">the sun, the internet, the economy, the environment</td></tr>
+      <tr><td>Grupy społeczne</td><td class="en">the rich, the poor, the young, the unemployed</td></tr>
+      <tr><td>Rzeki, morza, oceany, pasma górskie</td><td class="en">the Thames, the Baltic, the Alps</td></tr>
+      <tr><td>Państwa w liczbie mnogiej / z of</td><td class="en">the Netherlands, the USA, the United Kingdom</td></tr>
+      <tr><td>Nazwy gazet, instytucji, statków</td><td class="en">The Times, the UN, the Titanic</td></tr>
+      <tr><td>Instrumenty, wynalazki</td><td class="en">play the piano; the telephone was invented…</td></tr>
+      <tr><td>Konkretna grupa / kontekst</td><td class="en">The students in my class…</td></tr>
+      <tr><td>Przed stopniem najwyższym i "the only"</td><td class="en">the best, the first, the only</td></tr>
+    </table>
+
+    <h3>Zaawansowane użycie A / AN</h3>
+    <table>
+      <tr><th>Kiedy "a/an"</th><th>Przykład</th></tr>
+      <tr><td>Pierwsza wzmianka</td><td class="en">I saw a film yesterday. The film was great.</td></tr>
+      <tr><td>Zawody, klasyfikacje</td><td class="en">She is a doctor. This is a Vermeer.</td></tr>
+      <tr><td>"Jeden z wielu"</td><td class="en">Give me a pen. Take an apple.</td></tr>
+      <tr><td>Za "jeden" w liczeniu</td><td class="en">A hundred people came. Twice a week.</td></tr>
+      <tr><td>W wyrażeniach "taki, jakiś"</td><td class="en">He\'s a nice man. It was a warm evening.</td></tr>
+    </table>
+
+    <h3>Zero article – pogłębione</h3>
+    <table>
+      <tr><th>Kiedy brak przedimka</th><th>Przykład</th></tr>
+      <tr><td>Liczba mnoga ogólnie</td><td class="en">Dogs make loyal pets.</td></tr>
+      <tr><td>Niepoliczalne ogólnie</td><td class="en">Water is essential for life. Honesty is the best policy.</td></tr>
+      <tr><td>Większość krajów, miast, kontynentów</td><td class="en">Poland, Warsaw, Europe, Asia</td></tr>
+      <tr><td>Języki, przedmioty, sporty, gry</td><td class="en">English, history, football, chess</td></tr>
+      <tr><td>Dni, miesiące, pory roku, święta</td><td class="en">Monday, May, summer, Christmas</td></tr>
+      <tr><td>Posiłki</td><td class="en">Have breakfast, have lunch, have dinner</td></tr>
+      <tr><td>Instytucje w funkcji (bez the)</td><td class="en">go to school / hospital / prison / church / university</td></tr>
+      <tr><td>Imiona, nazwiska, tytuły</td><td class="en">Anna, Mr Smith, President Biden, Dr Brown</td></tr>
+      <tr><td>W utartych zwrotach</td><td class="en">by car, on foot, at home, at work, in bed, at sea</td></tr>
+    </table>
+
+    <h3>Trudne przypadki – zmiana znaczenia</h3>
+    <table>
+      <tr><th>Bez przedimka (ogólnie, funkcja)</th><th>Z "the" (konkretne miejsce)</th></tr>
+      <tr><td class="en">go to school <span class="pl">(uczyć się)</span></td><td class="en">go to the school <span class="pl">(iść do budynku)</span></td></tr>
+      <tr><td class="en">in hospital <span class="pl">(jako pacjent)</span></td><td class="en">in the hospital <span class="pl">(w budynku)</span></td></tr>
+      <tr><td class="en">at university <span class="pl">(studiować)</span></td><td class="en">at the university <span class="pl">(w miejscu)</span></td></tr>
+      <tr><td class="en">at sea <span class="pl">(na morzu, żeglując)</span></td><td class="en">at the sea <span class="pl">(nad morzem)</span></td></tr>
+      <tr><td class="en">go to bed <span class="pl">(spać)</span></td><td class="en">go to the bed <span class="pl">(podejść do łóżka)</span></td></tr>
+      <tr><td class="en">in prison <span class="pl">(jako więzień)</span></td><td class="en">in the prison <span class="pl">(w budynku)</span></td></tr>
+      <tr><td class="en">out of season <span class="pl">(nie w sezonie)</span></td><td class="en">out of the season <span class="pl">(rzadkie)</span></td></tr>
+    </table>
+
+    <h3>Przedimki z nazwami geograficznymi</h3>
+    <table>
+      <tr><th>Bez "the"</th><th>Z "the"</th></tr>
+      <tr><td class="en">kraje (większość): Poland, France, Japan</td><td class="en">kraje w lm. i z "of": the Netherlands, the USA, the Philippines</td></tr>
+      <tr><td class="en">miasta, kontynenty: Paris, Europe, Africa</td><td class="en">rzeki, morza, oceany: the Vistula, the Baltic, the Pacific</td></tr>
+      <tr><td class="en">jeziora: Lake Geneva</td><td class="en">pasma górskie: the Alps, the Himalayas</td></tr>
+      <tr><td class="en">pojedyncze wyspy, szczyty: Crete, Everest</td><td class="en">grupy wysp: the Canaries, the Bahamas</td></tr>
+      <tr><td class="en">ulice, place: Oxford Street</td><td class="en">niektóre place: the High Street, the Strand</td></tr>
+      <tr><td class="en">lotniska, dworce: Heathrow, Waterloo</td><td class="en">niektóre budynki: the White House, the Empire State Building</td></tr>
+      <tr><td class="en">uniwersytety: Oxford University</td><td class="en">uniwersytety z "of": the University of Warsaw</td></tr>
+    </table>
+
+    <h3>Wyrażenia utrwalone bez przedimka</h3>
+    <table>
+      <tr><td class="en">go to bed / work / school / hospital / prison / church</td></tr>
+      <tr><td class="en">be at home / at work / at school / at university / at sea</td></tr>
+      <tr><td class="en">by car / bus / train / plane / boat / bike / taxi</td></tr>
+      <tr><td class="en">on foot / on holiday / on business / on strike</td></tr>
+      <tr><td class="en">at night / at noon / at midnight / at dawn / at dusk</td></tr>
+      <tr><td class="en">in the morning / afternoon / evening</td></tr>
+      <tr><td class="en">watch TV / listen to the radio / read the news</td></tr>
+    </table>
+
+    <h3>Emfatyczne i stylistyczne użycie przedimka</h3>
+    <table>
+      <tr><td class="en">A Mr Smith called. <span class="pl">(jakiś pan Smith – nie znam)</span></td></tr>
+      <tr><td class="en">The Mr Smith I know is quite different. <span class="pl">(ten, którego znam)</span></td></tr>
+      <tr><td class="en">She has a Picasso. <span class="pl">(jeden z obrazów Picassa)</span></td></tr>
+      <tr><td class="en">It was the Picasso I had seen. <span class="pl">(ten konkretny)</span></td></tr>
+    </table>
+
+    <div class="tip-box">
+      <b>Zapamiętaj:</b><br>
+      <b>go to school</b> (uczyć się) vs <b>go to the school</b> (iść do budynku) – całe zdanie zmienia znaczenie<br>
+      <b>the rich / the poor / the young</b> = grupy społeczne<br>
+      Nazwy geograficzne: <b>bez the</b> – kraje, miasta, kontynenty, jeziora; <b>z the</b> – rzeki, morza, pasma górskie
+    </div>
+  `,
+  karta: [
+    { type: "header", text: "A. Wstaw a / an / the lub – (nic)" },
+    { type: "gap", text: '<span class="en">There is ________ growing consensus among ________ economists.</span>', answers: ["a, -"] },
+    { type: "gap", text: '<span class="en">________ current model of unlimited growth is unsustainable.</span>', answers: ["the"] },
+    { type: "gap", text: '<span class="en">We take ________ planet\'s resources for granted.</span>', answers: ["the"] },
+    { type: "gap", text: '<span class="en">We treat ________ nature as ________ endless source of wealth.</span>', answers: ["-, an"] },
+    { type: "gap", text: '<span class="en">In ________ long run, ________ consequences will be catastrophic.</span>', answers: ["the, the"] },
+    { type: "gap", text: '<span class="en">As ________ species, we have always managed to adapt.</span>', answers: ["a"] },
+    { type: "gap", text: '<span class="en">________ rich are getting richer and ________ poor poorer.</span>', answers: ["the, the"] },
+    { type: "gap", text: '<span class="en">________ Alps are in Europe, but ________ Everest is in Asia.</span>', answers: ["the, -"] },
+    { type: "gap", text: '<span class="en">She plays ________ piano beautifully but hates ________ music.</span>', answers: ["the, -"] },
+    { type: "gap", text: '<span class="en">I went to ________ school to meet the headmaster. (budynek)</span>', answers: ["the"] },
+    { type: "gap", text: '<span class="en">My daughter goes to ________ school. (uczy się)</span>', answers: ["-"] },
+    { type: "gap", text: '<span class="en">He is in ________ hospital after the accident. (jako pacjent)</span>', answers: ["-"] },
+    { type: "gap", text: '<span class="en">I parked outside ________ hospital. (budynek)</span>', answers: ["the"] },
+    { type: "gap", text: '<span class="en">We went to ________ Netherlands last spring.</span>', answers: ["the"] },
+    { type: "gap", text: '<span class="en">I usually go to ________ work by ________ bus.</span>', answers: ["-, -"] },
+    { type: "header", text: "B. Trudne przypadki – wstaw poprawny przedimek" },
+    { type: "gap", text: '<span class="en">She was sent to ________ prison for five years. (jako więzień)</span>', answers: ["-"] },
+    { type: "gap", text: '<span class="en">We visited ________ prison to interview the warden. (budynek)</span>', answers: ["the"] },
+    { type: "gap", text: '<span class="en">A ________ Mr Smith called you. (nie znam go)</span>', answers: ["-", "a"] },
+    { type: "gap", text: '<span class="en">________ Mr Smith I know is quite different. (ten, którego znam)</span>', answers: ["the"] },
+    { type: "gap", text: '<span class="en">He was at ________ sea for six months. (na morzu, żeglując)</span>', answers: ["-"] },
+    { type: "gap", text: '<span class="en">We spent the weekend at ________ sea. (nad morzem)</span>', answers: ["the"] },
+    { type: "header", text: "C. Nazwy geograficzne i instytucje" },
+    { type: "gap", text: '<span class="en">________ Thames flows through London.</span>', answers: ["the"] },
+    { type: "gap", text: '<span class="en">________ Lake Geneva is beautiful.</span>', answers: ["-"] },
+    { type: "gap", text: '<span class="en">________ Canaries are a group of islands near Africa.</span>', answers: ["the"] },
+    { type: "gap", text: '<span class="en">He studied at ________ Oxford University.</span>', answers: ["-"] },
+    { type: "gap", text: '<span class="en">She went to ________ University of Warsaw.</span>', answers: ["the"] },
+    { type: "gap", text: '<span class="en">We visited ________ White House in Washington.</span>', answers: ["the"] },
+    { type: "header", text: "D. Popraw błędy (jeśli są)" },
+    { type: "gap", text: '<span class="en">The dogs make loyal pets. → ________</span>', answers: ["dogs make loyal pets", "dogs make loyal pets."], wide: true },
+    { type: "gap", text: '<span class="en">I like the dogs. → ________</span>', answers: ["i like dogs", "i like dogs."], wide: true },
+    { type: "gap", text: '<span class="en">She is doctor. → ________</span>', answers: ["she is a doctor", "she is a doctor."], wide: true },
+    { type: "gap", text: '<span class="en">He goes to the school every day. (uczy się) → ________</span>', answers: ["he goes to school every day", "he goes to school every day."], wide: true },
+    { type: "gap", text: '<span class="en">We went to Alps last year. → ________</span>', answers: ["we went to the alps last year", "we went to the alps last year."], wide: true },
+    { type: "gap", text: '<span class="en">I went to Paris in the France. → ________</span>', answers: ["i went to paris in france", "i went to paris in france."], wide: true },
+    { type: "header", text: "E. Przetłumacz" },
+    { type: "gap", text: '<span class="pl">Bogaci stają się coraz bogatsi, a biedni coraz biedniejsi.</span>', answers: ["the rich are getting richer and the poor poorer", "the rich are getting richer and the poor poorer.", "the rich get richer and the poor get poorer", "the rich get richer and the poor get poorer."], wide: true },
+    { type: "gap", text: '<span class="pl">Mieszkam w Polsce, ale pochodzę z Holandii.</span>', answers: ["i live in poland but i am from the netherlands", "i live in poland, but i am from the netherlands", "i live in poland but i\'m from the netherlands", "i live in poland, but i\'m from the netherlands."], wide: true },
+    { type: "gap", text: '<span class="pl">Chodzę do szkoły codziennie, ale dziś idę do szkoły na spotkanie z nauczycielką.</span>', answers: ["i go to school every day but today i am going to the school to meet my teacher", "i go to school every day, but today i am going to the school to meet my teacher", "i go to school every day but today i\'m going to the school to meet my teacher"], wide: true },
+    { type: "gap", text: '<span class="pl">Alpy są w Europie, ale Mount Everest jest w Azji.</span>', answers: ["the alps are in europe but mount everest is in asia", "the alps are in europe, but mount everest is in asia", "the alps are in europe but everest is in asia"], wide: true },
+    { type: "gap", text: '<span class="pl">Woda jest niezbędna do życia.</span>', answers: ["water is essential for life", "water is essential for life."], wide: true },
+    { type: "header", text: "F. Napisz" },
+    { type: "open", text: "Napisz opinię o problemach środowiskowych (5-6 zdań), zwracając uwagę na poprawne użycie przedimków. Użyj konstrukcji: the rich, the poor, the environment, the planet, a/an, brak przedimka.", placeholder: "np. The environment is one of the biggest challenges... The planet\'s resources are limited..." }
+  ],
+  test: [
+    { q: "There is ______ growing consensus among economists.", opcje: ["a", "an", "the", "-"], poprawna: 0, wyjasnienie: "Pierwsza wzmianka, policzalne l.poj. → a." },
+    { q: "______ rich are getting richer and ______ poor poorer.", opcje: ["A / a", "The / the", "- / -", "An / an"], poprawna: 1, wyjasnienie: "Grupy społeczne → the." },
+    { q: "We treat nature as ______ endless source of wealth.", opcje: ["a", "an", "the", "-"], poprawna: 1, wyjasnienie: "Przed samogłoską → an." },
+    { q: "My daughter goes to ______ school every day.", opcje: ["a", "an", "the", "-"], poprawna: 3, wyjasnienie: "Funkcja: uczeń → bez przedimka." },
+    { q: "I went to ______ school to meet the headmaster.", opcje: ["a", "an", "the", "-"], poprawna: 2, wyjasnienie: "Konkretne miejsce (budynek) → the." },
+    { q: "He is in ______ hospital after the accident.", opcje: ["a", "an", "the", "-"], poprawna: 3, wyjasnienie: "Funkcja: pacjent → bez przedimka." },
+    { q: "We went to ______ Netherlands last spring.", opcje: ["a", "an", "the", "-"], poprawna: 2, wyjasnienie: "Kraje w lm. → the." },
+    { q: "I usually go to work by ______ bus.", opcje: ["a", "an", "the", "-"], poprawna: 3, wyjasnienie: "by bus – utrwalone." },
+    { q: "______ Lake Geneva is beautiful.", opcje: ["A", "An", "The", "-"], poprawna: 3, wyjasnienie: "Jeziora – bez przedimka." },
+    { q: "She studied at ______ University of Warsaw.", opcje: ["a", "an", "the", "-"], poprawna: 2, wyjasnienie: "Uniwersytety z 'of' → the." }
+  ]
+};
+
+/* ============================================================
+   G10C1 – Quantifiers – poziom biegłości
+============================================================ */
+window.LESSON_DATA["G10C1"] = {
+  tytul: "Określniki ilości – poziom biegłości",
+  poziom: "C1",
+  dzial: "G10",
+  teoria: `
+    <h3>Tekst do zapamiętania</h3>
+    <p class="en" style="display:block; padding:14px 18px; line-height:1.9;">
+      There are countless reasons to be optimistic about the future of renewable energy, but hardly any of them are appreciated by the general public. A great deal of progress has been made over the last decade, and yet most of the media coverage focuses on problems. Some argue that the transition is too slow; others insist that we need to do the opposite and slow down. Both sides have a point, and neither of them is entirely wrong. In my view, the key is to find a balance between ambition and realism. There is little doubt that we have the technology; there is, however, a considerable lack of political will.
+    </p>
+
+    <h3>Policzalne i niepoliczalne – pogłębione</h3>
+    <table>
+      <tr><th>Policzalne (countable)</th><th>Niepoliczalne (uncountable)</th></tr>
+      <tr><td>a book, two books, several books, many books</td><td>water, money, advice, information, news, furniture, luggage, equipment, progress, research</td></tr>
+      <tr><td>few / a few / a great many</td><td>little / a little / a great deal of</td></tr>
+      <tr><td>a number of / a large number of</td><td>an amount of / a large amount of</td></tr>
+      <tr><td>each / every / both / either / neither</td><td>all / some / any / much / a bit of</td></tr>
+    </table>
+    <p><b>Uwaga:</b> rzeczowniki niepoliczalne nie mają liczby mnogiej i nie łączą się z a/an.</p>
+    <table>
+      <tr><td class="en">✅ I have some information. · ❌ I have an information.</td></tr>
+      <tr><td class="en">✅ A few pieces of advice. · ❌ A few advices.</td></tr>
+    </table>
+
+    <h3>Some / Any – subtelne różnice</h3>
+    <table>
+      <tr><th>Konstrukcja</th><th>Znaczenie</th><th>Przykład</th></tr>
+      <tr><td class="en">some</td><td>twierdzenia, prośby, propozycje</td><td class="en">Would you like some tea?</td></tr>
+      <tr><td class="en">any</td><td>pytania, przeczenia</td><td class="en">I don\'t have any.</td></tr>
+      <tr><td class="en">any</td><td>"jakikolwiek" – twierdzenie</td><td class="en">Take any book you like.</td></tr>
+      <tr><td class="en">some</td><td>"pewien" – nieokreślony</td><td class="en">Some people don\'t believe it.</td></tr>
+    </table>
+
+    <h3>Much / Many / A lot of / Plenty of – pogłębione</h3>
+    <table>
+      <tr><th>Wyrażenie</th><th>Policzalne / Niepoliczalne</th><th>Kontekst</th></tr>
+      <tr><td class="en">much</td><td>niepoliczalne</td><td>przeczenia, pytania (formalne)</td></tr>
+      <tr><td class="en">many</td><td>policzalne</td><td>przeczenia, pytania (formalne)</td></tr>
+      <tr><td class="en">a lot of / lots of</td><td>oba</td><td>twierdzenia (potoczne)</td></tr>
+      <tr><td class="en">plenty of</td><td>oba</td><td>twierdzenia (wystarczająco dużo)</td></tr>
+      <tr><td class="en">a great deal of</td><td>niepoliczalne</td><td>formalne</td></tr>
+      <tr><td class="en">a great many</td><td>policzalne</td><td>formalne</td></tr>
+      <tr><td class="en">a great number of</td><td>policzalne</td><td>formalne</td></tr>
+      <tr><td class="en">a large amount of</td><td>niepoliczalne</td><td>formalne</td></tr>
+    </table>
+
+    <h3>Few / A few / Little / A little – zniuansowane</h3>
+    <table>
+      <tr><th>Konstrukcja</th><th>Znaczenie</th><th>Przykład</th></tr>
+      <tr><td class="en">a few</td><td>kilka (pozytywne)</td><td class="en">I have a few friends here.</td></tr>
+      <tr><td class="en">few</td><td>niewielu (negatywne)</td><td class="en">Few people understand this.</td></tr>
+      <tr><td class="en">a little</td><td>trochę (pozytywne)</td><td class="en">I have a little money.</td></tr>
+      <tr><td class="en">little</td><td>mało (negatywne)</td><td class="en">There is little hope.</td></tr>
+      <tr><td class="en">the few</td><td>nieliczni (konkretni)</td><td class="en">The few who came were enthusiastic.</td></tr>
+      <tr><td class="en">the little</td><td>to niewiele (konkretne)</td><td class="en">The little she said was important.</td></tr>
+      <tr><td class="en">quite a few</td><td>całkiem dużo</td><td class="en">Quite a few people came.</td></tr>
+      <tr><td class="en">only a few</td><td>tylko kilka (podkreślenie)</td><td class="en">Only a few seats left.</td></tr>
+    </table>
+
+    <h3>Both / Either / Neither / All / None / Each / Every</h3>
+    <table>
+      <tr><th>Wyrażenie</th><th>Dot. liczby</th><th>Przykład</th></tr>
+      <tr><td class="en">both</td><td>dwa</td><td class="en">Both of my sisters are doctors.</td></tr>
+      <tr><td class="en">either</td><td>dwa (jeden z)</td><td class="en">Either of them can come.</td></tr>
+      <tr><td class="en">neither</td><td>dwa (żaden z)</td><td class="en">Neither of them came.</td></tr>
+      <tr><td class="en">all</td><td>3+</td><td class="en">All of my friends came.</td></tr>
+      <tr><td class="en">none</td><td>3+ (żaden z)</td><td class="en">None of them came.</td></tr>
+      <tr><td class="en">each</td><td>2+ (osobno)</td><td class="en">Each student got a book.</td></tr>
+      <tr><td class="en">every</td><td>3+ (grupa)</td><td class="en">Every student must attend.</td></tr>
+    </table>
+
+    <h3>All / Whole / Entire – różnice</h3>
+    <table>
+      <tr><td class="en">all the students / all students / all of the students</td></tr>
+      <tr><td class="en">the whole class / the whole day / the whole world</td></tr>
+      <tr><td class="en">the entire country / the entire project</td></tr>
+      <tr><td class="en">all day / all night / all year (bez the)</td></tr>
+    </table>
+
+    <h3>Barely / Hardly / Scarcely – z określnikami</h3>
+    <table>
+      <tr><td class="en">barely any / hardly any / scarcely any</td><td class="pl">prawie żadne</td></tr>
+      <tr><td class="en">There is hardly any doubt.</td></tr>
+      <tr><td class="en">Hardly anyone came.</td></tr>
+      <tr><td class="en">Barely anything happened.</td></tr>
+    </table>
+
+    <h3>Konstrukcje formalne z określnikami</h3>
+    <table>
+      <tr><td class="en">a considerable number of</td><td class="pl">znaczna liczba</td></tr>
+      <tr><td class="en">a substantial amount of</td><td class="pl">znaczna ilość</td></tr>
+      <tr><td class="en">a considerable lack of</td><td class="pl">znaczny brak</td></tr>
+      <tr><td class="en">a minority / majority of</td><td class="pl">mniejszość / większość</td></tr>
+      <tr><td class="en">a wide range of</td><td class="pl">szeroki zakres</td></tr>
+      <tr><td class="en">a variety of</td><td class="pl">różnorodność</td></tr>
+      <tr><td class="en">the vast majority of</td><td class="pl">przytłaczająca większość</td></tr>
+    </table>
+
+    <div class="tip-box">
+      <b>Zapamiętaj:</b><br>
+      <b>few</b> i <b>little</b> bez "a" = negatywne (mało, prawie nic)<br>
+      <b>a few</b> i <b>a little</b> = pozytywne (kilka, trochę – wystarczająco)<br>
+      <b>quite a few</b> = całkiem dużo (paradoksalnie!)<br>
+      <b>hardly any / barely any</b> = prawie żadne
+    </div>
+  `,
+  karta: [
+    { type: "header", text: "A. Some / Any – subtelne różnice" },
+    { type: "gap", text: '<span class="en">Would you like ________ tea?</span>', answers: ["some"] },
+    { type: "gap", text: '<span class="en">Do you have ________ questions?</span>', answers: ["any"] },
+    { type: "gap", text: '<span class="en">Take ________ book you like. (= jakikolwiek)</span>', answers: ["any"] },
+    { type: "gap", text: '<span class="en">________ people don\'t believe it. (= pewni)</span>', answers: ["some"] },
+    { type: "header", text: "B. Much / Many / Formalne konstrukcje" },
+    { type: "gap", text: '<span class="en">How ________ money do you have?</span>', answers: ["much"] },
+    { type: "gap", text: '<span class="en">How ________ books did you read?</span>', answers: ["many"] },
+    { type: "gap", text: '<span class="en">I don\'t have ________ time today.</span>', answers: ["much"] },
+    { type: "gap", text: '<span class="en">A great ________ of progress has been made.</span>', answers: ["deal"] },
+    { type: "gap", text: '<span class="en">A great ________ of people came to the protest.</span>', answers: ["many", "number"] },
+    { type: "gap", text: '<span class="en">A large ________ of money was spent.</span>', answers: ["amount"] },
+    { type: "gap", text: '<span class="en">There is a considerable ________ of political will.</span>', answers: ["lack"] },
+    { type: "gap", text: '<span class="en">The vast ________ of scientists agree.</span>', answers: ["majority"] },
+    { type: "header", text: "C. Few / A few / Little / A little" },
+    { type: "gap", text: '<span class="en">There is ________ hope – almost none.</span>', answers: ["little"] },
+    { type: "gap", text: '<span class="en">I have ________ money – enough for coffee.</span>', answers: ["a little"] },
+    { type: "gap", text: '<span class="en">________ people understand this – very few.</span>', answers: ["few"] },
+    { type: "gap", text: '<span class="en">I have ________ friends here – I\'m happy.</span>', answers: ["a few"] },
+    { type: "gap", text: '<span class="en">________ people came – the room was almost full!</span>', answers: ["quite a few"] },
+    { type: "gap", text: '<span class="en">There is ________ doubt that we have the technology.</span>', answers: ["little"] },
+    { type: "gap", text: '<span class="en">________ who came were enthusiastic.</span>', answers: ["the few"] },
+    { type: "header", text: "D. Both / Either / Neither / All / None" },
+    { type: "gap", text: '<span class="en">________ sides have a point. (obie strony)</span>', answers: ["both"] },
+    { type: "gap", text: '<span class="en">________ of them is entirely wrong. (żaden z dwóch)</span>', answers: ["neither"] },
+    { type: "gap", text: '<span class="en">You can take ________ bus – they both go to the centre.</span>', answers: ["either"] },
+    { type: "gap", text: '<span class="en">________ of my friends came to the party. (wszyscy)</span>', answers: ["all"] },
+    { type: "gap", text: '<span class="en">________ of them came – I was the only one. (żaden z wielu)</span>', answers: ["none"] },
+    { type: "gap", text: '<span class="en">________ student got a book. (osobno)</span>', answers: ["each"] },
+    { type: "gap", text: '<span class="en">________ student must attend the meeting. (grupa)</span>', answers: ["every"] },
+    { type: "header", text: "E. Barely / Hardly / Scarcely" },
+    { type: "gap", text: '<span class="en">There is ________ any doubt about this.</span>', answers: ["hardly", "barely", "scarcely"] },
+    { type: "gap", text: '<span class="en">________ anyone came to the meeting.</span>', answers: ["hardly", "barely", "scarcely"] },
+    { type: "gap", text: '<span class="en">________ anything happened yesterday.</span>', answers: ["hardly", "barely", "scarcely"] },
+    { type: "header", text: "F. Popraw błędy" },
+    { type: "gap", text: '<span class="en">I have a little friends. → ________</span>', answers: ["i have a few friends", "i have a few friends."], wide: true },
+    { type: "gap", text: '<span class="en">I need an information. → ________</span>', answers: ["i need some information", "i need some information.", "i need information", "i need information."], wide: true },
+    { type: "gap", text: '<span class="en">A few advices would help. → ________</span>', answers: ["a few pieces of advice would help", "a few pieces of advice would help."], wide: true },
+    { type: "gap", text: '<span class="en">Every students are here. → ________</span>', answers: ["every student is here", "every student is here."], wide: true },
+    { type: "gap", text: '<span class="en">Both of them is coming. → ________</span>', answers: ["both of them are coming", "both of them are coming."], wide: true },
+    { type: "header", text: "G. Przetłumacz" },
+    { type: "gap", text: '<span class="pl">Poczyniono znaczny postęp w ciągu ostatniej dekady.</span>', answers: ["a great deal of progress has been made over the last decade", "a great deal of progress has been made over the last decade.", "a considerable amount of progress has been made over the last decade"], wide: true },
+    { type: "gap", text: '<span class="pl">Jest niewiele wątpliwości, że mamy technologię.</span>', answers: ["there is little doubt that we have the technology", "there is little doubt that we have the technology.", "there\'s little doubt that we have the technology"], wide: true },
+    { type: "gap", text: '<span class="pl">Brakuje przede wszystkim woli politycznej.</span>', answers: ["there is a considerable lack of political will", "there is a considerable lack of political will.", "there\'s a considerable lack of political will"], wide: true },
+    { type: "gap", text: '<span class="pl">Przytłaczająca większość naukowców się zgadza.</span>', answers: ["the vast majority of scientists agree", "the vast majority of scientists agree.", "the vast majority of scientists agrees"], wide: true },
+    { type: "gap", text: '<span class="pl">Obie strony mają trochę racji.</span>', answers: ["both sides have a point", "both sides have a point.", "both sides have a point to make"], wide: true },
+    { type: "header", text: "H. Napisz" },
+    { type: "open", text: "Napisz opinię o problemach współczesnego świata (5-6 zdań), używając różnych określników: a great deal of, few, little, hardly any, the vast majority of, both, neither.", placeholder: "np. There is little doubt that... A great deal of... The vast majority of..." }
+  ],
+  test: [
+    { q: "Would you like ______ tea?", opcje: ["some", "any", "many", "much"], poprawna: 0, wyjasnienie: "Propozycja → some." },
+    { q: "Take ______ book you like.", opcje: ["some", "any", "many", "few"], poprawna: 1, wyjasnienie: "Jakikolwiek → any." },
+    { q: "A great ______ of progress has been made.", opcje: ["deal", "many", "number", "few"], poprawna: 0, wyjasnienie: "a great deal of + niepoliczalne." },
+    { q: "There is ______ hope – almost none.", opcje: ["a little", "little", "a few", "few"], poprawna: 1, wyjasnienie: "Negatywne → little." },
+    { q: "I have ______ money – enough for coffee.", opcje: ["a little", "little", "a few", "few"], poprawna: 0, wyjasnienie: "Pozytywne → a little." },
+    { q: "______ people understand this – very few.", opcje: ["A few", "Few", "A little", "Little"], poprawna: 1, wyjasnienie: "Negatywne → few." },
+    { q: "______ sides have a point.", opcje: ["Both", "Neither", "Either", "None"], poprawna: 0, wyjasnienie: "Oba → both." },
+    { q: "______ student must attend the meeting.", opcje: ["Each", "Every", "All", "None"], poprawna: 1, wyjasnienie: "every + l.poj. (grupa)." },
+    { q: "There is ______ any doubt about this.", opcje: ["hardly", "much", "many", "few"], poprawna: 0, wyjasnienie: "hardly any = prawie żadne." },
+    { q: "The vast ______ of scientists agree.", opcje: ["majority", "most", "many", "much"], poprawna: 0, wyjasnienie: "the vast majority of – utrwalone." }
+  ]
+};
+
+/* ============================================================
+   G11C1 – Prepositions – poziom biegłości
+============================================================ */
+window.LESSON_DATA["G11C1"] = {
+  tytul: "Przyimki – poziom biegłości",
+  poziom: "C1",
+  dzial: "G11",
+  teoria: `
+    <h3>Tekst do zapamiętania</h3>
+    <p class="en" style="display:block; padding:14px 18px; line-height:1.9;">
+      I\'ve been thinking of changing careers for some time now. I\'m tired of doing the same thing day in, day out, and I don\'t get along with my new boss. I\'m interested in marketing and I\'ve always been good at persuading people. Last week I applied for a job at a small agency, and I was invited for an interview. I was nervous at first, but it went really well. Now I\'m waiting for their decision. In my opinion, changing jobs is not simply about money – it\'s also about personal growth and job satisfaction. Regardless of the outcome, I\'m glad I made the effort.
+    </p>
+
+    <h3>Przyimki czasu – pogłębione</h3>
+    <table>
+      <tr><th>Przyimek</th><th>Kiedy</th><th>Przykład</th></tr>
+      <tr><td class="en">at</td><td>godziny, noc, weekend (GB), święta</td><td class="en">at 5, at night, at the weekend, at Christmas</td></tr>
+      <tr><td class="en">on</td><td>dni, daty</td><td class="en">on Monday, on 5th May</td></tr>
+      <tr><td class="en">in</td><td>miesiące, lata, pory roku, pory dnia</td><td class="en">in May, in 2025, in the morning</td></tr>
+      <tr><td class="en">during</td><td>podczas (jakiegoś okresu)</td><td class="en">during the summer, during the meeting</td></tr>
+      <tr><td class="en">for</td><td>przez (jak długo)</td><td class="en">for two hours, for a week</td></tr>
+      <tr><td class="en">since</td><td>od (punkt)</td><td class="en">since 2020, since Monday</td></tr>
+      <tr><td class="en">by</td><td>do (moment, deadline)</td><td class="en">by 5 o'clock, by Friday</td></tr>
+      <tr><td class="en">until / till</td><td>do (moment, kontynuacja)</td><td class="en">until 8 p.m., till Monday</td></tr>
+      <tr><td class="en">within</td><td>w ciągu (okres)</td><td class="en">within a week</td></tr>
+      <tr><td class="en">over</td><td>przez (okres), w trakcie</td><td class="en">over the last few years</td></tr>
+      <tr><td class="en">throughout</td><td>przez cały</td><td class="en">throughout the year</td></tr>
+      <tr><td class="en">between</td><td>między (dwa momenty)</td><td class="en">between 5 and 6</td></tr>
+      <tr><td class="en">from … to</td><td>od … do</td><td class="en">from Monday to Friday</td></tr>
+    </table>
+
+    <h3>Przyimki miejsca – pogłębione</h3>
+    <table>
+      <tr><th>Przyimek</th><th>Kiedy</th><th>Przykład</th></tr>
+      <tr><td class="en">at</td><td>konkretne punkty, wydarzenia</td><td class="en">at the door, at the party, at school</td></tr>
+      <tr><td class="en">on</td><td>powierzchnie, transport</td><td class="en">on the table, on a bus</td></tr>
+      <tr><td class="en">in</td><td>wnętrza, kraje, miasta</td><td class="en">in a box, in Poland, in Warsaw</td></tr>
+      <tr><td class="en">under / over</td><td>pod / nad</td><td class="en">under the table, over the bridge</td></tr>
+      <tr><td class="en">above / below</td><td>ponad / poniżej</td><td class="en">above the clouds, below zero</td></tr>
+      <tr><td class="en">between / among</td><td>między (2) / wśród (wielu)</td><td class="en">between the two houses, among friends</td></tr>
+      <tr><td class="en">behind / in front of</td><td>za / przed</td><td class="en">behind the door, in front of the building</td></tr>
+      <tr><td class="en">beside / next to</td><td>obok</td><td class="en">beside me, next to the window</td></tr>
+      <tr><td class="en">opposite</td><td>naprzeciwko</td><td class="en">opposite the bank</td></tr>
+      <tr><td class="en">against</td><td>o (oparty), przeciwko</td><td class="en">against the wall, against the rules</td></tr>
+      <tr><td class="en">across</td><td>przez, w poprzek</td><td class="en">across the street, across the river</td></tr>
+      <tr><td class="en">through</td><td>przez (środek)</td><td class="en">through the tunnel</td></tr>
+    </table>
+
+    <h3>Czasowniki + przyimek – lista C1</h3>
+    <table>
+      <tr><td class="en">depend on / rely on / count on</td><td class="pl">zależeć od / polegać na / liczyć na</td></tr>
+      <tr><td class="en">belong to</td><td class="pl">należeć do</td></tr>
+      <tr><td class="en">consist of</td><td class="pl">składać się z</td></tr>
+      <tr><td class="en">refer to / allude to</td><td class="pl">odnosić się do / czynić aluzję</td></tr>
+      <tr><td class="en">insist on / persist in</td><td class="pl">nalegać na / upierać się przy</td></tr>
+      <tr><td class="en">apologise for</td><td class="pl">przepraszać za</td></tr>
+      <tr><td class="en">complain about</td><td class="pl">skarżyć się na</td></tr>
+      <tr><td class="en">object to</td><td class="pl">sprzeciwiać się</td></tr>
+      <tr><td class="en">succeed in</td><td class="pl">odnieść sukces w</td></tr>
+      <tr><td class="en">believe in</td><td class="pl">wierzyć w</td></tr>
+      <tr><td class="en">result in / from</td><td class="pl">skutkować / wynikać z</td></tr>
+      <tr><td class="en">agree with sb / on sth</td><td class="pl">zgadzać się z kimś / co do czegoś</td></tr>
+      <tr><td class="en">congratulate sb on</td><td class="pl">gratulować komuś</td></tr>
+      <tr><td class="en">blame sb for</td><td class="pl">winić kogoś za</td></tr>
+      <tr><td class="en">accuse sb of</td><td class="pl">oskarżać kogoś o</td></tr>
+      <tr><td class="en">suspect sb of</td><td class="pl">podejrzewać kogoś o</td></tr>
+      <tr><td class="en">remind sb of / about</td><td class="pl">przypominać komuś o</td></tr>
+      <tr><td class="en">warn sb about / against</td><td class="pl">ostrzegać przed</td></tr>
+      <tr><td class="en">prevent sb from</td><td class="pl">powstrzymywać kogoś od</td></tr>
+      <tr><td class="en">provide sb with</td><td class="pl">dostarczać komuś coś</td></tr>
+    </table>
+
+    <h3>Przymiotnik + przyimek – lista C1</h3>
+    <table>
+      <tr><td class="en">good / bad / excellent / terrible at</td><td class="pl">dobry / słaby w</td></tr>
+      <tr><td class="en">interested / keen / fascinated by / in</td><td class="pl">zainteresowany, zafascynowany</td></tr>
+      <tr><td class="en">afraid / scared / terrified of</td><td class="pl">przerażony, bojący się</td></tr>
+      <tr><td class="en">proud of</td><td class="pl">dumny z</td></tr>
+      <tr><td class="en">tired / weary of</td><td class="pl">zmęczony czymś</td></tr>
+      <tr><td class="en">similar to</td><td class="pl">podobny do</td></tr>
+      <tr><td class="en">different from / to</td><td class="pl">inny niż</td></tr>
+      <tr><td class="en">responsible for</td><td class="pl">odpowiedzialny za</td></tr>
+      <tr><td class="en">famous / renowned for</td><td class="pl">słynny z</td></tr>
+      <tr><td class="en">angry with sb / about sth</td><td class="pl">zły na kogoś / o coś</td></tr>
+      <tr><td class="en">excited / enthusiastic about</td><td class="pl">podekscytowany, entuzjastyczny</td></tr>
+      <tr><td class="en">aware / conscious of</td><td class="pl">świadomy</td></tr>
+      <tr><td class="en">capable of</td><td class="pl">zdolny do</td></tr>
+      <tr><td class="en">addicted / hooked on</td><td class="pl">uzależniony od</td></tr>
+      <tr><td class="en">dependent on</td><td class="pl">zależny od</td></tr>
+      <tr><td class="en">jealous / envious of</td><td class="pl">zazdrosny o</td></tr>
+      <tr><td class="en">accustomed / used to</td><td class="pl">przyzwyczajony do</td></tr>
+      <tr><td class="en">satisfied with</td><td class="pl">zadowolony z</td></tr>
+      <tr><td class="en">disappointed with / in</td><td class="pl">rozczarowany</td></tr>
+      <tr><td class="en">harmful / beneficial to</td><td class="pl">szkodliwy / korzystny dla</td></tr>
+    </table>
+
+    <h3>Wyrażenia i zwroty z przyimkami</h3>
+    <table>
+      <tr><td class="en">in my opinion / in my view</td><td class="pl">moim zdaniem</td></tr>
+      <tr><td class="en">on purpose / by accident / by mistake</td><td class="pl">celowo / przypadkowo / przez pomyłkę</td></tr>
+      <tr><td class="en">in advance / in time / on time</td><td class="pl">z góry / w porę / na czas</td></tr>
+      <tr><td class="en">regardless of</td><td class="pl">niezależnie od</td></tr>
+      <tr><td class="en">in spite of / despite</td><td class="pl">mimo że</td></tr>
+      <tr><td class="en">because of / due to</td><td class="pl">z powodu</td></tr>
+      <tr><td class="en">in terms of</td><td class="pl">pod względem</td></tr>
+      <tr><td class="en">on behalf of</td><td class="pl">w imieniu</td></tr>
+      <tr><td class="en">in charge of</td><td class="pl">odpowiedzialny za</td></tr>
+      <tr><td class="en">by means of</td><td class="pl">za pomocą</td></tr>
+      <tr><td class="en">in favour of</td><td class="pl">za (opowiadając się)</td></tr>
+      <tr><td class="en">on the whole</td><td class="pl">ogólnie rzecz biorąc</td></tr>
+    </table>
+
+    <div class="tip-box">
+      <b>Zapamiętaj:</b><br>
+      <b>at</b> + konkretny punkt / wydarzenie · <b>on</b> + powierzchnia · <b>in</b> + wnętrze / duży obszar<br>
+      Czasowniki i przymiotniki z przyimkami trzeba <b>nauczyć się na pamięć</b><br>
+      <b>regardless of, in spite of, due to</b> – formalne zwroty do eseju
+    </div>
+  `,
+  karta: [
+    { type: "header", text: "A. Przyimki czasu" },
+    { type: "gap", text: '<span class="en">I\'ve been waiting ________ two hours.</span>', answers: ["for"] },
+    { type: "gap", text: '<span class="en">I\'ve been waiting ________ 5 o\'clock.</span>', answers: ["since"] },
+    { type: "gap", text: '<span class="en">I\'ll finish the report ________ Friday.</span>', answers: ["by"] },
+    { type: "gap", text: '<span class="en">Wait here ________ I come back.</span>', answers: ["until", "till"] },
+    { type: "gap", text: '<span class="en">I fell asleep ________ the film.</span>', answers: ["during"] },
+    { type: "gap", text: '<span class="en">________ the last few years, a lot has changed.</span>', answers: ["over"] },
+    { type: "gap", text: '<span class="en">________ the whole year, he worked non-stop.</span>', answers: ["throughout"] },
+    { type: "gap", text: '<span class="en">I\'ll be back ________ a week.</span>', answers: ["within", "in"] },
+    { type: "header", text: "B. Przyimki miejsca" },
+    { type: "gap", text: '<span class="en">I\'ll meet you ________ the station.</span>', answers: ["at"] },
+    { type: "gap", text: '<span class="en">The book is ________ the table.</span>', answers: ["on"] },
+    { type: "gap", text: '<span class="en">He lives ________ Warsaw.</span>', answers: ["in"] },
+    { type: "gap", text: '<span class="en">We walked ________ the tunnel.</span>', answers: ["through"] },
+    { type: "gap", text: '<span class="en">She walked ________ the street.</span>', answers: ["across"] },
+    { type: "gap", text: '<span class="en">He leaned ________ the wall.</span>', answers: ["against"] },
+    { type: "gap", text: '<span class="en">The shop is ________ the bank.</span>', answers: ["opposite"] },
+    { type: "header", text: "C. Czasownik + przyimek" },
+    { type: "gap", text: '<span class="en">It depends ________ the weather.</span>', answers: ["on"] },
+    { type: "gap", text: '<span class="en">This book belongs ________ me.</span>', answers: ["to"] },
+    { type: "gap", text: '<span class="en">The team consists ________ five players.</span>', answers: ["of"] },
+    { type: "gap", text: '<span class="en">I apologise ________ being late.</span>', answers: ["for"] },
+    { type: "gap", text: '<span class="en">They complained ________ the food.</span>', answers: ["about"] },
+    { type: "gap", text: '<span class="en">I object ________ this proposal.</span>', answers: ["to"] },
+    { type: "gap", text: '<span class="en">She succeeded ________ passing the exam.</span>', answers: ["in"] },
+    { type: "gap", text: '<span class="en">I congratulated her ________ passing.</span>', answers: ["on"] },
+    { type: "gap", text: '<span class="en">They accused him ________ lying.</span>', answers: ["of"] },
+    { type: "gap", text: '<span class="en">The delay resulted ________ a huge loss.</span>', answers: ["in"] },
+    { type: "gap", text: '<span class="en">Her success resulted ________ years of hard work.</span>', answers: ["from"] },
+    { type: "gap", text: '<span class="en">They warned me ________ the danger.</span>', answers: ["about", "of", "against"] },
+    { type: "gap", text: '<span class="en">The rain prevented us ________ going out.</span>', answers: ["from"] },
+    { type: "gap", text: '<span class="en">They provided us ________ food and shelter.</span>', answers: ["with"] },
+    { type: "header", text: "D. Przymiotnik + przyimek" },
+    { type: "gap", text: '<span class="en">I\'m good ________ maths.</span>', answers: ["at"] },
+    { type: "gap", text: '<span class="en">She\'s interested ________ art.</span>', answers: ["in"] },
+    { type: "gap", text: '<span class="en">He\'s afraid ________ flying.</span>', answers: ["of"] },
+    { type: "gap", text: '<span class="en">I\'m proud ________ my sister.</span>', answers: ["of"] },
+    { type: "gap", text: '<span class="en">I\'m tired ________ waiting.</span>', answers: ["of"] },
+    { type: "gap", text: '<span class="en">This is different ________ what I expected.</span>', answers: ["from", "to"] },
+    { type: "gap", text: '<span class="en">She\'s responsible ________ the whole project.</span>', answers: ["for"] },
+    { type: "gap", text: '<span class="en">Poland is famous ________ its food.</span>', answers: ["for"] },
+    { type: "gap", text: '<span class="en">I\'m aware ________ the problem.</span>', answers: ["of"] },
+    { type: "gap", text: '<span class="en">He\'s addicted ________ computer games.</span>', answers: ["to"] },
+    { type: "gap", text: '<span class="en">I\'m satisfied ________ the result.</span>', answers: ["with"] },
+    { type: "gap", text: '<span class="en">Sugar is harmful ________ your teeth.</span>', answers: ["to"] },
+    { type: "header", text: "E. Zwroty formalne" },
+    { type: "gap", text: '<span class="en">________ my opinion, it\'s a bad idea.</span>', answers: ["in"] },
+    { type: "gap", text: '<span class="en">I did it ________ purpose.</span>', answers: ["on"] },
+    { type: "gap", text: '<span class="en">I sent the email ________ mistake.</span>', answers: ["by"] },
+    { type: "gap", text: '<span class="en">________ the circumstances, we did well.</span>', answers: ["given"] },
+    { type: "gap", text: '<span class="en">________ of the bad weather, we stayed home.</span>', answers: ["because", "due"] },
+    { type: "gap", text: '<span class="en">________ of the rain, we went out.</span>', answers: ["in spite", "despite"] },
+    { type: "gap", text: '<span class="en">________ the outcome, I\'m glad I tried.</span>', answers: ["regardless of"] },
+    { type: "gap", text: '<span class="en">________ behalf of the team, I thank you.</span>', answers: ["on"] },
+    { type: "gap", text: '<span class="en">________ terms of quality, this is the best.</span>', answers: ["in"] },
+    { type: "header", text: "F. Popraw błędy" },
+    { type: "gap", text: '<span class="en">I depend of my parents. → ________</span>', answers: ["i depend on my parents", "i depend on my parents."], wide: true },
+    { type: "gap", text: '<span class="en">I\'m good in English. → ________</span>', answers: ["i\'m good at english", "i\'m good at english.", "i am good at english", "i am good at english."], wide: true },
+    { type: "gap", text: '<span class="en">He apologised of being late. → ________</span>', answers: ["he apologised for being late", "he apologised for being late."], wide: true },
+    { type: "gap", text: '<span class="en">They accused him for lying. → ________</span>', answers: ["they accused him of lying", "they accused him of lying."], wide: true },
+    { type: "gap", text: '<span class="en">I\'m interested on music. → ________</span>', answers: ["i\'m interested in music", "i\'m interested in music.", "i am interested in music", "i am interested in music."], wide: true },
+    { type: "gap", text: '<span class="en">Due of the rain, we stayed home. → ________</span>', answers: ["due to the rain we stayed home", "due to the rain, we stayed home", "due to the rain, we stayed home."], wide: true },
+    { type: "header", text: "G. Przetłumacz" },
+    { type: "gap", text: '<span class="pl">Zależy to od ciebie.</span>', answers: ["it depends on you", "it depends on you."], wide: true },
+    { type: "gap", text: '<span class="pl">Interesuję się muzyką.</span>', answers: ["i am interested in music", "i am interested in music.", "i\'m interested in music", "i\'m interested in music."], wide: true },
+    { type: "gap", text: '<span class="pl">Zrobiłem to celowo.</span>', answers: ["i did it on purpose", "i did it on purpose."], wide: true },
+    { type: "gap", text: '<span class="pl">Mimo deszczu wyszliśmy.</span>', answers: ["despite the rain we went out", "despite the rain, we went out", "in spite of the rain we went out", "in spite of the rain, we went out"], wide: true },
+    { type: "gap", text: '<span class="pl">Niezależnie od wyniku, cieszę się, że spróbowałem.</span>', answers: ["regardless of the outcome i am glad i tried", "regardless of the outcome, i am glad i tried", "regardless of the outcome i\'m glad i tried"], wide: true },
+    { type: "gap", text: '<span class="pl">W imieniu zespołu dziękuję.</span>', answers: ["on behalf of the team i thank you", "on behalf of the team, i thank you", "on behalf of the team i would like to thank you"], wide: true },
+    { type: "header", text: "H. Napisz" },
+    { type: "open", text: "Napisz krótki list motywacyjny (5-6 zdań) z użyciem czasowników i przymiotników z przyimkami oraz zwrotów formalnych (regardless of, in terms of, on behalf of).", placeholder: "np. I am writing to apply for... I\'m good at... I\'m interested in... Regardless of the outcome..." }
+  ],
+  test: [
+    { q: "It depends ______ the weather.", opcje: ["on", "of", "in", "at"], poprawna: 0, wyjasnienie: "depend on – utrwalone." },
+    { q: "I\'m good ______ maths.", opcje: ["at", "in", "on", "with"], poprawna: 0, wyjasnienie: "be good at." },
+    { q: "She\'s interested ______ art.", opcje: ["on", "at", "in", "of"], poprawna: 2, wyjasnienie: "be interested in." },
+    { q: "I apologise ______ being late.", opcje: ["of", "for", "on", "at"], poprawna: 1, wyjasnienie: "apologise for – utrwalone." },
+    { q: "They accused him ______ lying.", opcje: ["of", "for", "on", "at"], poprawna: 0, wyjasnienie: "accuse sb of." },
+    { q: "I\'ve been waiting ______ two hours.", opcje: ["since", "from", "for", "during"], poprawna: 2, wyjasnienie: "for + okres." },
+    { q: "I\'ve been waiting ______ 5 o'clock.", opcje: ["since", "from", "for", "during"], poprawna: 0, wyjasnienie: "since + punkt." },
+    { q: "I did it ______ purpose.", opcje: ["on", "in", "by", "at"], poprawna: 0, wyjasnienie: "on purpose = celowo." },
+    { q: "______ the outcome, I\'m glad I tried.", opcje: ["regardless of", "in spite", "despite of", "because of"], poprawna: 0, wyjasnienie: "regardless of = niezależnie od." },
+    { q: "______ behalf of the team, I thank you.", opcje: ["on", "in", "at", "by"], poprawna: 0, wyjasnienie: "on behalf of = w imieniu." }
+  ]
+};
+
+/* ============================================================
+   G12C1 – Comparatives & Superlatives – poziom biegłości
+============================================================ */
+window.LESSON_DATA["G12C1"] = {
+  tytul: "Stopniowanie – poziom biegłości",
+  poziom: "C1",
+  dzial: "G12",
+  teoria: `
+    <h3>Tekst do zapamiętania</h3>
+    <p class="en" style="display:block; padding:14px 18px; line-height:1.9;">
+      The more I read about the subject, the less I feel I truly understand. What seemed straightforward at first turns out to be far more complex than I had imagined. There is no denying that some experts are far more qualified than others, but even the most experienced among them often disagree. The least controversial claim one can make is simply that the issue is more nuanced than it appears. The sooner we accept this, the better our discussions will be. In the end, the best we can do is to keep asking questions – the more we ask, the clearer things become.
+    </p>
+
+    <h3>Stopniowanie – przypomnienie</h3>
+    <table>
+      <tr><th>Równy</th><th>Wyższy</th><th>Najwyższy</th></tr>
+      <tr><td class="en">tall</td><td class="en">taller</td><td class="en">the tallest</td></tr>
+      <tr><td class="en">big</td><td class="en">bigger</td><td class="en">the biggest</td></tr>
+      <tr><td class="en">happy</td><td class="en">happier</td><td class="en">the happiest</td></tr>
+      <tr><td class="en">expensive</td><td class="en">more expensive</td><td class="en">the most expensive</td></tr>
+      <tr><td class="en">good</td><td class="en">better</td><td class="en">the best</td></tr>
+      <tr><td class="en">bad</td><td class="en">worse</td><td class="en">the worst</td></tr>
+      <tr><td class="en">far</td><td class="en">further / farther</td><td class="en">the furthest / farthest</td></tr>
+      <tr><td class="en">little</td><td class="en">less</td><td class="en">the least</td></tr>
+      <tr><td class="en">many / much</td><td class="en">more</td><td class="en">the most</td></tr>
+      <tr><td class="en">old</td><td class="en">older / elder</td><td class="en">the oldest / eldest</td></tr>
+    </table>
+
+    <h3>Konstrukcje porównawcze – pogłębione</h3>
+    <table>
+      <tr><th>Konstrukcja</th><th>Znaczenie</th><th>Przykład</th></tr>
+      <tr><td class="en">as ... as</td><td>tak ... jak</td><td class="en">I\'m as tall as my father.</td></tr>
+      <tr><td class="en">not as / so ... as</td><td>nie tak ... jak</td><td class="en">She isn\'t as tall as me.</td></tr>
+      <tr><td class="en">... than</td><td>... niż</td><td class="en">He\'s taller than me.</td></tr>
+      <tr><td class="en">the ... in / of</td><td>naj ... w / z</td><td class="en">He\'s the best in the class.</td></tr>
+      <tr><td class="en">the same as</td><td>taki sam jak</td><td class="en">My bag is the same as yours.</td></tr>
+      <tr><td class="en">similar to</td><td>podobny do</td><td class="en">This is similar to that one.</td></tr>
+      <tr><td class="en">different from / to</td><td>inny niż</td><td class="en">This is different from that.</td></tr>
+      <tr><td class="en">twice / three times as ... as</td><td>dwa / trzy razy ... jak</td><td class="en">This room is twice as big as mine.</td></tr>
+      <tr><td class="en">half as ... as</td><td>o połowę mniej niż</td><td class="en">This is half as expensive.</td></tr>
+      <tr><td class="en">the more ... the more ...</td><td>im ..., tym ...</td><td class="en">The more you practise, the better you get.</td></tr>
+    </table>
+
+    <h3>Wzmacnianie porównań – pogłębione</h3>
+    <table>
+      <tr><th>Wzmocnienie</th><th>Znaczenie</th><th>Przykład</th></tr>
+      <tr><td class="en"><b>much / far</b> + stopień wyższy</td><td>dużo, znacznie</td><td class="en">She is much taller than me.</td></tr>
+      <tr><td class="en"><b>a lot</b> + stopień wyższy</td><td>o wiele</td><td class="en">This is a lot more interesting.</td></tr>
+      <tr><td class="en"><b>a bit / a little / slightly</b> + stopień wyższy</td><td>trochę</td><td class="en">He is a bit taller.</td></tr>
+      <tr><td class="en"><b>no</b> + stopień wyższy</td><td>wcale nie</td><td class="en">He\'s no better than me.</td></tr>
+      <tr><td class="en"><b>even</b> + stopień wyższy</td><td>nawet</td><td class="en">This is even more difficult.</td></tr>
+      <tr><td class="en"><b>by far</b> + stopień najwyższy</td><td>zdecydowanie</td><td class="en">She is by far the best.</td></tr>
+      <tr><td class="en"><b>easily</b> + stopień najwyższy</td><td>zdecydowanie</td><td class="en">He\'s easily the tallest.</td></tr>
+      <tr><td class="en"><b>the very</b> + stopień najwyższy</td><td>absolutnie naj</td><td class="en">It was the very best day of my life.</td></tr>
+    </table>
+
+    <h3>The more... the more... – pogłębione</h3>
+    <table>
+      <tr><td class="en">The more you practise, the better you get.</td></tr>
+      <tr><td class="en">The earlier you start, the sooner you finish.</td></tr>
+      <tr><td class="en">The less you worry, the happier you are.</td></tr>
+      <tr><td class="en">The more expensive the hotel, the better the service.</td></tr>
+      <tr><td class="en">The fewer mistakes you make, the higher your score.</td></tr>
+      <tr><td class="en">The longer I wait, the more impatient I become.</td></tr>
+    </table>
+
+    <h3>Powtórzenia: "more and more", "less and less", "fewer and fewer"</h3>
+    <table>
+      <tr><td class="en">More and more people work from home.</td></tr>
+      <tr><td class="en">Less and less time is spent reading books.</td></tr>
+      <tr><td class="en">Fewer and fewer students choose this subject.</td></tr>
+      <tr><td class="en">Everything is getting more and more expensive.</td></tr>
+    </table>
+
+    <h3>Zbyt / wystarczająco / tak ... że – pogłębione</h3>
+    <table>
+      <tr><td class="en">too + przymiotnik</td><td class="en">too expensive</td></tr>
+      <tr><td class="en">przymiotnik + enough</td><td class="en">old enough</td></tr>
+      <tr><td class="en">enough + rzeczownik</td><td class="en">enough money</td></tr>
+      <tr><td class="en">too + przymiotnik + to + V</td><td class="en">too young to drive</td></tr>
+      <tr><td class="en">enough + to + V</td><td class="en">old enough to drive</td></tr>
+      <tr><td class="en">so + przymiotnik + that</td><td class="en">so beautiful that we stopped</td></tr>
+      <tr><td class="en">such a + przymiotnik + rzeczownik + that</td><td class="en">such a difficult test that many failed</td></tr>
+    </table>
+
+    <h3>Preferencje: prefer / would rather / would prefer</h3>
+    <table>
+      <tr><th>Konstrukcja</th><th>Przykład</th></tr>
+      <tr><td class="en">prefer A to B</td><td class="en">I prefer tea to coffee.</td></tr>
+      <tr><td class="en">prefer doing sth to doing sth</td><td class="en">I prefer walking to cycling.</td></tr>
+      <tr><td class="en">would rather + V</td><td class="en">I\'d rather walk than cycle.</td></tr>
+      <tr><td class="en">would prefer + to V</td><td class="en">I\'d prefer to walk.</td></tr>
+      <tr><td class="en">would rather + sb + Past</td><td class="en">I\'d rather you didn\'t tell anyone.</td></tr>
+    </table>
+
+    <h3>Elder / eldest vs Older / oldest</h3>
+    <table>
+      <tr><td class="en"><b>elder / eldest</b> – tylko o ludziach, przed rzeczownikiem</td><td class="en">my elder brother, her eldest son</td></tr>
+      <tr><td class="en"><b>older / oldest</b> – o ludziach i rzeczach, wszędzie</td><td class="en">my older brother, the oldest building</td></tr>
+    </table>
+    <p><b>Uwaga:</b> "elder" nie używamy z "than": <span class="en">My brother is older than me.</span> (nie "elder than").</p>
+
+    <h3>Stopniowanie z "less" i "the least"</h3>
+    <table>
+      <tr><td class="en">less expensive = cheaper <span class="pl">(mniej drogi)</span></td></tr>
+      <tr><td class="en">the least expensive = the cheapest <span class="pl">(najmniej drogi)</span></td></tr>
+      <tr><td class="en">This is less interesting than I expected.</td></tr>
+      <tr><td class="en">The least controversial claim is simply that…</td></tr>
+    </table>
+
+    <div class="tip-box">
+      <b>Zapamiętaj:</b><br>
+      <b>much / far / a lot</b> + stopień wyższy = dużo / znacznie<br>
+      <b>by far / easily / the very</b> + stopień najwyższy = zdecydowanie<br>
+      <b>elder / eldest</b> – tylko o ludziach, nie z "than"
+    </div>
+  `,
+  karta: [
+    { type: "header", text: "A. Utwórz stopnie" },
+    { type: "gap", text: '<span class="en">good → ________ → ________</span>', answers: ["better, best"] },
+    { type: "gap", text: '<span class="en">bad → ________ → ________</span>', answers: ["worse, worst"] },
+    { type: "gap", text: '<span class="en">far → ________ → ________</span>', answers: ["further, furthest", "farther, farthest"] },
+    { type: "gap", text: '<span class="en">little → ________ → ________</span>', answers: ["less, least"] },
+    { type: "gap", text: '<span class="en">many → ________ → ________</span>', answers: ["more, most"] },
+    { type: "header", text: "B. Wstaw w zdanie" },
+    { type: "gap", text: '<span class="en">This is ________ (expensive) restaurant in town.</span>', answers: ["the most expensive"] },
+    { type: "gap", text: '<span class="en">He is by far ________ (good) student in the class.</span>', answers: ["the best"] },
+    { type: "gap", text: '<span class="en">This is far ________ (complex) than I had imagined.</span>', answers: ["more complex"] },
+    { type: "gap", text: '<span class="en">That was the ________ (little) controversial claim.</span>', answers: ["least"] },
+    { type: "gap", text: '<span class="en">He is even ________ (difficult) than his brother.</span>', answers: ["more difficult"] },
+    { type: "gap", text: '<span class="en">This is much ________ (cheap) than that one.</span>', answers: ["cheaper"] },
+    { type: "gap", text: '<span class="en">She is easily ________ (tall) in the team.</span>', answers: ["the tallest"] },
+    { type: "header", text: "C. Konstrukcje porównawcze" },
+    { type: "gap", text: '<span class="en">This room is twice ________ big ________ mine.</span>', answers: ["as, as"] },
+    { type: "gap", text: '<span class="en">This is half ________ expensive ________ that one.</span>', answers: ["as, as"] },
+    { type: "gap", text: '<span class="en">My bag is the same ________ yours.</span>', answers: ["as"] },
+    { type: "gap", text: '<span class="en">This is similar ________ that one.</span>', answers: ["to"] },
+    { type: "gap", text: '<span class="en">This is different ________ what I expected.</span>', answers: ["from", "to"] },
+    { type: "gap", text: '<span class="en">I\'m not ________ tall ________ my brother.</span>', answers: ["as, as", "so, as"] },
+    { type: "header", text: "D. The more... the more..." },
+    { type: "gap", text: '<span class="en">The more I read, the ________ I understand. (mało)</span>', answers: ["less"] },
+    { type: "gap", text: '<span class="en">The earlier you start, the ________ you finish. (szybko)</span>', answers: ["sooner"] },
+    { type: "gap", text: '<span class="en">The ________ you worry, the happier you are. (mało)</span>', answers: ["less"] },
+    { type: "gap", text: '<span class="en">The ________ mistakes you make, the higher your score. (mało)</span>', answers: ["fewer"] },
+    { type: "gap", text: '<span class="en">The longer I wait, the ________ impatient I become. (dużo)</span>', answers: ["more"] },
+    { type: "header", text: "E. Zbyt / Wystarczająco / Tak ... że" },
+    { type: "gap", text: '<span class="en">This jacket is ________ expensive for me. (za)</span>', answers: ["too"] },
+    { type: "gap", text: '<span class="en">She is old ________ to drive. (dość)</span>', answers: ["enough"] },
+    { type: "gap", text: '<span class="en">I don\'t have ________ money. (dość)</span>', answers: ["enough"] },
+    { type: "gap", text: '<span class="en">It was ________ a difficult test that many failed.</span>', answers: ["such"] },
+    { type: "gap", text: '<span class="en">The view was ________ beautiful that we stopped.</span>', answers: ["so"] },
+    { type: "header", text: "F. Preferencje" },
+    { type: "gap", text: '<span class="en">I prefer tea ________ coffee.</span>', answers: ["to"] },
+    { type: "gap", text: '<span class="en">I\'d rather walk ________ cycle.</span>', answers: ["than"] },
+    { type: "gap", text: '<span class="en">I\'d prefer ________ (walk).</span>', answers: ["to walk"] },
+    { type: "gap", text: '<span class="en">I\'d rather you ________ (not / tell) anyone.</span>', answers: ["didn\'t tell", "did not tell"] },
+    { type: "header", text: "G. Popraw błędy" },
+    { type: "gap", text: '<span class="en">She is taller then me. → ________</span>', answers: ["she is taller than me", "she is taller than me."], wide: true },
+    { type: "gap", text: '<span class="en">This is more cheaper. → ________</span>', answers: ["this is cheaper", "this is cheaper."], wide: true },
+    { type: "gap", text: '<span class="en">My elder brother is elder than me. → ________</span>', answers: ["my elder brother is older than me", "my elder brother is older than me."], wide: true },
+    { type: "gap", text: '<span class="en">He is the goodest student. → ________</span>', answers: ["he is the best student", "he is the best student."], wide: true },
+    { type: "gap", text: '<span class="en">This room is twice as bigger as mine. → ________</span>', answers: ["this room is twice as big as mine", "this room is twice as big as mine."], wide: true },
+    { type: "header", text: "H. Przetłumacz" },
+    { type: "gap", text: '<span class="pl">Im więcej czytam, tym mniej rozumiem.</span>', answers: ["the more i read the less i understand", "the more i read, the less i understand", "the more i read, the less i understand."], wide: true },
+    { type: "gap", text: '<span class="pl">Ona jest zdecydowanie najlepszą studentką w klasie.</span>', answers: ["she is by far the best student in the class", "she is by far the best student in the class.", "she\'s by far the best student in the class", "she\'s easily the best student in the class"], wide: true },
+    { type: "gap", text: '<span class="pl">To znacznie trudniejsze, niż się wydawało.</span>', answers: ["this is far more difficult than it seemed", "this is far more difficult than it seemed.", "this is much more difficult than it seemed", "this is much more difficult than it seemed."], wide: true },
+    { type: "gap", text: '<span class="pl">Wolę herbatę od kawy.</span>', answers: ["i prefer tea to coffee", "i prefer tea to coffee."], wide: true },
+    { type: "gap", text: '<span class="pl">Ten pokój jest dwa razy większy niż mój.</span>', answers: ["this room is twice as big as mine", "this room is twice as big as mine."], wide: true },
+    { type: "gap", text: '<span class="pl">Im szybciej zaczniesz, tym szybciej skończysz.</span>', answers: ["the sooner you start the sooner you finish", "the sooner you start, the sooner you finish", "the sooner you start, the sooner you finish.", "the earlier you start, the sooner you finish"], wide: true },
+    { type: "header", text: "I. Napisz" },
+    { type: "open", text: "Napisz opinię o jakimś złożonym problemie (5-6 zdań), używając różnych konstrukcji porównawczych: the more... the more..., by far, far more, less, as... as.", placeholder: "np. The more I learn about..., the less I feel I understand. By far the most..." }
+  ],
+  test: [
+    { q: "She\'s much ______ than me.", opcje: ["taller", "more tall", "the tallest", "tall"], poprawna: 0, wyjasnienie: "much + stopień wyższy." },
+    { q: "He is by far ______ student in the class.", opcje: ["the best", "better", "the goodest", "more good"], poprawna: 0, wyjasnienie: "by far + stopień najwyższy: the best." },
+    { q: "This is far ______ than I imagined.", opcje: ["more complex", "complexer", "most complex", "complex"], poprawna: 0, wyjasnienie: "far + more + przymiotnik długi." },
+    { q: "The more I read, the ______ I understand.", opcje: ["less", "little", "least", "fewer"], poprawna: 0, wyjasnienie: "the more... the less – utrwalone." },
+    { q: "This room is twice ______ big ______ mine.", opcje: ["as / as", "so / as", "as / like", "so / like"], poprawna: 0, wyjasnienie: "twice as... as." },
+    { q: "My bag is the same ______ yours.", opcje: ["as", "like", "than", "to"], poprawna: 0, wyjasnienie: "the same as – utrwalone." },
+    { q: "This jacket is ______ expensive for me.", opcje: ["too", "enough", "very", "much"], poprawna: 0, wyjasnienie: "too + przymiotnik = za." },
+    { q: "I prefer tea ______ coffee.", opcje: ["to", "than", "over", "from"], poprawna: 0, wyjasnienie: "prefer A to B." },
+    { q: "I\'d rather walk ______ cycle.", opcje: ["than", "to", "from", "over"], poprawna: 0, wyjasnienie: "would rather A than B." },
+    { q: "Które zdanie jest poprawne?", opcje: ["She is taller then me.", "She is taller than me.", "She is more tall than me.", "She is tallest than me."], poprawna: 1, wyjasnienie: "niż = than, krótkie → -er." }
+  ]
+};
+
+
+/* ============================================================
+   G13C1 – Gerunds & Infinitives – poziom biegłości
+============================================================ */
+window.LESSON_DATA["G13C1"] = {
+  tytul: "Bezokolicznik i -ing – poziom biegłości",
+  poziom: "C1",
+  dzial: "G13",
+  teoria: `
+    <h3>Tekst do zapamiętania</h3>
+    <p class="en" style="display:block; padding:14px 18px; line-height:1.9;">
+      Having spent the last ten years working in the same industry, I\'ve come to realise that continuous learning is essential. I\'m used to juggling multiple projects at once, and I actually enjoy being challenged. Last year I decided to take a career break, which turned out to be one of the best decisions I\'ve ever made. It gave me time to reflect on what really matters. I regret not doing it sooner. Now I\'m looking forward to starting a new chapter – I\'ve applied for a master\'s programme in a field I\'ve always been fascinated by. Being able to study again feels like a privilege.
+    </p>
+
+    <h3>Grupa 1: czasownik + to + bezokolicznik</h3>
+    <table>
+      <tr><td class="en">agree, decide, hope, plan, promise, refuse, offer, learn, manage, fail, afford, expect, want, need, would like, would love, would hate, would prefer, intend, threaten</td></tr>
+    </table>
+    <table>
+      <tr><td class="en">She threatened to leave. He managed to finish on time. I intend to apply.</td></tr>
+    </table>
+
+    <h3>Grupa 2: czasownik + -ing</h3>
+    <table>
+      <tr><td class="en">enjoy, finish, mind, avoid, suggest, keep, practise, admit, deny, imagine, consider, recommend, miss, risk, involve, mention, report, resent, tolerate, appreciate</td></tr>
+    </table>
+    <table>
+      <tr><td class="en">I appreciate your helping me. He mentioned seeing her. It involves working late.</td></tr>
+    </table>
+
+    <h3>Grupa 3: oba bez zmiany znaczenia</h3>
+    <table>
+      <tr><td class="en">like, love, hate, prefer, begin, start, continue, bother, cease</td></tr>
+    </table>
+
+    <h3>Grupa 4: oba, ale zmiana znaczenia</h3>
+    <table>
+      <tr><th>Bezokolicznik (to do)</th><th>-ing (doing)</th></tr>
+      <tr><td class="en">stop to smoke = zatrzymać się, żeby zapalić</td><td class="en">stop smoking = rzucić palenie</td></tr>
+      <tr><td class="en">remember to lock = pamiętać, żeby zamknąć</td><td class="en">remember locking = pamiętać, że się zamknęło</td></tr>
+      <tr><td class="en">forget to buy = zapomnieć kupić</td><td class="en">forget buying = zapomnieć, że się kupiło</td></tr>
+      <tr><td class="en">try to open = próbować otworzyć</td><td class="en">try opening = spróbować otworzyć (eksperyment)</td></tr>
+      <tr><td class="en">go on to do = zrobić coś nowego</td><td class="en">go on doing = kontynuować</td></tr>
+      <tr><td class="en">regret to say = z żalem mówić (formalnie)</td><td class="en">regret saying = żałować, że się powiedziało</td></tr>
+      <tr><td class="en">come to do = przyjść coś zrobić</td><td class="en">come doing = przyjść robiąc coś</td></tr>
+    </table>
+
+    <h3>Po przyimkach zawsze -ing</h3>
+    <table>
+      <tr><td class="en">good at / bad at</td><td class="en">I\'m good at drawing.</td></tr>
+      <tr><td class="en">interested in</td><td class="en">I\'m interested in learning.</td></tr>
+      <tr><td class="en">think of / about</td><td class="en">I\'m thinking of moving.</td></tr>
+      <tr><td class="en">look forward to</td><td class="en">I look forward to seeing you.</td></tr>
+      <tr><td class="en">before / after</td><td class="en">After finishing work, I went home.</td></tr>
+      <tr><td class="en">instead of</td><td class="en">Instead of watching TV, let\'s go out.</td></tr>
+      <tr><td class="en">succeed in</td><td class="en">She succeeded in passing.</td></tr>
+      <tr><td class="en">apologise for</td><td class="en">He apologised for being late.</td></tr>
+      <tr><td class="en">insist on</td><td class="en">She insisted on paying.</td></tr>
+      <tr><td class="en">accuse sb of</td><td class="en">They accused him of cheating.</td></tr>
+      <tr><td class="en">prevent sb from</td><td class="en">They prevented us from leaving.</td></tr>
+      <tr><td class="en">congratulate sb on</td><td class="en">I congratulated her on winning.</td></tr>
+      <tr><td class="en">blame sb for</td><td class="en">She blamed me for ruining it.</td></tr>
+      <tr><td class="en">be capable of</td><td class="en">He\'s capable of doing better.</td></tr>
+      <tr><td class="en">be used to</td><td class="en">I\'m used to getting up early.</td></tr>
+    </table>
+
+    <h3>Perfect infinitive i perfect gerund</h3>
+    <table>
+      <tr><th>Konstrukcja</th><th>Znaczenie</th><th>Przykład</th></tr>
+      <tr><td class="en"><b>to have + III</b></td><td>o przeszłości (bezokolicznik perfect)</td><td class="en">He seems to have forgotten.</td></tr>
+      <tr><td class="en"><b>having + III</b></td><td>o przeszłości (gerund perfect)</td><td class="en">Having finished work, I went home.</td></tr>
+      <tr><td class="en"><b>to be + III</b></td><td>bezokolicznik bierny</td><td class="en">This needs to be cleaned.</td></tr>
+      <tr><td class="en"><b>being + III</b></td><td>gerund bierny</td><td class="en">I hate being told what to do.</td></tr>
+      <tr><td class="en"><b>to have been + III</b></td><td>bezokolicznik perfect bierny</td><td class="en">The house seems to have been abandoned.</td></tr>
+      <tr><td class="en"><b>having been + III</b></td><td>gerund perfect bierny</td><td class="en">Having been warned, he was careful.</td></tr>
+    </table>
+
+    <h3>Konstrukcje z dopełnieniem</h3>
+    <table>
+      <tr><th>Konstrukcja</th><th>Przykład</th></tr>
+      <tr><td class="en">want / need / expect / would like sb <b>to do</b></td><td class="en">I want you to help me.</td></tr>
+      <tr><td class="en">ask / tell / advise / persuade / remind sb <b>to do</b></td><td class="en">He advised me to rest.</td></tr>
+      <tr><td class="en">warn / encourage / force sb <b>to do</b></td><td class="en">They warned us not to go.</td></tr>
+      <tr><td class="en">let / make sb <b>do</b> (bez to)</td><td class="en">Let me help. He made me wait.</td></tr>
+      <tr><td class="en">help sb (to) do</td><td class="en">She helped me (to) study.</td></tr>
+      <tr><td class="en">see / hear / watch sb <b>do</b> / <b>doing</b></td><td class="en">I saw him cross the street. I saw him crossing the street.</td></tr>
+      <tr><td class="en">feel / notice / observe sb <b>do</b> / <b>doing</b></td><td class="en">I felt the ground shake / shaking.</td></tr>
+    </table>
+    <p><b>Uwaga:</b> w passive <b>to</b> wraca: <span class="en">He was made to wait.</span></p>
+
+    <h3>Bezokolicznik celu / -ing jako podmiot</h3>
+    <table>
+      <tr><td class="en">Bezokolicznik celu: <b>to + V</b></td><td class="en">I came here to study.</td></tr>
+      <tr><td class="en">-ing jako podmiot</td><td class="en">Reading is my favourite pastime.</td></tr>
+      <tr><td class="en">-ing po "It\'s no use / It\'s no good / It\'s worth"</td><td class="en">It\'s no use complaining. It\'s worth trying.</td></tr>
+      <tr><td class="en">-ing po "There\'s no point in"</td><td class="en">There\'s no point in arguing.</td></tr>
+      <tr><td class="en">-ing po "can\'t help / can\'t stand"</td><td class="en">I can\'t help laughing. I can\'t stand waiting.</td></tr>
+    </table>
+
+    <div class="tip-box">
+      <b>Zapamiętaj:</b><br>
+      <b>make / let</b> + bez "to" (He made me go. Let me help.)<br>
+      Ale w passive: <span class="en">I was made to wait.</span><br>
+      <b>It\'s no use / It\'s no good / There\'s no point in</b> + -ing<br>
+      <b>Having + III</b> – perfect gerund (do czynności wcześniejszej)
+    </div>
+  `,
+  karta: [
+    { type: "header", text: "A. To czy -ing?" },
+    { type: "gap", text: '<span class="en">I\'ve decided ________ (learn) Spanish.</span>', answers: ["to learn"] },
+    { type: "gap", text: '<span class="en">I enjoy ________ (learn) languages.</span>', answers: ["learning"] },
+    { type: "gap", text: '<span class="en">He admitted ________ (steal) the money.</span>', answers: ["stealing"] },
+    { type: "gap", text: '<span class="en">My friend suggested ________ (join) a course.</span>', answers: ["joining"] },
+    { type: "gap", text: '<span class="en">I agreed ________ (try) it.</span>', answers: ["to try"] },
+    { type: "gap", text: '<span class="en">I\'m looking forward to ________ (start) next week.</span>', answers: ["starting"] },
+    { type: "gap", text: '<span class="en">I hope ________ (become) fluent.</span>', answers: ["to become"] },
+    { type: "gap", text: '<span class="en">I can\'t imagine ________ (live) without music.</span>', answers: ["living"] },
+    { type: "gap", text: '<span class="en">She persuaded me ________ (join).</span>', answers: ["to join"] },
+    { type: "gap", text: '<span class="en">He denied ________ (take) the money.</span>', answers: ["taking"] },
+    { type: "gap", text: '<span class="en">I appreciate your ________ (help) me.</span>', answers: ["helping"] },
+    { type: "gap", text: '<span class="en">It involves ________ (work) late.</span>', answers: ["working"] },
+    { type: "header", text: "B. Różnice znaczenia" },
+    { type: "gap", text: '<span class="en">He stopped ________ (smoke). (rzucił palenie)</span>', answers: ["smoking"] },
+    { type: "gap", text: '<span class="en">He stopped ________ (smoke). (zatrzymał się, żeby zapalić)</span>', answers: ["to smoke"] },
+    { type: "gap", text: '<span class="en">Remember ________ (lock) the door! (nie zapomnij)</span>', answers: ["to lock"] },
+    { type: "gap", text: '<span class="en">I remember ________ (lock) the door. (pamiętam, że to zrobiłem)</span>', answers: ["locking"] },
+    { type: "gap", text: '<span class="en">I regret ________ (say) that I can\'t come. (formalnie)</span>', answers: ["to say"] },
+    { type: "gap", text: '<span class="en">I regret ________ (say) that – it was rude.</span>', answers: ["saying"] },
+    { type: "header", text: "C. Perfect infinitive / perfect gerund" },
+    { type: "gap", text: '<span class="en">He seems ________ (forget) about our meeting.</span>', answers: ["to have forgotten"] },
+    { type: "gap", text: '<span class="en">________ (finish) my work, I went out.</span>', answers: ["having finished"] },
+    { type: "gap", text: '<span class="en">This needs ________ (clean).</span>', answers: ["to be cleaned", "cleaning"] },
+    { type: "gap", text: '<span class="en">I hate ________ (tell) what to do. (passive gerund)</span>', answers: ["being told"] },
+    { type: "gap", text: '<span class="en">The house seems ________ (abandon).</span>', answers: ["to have been abandoned"] },
+    { type: "gap", text: '<span class="en">________ (warn), he was careful.</span>', answers: ["having been warned"] },
+    { type: "header", text: "D. Konstrukcje specjalne" },
+    { type: "gap", text: '<span class="en">It\'s no use ________ (complain).</span>', answers: ["complaining"] },
+    { type: "gap", text: '<span class="en">It\'s worth ________ (try).</span>', answers: ["trying"] },
+    { type: "gap", text: '<span class="en">There\'s no point in ________ (argue).</span>', answers: ["arguing"] },
+    { type: "gap", text: '<span class="en">I can\'t help ________ (laugh).</span>', answers: ["laughing"] },
+    { type: "gap", text: '<span class="en">I can\'t stand ________ (wait).</span>', answers: ["waiting"] },
+    { type: "gap", text: '<span class="en">I saw him ________ (cross) the street. (cała czynność)</span>', answers: ["cross"] },
+    { type: "gap", text: '<span class="en">I saw him ________ (cross) the street. (w trakcie)</span>', answers: ["crossing"] },
+    { type: "gap", text: '<span class="en">He was made ________ (wait).</span>', answers: ["to wait"] },
+    { type: "header", text: "E. Popraw błędy" },
+    { type: "gap", text: '<span class="en">I want going home. → ________</span>', answers: ["i want to go home", "i want to go home."], wide: true },
+    { type: "gap", text: '<span class="en">She suggested to go out. → ________</span>', answers: ["she suggested going out", "she suggested going out."], wide: true },
+    { type: "gap", text: '<span class="en">I\'m interested to learn English. → ________</span>', answers: ["i\'m interested in learning english", "i\'m interested in learning english.", "i am interested in learning english", "i am interested in learning english."], wide: true },
+    { type: "gap", text: '<span class="en">He made me to wait. → ________</span>', answers: ["he made me wait", "he made me wait."], wide: true },
+    { type: "gap", text: '<span class="en">It\'s no use to complain. → ________</span>', answers: ["it\'s no use complaining", "it\'s no use complaining."], wide: true },
+    { type: "gap", text: '<span class="en">I look forward to see you. → ________</span>', answers: ["i look forward to seeing you", "i look forward to seeing you."], wide: true },
+    { type: "header", text: "F. Przetłumacz" },
+    { type: "gap", text: '<span class="pl">Zdecydowałem się nauczyć hiszpańskiego.</span>', answers: ["i decided to learn spanish", "i decided to learn spanish.", "i\'ve decided to learn spanish", "i\'ve decided to learn spanish."], wide: true },
+    { type: "gap", text: '<span class="pl">Nie mogę się doczekać spotkania z tobą.</span>', answers: ["i\'m looking forward to seeing you", "i\'m looking forward to seeing you.", "i am looking forward to seeing you", "i am looking forward to seeing you."], wide: true },
+    { type: "gap", text: '<span class="pl">Nie ma sensu się kłócić.</span>', answers: ["there\'s no point in arguing", "there\'s no point in arguing.", "there is no point in arguing", "it\'s no use arguing"], wide: true },
+    { type: "gap", text: '<span class="pl">Żałuję, że nie zrobiłem tego wcześniej.</span>', answers: ["i regret not doing it sooner", "i regret not doing it sooner.", "i regret not having done it sooner"], wide: true },
+    { type: "gap", text: '<span class="pl">Skończywszy pracę, wróciłem do domu.</span>', answers: ["having finished work i went home", "having finished work, i went home", "having finished work, i went home."], wide: true },
+    { type: "gap", text: '<span class="pl">Kazano mi czekać.</span>', answers: ["i was made to wait", "i was made to wait."], wide: true },
+    { type: "header", text: "G. Napisz" },
+    { type: "open", text: "Napisz krótką refleksję o swojej karierze lub edukacji (5-6 zdań), używając różnych konstrukcji: to+V, -ing, perfect gerund/infinitive, It\'s worth..., I regret...", placeholder: "np. Having spent years..., I\'ve decided to... I regret not... It\'s worth considering..." }
+  ],
+  test: [
+    { q: "I want ______ home.", opcje: ["to go", "going", "go", "to going"], poprawna: 0, wyjasnienie: "want + to + bezokolicznik." },
+    { q: "She enjoys ______.", opcje: ["reading", "to read", "read", "reads"], poprawna: 0, wyjasnienie: "enjoy + -ing." },
+    { q: "I\'m interested ______ learning languages.", opcje: ["in", "on", "at", "of"], poprawna: 0, wyjasnienie: "interested in + -ing." },
+    { q: "It\'s no use ______.", opcje: ["to complain", "complaining", "complain", "complained"], poprawna: 1, wyjasnienie: "It\'s no use + -ing." },
+    { q: "He ______ smoking last year.", opcje: ["stopped", "stop", "stopping", "stops"], poprawna: 0, wyjasnienie: "stop + -ing = rzucić coś." },
+    { q: "Remember ______ the door!", opcje: ["to lock", "locking", "lock", "locked"], poprawna: 0, wyjasnienie: "remember to do = nie zapomnij zrobić." },
+    { q: "He made me ______.", opcje: ["wait", "to wait", "waiting", "waited"], poprawna: 0, wyjasnienie: "make sb do – bez 'to'." },
+    { q: "He was made ______.", opcje: ["wait", "to wait", "waiting", "waited"], poprawna: 1, wyjasnienie: "W passive make sb to do." },
+    { q: "She suggested ______ out.", opcje: ["going", "to go", "go", "went"], poprawna: 0, wyjasnienie: "suggest + -ing." },
+    { q: "______ my work, I went out.", opcje: ["Finishing", "To finish", "Having finished", "Finish"], poprawna: 2, wyjasnienie: "Perfect gerund – czynność wcześniejsza." }
+  ]
+};
+
+/* ============================================================
+   G14C1 – Relative Clauses – poziom biegłości
+============================================================ */
+window.LESSON_DATA["G14C1"] = {
+  tytul: "Zdania przydawkowe – poziom biegłości",
+  poziom: "C1",
+  dzial: "G14",
+  teoria: `
+    <h3>Tekst do zapamiętania</h3>
+    <p class="en" style="display:block; padding:14px 18px; line-height:1.9;">
+      The scientist whose research has transformed the field was awarded the Nobel Prize. The discovery, which had taken decades to achieve, was met with worldwide acclaim. What impressed me most was the humility with which she accepted it. Anyone who has ever worked in a lab knows how much patience is required. The moment when the results were announced was unforgettable. This is the very reason why science needs public support. The book that inspired her as a child, which she still keeps on her shelf, was written by a Polish physicist.
+    </p>
+
+    <h3>Defining vs Non-defining – pogłębione</h3>
+    <table>
+      <tr><th>Defining (określające)</th><th>Non-defining (opisowe)</th></tr>
+      <tr>
+        <td>• <b>bez przecinków</b><br>
+        • informacja <b>konieczna</b><br>
+        • można użyć <b>that</b><br>
+        • zaimek można <b>pominąć</b> (dopełnienie)</td>
+        <td>• <b>z przecinkami</b><br>
+        • informacja <b>dodatkowa</b><br>
+        • <b>NIE</b> można użyć "that"<br>
+        • <b>NIE</b> pomijamy zaimka</td>
+      </tr>
+      <tr>
+        <td class="en">The man <b>who lives next door</b> is my uncle.</td>
+        <td class="en">My uncle, <b>who lives next door</b>, is a doctor.</td>
+      </tr>
+    </table>
+
+    <h3>Zaimki względne – podsumowanie</h3>
+    <table>
+      <tr><th>Zaimek</th><th>Dotyczy</th><th>Defining</th><th>Non-defining</th></tr>
+      <tr><td class="en">who</td><td>osoby</td><td>✓</td><td>✓</td></tr>
+      <tr><td class="en">whom</td><td>osoby (formalnie, dopełnienie)</td><td>✓</td><td>✓</td></tr>
+      <tr><td class="en">which</td><td>rzeczy</td><td>✓</td><td>✓</td></tr>
+      <tr><td class="en">that</td><td>osoby i rzeczy</td><td>✓</td><td>✗</td></tr>
+      <tr><td class="en">whose</td><td>czyj</td><td>✓</td><td>✓</td></tr>
+      <tr><td class="en">where</td><td>miejsca</td><td>✓</td><td>✓</td></tr>
+      <tr><td class="en">when</td><td>czas</td><td>✓</td><td>✓</td></tr>
+      <tr><td class="en">why</td><td>powód (po "the reason")</td><td>✓</td><td>✗</td></tr>
+      <tr><td class="en">whereby</td><td>dla "sposobu" (formalnie)</td><td>✓</td><td>✓</td></tr>
+    </table>
+
+    <h3>Kiedy pominąć zaimek?</h3>
+    <table>
+      <tr><td class="en">The book (that / which) I bought is interesting. ✅ <span class="pl">(bought → I bought it)</span></td></tr>
+      <tr><td class="en">The man (who / that) I met was nice. ✅</td></tr>
+      <tr><td class="en">The man who lives next door… ❌ (who = podmiot)</td></tr>
+      <tr><td class="en">My car, which I bought last year,… ❌ (non-defining)</td></tr>
+    </table>
+
+    <h3>Prepositions + relative pronouns</h3>
+    <table>
+      <tr><th>Formalnie</th><th>Potocznie</th></tr>
+      <tr><td class="en">The man <b>to whom</b> I spoke was nice.</td><td class="en">The man (who) I spoke to was nice.</td></tr>
+      <tr><td class="en">The house <b>in which</b> I live is old.</td><td class="en">The house (which) I live in is old.</td></tr>
+      <tr><td class="en">The friend <b>with whom</b> I travelled…</td><td class="en">The friend (who) I travelled with…</td></tr>
+      <tr><td class="en">The tool <b>with which</b> he works…</td><td class="en">The tool (which) he works with…</td></tr>
+    </table>
+    <p><b>Uwaga:</b> w formalnym stylu <b>whom</b> nie <b>who</b> po przyimku.</p>
+
+    <h3>Non-defining z całym zdaniem – "which"</h3>
+    <table>
+      <tr><td class="en">He arrived late, <b>which</b> annoyed everyone.</td></tr>
+      <tr><td class="en">She passed the exam, <b>which</b> surprised nobody.</td></tr>
+      <tr><td class="en">The weather was terrible, <b>which</b> ruined our picnic.</td></tr>
+    </table>
+
+    <h3>Cleft relative – "the one", "the thing"</h3>
+    <table>
+      <tr><td class="en">This is the one (that) I want.</td></tr>
+      <tr><td class="en">The thing (that) I like most is the atmosphere.</td></tr>
+      <tr><td class="en">The reason (why) I called is to apologise.</td></tr>
+      <tr><td class="en">The moment (when) I saw her, I knew.</td></tr>
+    </table>
+
+    <h3>Reduced relative clauses – pogłębione</h3>
+    <p>Skracamy, gdy zaimek jest <b>podmiotem</b> w zdaniu defining:</p>
+    <table>
+      <tr><th>Pełna forma</th><th>Skrócona</th></tr>
+      <tr><td class="en">The man who is standing there is my boss.</td><td class="en">The man standing there is my boss.</td></tr>
+      <tr><td class="en">The book which was written by Orwell…</td><td class="en">The book written by Orwell…</td></tr>
+      <tr><td class="en">Anyone who wants to come…</td><td class="en">Anyone wanting to come…</td></tr>
+      <tr><td class="en">The only student who passed…</td><td class="en">The only student to pass…</td></tr>
+      <tr><td class="en">The first person who arrived…</td><td class="en">The first person to arrive…</td></tr>
+    </table>
+    <p>Typowe dla tekstów formalnych, naukowych, dziennikarskich.</p>
+
+    <h3>Which vs what</h3>
+    <table>
+      <tr><td class="en"><b>which</b> – po rzeczowniku / zdaniu (wybór z grupy)</td><td class="en">This is the book which I told you about.</td></tr>
+      <tr><td class="en"><b>what</b> – "to, co" (zastępuje the thing that)</td><td class="en">What I need is a holiday.</td></tr>
+      <tr><td class="en">NIE: <span style="color:#991b1b">the book what I told you</span></td><td class="en">TAK: the book (that / which) I told you about</td></tr>
+    </table>
+
+    <h3>Które zaimki w których stylach?</h3>
+    <table>
+      <tr><th>Kontekst</th><th>Preferowane</th><th>Przykład</th></tr>
+      <tr><td>Potoczny</td><td class="en">that / who / which</td><td class="en">The girl that sings…</td></tr>
+      <tr><td>Neutralny</td><td class="en">who / which</td><td class="en">The girl who sings…</td></tr>
+      <tr><td>Formalny / akademicki</td><td class="en">whom / in which / to whom</td><td class="en">The author to whom the letter was addressed…</td></tr>
+    </table>
+
+    <div class="tip-box">
+      <b>Zapamiętaj:</b><br>
+      <b>Defining</b>: bez przecinków, można "that", można pominąć dopełnienie.<br>
+      <b>Non-defining</b>: z przecinkami, NIE "that", NIE pomijamy.<br>
+      <b>which</b> może odnosić się do całego zdania.<br>
+      Po przyimku (formalnie) → <b>whom / which</b>.
+    </div>
+  `,
+  karta: [
+    { type: "header", text: "A. Defining czy non-defining?" },
+    { type: "gap", text: '<span class="en">The man ________ lives next door is my uncle.</span>', answers: ["who", "that"] },
+    { type: "gap", text: '<span class="en">My sister, ________ lives in London, is a doctor.</span>', answers: ["who"] },
+    { type: "gap", text: '<span class="en">The book ________ I bought is interesting.</span>', answers: ["which", "that"] },
+    { type: "gap", text: '<span class="en">This book, ________ I bought yesterday, is great.</span>', answers: ["which"] },
+    { type: "gap", text: '<span class="en">The house ________ we live is old.</span>', answers: ["where"] },
+    { type: "gap", text: '<span class="en">My house, ________ is quite old, needs renovation.</span>', answers: ["which"] },
+    { type: "header", text: "B. Wstaw odpowiedni zaimek" },
+    { type: "gap", text: '<span class="en">That\'s the boy ________ mother is a teacher.</span>', answers: ["whose"] },
+    { type: "gap", text: '<span class="en">I know a man ________ speaks five languages.</span>', answers: ["who", "that"] },
+    { type: "gap", text: '<span class="en">This is the café ________ we met.</span>', answers: ["where"] },
+    { type: "gap", text: '<span class="en">I remember the day ________ we first met.</span>', answers: ["when", "that"] },
+    { type: "gap", text: '<span class="en">The film ________ we watched was great.</span>', answers: ["which", "that"] },
+    { type: "gap", text: '<span class="en">The reason ________ I called is to apologise.</span>', answers: ["why", "that"] },
+    { type: "gap", text: '<span class="en">He arrived late, ________ annoyed everyone.</span>', answers: ["which"] },
+    { type: "header", text: "C. Prepositions – formal vs informal" },
+    { type: "gap", text: '<span class="en">The man to ________ I spoke was nice. (formal)</span>', answers: ["whom"] },
+    { type: "gap", text: '<span class="en">The house in ________ I live is old. (formal)</span>', answers: ["which"] },
+    { type: "gap", text: '<span class="en">The friend with ________ I travelled… (formal)</span>', answers: ["whom"] },
+    { type: "gap", text: '<span class="en">The tool with ________ he works… (formal)</span>', answers: ["which"] },
+    { type: "header", text: "D. Reduced relative clauses" },
+    { type: "gap", text: '<span class="en">The man who is standing there is my boss. → The man ________ there is my boss.</span>', answers: ["standing"], wide: true },
+    { type: "gap", text: '<span class="en">The book which was written by Orwell… → The book ________ by Orwell…</span>', answers: ["written"], wide: true },
+    { type: "gap", text: '<span class="en">Anyone who wants to come… → Anyone ________ to come…</span>', answers: ["wanting"], wide: true },
+    { type: "gap", text: '<span class="en">The first person who arrived… → The first person ________…</span>', answers: ["to arrive"], wide: true },
+    { type: "header", text: "E. Which czy what?" },
+    { type: "gap", text: '<span class="en">This is the book ________ I told you about.</span>', answers: ["which", "that"] },
+    { type: "gap", text: '<span class="en">________ I need is a holiday.</span>', answers: ["what"] },
+    { type: "gap", text: '<span class="en">________ surprised me most was her honesty.</span>', answers: ["what"] },
+    { type: "gap", text: '<span class="en">The film, ________ lasted three hours, was boring.</span>', answers: ["which"] },
+    { type: "header", text: "F. Popraw błędy" },
+    { type: "gap", text: '<span class="en">My car, that I bought last year, is fast. → ________</span>', answers: ["my car which i bought last year is fast", "my car, which i bought last year, is fast", "my car, which i bought last year, is fast."], wide: true },
+    { type: "gap", text: '<span class="en">The man which lives here is old. → ________</span>', answers: ["the man who lives here is old", "the man who lives here is old.", "the man that lives here is old", "the man that lives here is old."], wide: true },
+    { type: "gap", text: '<span class="en">The book who I bought is good. → ________</span>', answers: ["the book which i bought is good", "the book which i bought is good.", "the book that i bought is good", "the book that i bought is good."], wide: true },
+    { type: "gap", text: '<span class="en">The book what I bought is good. → ________</span>', answers: ["the book which i bought is good", "the book that i bought is good", "the book i bought is good"], wide: true },
+    { type: "header", text: "G. Przetłumacz" },
+    { type: "gap", text: '<span class="pl">Naukowiec, którego badania zmieniły tę dziedzinę, otrzymał Nagrodę Nobla.</span>', answers: ["the scientist whose research has transformed the field was awarded the nobel prize", "the scientist whose research has transformed the field was awarded the nobel prize.", "the scientist whose research transformed the field was awarded the nobel prize"], wide: true },
+    { type: "gap", text: '<span class="pl">Odkrycie, które zajęło dziesięciolecia, zostało przyjęte z uznaniem.</span>', answers: ["the discovery which had taken decades to achieve was met with worldwide acclaim", "the discovery, which had taken decades to achieve, was met with worldwide acclaim", "the discovery that had taken decades to achieve was met with worldwide acclaim"], wide: true },
+    { type: "gap", text: '<span class="pl">To, co mnie najbardziej uderzyło, to jej skromność.</span>', answers: ["what impressed me most was her humility", "what impressed me most was her humility.", "what struck me most was her humility"], wide: true },
+    { type: "gap", text: '<span class="pl">Każdy, kto kiedykolwiek pracował w laboratorium, wie, ile wymaga to cierpliwości.</span>', answers: ["anyone who has ever worked in a lab knows how much patience is required", "anyone who has ever worked in a lab knows how much patience is required.", "anyone who has ever worked in a laboratory knows how much patience is required"], wide: true },
+    { type: "gap", text: '<span class="pl">Książka, która zainspirowała ją jako dziecko, została napisana przez polskiego fizyka.</span>', answers: ["the book that inspired her as a child was written by a polish physicist", "the book which inspired her as a child was written by a polish physicist", "the book that inspired her as a child, which she still keeps, was written by a polish physicist"], wide: true },
+    { type: "header", text: "H. Napisz" },
+    { type: "open", text: "Opisz ważne odkrycie naukowe lub wydarzenie, używając defining i non-defining relative clauses oraz reduced relative clauses.", placeholder: "np. The discovery, which..., was made by... The scientist whose... Anyone who..." }
+  ],
+  test: [
+    { q: "The man ______ lives next door is my uncle.", opcje: ["who", "which", "whose", "where"], poprawna: 0, wyjasnienie: "Osoba → who." },
+    { q: "My sister, ______ lives in London, is a doctor.", opcje: ["who", "that", "which", "what"], poprawna: 0, wyjasnienie: "Non-defining – nie używamy 'that'." },
+    { q: "That\'s the boy ______ mother is a teacher.", opcje: ["who", "which", "whose", "that"], poprawna: 2, wyjasnienie: "Czyj → whose." },
+    { q: "He arrived late, ______ annoyed everyone.", opcje: ["who", "which", "whose", "that"], poprawna: 1, wyjasnienie: "which odnosi się do całego zdania." },
+    { q: "The man to ______ I spoke was nice.", opcje: ["who", "whom", "which", "that"], poprawna: 1, wyjasnienie: "Po przyimku formalnie → whom." },
+    { q: "The book ______ I bought is good.", opcje: ["who", "which", "what", "whose"], poprawna: 1, wyjasnienie: "Rzecz → which / that." },
+    { q: "The man who is standing there → The man ______ there.", opcje: ["standing", "stands", "stood", "to stand"], poprawna: 0, wyjasnienie: "Reduced relative clause – -ing." },
+    { q: "The first person ______ arrived was John.", opcje: ["who", "that", "to", "which"], poprawna: 2, wyjasnienie: "The first person to + V – reduced." },
+    { q: "______ I need is a holiday.", opcje: ["What", "Which", "That", "Who"], poprawna: 0, wyjasnienie: "What I need is…" },
+    { q: "Które zdanie jest poprawne?", opcje: ["My car, that I bought, is fast.", "My car, which I bought, is fast.", "My car which I bought, is fast.", "My car, who I bought, is fast."], poprawna: 1, wyjasnienie: "Non-defining: which, przecinki, NIE that." }
+  ]
+};
+
+/* ============================================================
+   G15C1 – Question Formation – poziom biegłości
+============================================================ */
+window.LESSON_DATA["G15C1"] = {
+  tytul: "Pytania – poziom biegłości",
+  poziom: "C1",
+  dzial: "G15",
+  teoria: `
+    <h3>Tekst do zapamiętania</h3>
+    <p class="en" style="display:block; padding:14px 18px; line-height:1.9;">
+      I wonder whether you could tell me a little more about the role. What exactly would the position involve? How much scope would there be for professional development? Do you happen to know who I\'d be reporting to? Is there any chance the start date could be flexible? What I\'d really like to understand is how success is measured in the first year. Would it be possible to speak to someone currently in the team? If I might ask one more thing – how soon are you hoping to make a decision? I\'d be grateful if you could keep me informed.
+    </p>
+
+    <h3>Question tags – pogłębione</h3>
+    <table>
+      <tr><th>Zdanie</th><th>Question tag</th></tr>
+      <tr><td class="en">You\'re Polish,</td><td class="en">aren\'t you?</td></tr>
+      <tr><td class="en">She works here,</td><td class="en">doesn\'t she?</td></tr>
+      <tr><td class="en">They went home,</td><td class="en">didn\'t they?</td></tr>
+      <tr><td class="en">You don\'t smoke,</td><td class="en">do you?</td></tr>
+      <tr><td class="en">Let\'s go,</td><td class="en">shall we?</td></tr>
+      <tr><td class="en">I\'m right,</td><td class="en">aren\'t I?</td></tr>
+      <tr><td class="en">Nobody called,</td><td class="en">did they?</td></tr>
+      <tr><td class="en">Close the window,</td><td class="en">will you? / won\'t you?</td></tr>
+      <tr><td class="en">There\'s a problem,</td><td class="en">isn\'t there?</td></tr>
+      <tr><td class="en">Nothing happened,</td><td class="en">did it?</td></tr>
+      <tr><td class="en">You\'ve finished,</td><td class="en">haven\'t you?</td></tr>
+    </table>
+
+    <h3>Indirect questions – pogłębione</h3>
+    <table>
+      <tr><th>Bezpośrednie</th><th>Pośrednie</th></tr>
+      <tr><td class="en">Where is the station?</td><td class="en">Could you tell me where the station is?</td></tr>
+      <tr><td class="en">What time does it start?</td><td class="en">Do you happen to know what time it starts?</td></tr>
+      <tr><td class="en">How much does it cost?</td><td class="en">I wonder how much it costs.</td></tr>
+      <tr><td class="en">Is she coming?</td><td class="en">Do you know if she\'s coming?</td></tr>
+      <tr><td class="en">Did he call?</td><td class="en">I wonder if he called.</td></tr>
+      <tr><td class="en">Would it be possible to…?</td><td class="en">Would it be possible to speak to…?</td></tr>
+    </table>
+
+    <p><b>Typowe zwroty wprowadzające (formalne):</b></p>
+    <table>
+      <tr><td class="en">I wonder whether / if…</td><td class="en">Do you happen to know…?</td></tr>
+      <tr><td class="en">Could you tell me…?</td><td class="en">Would you mind telling me…?</td></tr>
+      <tr><td class="en">I\'d be grateful if you could…</td><td class="en">Might I ask…?</td></tr>
+      <tr><td class="en">Is there any chance…?</td><td class="en">What I\'d like to know is…</td></tr>
+    </table>
+
+    <h3>Pytania o podmiot vs dopełnienie</h3>
+    <table>
+      <tr><th>Pytanie o podmiot (bez do)</th><th>Pytanie o dopełnienie (z do)</th></tr>
+      <tr>
+        <td class="en">Who called you? <span class="pl">(kto – podmiot)</span></td>
+        <td class="en">Who did you call? <span class="pl">(kogo – dopełnienie)</span></td>
+      </tr>
+      <tr>
+        <td class="en">What happened?</td>
+        <td class="en">What did you do?</td>
+      </tr>
+      <tr>
+        <td class="en">Who wants coffee?</td>
+        <td class="en">Who do you want to invite?</td>
+      </tr>
+      <tr>
+        <td class="en">Which of the two is better?</td>
+        <td class="en">Which do you prefer?</td>
+      </tr>
+    </table>
+
+    <h3>Negative questions</h3>
+    <table>
+      <tr><td class="en">Don\'t you like coffee?</td><td class="pl">Nie lubisz kawy?</td></tr>
+      <tr><td class="en">Didn\'t you know?</td><td class="pl">Nie wiedziałeś?</td></tr>
+      <tr><td class="en">Why don\'t we go out?</td><td class="pl">Może wyjdziemy?</td></tr>
+      <tr><td class="en">Wouldn\'t it be nice?</td><td class="pl">Czyż nie byłoby miło?</td></tr>
+    </table>
+
+    <h3>Question words + ever / else / on earth</h3>
+    <table>
+      <tr><td class="en">Whatever</td><td class="pl">cokolwiek</td></tr>
+      <tr><td class="en">Whenever</td><td class="pl">kiedykolwiek</td></tr>
+      <tr><td class="en">Wherever</td><td class="pl">gdziekolwiek</td></tr>
+      <tr><td class="en">Whoever</td><td class="pl">ktokolwiek</td></tr>
+      <tr><td class="en">However</td><td class="pl">jakkolwiek / jednak</td></tr>
+      <tr><td class="en">What else?</td><td class="pl">Co jeszcze?</td></tr>
+      <tr><td class="en">Who else?</td><td class="pl">Kto jeszcze?</td></tr>
+      <tr><td class="en">What on earth…?</td><td class="pl">Co u licha…?</td></tr>
+    </table>
+
+    <h3>What... like vs How</h3>
+    <table>
+      <tr><td class="en">What is she like?</td><td class="pl">Jaka jest? (charakter)</td></tr>
+      <tr><td class="en">What does she look like?</td><td class="pl">Jak wygląda?</td></tr>
+      <tr><td class="en">How is she?</td><td class="pl">Jak się czuje?</td></tr>
+      <tr><td class="en">What does she like?</td><td class="pl">Co lubi?</td></tr>
+    </table>
+
+    <h3>Echo questions</h3>
+    <table>
+      <tr><td class="en">– I\'m going to Paris. – <b>Are you?</b></td></tr>
+      <tr><td class="en">– She doesn\'t like it. – <b>Doesn\'t she?</b></td></tr>
+      <tr><td class="en">– I\'ve finished. – <b>Have you?</b></td></tr>
+    </table>
+
+    <h3>Pytania w stylu formalnym – praca, urząd, akademicki</h3>
+    <table>
+      <tr><td class="en">Would it be possible to schedule a meeting?</td></tr>
+      <tr><td class="en">Might I ask what your main priorities are?</td></tr>
+      <tr><td class="en">I would be grateful if you could clarify this point.</td></tr>
+      <tr><td class="en">Would you be able to provide more details?</td></tr>
+      <tr><td class="en">May I ask how soon a decision will be made?</td></tr>
+      <tr><td class="en">I wonder whether the start date could be flexible.</td></tr>
+    </table>
+
+    <div class="tip-box">
+      <b>Zapamiętaj:</b><br>
+      <b>Question tag</b>: twierdzenie → przeczenie, przeczenie → twierdzenie.<br>
+      <b>Indirect question</b>: bez inwersji, bez "do".<br>
+      <b>I wonder whether / if</b> + Present Simple (nie "will").<br>
+      Formalne: <b>Would you mind telling me…? / I\'d be grateful if…</b>
+    </div>
+  `,
+  karta: [
+    { type: "header", text: "A. Question tags" },
+    { type: "gap", text: '<span class="en">You\'re Polish, ________?</span>', answers: ["aren\'t you", "are not you"] },
+    { type: "gap", text: '<span class="en">She works here, ________?</span>', answers: ["doesn\'t she", "does not she"] },
+    { type: "gap", text: '<span class="en">You don\'t smoke, ________?</span>', answers: ["do you"] },
+    { type: "gap", text: '<span class="en">Let\'s go, ________?</span>', answers: ["shall we"] },
+    { type: "gap", text: '<span class="en">I\'m right, ________?</span>', answers: ["aren\'t I"] },
+    { type: "gap", text: '<span class="en">Nobody called, ________?</span>', answers: ["did they"] },
+    { type: "gap", text: '<span class="en">There\'s a problem, ________?</span>', answers: ["isn\'t there"] },
+    { type: "gap", text: '<span class="en">You\'ve finished, ________?</span>', answers: ["haven\'t you"] },
+    { type: "header", text: "B. Indirect questions" },
+    { type: "gap", text: '<span class="en">Where is the station? → Could you tell me where ________?</span>', answers: ["the station is"], wide: true },
+    { type: "gap", text: '<span class="en">What time does it start? → Do you happen to know what time ________?</span>', answers: ["it starts"], wide: true },
+    { type: "gap", text: '<span class="en">How much does it cost? → I wonder how much ________.</span>', answers: ["it costs"], wide: true },
+    { type: "gap", text: '<span class="en">Is she coming? → Do you know ________ she\'s coming?</span>', answers: ["if", "whether"], wide: true },
+    { type: "gap", text: '<span class="en">Could the start date be flexible? → I wonder ________ the start date could be flexible.</span>', answers: ["whether", "if"], wide: true },
+    { type: "header", text: "C. Pytania o podmiot czy dopełnienie?" },
+    { type: "gap", text: '<span class="en">Kto dzwonił? → ________ called?</span>', answers: ["who"] },
+    { type: "gap", text: '<span class="en">Do kogo dzwoniłeś? → Who ________ you call?</span>', answers: ["did"] },
+    { type: "gap", text: '<span class="en">Co się stało? → What ________?</span>', answers: ["happened"] },
+    { type: "gap", text: '<span class="en">Co zrobiłeś? → What ________ you do?</span>', answers: ["did"] },
+    { type: "gap", text: '<span class="en">Który wolisz? → Which ________ you prefer?</span>', answers: ["do"] },
+    { type: "header", text: "D. Negative questions" },
+    { type: "gap", text: '<span class="en">________ you like coffee? (Nie lubisz kawy?)</span>', answers: ["don\'t", "do not"] },
+    { type: "gap", text: '<span class="en">________ you know? (Nie wiedziałeś?)</span>', answers: ["didn\'t", "did not"] },
+    { type: "gap", text: '<span class="en">Why ________ we go out? (Może wyjdziemy?)</span>', answers: ["don\'t", "do not"] },
+    { type: "header", text: "E. What... like vs How" },
+    { type: "gap", text: '<span class="en">________ is she like? (Jaka jest z charakteru?)</span>', answers: ["what"] },
+    { type: "gap", text: '<span class="en">________ does she look like? (Jak wygląda?)</span>', answers: ["what"] },
+    { type: "gap", text: '<span class="en">________ is she? (Jak się czuje?)</span>', answers: ["how"] },
+    { type: "gap", text: '<span class="en">________ does she like? (Co lubi?)</span>', answers: ["what"] },
+    { type: "header", text: "F. Pytania formalne – uzupełnij" },
+    { type: "gap", text: '<span class="en">________ it be possible to schedule a meeting?</span>', answers: ["would"] },
+    { type: "gap", text: '<span class="en">________ I ask what your main priorities are?</span>', answers: ["might", "may"] },
+    { type: "gap", text: '<span class="en">I would be ________ if you could clarify this point.</span>', answers: ["grateful"] },
+    { type: "gap", text: '<span class="en">________ you be able to provide more details?</span>', answers: ["would"] },
+    { type: "gap", text: '<span class="en">I ________ whether the start date could be flexible.</span>', answers: ["wonder"] },
+    { type: "header", text: "G. Popraw błędy" },
+    { type: "gap", text: '<span class="en">Do you know where is the station? → ________</span>', answers: ["do you know where the station is", "do you know where the station is?"], wide: true },
+    { type: "gap", text: '<span class="en">Where you live? → ________</span>', answers: ["where do you live", "where do you live?"], wide: true },
+    { type: "gap", text: '<span class="en">Who did called you? → ________</span>', answers: ["who called you", "who called you?"], wide: true },
+    { type: "gap", text: '<span class="en">I wonder if she will come. → ________ (present)</span>', answers: ["i wonder if she is coming", "i wonder if she is coming.", "i wonder whether she is coming"], wide: true },
+    { type: "gap", text: '<span class="en">Do you can help me? → ________</span>', answers: ["can you help me", "can you help me?"], wide: true },
+    { type: "header", text: "H. Przetłumacz" },
+    { type: "gap", text: '<span class="pl">Czy mógłby mi pan powiedzieć, na czym dokładnie polegałoby to stanowisko?</span>', answers: ["could you tell me what exactly the position would involve", "could you tell me what exactly the position would involve?", "could you tell me what exactly this position would involve?"], wide: true },
+    { type: "gap", text: '<span class="pl">Zastanawiam się, czy data rozpoczęcia mogłaby być elastyczna.</span>', answers: ["i wonder whether the start date could be flexible", "i wonder whether the start date could be flexible.", "i wonder if the start date could be flexible", "i wonder if the start date could be flexible."], wide: true },
+    { type: "gap", text: '<span class="pl">Byłbym wdzięczny, gdyby mógł mnie pan informować na bieżąco.</span>', answers: ["i would be grateful if you could keep me informed", "i would be grateful if you could keep me informed.", "i\'d be grateful if you could keep me informed", "i\'d be grateful if you could keep me informed."], wide: true },
+    { type: "gap", text: '<span class="pl">Jesteś Polakiem, prawda?</span>', answers: ["you are polish aren\'t you", "you are polish, aren\'t you", "you are polish, aren\'t you?", "you\'re polish aren\'t you"], wide: true },
+    { type: "gap", text: '<span class="pl">Jaka ona jest?</span>', answers: ["what is she like", "what is she like?", "what\'s she like", "what\'s she like?"], wide: true },
+    { type: "header", text: "I. Napisz" },
+    { type: "open", text: "Napisz 5 uprzejmych pytań po angielsku – pytasz o warunki pracy na rozmowie kwalifikacyjnej.", placeholder: "np. I wonder whether... Would it be possible to... Could you tell me... I\'d be grateful if..." }
+  ],
+  test: [
+    { q: "You\'re Polish, ______?", opcje: ["aren\'t you", "are you", "don\'t you", "isn\'t it"], poprawna: 0, wyjasnienie: "Twierdzenie → przeczenie: aren\'t you." },
+    { q: "Let\'s go, ______?", opcje: ["will we", "shall we", "do we", "don\'t we"], poprawna: 1, wyjasnienie: "Let\'s → shall we." },
+    { q: "Could you tell me where ______?", opcje: ["is the station", "the station is", "the station", "does the station"], poprawna: 1, wyjasnienie: "Indirect question – bez inwersji." },
+    { q: "Do you know ______ she\'s coming?", opcje: ["if", "that", "what", "when"], poprawna: 0, wyjasnienie: "Yes/No question → if / whether." },
+    { q: "Who ______ you call?", opcje: ["did", "do", "does", "have"], poprawna: 0, wyjasnienie: "Pytanie o dopełnienie → did." },
+    { q: "Who ______ you? (kto cię odwiedził)", opcje: ["did visit", "visited", "does visit", "visit"], poprawna: 1, wyjasnienie: "Pytanie o podmiot – bez do." },
+    { q: "______ is she like?", opcje: ["What", "How", "Who", "Where"], poprawna: 0, wyjasnienie: "What is she like? – charakter." },
+    { q: "______ I ask what your priorities are?", opcje: ["Might", "Would", "Can", "Will"], poprawna: 0, wyjasnienie: "Might I ask…? – bardzo formalnie." },
+    { q: "I wonder ______ the start date could be flexible.", opcje: ["if", "that", "what", "when"], poprawna: 0, wyjasnienie: "I wonder if / whether." },
+    { q: "Które zdanie jest poprawne?", opcje: ["Do you know where is the station?", "Do you know where the station is?", "Do you know where does the station is?", "Do you know where are the station?"], poprawna: 1, wyjasnienie: "Indirect – bez inwersji." }
+  ]
+};
+
+/* ============================================================
+   G16C1 – Phrasal Verbs – poziom biegłości
+============================================================ */
+window.LESSON_DATA["G16C1"] = {
+  tytul: "Czasowniki frazowe – poziom biegłości",
+  poziom: "C1",
+  dzial: "G16",
+  teoria: `
+    <h3>Tekst do zapamiętania</h3>
+    <p class="en" style="display:block; padding:14px 18px; line-height:1.9;">
+      When the company announced it was cutting jobs, I had to weigh up my options carefully. I didn\'t want to jump at the first offer that came along, but at the same time I couldn\'t afford to drag my feet. I got in touch with a few contacts and they helped me put together a plan. After weeks of going back and forth, I finally plucked up the courage to hand in my notice. It turned out to be the right decision – within months I\'d landed a role that really plays to my strengths. Looking back, I should have done it years ago.
+    </p>
+
+    <h3>Phrasal verbs – typy</h3>
+    <p>Rozróżniamy <b>rozłączne</b> (dopełnienie można wstawić w środek) i <b>nierozłączne</b> (dopełnienie zawsze po).</p>
+    <table>
+      <tr><th>Rozłączne</th><th>Nierozłączne</th></tr>
+      <tr>
+        <td class="en">turn <b>on</b> the TV = turn the TV <b>on</b><br>pick <b>up</b> the phone = pick the phone <b>up</b><br>give <b>back</b> the book = give the book <b>back</b></td>
+        <td class="en">look <b>after</b> the baby (nie: look the baby after)<br>look <b>forward to</b> the trip<br>get <b>on</b> with sb<br>put <b>up</b> with sth</td>
+      </tr>
+    </table>
+    <p><b>Z zaimkiem</b> – zawsze w środku (rozłączne): <span class="en">Turn it on. Pick them up. Give it back.</span></p>
+
+    <h3>Kategorie – phrasal verbs C1</h3>
+
+    <p><b>1. Decyzje, kariera, zmiany</b></p>
+    <table>
+      <tr><td class="en">weigh up</td><td class="pl">rozważyć (za i przeciw)</td></tr>
+      <tr><td class="en">jump at</td><td class="pl">skwapliwie skorzystać</td></tr>
+      <tr><td class="en">drag one\'s feet</td><td class="pl">ociągać się, zwlekać</td></tr>
+      <tr><td class="en">pluck up (courage)</td><td class="pl">zdobyć się (na odwagę)</td></tr>
+      <tr><td class="en">hand in (notice)</td><td class="pl">złożyć (wypowiedzenie)</td></tr>
+      <tr><td class="en">take on</td><td class="pl">podjąć się (zadania), zatrudnić</td></tr>
+      <tr><td class="en">step down</td><td class="pl">ustąpić (ze stanowiska)</td></tr>
+      <tr><td class="en">land (a role)</td><td class="pl">zdobyć (pracę, rolę)</td></tr>
+    </table>
+
+    <p><b>2. Relacje i komunikacja</b></p>
+    <table>
+      <tr><td class="en">get in touch with</td><td class="pl">skontaktować się z</td></tr>
+      <tr><td class="en">reach out to</td><td class="pl">zwrócić się do</td></tr>
+      <tr><td class="en">put forward</td><td class="pl">wysunąć (propozycję)</td></tr>
+      <tr><td class="en">bring up</td><td class="pl">poruszyć temat / wychować</td></tr>
+      <tr><td class="en">back up</td><td class="pl">wesprzeć / zrobić kopię zapasową</td></tr>
+      <tr><td class="en">stand up for</td><td class="pl">bronić (kogoś / czegoś)</td></tr>
+      <tr><td class="en">speak up</td><td class="pl">mówić głośniej / zabrać głos</td></tr>
+      <tr><td class="en">speak out</td><td class="pl">publicznie protestować</td></tr>
+      <tr><td class="en">talk over</td><td class="pl">przedyskutować</td></tr>
+    </table>
+
+    <p><b>3. Problemy i rozwiązania</b></p>
+    <table>
+      <tr><td class="en">sort out</td><td class="pl">uporać się z</td></tr>
+      <tr><td class="en">iron out</td><td class="pl">wygładzić (problemy, różnice)</td></tr>
+      <tr><td class="en">deal with</td><td class="pl">poradzić sobie z</td></tr>
+      <tr><td class="en">get over</td><td class="pl">dojść do siebie po</td></tr>
+      <tr><td class="en">get round to</td><td class="pl">w końcu się zabrać do</td></tr>
+      <tr><td class="en">come up with</td><td class="pl">wymyślić</td></tr>
+      <tr><td class="en">look into</td><td class="pl">zbadać sprawę</td></tr>
+      <tr><td class="en">turn out</td><td class="pl">okazać się</td></tr>
+      <tr><td class="en">put off</td><td class="pl">przełożyć / zniechęcić</td></tr>
+      <tr><td class="en">carry out</td><td class="pl">przeprowadzić (badanie, plan)</td></tr>
+    </table>
+
+    <p><b>4. Codzienne i biznesowe</b></p>
+    <table>
+      <tr><td class="en">go back and forth</td><td class="pl">chodzić tam i z powrotem, być w trakcie negocjacji</td></tr>
+      <tr><td class="en">set up</td><td class="pl">założyć (firmę, konto)</td></tr>
+      <tr><td class="en">take over</td><td class="pl">przejąć</td></tr>
+      <tr><td class="en">break down</td><td class="pl">zepsuć się / załamać się</td></tr>
+      <tr><td class="en">fall through</td><td class="pl">nie dojść do skutku (plan)</td></tr>
+      <tr><td class="en">pull off</td><td class="pl">dokonać (czegoś trudnego)</td></tr>
+      <tr><td class="en">pull out (of)</td><td class="pl">wycofać się z</td></tr>
+      <tr><td class="en">bank on</td><td class="pl">liczyć na</td></tr>
+    </table>
+
+    <p><b>5. Emocje i zachowanie</b></p>
+    <table>
+      <tr><td class="en">calm down</td><td class="pl">uspokoić się</td></tr>
+      <tr><td class="en">cheer up</td><td class="pl">rozweselić się</td></tr>
+      <tr><td class="en">brighten up</td><td class="pl">rozjaśnić się</td></tr>
+      <tr><td class="en">lash out</td><td class="pl">wybuchnąć (złością)</td></tr>
+      <tr><td class="en">bottle up</td><td class="pl">tłumić (emocje)</td></tr>
+      <tr><td class="en">take out (on)</td><td class="pl">wyładować się (na kimś)</td></tr>
+      <tr><td class="en">put up with</td><td class="pl">znosić</td></tr>
+    </table>
+
+    <h3>Phrasal verbs – 3-członowe</h3>
+    <table>
+      <tr><td class="en">look forward to</td><td class="pl">czekać z niecierpliwością</td></tr>
+      <tr><td class="en">get on with / get along with</td><td class="pl">dogadywać się</td></tr>
+      <tr><td class="en">put up with</td><td class="pl">znosić</td></tr>
+      <tr><td class="en">come up with</td><td class="pl">wymyślić</td></tr>
+      <tr><td class="en">catch up with</td><td class="pl">dogonić</td></tr>
+      <tr><td class="en">keep up with</td><td class="pl">nadążać</td></tr>
+      <tr><td class="en">get round to</td><td class="pl">w końcu zabrać się do</td></tr>
+      <tr><td class="en">face up to</td><td class="pl">stawić czoła</td></tr>
+      <tr><td class="en">look out for</td><td class="pl">wypatrywać</td></tr>
+      <tr><td class="en">stand up for</td><td class="pl">bronić</td></tr>
+    </table>
+    <p><b>Te są zawsze nierozłączne.</b></p>
+
+    <h3>Formalny odpowiednik – single verb</h3>
+    <table>
+      <tr><th>Phrasal (potoczne)</th><th>Single verb (formalne)</th></tr>
+      <tr><td class="en">carry out</td><td class="en">conduct, perform</td></tr>
+      <tr><td class="en">look into</td><td class="en">investigate</td></tr>
+      <tr><td class="en">put off</td><td class="en">postpone</td></tr>
+      <tr><td class="en">turn down</td><td class="en">reject, decline</td></tr>
+      <tr><td class="en">set up</td><td class="en">establish, found</td></tr>
+      <tr><td class="en">go over</td><td class="en">review, examine</td></tr>
+      <tr><td class="en">break down</td><td class="en">fail, collapse</td></tr>
+      <tr><td class="en">put up with</td><td class="en">tolerate, endure</td></tr>
+    </table>
+    <p>W tekstach formalnych często używamy czasowników pojedynczych zamiast phrasal verbs.</p>
+
+    <div class="tip-box">
+      <b>Zapamiętaj:</b><br>
+      Z zaimkiem (it, them) – zawsze w środku przy rozłącznych: <span class="en">Turn it off. Pick them up.</span><br>
+      3-członowe phrasal verbs – NIE rozdzielamy: <span class="en">look forward to sth</span>.<br>
+      W formalnym tekście – zamień na czasownik pojedynczy: <span class="en">carry out → conduct, look into → investigate</span>.
+    </div>
+  `,
+  karta: [
+    { type: "header", text: "A. Dopasuj phrasal verb do znaczenia" },
+    { type: "gap", text: '<span class="pl">rozważyć (za i przeciw) → weigh ________</span>', answers: ["up"] },
+    { type: "gap", text: '<span class="pl">ociągać się → drag one\'s ________</span>', answers: ["feet"] },
+    { type: "gap", text: '<span class="pl">zdobyć się na odwagę → pluck up ________</span>', answers: ["courage"] },
+    { type: "gap", text: '<span class="pl">złożyć wypowiedzenie → hand ________ notice</span>', answers: ["in"] },
+    { type: "gap", text: '<span class="pl">skontaktować się z → get in ________ with</span>', answers: ["touch"] },
+    { type: "gap", text: '<span class="pl">bronić kogoś → stand up ________</span>', answers: ["for"] },
+    { type: "gap", text: '<span class="pl">wygładzić problemy → iron ________</span>', answers: ["out"] },
+    { type: "gap", text: '<span class="pl">przeprowadzić badanie → carry ________</span>', answers: ["out"] },
+    { type: "gap", text: '<span class="pl">tłumić emocje → bottle ________</span>', answers: ["up"] },
+    { type: "gap", text: '<span class="pl">liczyć na → bank ________</span>', answers: ["on"] },
+    { type: "gap", text: '<span class="pl">wycofać się z → pull ________ of</span>', answers: ["out"] },
+    { type: "gap", text: '<span class="pl">nie dojść do skutku → fall ________</span>', answers: ["through"] },
+    { type: "header", text: "B. Uzupełnij zdanie" },
+    { type: "gap", text: '<span class="en">I had to ________ up my options carefully.</span>', answers: ["weigh"] },
+    { type: "gap", text: '<span class="en">I got in ________ with a few contacts.</span>', answers: ["touch"] },
+    { type: "gap", text: '<span class="en">They helped me ________ together a plan.</span>', answers: ["put"] },
+    { type: "gap", text: '<span class="en">I finally plucked up the ________ to hand in my notice.</span>', answers: ["courage"] },
+    { type: "gap", text: '<span class="en">It ________ out to be the right decision.</span>', answers: ["turned"] },
+    { type: "gap", text: '<span class="en">Within months I\'d ________ a role that plays to my strengths.</span>', answers: ["landed"] },
+    { type: "gap", text: '<span class="en">I couldn\'t afford to drag my ________.</span>', answers: ["feet"] },
+    { type: "header", text: "C. Rozłączne – wstaw zaimek" },
+    { type: "gap", text: '<span class="en">Turn on the TV. → Turn ________ on.</span>', answers: ["it"] },
+    { type: "gap", text: '<span class="en">Pick up your toys. → Pick ________ up.</span>', answers: ["them"] },
+    { type: "gap", text: '<span class="en">Turn off the light. → Turn ________ off.</span>', answers: ["it"] },
+    { type: "gap", text: '<span class="en">Give back the book. → Give ________ back.</span>', answers: ["it"] },
+    { type: "header", text: "D. Nierozłączne – popraw jeśli źle" },
+    { type: "gap", text: '<span class="en">Look the baby after. → ________</span>', answers: ["look after the baby", "look after the baby."], wide: true },
+    { type: "gap", text: '<span class="en">Put up with it, I can\'t it. → ________</span>', answers: ["i can\'t put up with it", "i can\'t put up with it.", "i cannot put up with it", "i cannot put up with it."], wide: true },
+    { type: "gap", text: '<span class="en">Look forward to it, I really it. → ________</span>', answers: ["i\'m really looking forward to it", "i\'m really looking forward to it.", "i am really looking forward to it", "i am really looking forward to it."], wide: true },
+    { type: "header", text: "E. Formalne odpowiedniki" },
+    { type: "gap", text: '<span class="en">carry out → ________ (formalnie)</span>', answers: ["conduct", "perform"] },
+    { type: "gap", text: '<span class="en">look into → ________</span>', answers: ["investigate"] },
+    { type: "gap", text: '<span class="en">put off → ________</span>', answers: ["postpone"] },
+    { type: "gap", text: '<span class="en">turn down → ________</span>', answers: ["reject", "decline"] },
+    { type: "gap", text: '<span class="en">set up → ________</span>', answers: ["establish", "found"] },
+    { type: "gap", text: '<span class="en">put up with → ________</span>', answers: ["tolerate", "endure"] },
+    { type: "header", text: "F. Popraw błędy" },
+    { type: "gap", text: '<span class="en">Turn off it. → ________</span>', answers: ["turn it off", "turn it off."], wide: true },
+    { type: "gap", text: '<span class="en">I look forward to see you. → ________</span>', answers: ["i look forward to seeing you", "i look forward to seeing you."], wide: true },
+    { type: "gap", text: '<span class="en">I get on good with my sister. → ________</span>', answers: ["i get on well with my sister", "i get on well with my sister.", "i get along well with my sister", "i get along well with my sister."], wide: true },
+    { type: "gap", text: '<span class="en">We ran out gas. → ________</span>', answers: ["we ran out of gas", "we ran out of gas.", "we ran out of petrol", "we ran out of petrol."], wide: true },
+    { type: "gap", text: '<span class="en">I can\'t put up with it, I can\'t it. → ________</span>', answers: ["i can\'t put up with it", "i can\'t put up with it.", "i cannot put up with it", "i cannot put up with it."], wide: true },
+    { type: "header", text: "G. Przetłumacz" },
+    { type: "gap", text: '<span class="pl">Musiałem dokładnie rozważyć swoje opcje.</span>', answers: ["i had to weigh up my options carefully", "i had to weigh up my options carefully."], wide: true },
+    { type: "gap", text: '<span class="pl">Skontaktowałem się z kilkoma osobami.</span>', answers: ["i got in touch with a few contacts", "i got in touch with a few contacts.", "i got in touch with a few people", "i got in touch with a few people."], wide: true },
+    { type: "gap", text: '<span class="pl">W końcu zdobyłem się na odwagę, żeby złożyć wypowiedzenie.</span>', answers: ["i finally plucked up the courage to hand in my notice", "i finally plucked up the courage to hand in my notice.", "i plucked up the courage to hand in my notice"], wide: true },
+    { type: "gap", text: '<span class="pl">Okazało się to właściwą decyzją.</span>', answers: ["it turned out to be the right decision", "it turned out to be the right decision."], wide: true },
+    { type: "gap", text: '<span class="pl">Nie mogę tego znieść.</span>', answers: ["i can\'t put up with it", "i can\'t put up with it.", "i cannot put up with it", "i cannot put up with it."], wide: true },
+    { type: "gap", text: '<span class="pl">Skończyło nam się paliwo.</span>', answers: ["we ran out of petrol", "we ran out of petrol.", "we ran out of gas", "we ran out of gas."], wide: true },
+    { type: "header", text: "H. Napisz" },
+    { type: "open", text: "Opisz ważną zmianę w swoim życiu (5-6 zdań), używając phrasal verbs (weigh up, get in touch with, pluck up the courage, turn out, put up with, look forward to itd.).", placeholder: "np. I had to weigh up my options... I got in touch with... It turned out..." }
+  ],
+  test: [
+    { q: "rozważyć (za i przeciw) = ______", opcje: ["weigh up", "drag up", "pull up", "jump up"], poprawna: 0, wyjasnienie: "weigh up – rozważyć." },
+    { q: "ociągać się = drag one\'s ______", opcje: ["feet", "hands", "legs", "head"], poprawna: 0, wyjasnienie: "drag one\'s feet – utrwalone." },
+    { q: "złożyć wypowiedzenie = hand in ______", opcje: ["notice", "paper", "letter", "thing"], poprawna: 0, wyjasnienie: "hand in notice – utrwalone." },
+    { q: "skontaktować się z = get in ______ with", opcje: ["touch", "contact", "reach", "line"], poprawna: 0, wyjasnienie: "get in touch with." },
+    { q: "bronić kogoś = stand up ______", opcje: ["for", "against", "with", "to"], poprawna: 0, wyjasnienie: "stand up for sb." },
+    { q: "przeprowadzić badanie = carry ______", opcje: ["out", "on", "in", "up"], poprawna: 0, wyjasnienie: "carry out research – utrwalone." },
+    { q: "Turn ______ it. (przycisk + zaimek w środku)", opcje: ["off", "on", "up", "out"], poprawna: 0, wyjasnienie: "Turn it off – zaimek w środku." },
+    { q: "znosić = ______", opcje: ["put up with", "put on", "put off", "put away"], poprawna: 0, wyjasnienie: "put up with – znosić." },
+    { q: "wymyślić = ______", opcje: ["come up with", "come on", "come off", "come across"], poprawna: 0, wyjasnienie: "come up with – wymyślić." },
+    { q: "Formalny odpowiednik 'look into' = ______", opcje: ["investigate", "examine", "review", "check"], poprawna: 0, wyjasnienie: "look into → investigate." }
+  ]
+};
