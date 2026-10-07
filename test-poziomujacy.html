@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Test poziomujący</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; background: #f7f5f0; color: #1f2933; font-size: 15px; line-height: 1.65; }
+  header { background: #1e3a5f; color: #fff; padding: 16px 26px; display: flex; justify-content: space-between; align-items: center; border-bottom: 4px solid #b45309; }
+  header h1 { font-family: Georgia, serif; font-size: 1.15rem; }
+  header a { color: #fff; text-decoration: none; border: 1px solid rgba(255,255,255,.4); padding: 6px 14px; border-radius: 4px; font-size: .85rem; }
+  header a:hover { background: rgba(255,255,255,.15); }
+  main { max-width: 900px; margin: 26px auto; padding: 0 20px 40px; }
+
+  .ekran-start { background: #fff; border: 1px solid #e8e4dc; border-radius: 8px; padding: 36px 40px; text-align: center; }
+  .ekran-start h2 { font-family: Georgia, serif; font-size: 1.6rem; color: #1e3a5f; margin-bottom: 14px; }
+  .ekran-start p { color: #6b7280; margin-bottom: 12px; max-width: 620px; margin-left: auto; margin-right: auto; }
+  .ekran-start ul { text-align: left; max-width: 500px; margin: 20px auto; color: #4b5563; }
+  .ekran-start ul li { margin-bottom: 6px; padding-left: 4px; }
+  .ekran-start button { margin-top: 20px; padding: 15px 42px; background: #1e3a5f; color: #fff; border: none; border-radius: 6px; font-family: inherit; font-weight: 700; font-size: 1rem; cursor: pointer; letter-spacing: 1.2px; text-transform: uppercase; }
+  .ekran-start button:hover { background: #152a47; }
+
+  .ekran-test { display: none; }
+  .ekran-test.on { display: block; }
+
+  .pasek-postepu { position: sticky; top: 0; z-index: 10; background: #1e3a5f; color: #fff; padding: 12px 26px; display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; border-radius: 6px; }
+  .pasek-postepu .info { font-size: .9rem; }
+  .pasek-postepu .info strong { font-size: 1.05rem; }
+  .pasek-postepu .procent { font-family: 'SF Mono', Consolas, monospace; font-size: 1.3rem; font-weight: 700; background: rgba(255,255,255,.15); padding: 5px 16px; border-radius: 6px; }
+
+  .pytanie { background: #fff; border: 1px solid #e8e4dc; border-left: 3px solid #1e3a5f; border-radius: 0 6px 6px 0; padding: 18px 22px; margin-bottom: 12px; }
+  .pytanie .poziom-badge { display: inline-block; background: #b45309; color: #fff; font-size: .68rem; font-weight: 700; letter-spacing: 1px; padding: 2px 10px; border-radius: 3px; margin-right: 8px; text-transform: uppercase; }
+  .pytanie .tresc { font-weight: 600; color: #1f2933; margin: 8px 0 12px; display: block; }
+  .pytanie .opcje { display: flex; flex-direction: column; gap: 5px; }
+  .pytanie .opcje label { display: flex; align-items: center; gap: 10px; padding: 9px 14px; border-radius: 4px; cursor: pointer; border: 1px solid transparent; transition: .1s; font-size: .93rem; }
+  .pytanie .opcje label:hover { background: #f0f4fb; }
+  .pytanie .opcje input { accent-color: #1e3a5f; }
+  .pytanie .opcje .litera { font-weight: 700; color: #6b7280; }
+  .pytanie.odpowiedziane { border-left-color: #166534; }
+
+  .przyciski-akcje { text-align: center; margin-top: 26px; }
+  .przyciski-akcje button { padding: 14px 36px; background: #1e3a5f; color: #fff; border: none; border-radius: 6px; font-family: inherit; font-weight: 700; font-size: .95rem; cursor: pointer; letter-spacing: 1.2px; text-transform: uppercase; }
+  .przyciski-akcje button:hover { background: #152a47; }
+  .przyciski-akcje button:disabled { opacity: .5; cursor: not-allowed; }
+  .przyciski-akcje .info-brak { display: block; margin-top: 10px; color: #9ca3af; font-size: .88rem; }
+
+  .ekran-wynik { display: none; }
+  .ekran-wynik.on { display: block; }
+
+  .wynik-glowny { background: #fff; border: 1px solid #e8e4dc; border-radius: 8px; padding: 34px 36px; text-align: center; margin-bottom: 20px; position: relative; overflow: hidden; }
+  .wynik-glowny::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 6px; background: #1e3a5f; }
+  .wynik-glowny h2 { font-family: Georgia, serif; font-size: 1.4rem; color: #1e3a5f; margin-bottom: 8px; }
+  .wynik-glowny .poziom-ucznia { display: inline-block; background: #1e3a5f; color: #fff; padding: 12px 40px; border-radius: 8px; font-family: Georgia, serif; font-size: 2.2rem; font-weight: 700; letter-spacing: 2px; margin: 14px 0; }
+  .wynik-glowny .procent { font-size: 1.1rem; color: #6b7280; margin-bottom: 12px; }
+  .wynik-glowny .opis { color: #4b5563; max-width: 620px; margin: 0 auto; }
+
+  .sekcja { background: #fff; border: 1px solid #e8e4dc; border-radius: 8px; padding: 26px 30px; margin-bottom: 18px; }
+  .sekcja h3 { font-family: Georgia, serif; color: #1e3a5f; font-size: 1.15rem; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid #e8e4dc; }
+
+  .slabe-tabela { width: 100%; border-collapse: collapse; }
+  .slabe-tabela th, .slabe-tabela td { padding: 9px 12px; text-align: left; border-bottom: 1px solid #f0f0f0; font-size: .93rem; }
+  .slabe-tabela th { background: #fbfaf7; font-size: .78rem; color: #6b7280; text-transform: uppercase; letter-spacing: 1px; }
+  .slabe-tabela .pct { font-family: monospace; font-weight: 700; }
+  .pct.zly { color: #991b1b; }
+  .pct.sredni { color: #b45309; }
+  .pct.dobry { color: #166534; }
+
+  .lista-lekcji-sciezka { display: flex; flex-direction: column; gap: 10px; }
+  .lekcja-pozycja { display: flex; align-items: center; gap: 14px; padding: 12px 16px; background: #fbfaf7; border: 1px solid #e8e4dc; border-radius: 6px; transition: .15s; }
+  .lekcja-pozycja:hover { background: #f0f4fb; border-color: #93c5fd; }
+  .lekcja-pozycja .nr-kroku { background: #b45309; color: #fff; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0; font-family: monospace; }
+  .lekcja-pozycja .info { flex: 1; }
+  .lekcja-pozycja .info a { color: #1e3a5f; font-weight: 700; text-decoration: none; font-size: 1rem; }
+  .lekcja-pozycja .info a:hover { text-decoration: underline; }
+  .lekcja-pozycja .info .opis { color: #6b7280; font-size: .85rem; margin-top: 2px; }
+  .lekcja-pozycja .info .powod { color: #991b1b; font-size: .8rem; margin-top: 3px; font-weight: 600; }
+
+  .pasek-przyciski { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+  .pasek-przyciski button, .pasek-przyciski a { padding: 11px 24px; border-radius: 4px; cursor: pointer; font-family: inherit; font-weight: 600; font-size: .88rem; border: 1px solid #1e3a5f; background: #fff; color: #1e3a5f; text-decoration: none; display: inline-block; transition: .15s; }
+  .pasek-przyciski button:hover, .pasek-przyciski a:hover { background: #1e3a5f; color: #fff; }
+  .pasek-przyciski .pierwszorzedny { background: #1e3a5f; color: #fff; }
+
+  @media print {
+    header, .pasek-postepu, .pasek-przyciski, .ekran-start { display: none !important; }
+    body { background: #fff; }
+    main { max-width: none; margin: 0; padding: 0; }
+    .sekcja, .wynik-glowny { border: 1px solid #ccc; page-break-inside: avoid; box-shadow: none; }
+    .lista-lekcji-sciezka .lekcja-pozycja { page-break-inside: avoid; }
+    .lekcja-pozycja .info a { color: #000; text-decoration: none; }
+    .pasek-przyciski { display: none !important; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>Test poziomujący</h1>
+  <a href="index.html">← Strona główna</a>
+</header>
+
+<main>
+
+<!-- EKRAN STARTOWY -->
+<div class="ekran-start" id="ekranStart">
+  <h2>Sprawdź swój poziom angielskiego</h2>
+  <p>Ten test pomoże ustalić, na jakim jesteś poziomie, i pokaże, od czego zacząć naukę.</p>
+  <ul>
+    <li><strong>60 pytań</strong> — po 12 na każdym poziomie (A1, A2, B1, B2, C1).</li>
+    <li>Pytania są <strong>losowane z całego kursu</strong> — za każdym razem inne.</li>
+    <li>Po zakończeniu dostaniesz <strong>swój poziom</strong>, <strong>listę słabych działów</strong> i <strong>indywidualny program nauki</strong> do wydrukowania.</li>
+    <li>Bez limitu czasu. Bez logowania. Wynik zostaje u Ciebie.</li>
+  </ul>
+  <button id="startBtn">Rozpocznij test</button>
+</div>
+
+<!-- EKRAN TESTU -->
+<div class="ekran-test" id="ekranTest">
+  <div class="pasek-postepu">
+    <div class="info">Odpowiedziano: <strong id="licznik">0 / 60</strong></div>
+    <div class="procent" id="procent">0%</div>
+  </div>
+  <div id="listaPytan"></div>
+  <div class="przyciski-akcje">
+    <button id="sprawdzBtn" disabled>Sprawdź wynik</button>
+    <span class="info-brak" id="infoBrak">Odpowiedz na wszystkie pytania, aby zobaczyć wynik.</span>
+  </div>
+</div>
+
+<!-- EKRAN WYNIKU -->
+<div class="ekran-wynik" id="ekranWynik">
+  <div class="pasek-przyciski">
+    <button class="pierwszorzedny" onclick="window.print()">Wydrukuj / zapisz PDF</button>
+    <button onclick="location.reload()">Zrób test ponownie</button>
+    <a href="kurs.html">Przejdź do kursu</a>
+  </div>
+
+  <div class="wynik-glowny">
+    <h2>Twój poziom angielskiego</h2>
+    <div class="poziom-ucznia" id="poziomUcznia">—</div>
+    <div class="procent" id="wynikProcent">—</div>
+    <p class="opis" id="wynikOpis"></p>
+  </div>
+
+  <div class="sekcja">
+    <h3>Twoje mocne i słabe strony</h3>
+    <table class="slabe-tabela" id="tabelaDzialow">
+      <thead><tr><th>Dział</th><th>Poprawne</th><th>Wynik</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <div class="sekcja">
+    <h3>Indywidualny program nauki</h3>
+    <p style="color:#6b7280; margin-bottom:14px; font-size:.92rem;">
+      Zacznij od lekcji poniżej — w tej kolejności. Każda lekcja to ok. 30–40 minut: teoria, karta pracy i test.
+    </p>
+    <div class="lista-lekcji-sciezka" id="sciezkaNauki"></div>
+  </div>
+
+</div>
+
+</main>
+
+<script>
+/* ============================================================
+   KONFIGURACJA
+============================================================ */
+var PLIKI = ["G-A1","G-A2","G-B1","G-B2","G-C1","T-A1","T-A2","T-B1","T-B2","T-C1"];
+var POZIOMY = ["A1","A2","B1","B2","C1"];
+var ILE_NA_POZIOM = 12;
+
+var OPISY_DZIALOW = {
+  G1: "Present Tenses", G2: "Past Tenses", G3: "Future Forms", G4: "Modal Verbs",
+  G5: "Conditionals", G6: "Reported Speech", G7: "Passive Voice", G8: "Inversion & Emphasis",
+  G9: "Articles", G10: "Quantifiers", G11: "Prepositions", G12: "Comparatives & Superlatives",
+  G13: "Gerunds & Infinitives", G14: "Relative Clauses", G15: "Question Formation", G16: "Phrasal Verbs",
+  T1: "Człowiek", T2: "Rodzina, relacje", T3: "Dom", T4: "Czas wolny, hobby",
+  T5: "Jedzenie", T6: "Szkoła, edukacja", T7: "Praca, kariera", T8: "Natura, środowisko",
+  T9: "Technologia", T10: "Media", T11: "Komunikacja w pracy", T12: "Prawa, obowiązki",
+  T13: "Przyszłość, AI", T14: "Problemy, etyka", T15: "Ubrania, moda", T16: "Podróże"
+};
+
+var OPIS_POZIOMU = {
+  A1: "Poziom podstawowy. Znajomość prostych zwrotów i podstawowych czasów (Present Simple, Past Simple).",
+  A2: "Poziom podstawowy rozszerzony. Radzisz sobie w codziennych sytuacjach, znasz czasy teraźniejsze i przeszłe.",
+  B1: "Poziom średniozaawansowany. Rozumiesz teksty i rozmowy na znane tematy, tworzysz dłuższe wypowiedzi.",
+  B2: "Poziom średniozaawansowany wyższy. Swobodna komunikacja, złożone struktury gramatyczne, dłuższe teksty.",
+  C1: "Poziom zaawansowany. Biegła komunikacja, idiomy, niuanse stylistyczne, teksty akademickie i formalne."
+};
+
+/* ============================================================
+   STAN
+============================================================ */
+var WSZYSTKIE_PYTANIA = [];   /* { id, poziom, dzial, q, opcje, poprawna } */
+var WYLOSOWANE = [];
+var ODPOWIEDZI = [];
+
+/* ============================================================
+   WCZYTYWANIE DANYCH
+============================================================ */
+function wczytajWszystkie(cb) {
+  var n = 0;
+  PLIKI.forEach(function(g) {
+    var s = document.createElement("script");
+    s.src = "dane/" + g + ".js";
+    s.onload = s.onerror = function() { n++; if (n === PLIKI.length) cb(); };
+    document.head.appendChild(s);
+  });
+}
+
+function zebierzPytania() {
+  if (!window.LESSON_DATA) return;
+  WSZYSTKIE_PYTANIA = [];
+  Object.keys(window.LESSON_DATA).forEach(function(id) {
+    var l = window.LESSON_DATA[id];
+    if (!l || !l.test || !l.test.length) return;
+    var m = id.match(/^([GT])(\d+)(A1|A2|B1|B2|C1)$/);
+    if (!m) return;
+    var dzial = m[1] + m[2];
+    var poziom = m[3];
+    l.test.forEach(function(q, idx) {
+      WSZYSTKIE_PYTANIA.push({
+        lekcjaId: id,
+        poziom: poziom,
+        dzial: dzial,
+        q: q.q,
+        opcje: q.opcje,
+        poprawna: q.poprawna,
+        wyjasnienie: q.wyjasnienie || ""
+      });
+    });
+  });
+}
+
+function shuffle(a) {
+  a = a.slice();
+  for (var i = a.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var t = a[i]; a[i] = a[j]; a[j] = t;
+  }
+  return a;
+}
+
+function losujTest() {
+  var wybrane = [];
+  POZIOMY.forEach(function(p) {
+    var pula = WSZYSTKIE_PYTANIA.filter(function(x) { return x.poziom === p; });
+    var los = shuffle(pula).slice(0, ILE_NA_POZIOM);
+    wybrane = wybrane.concat(los);
+  });
+  /* Przetasuj całość, żeby poziomy nie szły blokiem */
+  return shuffle(wybrane);
+}
+
+/* ============================================================
+   RENDEROWANIE
+============================================================ */
+function renderPytania() {
+  var html = "";
+  WYLOSOWANE.forEach(function(p, i) {
+    html += '<div class="pytanie" data-i="' + i + '">';
+    html += '<span class="poziom-badge">' + p.poziom + '</span>';
+    html += '<span class="tresc">' + (i + 1) + '. ' + p.q + '</span>';
+    html += '<div class="opcje">';
+    p.opcje.forEach(function(op, j) {
+      var litera = String.fromCharCode(65 + j);
+      html += '<label><input type="radio" name="p' + i + '" value="' + j + '"> ';
+      html += '<span class="litera">' + litera + ')</span> <span>' + op + '</span></label>';
+    });
+    html += '</div></div>';
+  });
+  document.getElementById("listaPytan").innerHTML = html;
+  document.querySelectorAll('.pytanie input[type=radio]').forEach(function(r) {
+    r.addEventListener("change", function() {
+      var i = parseInt(r.name.substring(1));
+      ODPOWIEDZI[i] = parseInt(r.value);
+      r.closest(".pytanie").classList.add("odpowiedziane");
+      aktualizujPostep();
+    });
+  });
+}
+
+function aktualizujPostep() {
+  var odp = ODPOWIEDZI.filter(function(x) { return x !== -1; }).length;
+  var total = WYLOSOWANE.length;
+  document.getElementById("licznik").textContent = odp + " / " + total;
+  var pct = total ? Math.round(odp / total * 100) : 0;
+  document.getElementById("procent").textContent = pct + "%";
+  var btn = document.getElementById("sprawdzBtn");
+  btn.disabled = (odp < total);
+  document.getElementById("infoBrak").style.display = (odp < total) ? "inline" : "none";
+}
+
+/* ============================================================
+   OBLICZANIE WYNIKU
+============================================================ */
+function obliczWynik() {
+  var poziomyWynik = {};
+  POZIOMY.forEach(function(p) { poziomyWynik[p] = { ok: 0, total: 0 }; });
+  var dzialyWynik = {};
+  var lacznieOk = 0;
+
+  WYLOSOWANE.forEach(function(p, i) {
+    var ok = (ODPOWIEDZI[i] === p.poprawna);
+    if (ok) lacznieOk++;
+    poziomyWynik[p.poziom].total++;
+    if (ok) poziomyWynik[p.poziom].ok++;
+    if (!dzialyWynik[p.dzial]) dzialyWynik[p.dzial] = { ok: 0, total: 0 };
+    dzialyWynik[p.dzial].total++;
+    if (ok) dzialyWynik[p.dzial].ok++;
+  });
+
+  /* Ustal poziom ucznia: najwyższy poziom, na którym >=50% poprawnych */
+  var poziomUcznia = "A1";
+  for (var i = 0; i < POZIOMY.length; i++) {
+    var p = POZIOMY[i];
+    var w = poziomyWynik[p];
+    if (w.total > 0 && w.ok / w.total >= 0.5) {
+      poziomUcznia = p;
+    } else {
+      break;
+    }
+  }
+
+  /* Jeśli wynik 80%+ na C1, oznaczyć C1+ (nie mamy C2) */
+  var maxPoziom = "C1";
+  if (poziomyWynik.C1.total > 0 && poziomyWynik.C1.ok / poziomyWynik.C1.total >= 0.8) {
+    poziomUcznia = "C1";
+  }
+
+  return {
+    poziom: poziomUcznia,
+    lacznieOk: lacznieOk,
+    lacznieTotal: WYLOSOWANE.length,
+    poziomyWynik: poziomyWynik,
+    dzialyWynik: dzialyWynik
+  };
+}
+
+/* ============================================================
+   ŚCIEŻKA NAUKI
+============================================================ */
+function zbudujSciezke(wynik) {
+  /* Znajdź działy, w których uczeń miał słabo (< 60% poprawnych) */
+  var slabe = [];
+  Object.keys(wynik.dzialyWynik).forEach(function(d) {
+    var w = wynik.dzialyWynik[d];
+    if (w.total === 0) return;
+    var pct = w.ok / w.total;
+    if (pct < 0.6) {
+      slabe.push({ dzial: d, pct: pct, ok: w.ok, total: w.total });
+    }
+  });
+  /* Sortuj: najpierw najsłabsze */
+  slabe.sort(function(a, b) { return a.pct - b.pct; });
+
+  /* Weź pierwsze 10 działów, wygeneruj po jednej lekcji z każdego */
+  var sciezka = [];
+  var uzyte = {};
+  slabe.slice(0, 10).forEach(function(s) {
+    /* Dopasuj poziom lekcji do poziomu ucznia */
+    var poziomLekcji = wynik.poziom;
+    var idLekcji = s.dzial + poziomLekcji;
+    /* Jeśli lekcja nie istnieje w bazie — weź poziom niżej */
+    var m = WSZYSTKIE_PYTANIA.filter(function(p) { return p.lekcjaId === idLekcji; });
+    if (!m.length) {
+      var idx = POZIOMY.indexOf(poziomLekcji);
+      if (idx > 0) {
+        idLekcji = s.dzial + POZIOMY[idx - 1];
+      }
+    }
+    if (uzyte[idLekcji]) return;
+    uzyte[idLekcji] = true;
+    sciezka.push({
+      id: idLekcji,
+      dzial: s.dzial,
+      opis: OPISY_DZIALOW[s.dzial] || "",
+      pct: Math.round(s.pct * 100),
+      powod: "Słaby wynik w tym dziale: " + Math.round(s.pct * 100) + "%"
+    });
+  });
+
+  /* Jeśli mało słabych — dorzuć lekcje na poziomie ucznia dla ogólnego utrwalenia */
+  if (sciezka.length < 5) {
+    Object.keys(OPISY_DZIALOW).forEach(function(d) {
+      if (sciezka.length >= 8) return;
+      var idLekcji = d + wynik.poziom;
+      if (uzyte[idLekcji]) return;
+      var istnieje = WSZYSTKIE_PYTANIA.filter(function(p) { return p.lekcjaId === idLekcji; });
+      if (!istnieje.length) return;
+      uzyte[idLekcji] = true;
+      sciezka.push({
+        id: idLekcji,
+        dzial: d,
+        opis: OPISY_DZIALOW[d] || "",
+        pct: null,
+        powod: "Utrwalenie materiału na poziomie " + wynik.poziom
+      });
+    });
+  }
+
+  return sciezka;
+}
+
+/* ============================================================
+   POKAZANIE WYNIKU
+============================================================ */
+function pokazWynik() {
+  var wynik = obliczWynik();
+
+  document.getElementById("poziomUcznia").textContent = wynik.poziom;
+  var pct = Math.round(wynik.lacznieOk / wynik.lacznieTotal * 100);
+  document.getElementById("wynikProcent").textContent =
+    wynik.lacznieOk + " / " + wynik.lacznieTotal + " poprawnych (" + pct + "%)";
+  document.getElementById("wynikOpis").textContent = OPIS_POZIOMU[wynik.poziom];
+
+  /* Tabela działów */
+  var dzialy = Object.keys(wynik.dzialyWynik).filter(function(d) {
+    return wynik.dzialyWynik[d].total > 0;
+  }).sort(function(a, b) {
+    var pa = wynik.dzialyWynik[a].ok / wynik.dzialyWynik[a].total;
+    var pb = wynik.dzialyWynik[b].ok / wynik.dzialyWynik[b].total;
+    return pa - pb;
+  });
+  var html = "";
+  dzialy.forEach(function(d) {
+    var w = wynik.dzialyWynik[d];
+    var p = Math.round(w.ok / w.total * 100);
+    var klasa = p < 50 ? "zly" : (p < 75 ? "sredni" : "dobry");
+    html += '<tr>';
+    html += '<td><strong>' + d + '</strong> — ' + (OPISY_DZIALOW[d] || "") + '</td>';
+    html += '<td>' + w.ok + ' / ' + w.total + '</td>';
+    html += '<td class="pct ' + klasa + '">' + p + '%</td>';
+    html += '</tr>';
+  });
+  document.querySelector("#tabelaDzialow tbody").innerHTML = html;
+
+  /* Ścieżka nauki */
+  var sciezka = zbudujSciezke(wynik);
+  var sh = "";
+  sciezka.forEach(function(s, i) {
+    sh += '<div class="lekcja-pozycja">';
+    sh += '<div class="nr-kroku">' + (i + 1) + '</div>';
+    sh += '<div class="info">';
+    sh += '<a href="lekcja.html?id=' + s.id + '" target="_blank">' + s.id + ' — ' + s.opis + '</a>';
+    sh += '<div class="opis">Lekcja: ' + s.id + '</div>';
+    if (s.powod) sh += '<div class="powod">' + s.powod + '</div>';
+    sh += '</div></div>';
+  });
+  document.getElementById("sciezkaNauki").innerHTML = sh;
+
+  document.getElementById("ekranTest").classList.remove("on");
+  document.getElementById("ekranWynik").classList.add("on");
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+/* ============================================================
+   START
+============================================================ */
+document.addEventListener("DOMContentLoaded", function() {
+  wczytajWszystkie(function() {
+    zebierzPytania();
+    document.getElementById("startBtn").addEventListener("click", function() {
+      if (WSZYSTKIE_PYTANIA.length < 60) {
+        alert("Nie udało się wczytać wszystkich lekcji. Spróbuj odświeżyć stronę.");
+        return;
+      }
+      WYLOSOWANE = losujTest();
+      ODPOWIEDZI = WYLOSOWANE.map(function() { return -1; });
+      renderPytania();
+      aktualizujPostep();
+      document.getElementById("ekranStart").style.display = "none";
+      document.getElementById("ekranTest").classList.add("on");
+      window.scrollTo({ top: 0 });
+    });
+    document.getElementById("sprawdzBtn").addEventListener("click", pokazWynik);
+  });
+});
+</script>
+</body>
+</html>
