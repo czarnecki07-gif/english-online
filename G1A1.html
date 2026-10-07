@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>G1A1 – Present Simple</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #f5f7fa; color: #2c3e50; font-size: 15px; line-height: 1.55; }
+
+  /* ===== HEADER LEKCJI ===== */
+  .lesson-header { background: linear-gradient(135deg, #4a5f7a, #7e93af); color: #fff; padding: 16px 22px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; box-shadow: 0 2px 8px rgba(0,0,0,.15); }
+  .lesson-header h1 { font-size: 1.2rem; font-weight: 700; }
+  .lesson-header .level-badge { background: #60a5fa; padding: 4px 12px; border-radius: 14px; font-size: .8rem; font-weight: 700; }
+  .lesson-header .back-btn { background: rgba(255,255,255,.18); color: #fff; border: none; padding: 8px 14px; border-radius: 8px; font-weight: 600; cursor: pointer; text-decoration: none; font-size: .85rem; }
+
+  /* ===== PASEK LEKTORA ===== */
+  .voice-bar {
+    background: #fff;
+    padding: 10px 20px;
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    flex-wrap: wrap;
+    border-bottom: 2px solid #e2e8f0;
+    box-shadow: 0 2px 4px rgba(0,0,0,.04);
+    font-size: .85rem;
+    position: sticky; top: 0; z-index: 30;
+  }
+  .voice-bar .label-main { font-weight: 700; color: #4a5f7a; }
+  .voice-bar label {
+    display: flex; align-items: center; gap: 5px;
+    font-weight: 600; color: #4a5f7a;
+  }
+  .voice-bar select {
+    padding: 5px 8px;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: .82rem;
+    font-family: inherit;
+    max-width: 180px;
+    cursor: pointer;
+    background: #f8fafc;
+  }
+  .voice-bar input[type="range"] { width: 90px; }
+  .voice-bar button {
+    padding: 6px 14px;
+    background: #2563eb;
+    color: #fff;
+    border: none;
+    border-radius: 7px;
+    font-weight: 700;
+    font-size: .8rem;
+    cursor: pointer;
+  }
+  .voice-bar button:hover { background: #1e40af; }
+  .voice-bar .rate-val { color: #64748b; font-weight: 600; min-width: 30px; }
+
+  /* Podpowiedź iPhone */
+  .iphone-hint {
+    background: #fef3c7;
+    color: #92400e;
+    padding: 10px 20px;
+    font-size: .85rem;
+    border-bottom: 1px solid #fde68a;
+    line-height: 1.4;
+  }
+  .iphone-hint.hidden { display: none; }
+  .iphone-hint b { color: #92400e; }
+
+  /* ===== TREŚĆ ===== */
+  .lesson-wrap { max-width: 900px; margin: 20px auto; padding: 0 16px; }
+  .section { background: #fff; border-radius: 12px; padding: 22px 26px; margin-bottom: 18px; box-shadow: 0 2px 8px rgba(0,0,0,.05); }
+  .section-title { display: flex; align-items: center; gap: 10px; font-size: 1.15rem; font-weight: 700; color: #1e40af; padding-bottom: 10px; margin-bottom: 16px; border-bottom: 2px solid #e2e8f0; }
+  .section-title .icon { font-size: 1.4rem; }
+  .section-title .time-badge { margin-left: auto; background: #dbeafe; color: #1e40af; padding: 3px 10px; border-radius: 12px; font-size: .75rem; font-weight: 600; }
+  h3 { color: #4a5f7a; font-size: 1.05rem; margin: 22px 0 10px; font-weight: 700; padding-bottom: 4px; border-bottom: 1px dashed #cbd5e1; }
+  h3:first-child { margin-top: 0; }
+  p { margin-bottom: 10px; }
+  ul { margin: 8px 0 12px 22px; }
+  ul li { margin-bottom: 4px; }
+  .en { color: #2c3e50; font-weight: 600; }
+  .pl { color: #64748b; font-style: italic; }
+  b, strong { color: #1e40af; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: .95rem; }
+  th, td { padding: 8px 12px; text-align: left; border-bottom: 1px solid #eef2f7; }
+  th { background: #e8eef5; color: #4a5f7a; font-weight: 700; }
+  tr:nth-child(even) td { background: rgba(0,0,0,.015); }
+  .tip-box { background: #fffbeb; border-left: 4px solid #f59e0b; padding: 12px 16px; border-radius: 6px; margin: 12px 0; font-size: .94rem; }
+  .tip-box b { color: #92400e; }
+  .word { display: inline; cursor: pointer; border-radius: 3px; padding: 0 2px; transition: background .12s; }
+  .word:hover { background: rgba(37,99,235,.18); }
+  .word.speaking { background: rgba(250,204,21,.85); }
+  .word-popup { position: fixed; z-index: 1000; background: #fff; border: 2px solid #2563eb; border-radius: 10px; padding: 10px 12px; width: 220px; max-width: 90vw; box-shadow: 0 8px 24px rgba(0,0,0,.25); font-size: .9rem; }
+  .word-popup.hidden { display: none; }
+  .wp-word { font-weight: 700; color: #1e40af; font-size: 1rem; margin-bottom: 8px; word-break: break-word; }
+  .wp-buttons { display: flex; gap: 5px; flex-wrap: wrap; }
+  .wp-buttons button, .wp-buttons a { padding: 6px 10px; border: none; border-radius: 7px; background: #dbeafe; color: #1e40af; font-weight: 700; font-size: .78rem; cursor: pointer; text-decoration: none; display: inline-block; text-align: center; flex: 1; min-width: 55px; }
+  .wp-buttons a.google { background: #fef3c7; color: #92400e; }
+  .wp-buttons button.save { background: #10b981; color: #fff; }
+  .read-sel-btn { position: fixed; bottom: 20px; right: 20px; z-index: 999; background: #2563eb; color: #fff; border: none; border-radius: 50px; padding: 12px 22px; font-weight: 700; font-size: .9rem; cursor: pointer; box-shadow: 0 4px 15px rgba(37,99,235,.4); opacity: 0; pointer-events: none; transition: opacity .2s, transform .2s; }
+  .read-sel-btn.visible { opacity: 1; pointer-events: auto; }
+  .read-sel-btn:hover { background: #1e40af; transform: translateY(-2px); }
+  .exercise { background: #f8fafc; border-left: 4px solid #2563eb; border-radius: 8px; padding: 14px 18px; margin-bottom: 12px; }
+  .exercise .ex-num { display: inline-block; background: #2563eb; color: #fff; width: 26px; height: 26px; border-radius: 50%; text-align: center; line-height: 26px; font-weight: 700; font-size: .85rem; margin-right: 8px; }
+  .exercise .ex-text { font-weight: 600; color: #2c3e50; margin-bottom: 10px; display: block; }
+  .exercise input[type="text"] { padding: 8px 12px; border: 2px solid #cbd5e1; border-radius: 7px; font-size: .95rem; font-family: inherit; min-width: 180px; max-width: 100%; margin: 2px 0; }
+  .exercise input[type="text"]:focus { outline: none; border-color: #2563eb; }
+  .exercise button.check-btn { display: block; margin-top: 10px; background: #10b981; color: #fff; border: none; padding: 8px 16px; border-radius: 7px; font-weight: 700; font-size: .85rem; cursor: pointer; }
+  .exercise button.check-btn:hover { background: #059669; }
+  .exercise .feedback { margin-top: 10px; padding: 8px 12px; border-radius: 6px; font-size: .9rem; display: none; }
+  .exercise .feedback.show { display: block; }
+  .exercise .feedback.correct { background: #d1fae5; color: #065f46; }
+  .exercise .feedback.wrong { background: #fee2e2; color: #991b1b; }
+  .exercise .feedback.neutral { background: #dbeafe; color: #1e40af; }
+  .exercise.open-ended { background: #f0f9ff; border-left-color: #0ea5e9; }
+  .exercise.open-ended .ex-num { background: #0ea5e9; }
+  .exercise.open-ended button.check-btn { background: #0ea5e9; }
+  .test-q { background: #f8fafc; border-left: 4px solid #7c3aed; border-radius: 8px; padding: 14px 18px; margin-bottom: 12px; }
+  .test-q .q-num { color: #7c3aed; font-weight: 700; margin-right: 6px; }
+  .test-q .q-text { font-weight: 600; color: #2c3e50; margin-bottom: 10px; display: block; }
+  .test-q label { display: block; padding: 8px 12px; margin-bottom: 4px; border-radius: 6px; cursor: pointer; transition: .12s; font-size: .95rem; }
+  .test-q label:hover { background: #e8eef5; }
+  .test-q input[type="radio"] { margin-right: 8px; }
+  .test-q.correct { border-left-color: #10b981; background: #f0fdf4; }
+  .test-q.wrong { border-left-color: #ef4444; background: #fef2f2; }
+  .test-q .feedback { margin-top: 10px; padding: 8px 12px; border-radius: 6px; font-size: .88rem; }
+  .test-q.correct .feedback { background: #d1fae5; color: #065f46; }
+  .test-q.wrong .feedback { background: #fee2e2; color: #991b1b; }
+  .check-test-btn { display: block; margin: 20px auto 0; background: #7c3aed; color: #fff; border: none; padding: 14px 32px; border-radius: 10px; font-weight: 700; font-size: 1rem; cursor: pointer; }
+  .check-test-btn:hover { background: #6d28d9; }
+  .test-result { background: #fff; border: 3px solid #7c3aed; border-radius: 12px; padding: 24px; text-align: center; margin: 20px 0; display: none; }
+  .test-result.show { display: block; }
+  .test-result h3 { font-size: 1.3rem; color: #7c3aed; margin-bottom: 8px; border: none; padding: 0; }
+  .test-result .score { font-size: 2.8rem; font-weight: 800; color: #1e40af; margin: 10px 0; }
+  .test-result .score-text { color: #64748b; font-size: .95rem; }
+  .test-result.good .score { color: #10b981; }
+  .test-result.medium .score { color: #f59e0b; }
+  .test-result.bad .score { color: #ef4444; }
+  .test-result button { margin-top: 16px; background: #7c3aed; color: #fff; border: none; padding: 10px 24px; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: .9rem; }
+  .hint-box { background: #fef3c7; border-left: 4px solid #f59e0b; padding: 10px 14px; border-radius: 6px; margin-bottom: 16px; font-size: .88rem; color: #92400e; }
+  @media (max-width: 600px) {
+    .lesson-wrap { padding: 0 8px; }
+    .section { padding: 16px; }
+    .exercise input[type="text"] { min-width: 100%; }
+    .voice-bar { padding: 8px 12px; gap: 8px; }
+    .voice-bar select { max-width: 120px; font-size: .75rem; }
+    .voice-bar input[type="range"] { width: 60px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="lesson-header">
+  <div>
+    <h1>📘 G1A1 – Present Simple</h1>
+    <span class="level-badge">Poziom A1</span>
+  </div>
+  <button class="back-btn" onclick="history.back()">← Wróć</button>
+</div>
+
+<!-- PASEK LEKTORA -->
+<div class="voice-bar">
+  <span class="label-main">🔊 Lektor:</span>
+  <label>🇬🇧 EN <select id="voiceEn"></select></label>
+  <label>🇵🇱 PL <select id="voicePl"></select></label>
+  <label>Tempo <input type="range" id="rateSlider" min="0.5" max="1.5" step="0.1" value="1"><span class="rate-val" id="rateVal">1.0×</span></label>
+  <button id="testVoice">▶ Test</button>
+</div>
+
+<!-- PODPOWIEDŹ DLA IPHONE -->
+<div id="iphoneHint" class="iphone-hint hidden">
+  💡 <b>iPhone:</b> dla lepszego głosu wejdź w <b>Ustawienia → Dostępność → Mowa → Udostępnione głosy</b> i pobierz <b>Samantha</b> (EN) lub <b>Zosia</b> (PL). Potem odśwież stronę.
+</div>
+
+<div class="lesson-wrap">
+
+  <!-- OMÓWIENIE -->
+  <div class="section">
+    <div class="section-title">
+      <span class="icon">📖</span>
+      <span>Omówienie tematu</span>
+      <span class="time-badge">~10 min</span>
+    </div>
+
+    <div class="hint-box">
+      💡 <b>Wskazówka:</b> kliknij dowolne słowo, aby usłyszeć wymowę i otworzyć słownik.
+    </div>
+
+    <h3>Kiedy używamy Present Simple?</h3>
+    <p>Present Simple używamy, gdy mówimy o:</p>
+    <ul>
+      <li><b>codziennych czynnościach</b> – <span class="en">I get up at 7.</span></li>
+      <li><b>zwyczajach i nawykach</b> – <span class="en">She drinks coffee every morning.</span></li>
+      <li><b>faktach</b> – <span class="en">Water boils at 100°C.</span></li>
+      <li><b>rzeczach, które zazwyczaj się zdarzają</b> – <span class="en">He plays football on Saturdays.</span></li>
+    </ul>
+
+    <h3>Budowa zdania</h3>
+    <table>
+      <tr><th>Osoba</th><th>Twierdzenie</th><th>Przeczenie</th><th>Pytanie</th></tr>
+      <tr><td>I / You / We / They</td><td class="en">work</td><td class="en">don't work</td><td class="en">Do you work?</td></tr>
+      <tr><td>He / She / It</td><td class="en">work<b>s</b></td><td class="en">doesn't work</td><td class="en">Does she work?</td></tr>
+    </table>
+
+    <div class="tip-box">
+      <b>⚠️ Pamiętaj:</b> w 3. osobie liczby pojedynczej (he / she / it) dodajemy <b>-s</b> do czasownika.<br>
+      <span class="en">She works. He lives here. It rains a lot.</span>
+    </div>
+
+    <h3>Końcówka -s – zasady pisowni</h3>
+    <table>
+      <tr><th>Zasada</th><th>Przykład</th></tr>
+      <tr><td>Zazwyczaj dodajemy <b>-s</b></td><td class="en">work → works</td></tr>
+      <tr><td>Po <b>-s, -sh, -ch, -x, -o</b> dodajemy <b>-es</b></td><td class="en">go → goes, watch → watches</td></tr>
+      <tr><td>Spółgłoska + <b>y</b> → <b>-ies</b></td><td class="en">study → studies</td></tr>
+      <tr><td>Samogłoska + <b>y</b> → <b>-s</b></td><td class="en">play → plays</td></tr>
+    </table>
+
+    <h3>Przeczenie i pytania</h3>
+    <p>W przeczeniach i pytaniach używamy <b>do / does + czasownik w formie podstawowej</b>:</p>
+    <ul>
+      <li><span class="en">I don't work.</span> <span class="pl">(Nie pracuję.)</span></li>
+      <li><span class="en">She doesn't work.</span> <span class="pl">(Ona nie pracuje.)</span></li>
+      <li><span class="en">Do you work?</span> <span class="pl">(Czy pracujesz?)</span></li>
+      <li><span class="en">Does she work?</span> <span class="pl">(Czy ona pracuje?)</span></li>
+    </ul>
+
+    <div class="tip-box">
+      <b>⚠️ Ważne:</b> po <b>does / doesn't</b> czasownik jest w formie podstawowej (bez -s).<br>
+      ✅ <span class="en">Does she work?</span> &nbsp;&nbsp; ❌ <span style="color:#ef4444">Does she works?</span>
+    </div>
+
+    <h3>Typowe określenia czasu</h3>
+    <table>
+      <tr>
+        <td class="en">always</td><td class="pl">zawsze</td>
+        <td class="en">usually</td><td class="pl">zazwyczaj</td>
+      </tr>
+      <tr>
+        <td class="en">often</td><td class="pl">często</td>
+        <td class="en">sometimes</td><td class="pl">czasami</td>
+      </tr>
+      <tr>
+        <td class="en">never</td><td class="pl">nigdy</td>
+        <td class="en">every day</td><td class="pl">codziennie</td>
+      </tr>
+      <tr>
+        <td class="en">every week</td><td class="pl">co tydzień</td>
+        <td class="en">on Mondays</td><td class="pl">w poniedziałki</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- KARTA PRACY -->
+  <div class="section">
+    <div class="section-title">
+      <span class="icon">✏️</span>
+      <span>Karta pracy</span>
+      <span class="time-badge">~20-30 min</span>
+    </div>
+
+    <p style="margin-bottom:16px;">Wpisz odpowiedź i kliknij <b>Sprawdź</b>. Możesz sprawdzać każde zadanie osobno.</p>
+
+    <h3>A. Uzupełnij zdania poprawną formą czasownika</h3>
+    <div class="exercise" data-answers='["work"]'><span class="ex-text"><span class="ex-num">1</span> <span class="en">I ________ (work) in a shop.</span></span><input type="text" placeholder="wpisz odpowiedź..."><button class="check-btn">Sprawdź</button><div class="feedback"></div></div>
+    <div class="exercise" data-answers='["goes"]'><span class="ex-text"><span class="ex-num">2</span> <span class="en">She ________ (go) to school every day.</span></span><input type="text" placeholder="wpisz odpowiedź..."><button class="check-btn">Sprawdź</button><div class="feedback"></div></div>
+    <div class="exercise" data-answers='["watches"]'><span class="ex-text"><span class="ex-num">3</span> <span class="en">He ________ (watch) TV every evening.</span></span><input type="text" placeholder="wpisz odpowiedź..."><button class="check-btn">Sprawdź</button><div class="feedback"></div></div>
+    <div class="exercise" data-answers='["studies"]'><span class="ex-text"><span class="ex-num">4</span> <span class="en">My sister ________ (study) at university.</span></span><input type="text" placeholder="wpisz odpowiedź..."><button class="check-btn">Sprawdź</button><div class="feedback"></div></div>
+    <div class="exercise" data-answers='["play"]'><span class="ex-text"><span class="ex-num">5</span> <span class="en">We ________ (play) football on Sundays.</span></span><input type="text" placeholder="wpisz odpowiedź..."><button class="check-btn">Sprawdź</button><div class="feedback"></div></div>
+    <div class="exercise" data-answers='["lives"]'><span class="ex-text"><span class="ex-num">6</span> <span class="en">Tom ________ (live) in Warsaw.</span></span><input type="text" placeholder="wpisz odpowiedź..."><button class="check-btn">Sprawdź</button><div class="feedback"></div></div>
+
+    <h3>B. Zrób przeczenie</h3>
+    <div class="exercise" data-answers='["doesn&#39;t work","does not work"]'><span class="ex-text"><span class="ex-num">7</span> <span class="en">She works here. → She ________ here.</span></span><input type="text" placeholder="wpisz odpowiedź..." style="min-width: 240px;"><button class="check-btn">Sprawdź</button><div class="feedback"></div></div>
+    <div class="exercise" data-answers='["don&#39;t like","do not like"]'><span class="ex-text"><span class="ex-num">8</span> <span class="en">They like fish. → They ________ fish.</span></span><input type="text" placeholder="wpisz odpowiedź..." style="min-width: 240px;"><button class="check-btn">Sprawdź</button><div class="feedback"></div></div>
+    <div class="exercise" data-answers='["doesn&#39;t live","does not live"]'><span class="ex-text"><span class="ex-num">9</span> <span class="en">He lives in London. → He ________ in London.</span></span><input type="text" placeholder="wpisz odpowiedź..." style="min-width: 240px;"><button class="check-btn">Sprawdź</button><div class="feedback"></div></div>
+
+    <h3>C. Zrób pytanie</h3>
+    <div class="exercise" data-answers='["do you work","do you work?"]'><span class="ex-text"><span class="ex-num">10</span> <span class="en">You work here. → ________ here?</span></span><input type="text" placeholder="wpisz odpowiedź..." style="min-width: 240px;"><button class="check-btn">Sprawdź</button><div class="feedback"></div></div>
+    <div class="exercise" data-answers='["does she speak","does she speak?"]'><span class="ex-text"><span class="ex-num">11</span> <span class="en">She speaks English. → ________ English?</span></span><input type="text" placeholder="wpisz odpowiedź..." style="min-width: 240px;"><button class="check-btn">Sprawdź</button><div class="feedback"></div></div>
+    <div class="exercise" data-answers='["do they live","do they live?"]'><span class="ex-text"><span class="ex-num">12</span> <span class="en">They live in Kraków. → ________ in Kraków?</span></span><input type="text" placeholder="wpisz odpowiedź..." style="min-width: 240px;"><button class="check-btn">Sprawdź</button><div class="feedback"></div></div>
+
+    <h3>D. Wybierz poprawną formę</h3>
+    <div class="exercise" data-answers='["drinks"]'><span class="ex-text"><span class="ex-num">13</span> <span class="en">My mother ________ (drink/drinks) coffee every morning.</span></span><input type="text" placeholder="wpisz drink albo drinks..."><button class="check-btn">Sprawdź</button><div class="feedback"></div></div>
+    <div class="exercise" data-answers='["don&#39;t have","do not have"]'><span class="ex-text"><span class="ex-num">14</span> <span class="en">We ________ (don't have / doesn't have) a car.</span></span><input type="text" placeholder="wpisz odpowiedź..." style="min-width: 240px;"><button class="check-btn">Sprawdź</button><div class="feedback"></div></div>
+    <div class="exercise" data-answers='["has"]'><span class="ex-text"><span class="ex-num">15</span> <span class="en">My brother ________ (have/has) a dog.</span></span><input type="text" placeholder="wpisz have albo has..."><button class="check-btn">Sprawdź</button><div class="feedback"></div></div>
+
+    <h3>E. Przetłumacz na angielski</h3>
+    <div class="exercise" data-answers='["she works in a shop","she works in a shop."]'><span class="ex-text"><span class="ex-num">16</span> <span class="pl">Ona pracuje w sklepie.</span></span><input type="text" placeholder="wpisz zdanie po angielsku..." style="min-width: 100%;"><button class="check-btn">Sprawdź</button><div class="feedback"></div></div>
+    <div class="exercise" data-answers='["i get up at 7","i get up at seven","i get up at 7.","i get up at seven."]'><span class="ex-text"><span class="ex-num">17</span> <span class="pl">Wstaję o 7.</span> <span style="color:#64748b;font-size:.85rem;">(get up – wstawać)</span></span><input type="text" placeholder="wpisz zdanie po angielsku..." style="min-width: 100%;"><button class="check-btn">Sprawdź</button><div class="feedback"></div></div>
+    <div class="exercise" data-answers='["he doesn&#39;t like coffee","he does not like coffee","he doesn&#39;t like coffee.","he does not like coffee."]'><span class="ex-text"><span class="ex-num">18</span> <span class="pl">On nie lubi kawy.</span></span><input type="text" placeholder="wpisz zdanie po angielsku..." style="min-width: 100%;"><button class="check-btn">Sprawdź</button><div class="feedback"></div></div>
+    <div class="exercise" data-answers='["do you speak english","do you speak english?"]'><span class="ex-text"><span class="ex-num">19</span> <span class="pl">Czy mówisz po angielsku?</span></span><input type="text" placeholder="wpisz zdanie po angielsku..." style="min-width: 100%;"><button class="check-btn">Sprawdź</button><div class="feedback"></div></div>
+
+    <h3>F. Popraw błędy</h3>
+    <div class="exercise" data-answers='["she goes to school every day","she goes to school every day."]'><span class="ex-text"><span class="ex-num">20</span> <span class="en">She go to school every day. → ________</span></span><input type="text" placeholder="popraw zdanie..." style="min-width: 100%;"><button class="check-btn">Sprawdź</button><div class="feedback"></div></div>
+    <div class="exercise" data-answers='["do you like tea","do you like tea?"]'><span class="ex-text"><span class="ex-num">21</span> <span class="en">Does you like tea? → ________</span></span><input type="text" placeholder="popraw zdanie..." style="min-width: 100%;"><button class="check-btn">Sprawdź</button><div class="feedback"></div></div>
+    <div class="exercise" data-answers='["he doesn&#39;t work here","he does not work here","he doesn&#39;t work here.","he does not work here."]'><span class="ex-text"><span class="ex-num">22</span> <span class="en">He don't work here. → ________</span></span><input type="text" placeholder="popraw zdanie..." style="min-width: 100%;"><button class="check-btn">Sprawdź</button><div class="feedback"></div></div>
+    <div class="exercise" data-answers='["i usually get up at 7","i usually get up at seven","i usually get up at 7.","i usually get up at seven."]'><span class="ex-text"><span class="ex-num">23</span> <span class="en">I get up usually at 7. → ________</span> <span style="color:#64748b;font-size:.85rem;">(przysłówki częstości idą przed czasownikiem)</span></span><input type="text" placeholder="popraw zdanie..." style="min-width: 100%;"><button class="check-btn">Sprawdź</button><div class="feedback"></div></div>
+
+    <h3>G. Napisz o sobie</h3>
+    <p style="color:#64748b;font-size:.9rem;margin-bottom:10px;">To zadanie nie jest sprawdzane automatycznie. Napisz i sprawdź samodzielnie.</p>
+    <div class="exercise open-ended" data-answers='OPEN_ENDED'><span class="ex-text"><span class="ex-num">24</span> Napisz 3 zdania o swojej codziennej rutynie. Użyj Present Simple.</span><input type="text" placeholder="np. I get up at 7. I go to school by bus. I watch TV in the evening." style="min-width: 100%;"><button class="check-btn">Zapisz</button><div class="feedback"></div></div>
+  </div>
+
+  <!-- TEST -->
+  <div class="section">
+    <div class="section-title">
+      <span class="icon">📝</span>
+      <span>Test</span>
+      <span class="time-badge">~10 min</span>
+    </div>
+    <p style="margin-bottom:16px;">Wybierz poprawną odpowiedź, a następnie kliknij <b>Sprawdź test</b>.</p>
+    <div id="testContainer"></div>
+    <button class="check-test-btn" id="checkTestBtn">✓ Sprawdź test</button>
+    <div class="test-result" id="testResult"></div>
+  </div>
+
+</div>
+
+<div id="wordPopup" class="word-popup hidden"></div>
+<button id="readSelBtn" class="read-sel-btn">🔊 Czytaj zaznaczone</button>
+
+<script>
+/* ========== TEST ========== */
+var TEST_QUESTIONS = [
+  { q: "She ______ to school every day.", opcje: ["go", "goes", "is going", "gone"], poprawna: 1, wyjasnienie: "3 os. l.poj. (she) → czasownik + -s → goes." },
+  { q: "I ______ coffee.", opcje: ["don't like", "doesn't like", "am not like", "not like"], poprawna: 0, wyjasnienie: "Z 'I' przeczenie tworzymy przez 'don't' + czasownik." },
+  { q: "______ he work here?", opcje: ["Do", "Does", "Is", "Are"], poprawna: 1, wyjasnienie: "Pytanie w 3 os. l.poj. → Does + czasownik (bez -s)." },
+  { q: "They ______ football on Sundays.", opcje: ["play", "plays", "is playing", "playing"], poprawna: 0, wyjasnienie: "Z 'they' czasownik jest w formie podstawowej." },
+  { q: "My father ______ in a bank.", opcje: ["work", "works", "working", "is work"], poprawna: 1, wyjasnienie: "3 os. l.poj. (my father = he) → works." },
+  { q: "We ______ to the cinema very often.", opcje: ["go", "goes", "don't go", "doesn't go"], poprawna: 2, wyjasnienie: "Przeczenie z 'we' → don't go. 'very often' wskazuje na Present Simple." },
+  { q: "______ you like tea?", opcje: ["Do", "Does", "Are", "Is"], poprawna: 0, wyjasnienie: "Pytanie z 'you' → Do you...?" },
+  { q: "She ______ TV every evening.", opcje: ["watch", "watches", "is watch", "watching"], poprawna: 1, wyjasnienie: "3 os. l.poj. + końcówka -es po 'ch' → watches." },
+  { q: "I ______ from Poland.", opcje: ["am", "is", "are", "be"], poprawna: 0, wyjasnienie: "Czasownik 'be' z 'I' → am." },
+  { q: "He ______ have a car.", opcje: ["don't", "doesn't", "isn't", "aren't"], poprawna: 1, wyjasnienie: "Przeczenie z 'he' → doesn't + czasownik podstawowy." }
+];
+
+function renderTest() {
+  var container = document.getElementById("testContainer");
+  if (!container) return;
+  var html = "";
+  for (var i = 0; i < TEST_QUESTIONS.length; i++) {
+    var q = TEST_QUESTIONS[i];
+    html += '<div class="test-q" data-q="' + i + '">';
+    html += '<span class="q-text"><span class="q-num">' + (i + 1) + '.</span> ' + q.q + '</span>';
+    for (var j = 0; j < q.opcje.length; j++) {
+      html += '<label><input type="radio" name="tq' + i + '" value="' + j + '"> ' + String.fromCharCode(65 + j) + ') ' + q.opcje[j] + '</label>';
+    }
+    html += '</div>';
+  }
+  container.innerHTML = html;
+}
+
+function checkTest() {
+  var score = 0;
+  for (var i = 0; i < TEST_QUESTIONS.length; i++) {
+    var q = TEST_QUESTIONS[i];
+    var qEl = document.querySelector('.test-q[data-q="' + i + '"]');
+    if (!qEl) continue;
+    var checked = qEl.querySelector('input[type="radio"]:checked');
+    var userAns = checked ? parseInt(checked.value) : -1;
+    var isCorrect = userAns === q.poprawna;
+    qEl.classList.remove("correct", "wrong");
+    qEl.classList.add(isCorrect ? "correct" : "wrong");
+    var oldFb = qEl.querySelector(".feedback");
+    if (oldFb) oldFb.remove();
+    var fb = document.createElement("div");
+    fb.className = "feedback";
+    if (isCorrect) {
+      score++;
+      fb.innerHTML = "✓ Dobrze! " + q.wyjasnienie;
+    } else {
+      fb.innerHTML = "✗ Źle. Poprawna: <b>" + q.opcje[q.poprawna] + "</b><br>" + q.wyjasnienie;
+    }
+    qEl.appendChild(fb);
+  }
+  var total = TEST_QUESTIONS.length;
+  var pct = Math.round(score / total * 100);
+  var klasa = "bad", komentarz = "Musisz jeszcze powtórzyć materiał.";
+  if (pct >= 80) { klasa = "good"; komentarz = "Świetnie! Opanowałeś Present Simple."; }
+  else if (pct >= 60) { klasa = "medium"; komentarz = "Nieźle, ale warto powtórzyć zasady."; }
+  var result = document.getElementById("testResult");
+  result.className = "test-result show " + klasa;
+  result.innerHTML = '<h3>Twój wynik</h3><div class="score">' + score + ' / ' + total + '</div><p class="score-text">' + pct + '% – ' + komentarz + '</p><button onclick="resetTest()">↺ Spróbuj ponownie</button>';
+  result.scrollIntoView({ behavior: "smooth", block: "center" });
+}
+
+function resetTest() {
+  var qs = document.querySelectorAll(".test-q");
+  for (var i = 0; i < qs.length; i++) {
+    qs[i].classList.remove("correct", "wrong");
+    var radios = qs[i].querySelectorAll("input[type=radio]");
+    for (var j = 0; j < radios.length; j++) radios[j].checked = false;
+    var fb = qs[i].querySelector(".feedback");
+    if (fb) fb.remove();
+  }
+  document.getElementById("testResult").classList.remove("show");
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+/* ========== KARTA PRACY ========== */
+function normalizeText(s) {
+  return s.toLowerCase().trim().replace(/\s+/g, " ").replace(/[.!?,;:]+$/g, "").replace(/[\u2018\u2019\u00B4`]/g, "'");
+}
+
+function initWorkbook() {
+  var exercises = document.querySelectorAll(".exercise");
+  for (var i = 0; i < exercises.length; i++) {
+    (function(ex) {
+      var btn = ex.querySelector(".check-btn");
+      var input = ex.querySelector("input[type='text']");
+      var feedback = ex.querySelector(".feedback");
+      var isOpenEnded = ex.dataset.answers === "OPEN_ENDED";
+      var answers = [];
+      if (!isOpenEnded) {
+        try { answers = JSON.parse(ex.dataset.answers); } catch (e) { console.error(e); }
+      }
+      btn.addEventListener("click", function() {
+        if (isOpenEnded) {
+          feedback.className = "feedback show neutral";
+          feedback.innerHTML = "✓ Dobra robota! Sprawdź swoje zdania z nauczycielem lub porównaj z przykładami z omówienia.";
+          return;
+        }
+        var userAns = normalizeText(input.value);
+        var ok = false;
+        for (var k = 0; k < answers.length; k++) {
+          if (normalizeText(answers[k]) === userAns) { ok = true; break; }
+        }
+        feedback.className = "feedback show " + (ok ? "correct" : "wrong");
+        feedback.innerHTML = ok ? "✓ Dobrze!" : "✗ Źle. Poprawna odpowiedź: <b>" + (answers[0] || "?") + "</b>";
+      });
+      input.addEventListener("keydown", function(e) { if (e.key === "Enter") btn.click(); });
+    })(exercises[i]);
+  }
+}
+
+/* ========== LEKTOR Z WYBOREM GŁOSU ========== */
+var voiceEn = null, voicePl = null;
+var selectedEnName = localStorage.getItem("g1a1_voiceEn") || "";
+var selectedPlName = localStorage.getItem("g1a1_voicePl") || "";
+
+function detectPlatform() {
+  var ua = navigator.userAgent || "";
+  if (/iPhone|iPad|iPod/i.test(ua)) return "ios";
+  if (/Android/i.test(ua)) return "android";
+  return "desktop";
+}
+
+function loadVoices() {
+  var all = speechSynthesis.getVoices();
+  function isBad(v) {
+    var n = (v.name || "").toLowerCase();
+    return n.indexOf("child") !== -1 || n.indexOf("kid") !== -1 || n.indexOf("junior") !== -1;
+  }
+  var enList = [], plList = [];
+  for (var i = 0; i < all.length; i++) {
+    var v = all[i];
+    if (isBad(v)) continue;
+    if (v.lang.toLowerCase().indexOf("en") === 0) enList.push(v);
+    if (v.lang.toLowerCase().indexOf("pl") === 0) plList.push(v);
+  }
+
+  // Sortuj: en-US, en-GB, inne
+  enList.sort(function(a, b) {
+    function prio(l) {
+      l = l.toLowerCase();
+      if (l === "en-us") return 0;
+      if (l === "en-gb") return 1;
+      return 2;
+    }
+    return prio(a.lang) - prio(b.lang) || a.name.localeCompare(b.name);
+  });
+  plList.sort(function(a, b) { return a.name.localeCompare(b.name); });
+
+  // Wypełnij select EN
+  var selEn = document.getElementById("voiceEn");
+  selEn.innerHTML = "";
+  if (!enList.length) {
+    selEn.innerHTML = '<option value="">(brak głosu EN)</option>';
+  } else {
+    for (var k = 0; k < enList.length; k++) {
+      var opt = document.createElement("option");
+      opt.value = enList[k].name;
+      opt.textContent = enList[k].name + " (" + enList[k].lang + ")";
+      selEn.appendChild(opt);
+    }
+    // Wybierz zapisany lub domyślny
+    if (selectedEnName && enList.some(function(v) { return v.name === selectedEnName; })) {
+      selEn.value = selectedEnName;
+    } else {
+      selEn.value = enList[0].name;
+      selectedEnName = enList[0].name;
+    }
+  }
+
+  // Wypełnij select PL
+  var selPl = document.getElementById("voicePl");
+  selPl.innerHTML = "";
+  if (!plList.length) {
+    selPl.innerHTML = '<option value="">(brak głosu PL)</option>';
+  } else {
+    for (var m = 0; m < plList.length; m++) {
+      var opt2 = document.createElement("option");
+      opt2.value = plList[m].name;
+      opt2.textContent = plList[m].name + " (" + plList[m].lang + ")";
+      selPl.appendChild(opt2);
+    }
+    if (selectedPlName && plList.some(function(v) { return v.name === selectedPlName; })) {
+      selPl.value = selectedPlName;
+    } else {
+      selPl.value = plList[0].name;
+      selectedPlName = plList[0].name;
+    }
+  }
+
+  // Ustaw aktualne voice
+  voiceEn = enList.find(function(v) { return v.name === selEn.value; }) || null;
+  voicePl = plList.find(function(v) { return v.name === selPl.value; }) || null;
+
+  console.log("Głosy: EN =", voiceEn ? voiceEn.name : "brak", "| PL =", voicePl ? voicePl.name : "brak");
+}
+
+function getRate() {
+  var el = document.getElementById("rateSlider");
+  return el ? parseFloat(el.value) : 1;
+}
+
+function speak(text) {
+  if (!text) return;
+  speechSynthesis.cancel();
+  var isPl = /[ąćęłńóśźż]/i.test(text);
+  var u = new SpeechSynthesisUtterance(text);
+  u.rate = getRate();
+  if (isPl && voicePl) { u.voice = voicePl; u.lang = voicePl.lang; }
+  else if (!isPl && voiceEn) { u.voice = voiceEn; u.lang = voiceEn.lang; }
+  else { u.lang = isPl ? "pl-PL" : "en-US"; }
+  speechSynthesis.speak(u);
+}
+
+/* Zmiana głosu z selecta */
+function attachVoiceSelectors() {
+  var selEn = document.getElementById("voiceEn");
+  var selPl = document.getElementById("voicePl");
+  var rate = document.getElementById("rateSlider");
+  var rateVal = document.getElementById("rateVal");
+  var testBtn = document.getElementById("testVoice");
+
+  if (selEn) {
+    selEn.addEventListener("change", function() {
+      selectedEnName = selEn.value;
+      localStorage.setItem("g1a1_voiceEn", selectedEnName);
+      loadVoices();
+    });
+  }
+  if (selPl) {
+    selPl.addEventListener("change", function() {
+      selectedPlName = selPl.value;
+      localStorage.setItem("g1a1_voicePl", selectedPlName);
+      loadVoices();
+    });
+  }
+  if (rate) {
+    rate.addEventListener("input", function() {
+      if (rateVal) rateVal.textContent = parseFloat(rate.value).toFixed(1) + "×";
+    });
+  }
+  if (testBtn) {
+    testBtn.addEventListener("click", function() {
+      speak("Hello! This is the English voice.");
+    });
+  }
+}
+
+/* Podpowiedź dla iPhone */
+function showIphoneHint() {
+  if (detectPlatform() === "ios") {
+    var hint = document.getElementById("iphoneHint");
+    if (hint) hint.classList.remove("hidden");
+  }
+}
+
+/* ========== POPUP SŁOWNIKA ========== */
+function showPopup(word, x, y) {
+  var popup = document.getElementById("wordPopup");
+  var googleUrl = "https://translate.google.com/?sl=en&tl=pl&text=" + encodeURIComponent(word) + "&op=translate";
+  popup.innerHTML = '<div class="wp-word">' + word + '</div>' +
+    '<div class="wp-buttons">' +
+    '<button data-a="en">🔊 EN</button>' +
+    '<a class="google" href="' + googleUrl + '" target="_blank" rel="noopener">🌐 Google</a>' +
+    '<button class="save" data-a="save">💾</button>' +
+    '</div>';
+  popup.classList.remove("hidden");
+  var W = popup.offsetWidth || 220;
+  var H = popup.offsetHeight || 100;
+  var px = x + 12, py = y + 12;
+  if (px + W > window.innerWidth - 10) px = x - W - 12;
+  if (py + H > window.innerHeight - 10) py = y - H - 12;
+  if (px < 10) px = 10;
+  if (py < 10) py = 10;
+  popup.style.left = px + "px";
+  popup.style.top = py + "px";
+  popup.querySelector('[data-a="en"]').addEventListener("click", function() { speak(word); });
+  popup.querySelector('[data-a="save"]').addEventListener("click", function() {
+    var saved = [];
+    try { saved = JSON.parse(localStorage.getItem("dictG1A1") || "[]"); } catch (e) { saved = []; }
+    var exists = false;
+    for (var i = 0; i < saved.length; i++) if (saved[i].en.toLowerCase() === word.toLowerCase()) { exists = true; break; }
+    if (!exists) {
+      saved.push({ en: word, pl: "" });
+      localStorage.setItem("dictG1A1", JSON.stringify(saved));
+      alert("Zapisano: " + word);
+    } else alert("Już zapisane");
+    popup.classList.add("hidden");
+  });
+}
+
+function makeWordsClickable() {
+  var root = document.querySelector(".lesson-wrap");
+  if (!root) return;
+  var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null, false);
+  var nodes = [];
+  var n;
+  while ((n = walker.nextNode())) {
+    if (n.parentElement.closest("button, a, input, label, .word, .lesson-header, .hint-box, .voice-bar, .iphone-hint")) continue;
+    if (n.nodeValue && n.nodeValue.trim()) nodes.push(n);
+  }
+  for (var i = 0; i < nodes.length; i++) {
+    (function(node) {
+      var tokens = node.nodeValue.split(/(\s+)/);
+      var frag = document.createDocumentFragment();
+      for (var j = 0; j < tokens.length; j++) {
+        var tok = tokens[j];
+        if (/^\s+$/.test(tok)) { frag.appendChild(document.createTextNode(tok)); continue; }
+        var clean = tok.replace(/[^\w\u00C0-\u017F'’-]/g, "");
+        if (!clean || clean.length < 2) { frag.appendChild(document.createTextNode(tok)); continue; }
+        var span = document.createElement("span");
+        span.className = "word";
+        span.textContent = tok;
+        (function(w) {
+          span.addEventListener("click", function(e) {
+            e.stopPropagation();
+            var all = document.querySelectorAll(".word.speaking");
+            for (var k = 0; k < all.length; k++) all[k].classList.remove("speaking");
+            span.classList.add("speaking");
+            speak(w);
+            showPopup(w, e.clientX, e.clientY);
+            setTimeout(function() { span.classList.remove("speaking"); }, 1200);
+          });
+        })(clean);
+        frag.appendChild(span);
+      }
+      node.parentNode.replaceChild(frag, node);
+    })(nodes[i]);
+  }
+}
+
+/* ========== INIT ========== */
+document.addEventListener("DOMContentLoaded", function() {
+  console.log("G1A1 DOMContentLoaded");
+
+  var btn = document.getElementById("checkTestBtn");
+  if (btn) btn.addEventListener("click", checkTest);
+
+  renderTest();
+  initWorkbook();
+
+  // Głosy
+  loadVoices();
+  if (typeof speechSynthesis !== "undefined") {
+    speechSynthesis.onvoiceschanged = loadVoices;
+    setTimeout(loadVoices, 300);
+    setTimeout(loadVoices, 800);
+    setTimeout(loadVoices, 1500);
+  }
+  attachVoiceSelectors();
+  showIphoneHint();
+
+  document.addEventListener("click", function(e) {
+    var popup = document.getElementById("wordPopup");
+    if (popup && !popup.classList.contains("hidden") && !popup.contains(e.target)) {
+      popup.classList.add("hidden");
+    }
+  });
+
+  var readBtn = document.getElementById("readSelBtn");
+  if (readBtn) {
+    readBtn.addEventListener("click", function() {
+      var sel = window.getSelection().toString().trim();
+      if (!sel) return;
+      var sentences = sel.split(/(?<=[.!?;:])\s+/);
+      for (var i = 0; i < sentences.length; i++) if (sentences[i].trim()) speak(sentences[i]);
+      readBtn.classList.remove("visible");
+      window.getSelection().removeAllRanges();
+    });
+  }
+
+  document.addEventListener("selectionchange", function() {
+    var sel = window.getSelection().toString().trim();
+    var btn = document.getElementById("readSelBtn");
+    if (!btn) return;
+    if (sel.length > 3) btn.classList.add("visible");
+    else btn.classList.remove("visible");
+  });
+
+  makeWordsClickable();
+});
+</script>
+
+</body>
+</html>

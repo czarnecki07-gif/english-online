@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sprawdzian G1A1 – Present Simple</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #7f1d1d; color: #fff; min-height: 100vh; font-size: 15px; line-height: 1.55; }
+
+  /* ===== HEADER ===== */
+  .exam-header { background: #991b1b; padding: 14px 22px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; box-shadow: 0 2px 8px rgba(0,0,0,.3); position: sticky; top: 0; z-index: 10; border-bottom: 3px solid #fbbf24; }
+  .exam-header h1 { font-size: 1.1rem; font-weight: 700; }
+  .exam-header .badge { background: #fbbf24; color: #7f1d1d; padding: 4px 12px; border-radius: 14px; font-size: .78rem; font-weight: 800; letter-spacing: .5px; }
+  .exam-header .timer { background: #1f2937; color: #fbbf24; padding: 8px 16px; border-radius: 10px; font-size: 1.1rem; font-weight: 800; font-family: 'Consolas', monospace; letter-spacing: 1px; }
+  .exam-header .timer.warning { background: #dc2626; color: #fff; animation: pulse 1s infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .6; } }
+
+  /* ===== EKRANY ===== */
+  .screen { display: none; max-width: 800px; margin: 30px auto; padding: 0 16px; }
+  .screen.active { display: block; }
+
+  .card { background: #1f2937; border-radius: 14px; padding: 30px 26px; box-shadow: 0 4px 20px rgba(0,0,0,.3); border: 1px solid #374151; }
+
+  /* ===== EKRAN STARTOWY ===== */
+  .start-card h1 { font-size: 1.5rem; margin-bottom: 8px; color: #fbbf24; }
+  .start-card .subtitle { color: #9ca3af; margin-bottom: 24px; font-size: .95rem; }
+  .start-card label { display: block; margin-bottom: 6px; color: #fbbf24; font-weight: 700; font-size: .9rem; }
+  .start-card input { width: 100%; padding: 12px 16px; border: 2px solid #4b5563; border-radius: 10px; background: #111827; color: #fff; font-size: 1rem; font-family: inherit; margin-bottom: 16px; }
+  .start-card input:focus { outline: none; border-color: #fbbf24; }
+  .start-card .warning-box { background: #7f1d1d; border: 2px solid #dc2626; border-radius: 10px; padding: 14px 18px; margin: 20px 0; font-size: .9rem; line-height: 1.5; }
+  .start-card .warning-box b { color: #fbbf24; }
+  .start-card button { width: 100%; padding: 16px; background: #fbbf24; color: #7f1d1d; border: none; border-radius: 10px; font-weight: 800; font-size: 1.05rem; cursor: pointer; letter-spacing: .5px; }
+  .start-card button:hover { background: #f59e0b; }
+  .start-card button:disabled { background: #4b5563; color: #9ca3af; cursor: not-allowed; }
+  .start-card .error { color: #f87171; margin-top: 10px; font-size: .9rem; }
+
+  /* ===== EKRAN EGZAMINU ===== */
+  .exam-info { background: #111827; padding: 12px 18px; border-radius: 10px; margin-bottom: 20px; font-size: .88rem; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; border: 1px solid #374151; }
+  .exam-info b { color: #fbbf24; }
+
+  .question { background: #111827; border-left: 4px solid #fbbf24; border-radius: 10px; padding: 18px 22px; margin-bottom: 14px; }
+  .question .q-num { display: inline-block; background: #fbbf24; color: #7f1d1d; width: 26px; height: 26px; border-radius: 50%; text-align: center; line-height: 26px; font-weight: 800; font-size: .85rem; margin-right: 8px; }
+  .question .q-text { font-weight: 600; margin-bottom: 12px; display: inline; }
+  .question label { display: block; padding: 10px 14px; margin-top: 6px; border-radius: 8px; cursor: pointer; transition: .12s; font-size: .95rem; background: #1f2937; border: 1px solid #374151; }
+  .question label:hover { background: #374151; border-color: #fbbf24; }
+  .question input[type="radio"] { margin-right: 10px; accent-color: #fbbf24; }
+
+  .finish-btn { display: block; width: 100%; margin-top: 24px; padding: 16px; background: #10b981; color: #fff; border: none; border-radius: 10px; font-weight: 800; font-size: 1.05rem; cursor: pointer; }
+  .finish-btn:hover { background: #059669; }
+
+  /* ===== EKRAN WYNIKU ===== */
+  .result-card { text-align: center; }
+  .result-card h2 { font-size: 1.5rem; margin-bottom: 10px; color: #fbbf24; }
+  .result-card .score { font-size: 3.5rem; font-weight: 800; margin: 16px 0; }
+  .result-card .score.good { color: #10b981; }
+  .result-card .score.medium { color: #f59e0b; }
+  .result-card .score.bad { color: #ef4444; }
+  .result-card .comment { color: #9ca3af; margin-bottom: 24px; font-size: .95rem; }
+
+  .result-code-box { background: #111827; border: 2px dashed #fbbf24; border-radius: 10px; padding: 18px; margin: 20px 0; }
+  .result-code-box .label { color: #fbbf24; font-weight: 700; font-size: .9rem; margin-bottom: 8px; }
+  .result-code-box .code { font-family: 'Consolas', monospace; font-size: 1rem; word-break: break-all; padding: 10px; background: #7f1d1d; border-radius: 6px; user-select: all; }
+  .result-code-box .hint { color: #9ca3af; font-size: .82rem; margin-top: 10px; }
+  .result-code-box button { margin-top: 12px; padding: 10px 20px; background: #fbbf24; color: #7f1d1d; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: .9rem; }
+
+  @media (max-width: 600px) {
+    .exam-header { padding: 10px 14px; }
+    .exam-header h1 { font-size: .95rem; }
+    .exam-header .timer { font-size: .95rem; padding: 6px 12px; }
+    .card { padding: 20px 18px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== EKRAN STARTOWY ===== -->
+<div id="screenStart" class="screen active">
+  <div class="exam-header">
+    <h1>🎓 SPRAWDZIAN – G1A1 Present Simple</h1>
+    <span class="badge">TRYB EGZAMINU</span>
+  </div>
+  <div class="card start-card">
+    <h1>Rozpocznij sprawdzian</h1>
+    <p class="subtitle">Wpisz swoje dane i kod podany przez nauczyciela.</p>
+
+    <label for="studentName">Imię i nazwisko</label>
+    <input type="text" id="studentName" placeholder="np. Anna Kowalska" autocomplete="off">
+
+    <label for="examCode">Kod sprawdzianu</label>
+    <input type="text" id="examCode" placeholder="np. G1A1-X9K2" autocomplete="off" style="text-transform: uppercase;">
+
+    <div class="warning-box">
+      ⚠️ <b>Uwaga!</b><br>
+      • Masz <b>15 minut</b> na rozwiązanie<br>
+      • <b>Nie możesz</b> wrócić do teorii ani słownika<br>
+      • Po zakończeniu <b>nie można powtórzyć</b><br>
+      • Zapisz swój kod wyniku na kartce i oddaj nauczycielowi
+    </div>
+
+    <button id="startBtn">▶ ROZPOCZNIJ</button>
+    <div class="error" id="startError"></div>
+  </div>
+</div>
+
+<!-- ===== EKRAN EGZAMINU ===== -->
+<div id="screenExam" class="screen">
+  <div class="exam-header">
+    <h1>🎓 G1A1 – Present Simple</h1>
+    <div class="timer" id="timerDisplay">15:00</div>
+  </div>
+  <div class="card">
+    <div class="exam-info">
+      <span>👤 <b id="examStudentName">-</b></span>
+      <span>🔑 Kod: <b id="examCodeDisplay">-</b></span>
+    </div>
+    <div id="questionsContainer"></div>
+    <button class="finish-btn" id="finishBtn">✓ ZAKOŃCZ I SPRAWDŹ</button>
+  </div>
+</div>
+
+<!-- ===== EKRAN WYNIKU ===== -->
+<div id="screenResult" class="screen">
+  <div class="exam-header">
+    <h1>🎓 WYNIK SPRAWDZIANU</h1>
+    <span class="badge">G1A1</span>
+  </div>
+  <div class="card result-card">
+    <h2 id="resultTitle">Twój wynik</h2>
+    <div class="score" id="resultScore">0 / 0</div>
+    <p class="comment" id="resultComment"></p>
+
+    <div class="result-code-box">
+      <div class="label">🔑 TWÓJ KOD WYNIKU – zapisz lub pokaż nauczycielowi</div>
+      <div class="code" id="resultCode">-</div>
+      <div class="hint">Zapisz ten kod na kartce i oddaj nauczycielowi. Nauczyciel wpisze go w panelu, aby zobaczyć Twój wynik.</div>
+      <button id="copyCodeBtn">📋 Skopiuj kod</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ========== BAZA PYTAŃ (tu można dodać więcej) ========== */
+var QUESTION_POOL = [
+  { q: "She ______ to school every day.", opcje: ["go", "goes", "is going", "gone"], poprawna: 1 },
+  { q: "I ______ coffee.", opcje: ["don't like", "doesn't like", "am not like", "not like"], poprawna: 0 },
+  { q: "______ he work here?", opcje: ["Do", "Does", "Is", "Are"], poprawna: 1 },
+  { q: "They ______ football on Sundays.", opcje: ["play", "plays", "is playing", "playing"], poprawna: 0 },
+  { q: "My father ______ in a bank.", opcje: ["work", "works", "working", "is work"], poprawna: 1 },
+  { q: "We ______ to the cinema very often.", opcje: ["go", "goes", "don't go", "doesn't go"], poprawna: 2 },
+  { q: "______ you like tea?", opcje: ["Do", "Does", "Are", "Is"], poprawna: 0 },
+  { q: "She ______ TV every evening.", opcje: ["watch", "watches", "is watch", "watching"], poprawna: 1 },
+  { q: "I ______ from Poland.", opcje: ["am", "is", "are", "be"], poprawna: 0 },
+  { q: "He ______ have a car.", opcje: ["don't", "doesn't", "isn't", "aren't"], poprawna: 1 },
+  { q: "My mother ______ coffee every morning.", opcje: ["drink", "drinks", "is drinking", "drank"], poprawna: 1 },
+  { q: "They ______ live in London.", opcje: ["don't", "doesn't", "aren't", "isn't"], poprawna: 0 },
+  { q: "______ she speak English?", opcje: ["Do", "Does", "Is", "Are"], poprawna: 1 },
+  { q: "We ______ football on Saturdays.", opcje: ["play", "plays", "playing", "played"], poprawna: 0 },
+  { q: "Tom ______ in Warsaw.", opcje: ["live", "lives", "living", "lived"], poprawna: 1 },
+  { q: "The sun ______ in the east.", opcje: ["rise", "rises", "is rising", "rose"], poprawna: 1 },
+  { q: "My sister ______ at university.", opcje: ["study", "studies", "studying", "studied"], poprawna: 1 },
+  { q: "______ they play football?", opcje: ["Do", "Does", "Is", "Are"], poprawna: 0 },
+  { q: "He ______ like fish.", opcje: ["don't", "doesn't", "isn't", "aren't"], poprawna: 1 },
+  { q: "I usually ______ up at 7.", opcje: ["get", "gets", "getting", "got"], poprawna: 0 }
+];
+
+var EXAM_DURATION = 15 * 60; // 15 min w sekundach
+var QUESTION_COUNT = 10;
+
+var studentName = "";
+var examCode = "";
+var selectedQuestions = [];
+var timerInterval = null;
+var timeLeft = EXAM_DURATION;
+var examActive = false;
+
+/* ========== NARZĘDZIA ========== */
+function shuffleArray(arr) {
+  var a = arr.slice();
+  for (var i = a.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var tmp = a[i]; a[i] = a[j]; a[j] = tmp;
+  }
+  return a;
+}
+
+function generateResultCode(name, code, score, total) {
+  // Format: base64 z JSON: {n: name, c: code, s: score, t: total, d: date}
+  var data = {
+    n: name,
+    c: code,
+    s: score,
+    t: total,
+    d: new Date().toISOString().split("T")[0]
+  };
+  try {
+    return btoa(unescape(encodeURIComponent(JSON.stringify(data))));
+  } catch (e) {
+    return name + "|" + score + "/" + total + "|" + code;
+  }
+}
+
+/* ========== EKRAN STARTOWY ========== */
+document.getElementById("startBtn").addEventListener("click", function() {
+  var name = document.getElementById("studentName").value.trim();
+  var code = document.getElementById("examCode").value.trim().toUpperCase();
+  var err = document.getElementById("startError");
+
+  if (name.length < 3) { err.textContent = "Wpisz imię i nazwisko (min. 3 znaki)."; return; }
+  if (code.length < 4) { err.textContent = "Wpisz kod sprawdzianu podany przez nauczyciela."; return; }
+
+  studentName = name;
+  examCode = code;
+  err.textContent = "";
+
+  startExam();
+});
+
+/* ========== START EGZAMINU ========== */
+function startExam() {
+  // Losuj 10 pytań z puli
+  selectedQuestions = shuffleArray(QUESTION_POOL).slice(0, QUESTION_COUNT);
+
+  // Dla każdego pytania losuj kolejność odpowiedzi
+  for (var i = 0; i < selectedQuestions.length; i++) {
+    var q = selectedQuestions[i];
+    var correctText = q.opcje[q.poprawna];
+    var shuffled = shuffleArray(q.opcje);
+    q.opcje = shuffled;
+    q.poprawna = shuffled.indexOf(correctText);
+  }
+
+  document.getElementById("examStudentName").textContent = studentName;
+  document.getElementById("examCodeDisplay").textContent = examCode;
+
+  renderQuestions();
+  showScreen("screenExam");
+  examActive = true;
+  startTimer();
+}
+
+function renderQuestions() {
+  var container = document.getElementById("questionsContainer");
+  var html = "";
+  for (var i = 0; i < selectedQuestions.length; i++) {
+    var q = selectedQuestions[i];
+    html += '<div class="question" data-q="' + i + '">';
+    html += '<span class="q-num">' + (i + 1) + '</span>';
+    html += '<span class="q-text">' + q.q + '</span>';
+    for (var j = 0; j < q.opcje.length; j++) {
+      html += '<label><input type="radio" name="q' + i + '" value="' + j + '"> ' + q.opcje[j] + '</label>';
+    }
+    html += '</div>';
+  }
+  container.innerHTML = html;
+}
+
+/* ========== TIMER ========== */
+function startTimer() {
+  timeLeft = EXAM_DURATION;
+  updateTimerDisplay();
+  if (timerInterval) clearInterval(timerInterval);
+  timerInterval = setInterval(function() {
+    timeLeft--;
+    updateTimerDisplay();
+    if (timeLeft <= 0) {
+      clearInterval(timerInterval);
+      alert("⏰ Czas minął! Sprawdzian zostanie automatycznie zakończony.");
+      finishExam(true);
+    }
+  }, 1000);
+}
+
+function updateTimerDisplay() {
+  var min = Math.floor(timeLeft / 60);
+  var sec = timeLeft % 60;
+  var disp = document.getElementById("timerDisplay");
+  disp.textContent = (min < 10 ? "0" : "") + min + ":" + (sec < 10 ? "0" : "") + sec;
+  if (timeLeft <= 60) disp.classList.add("warning");
+  else disp.classList.remove("warning");
+}
+
+/* ========== ZAKOŃCZENIE EGZAMINU ========== */
+document.getElementById("finishBtn").addEventListener("click", function() {
+  var unanswered = 0;
+  for (var i = 0; i < selectedQuestions.length; i++) {
+    var checked = document.querySelector('input[name="q' + i + '"]:checked');
+    if (!checked) unanswered++;
+  }
+  var msg = "Czy na pewno zakończyć sprawdzian?";
+  if (unanswered > 0) msg += "\n\nMasz " + unanswered + " nieodpowiedzianych pytań!";
+  if (!confirm(msg)) return;
+  finishExam(false);
+});
+
+function finishExam(autoFinished) {
+  if (!examActive) return;
+  examActive = false;
+  clearInterval(timerInterval);
+
+  var score = 0;
+  for (var i = 0; i < selectedQuestions.length; i++) {
+    var q = selectedQuestions[i];
+    var checked = document.querySelector('input[name="q' + i + '"]:checked');
+    if (checked && parseInt(checked.value) === q.poprawna) score++;
+  }
+
+  var total = selectedQuestions.length;
+  var pct = Math.round(score / total * 100);
+  var klasa = "bad", komentarz = "Musisz jeszcze powtórzyć materiał.";
+  if (pct >= 80) { klasa = "good"; komentarz = "Świetnie! Opanowałeś Present Simple."; }
+  else if (pct >= 60) { klasa = "medium"; komentarz = "Nieźle, ale warto powtórzyć zasady."; }
+
+  document.getElementById("resultScore").textContent = score + " / " + total;
+  document.getElementById("resultScore").className = "score " + klasa;
+  document.getElementById("resultComment").textContent = pct + "% – " + komentarz;
+
+  var resultCode = generateResultCode(studentName, examCode, score, total);
+  document.getElementById("resultCode").textContent = resultCode;
+
+  if (autoFinished) document.getElementById("resultTitle").textContent = "⏰ Czas minął – Twój wynik";
+
+  showScreen("screenResult");
+}
+
+document.getElementById("copyCodeBtn").addEventListener("click", function() {
+  var code = document.getElementById("resultCode").textContent;
+  try {
+    navigator.clipboard.writeText(code).then(function() {
+      alert("✓ Kod skopiowany do schowka!");
+    });
+  } catch (e) {
+    alert("Skopiuj ręcznie: " + code);
+  }
+});
+
+/* ========== NAWIGACJA EKRANÓW ========== */
+function showScreen(id) {
+  var all = document.querySelectorAll(".screen");
+  for (var i = 0; i < all.length; i++) all[i].classList.remove("active");
+  document.getElementById(id).classList.add("active");
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+/* Blokuj wyjście ze strony podczas egzaminu */
+window.addEventListener("beforeunload", function(e) {
+  if (examActive) {
+    e.preventDefault();
+    e.returnValue = "";
+    return "";
+  }
+});
+
+/* Blokuj Cmd/Ctrl+F, F12, kopiuj-wklej w trakcie */
+document.addEventListener("keydown", function(e) {
+  if (!examActive) return;
+  if (e.key === "F12") { e.preventDefault(); }
+  if ((e.ctrlKey || e.metaKey) && (e.key === "f" || e.key === "F")) { e.preventDefault(); }
+  if ((e.ctrlKey || e.metaKey) && (e.key === "p" || e.key === "P")) { e.preventDefault(); }
+});
+</script>
+
+</body>
+</html>
