@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Panel nauczyciela</title>
-<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -518,11 +518,11 @@ function pokazWersje(test) {
       '<div class="link">' + escapeHtml(url) + '</div>';
     grid.appendChild(karta);
 
-    QRCode.toCanvas(url, { width: 200, margin: 1, errorCorrectionLevel: "L" }, function(err, canvas) {
-      if (err) { console.error(err); return; }
-      document.getElementById("qr-" + w.litera).innerHTML = "";
-      document.getElementById("qr-" + w.litera).appendChild(canvas);
-    });
+        try {
+      var holder = document.getElementById("qr-" + w.litera);
+      holder.innerHTML = "";
+      new QRCode(holder, { text: url, width: 200, height: 200, correctLevel: QRCode.CorrectLevel.L });
+    } catch (e) { console.error("QR błąd:", e); }
 
     /* Kod awaryjny — bardzo krótki: cała zawartość testu zaszyta w linku jako kod */
     var kodAwaryjny = kod.length > 200 ? kod.substring(0, 200) + "…" : kod;
