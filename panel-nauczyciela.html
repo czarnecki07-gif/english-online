@@ -4,27 +4,35 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Panel nauczyciela</title>
+<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+<script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; background: #f7f5f0; color: #1f2933; font-size: 15px; line-height: 1.6; }
-  header { background: #1e3a5f; color: #fff; padding: 16px 26px; display: flex; justify-content: space-between; align-items: center; border-bottom: 4px solid #b45309; }
+  header { background: #1e3a5f; color: #fff; padding: 14px 26px; display: flex; justify-content: space-between; align-items: center; border-bottom: 4px solid #b45309; gap: 14px; flex-wrap: wrap; }
   header h1 { font-family: Georgia, serif; font-size: 1.15rem; }
+  header .akcje { display: flex; gap: 8px; }
   header a { color: #fff; text-decoration: none; border: 1px solid rgba(255,255,255,.4); padding: 6px 14px; border-radius: 4px; font-size: .85rem; }
   header a:hover { background: rgba(255,255,255,.15); }
+
   nav { background: #fff; border-bottom: 1px solid #e8e4dc; padding: 0 26px; display: flex; gap: 4px; flex-wrap: wrap; }
   nav button { background: transparent; border: none; padding: 14px 18px; cursor: pointer; font-family: inherit; font-size: .92rem; font-weight: 600; color: #6b7280; border-bottom: 3px solid transparent; transition: .15s; }
   nav button:hover { color: #1e3a5f; }
   nav button.active { color: #1e3a5f; border-bottom-color: #b45309; }
-  main { max-width: 1100px; margin: 24px auto; padding: 0 20px; }
+
+  main { max-width: 1150px; margin: 24px auto; padding: 0 20px 60px; }
   section { background: #fff; border: 1px solid #e8e4dc; border-radius: 6px; padding: 22px 26px; margin-bottom: 18px; display: none; }
   section.active { display: block; }
   section h2 { font-family: Georgia, serif; color: #1e3a5f; font-size: 1.05rem; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid #e8e4dc; }
+
   label { display: block; margin-bottom: 6px; font-weight: 600; font-size: .88rem; color: #4b5563; }
   input[type=text], input[type=number], textarea, select { width: 100%; padding: 10px 13px; border: 1px solid #c8c2b5; border-radius: 4px; font-family: inherit; font-size: .95rem; }
   input[type=text]:focus, input[type=number]:focus, textarea:focus, select:focus { outline: none; border-color: #1e3a5f; box-shadow: 0 0 0 3px rgba(30,58,95,.08); }
   textarea { resize: vertical; min-height: 80px; font-family: 'SF Mono', Consolas, monospace; font-size: .85rem; }
+
   .rzad { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 14px; }
-  .rzad > div { flex: 1; min-width: 180px; }
+  .rzad > div { flex: 1; min-width: 160px; }
+
   .glowne { background: #1e3a5f; color: #fff; border: none; padding: 13px 32px; border-radius: 4px; font-family: inherit; font-weight: 700; font-size: .95rem; cursor: pointer; letter-spacing: 1px; text-transform: uppercase; }
   .glowne:hover { background: #152a47; }
   .glowne:disabled { opacity: .5; cursor: not-allowed; }
@@ -32,8 +40,10 @@
   .drugie:hover { background: #1e3a5f; color: #fff; }
   .drugie.czerwony { color: #991b1b; border-color: #991b1b; }
   .drugie.czerwony:hover { background: #991b1b; color: #fff; }
+  .drugie.warm { color: #b45309; border-color: #b45309; }
+  .drugie.warm:hover { background: #b45309; color: #fff; }
 
-  .lista-lekcji { max-height: 380px; overflow-y: auto; border: 1px solid #e8e4dc; border-radius: 4px; padding: 12px 16px; margin-bottom: 14px; background: #fbfaf7; }
+  .lista-lekcji { max-height: 340px; overflow-y: auto; border: 1px solid #e8e4dc; border-radius: 4px; padding: 12px 16px; margin-bottom: 14px; background: #fbfaf7; }
   .lista-lekcji .grupa { margin-bottom: 12px; }
   .lista-lekcji .grupa-t { font-weight: 700; color: #1e3a5f; margin-bottom: 4px; font-size: .92rem; }
   .lista-lekcji label { display: flex; align-items: center; gap: 8px; padding: 4px 6px; font-weight: 400; color: #1f2933; font-size: .87rem; cursor: pointer; border-radius: 3px; margin-bottom: 0; }
@@ -46,41 +56,70 @@
   .chip.active { background: #1e3a5f; color: #fff; border-color: #1e3a5f; }
 
   .info-box { padding: 12px 16px; background: #fffbeb; border-left: 4px solid #b45309; margin-bottom: 16px; font-size: .88rem; color: #78350f; border-radius: 0 4px 4px 0; }
-  .kod-box { background: #f0f4fb; border: 1px solid #c8d5e8; border-radius: 6px; padding: 14px 16px; margin-bottom: 12px; }
-  .kod-box label { margin-bottom: 4px; }
-  .kod-box .kod-url { font-family: 'SF Mono', Consolas, monospace; font-size: .78rem; word-break: break-all; background: #fff; padding: 10px 12px; border-radius: 4px; border: 1px solid #dbeafe; }
-  .kod-box .kod-krotki { font-family: 'SF Mono', Consolas, monospace; font-size: .8rem; word-break: break-all; background: #fff; padding: 8px 12px; border-radius: 4px; border: 1px solid #dbeafe; max-height: 80px; overflow-y: auto; }
-  .kopia-info { color: #166534; font-weight: 600; font-size: .85rem; margin-top: 6px; display: none; }
 
+  /* QR WERSJE */
+  .wersje-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; margin: 16px 0; }
+  .wersja-karta { background: #fff; border: 2px solid #1e3a5f; border-radius: 8px; padding: 16px; text-align: center; }
+  .wersja-karta .litera { font-family: Georgia, serif; font-size: 1.6rem; color: #1e3a5f; font-weight: 700; letter-spacing: 2px; margin-bottom: 10px; }
+  .wersja-karta .qr-holder { background: #fff; padding: 8px; display: flex; justify-content: center; align-items: center; min-height: 200px; }
+  .wersja-karta .link { font-family: 'SF Mono', Consolas, monospace; font-size: .7rem; word-break: break-all; color: #6b7280; margin-top: 10px; max-height: 60px; overflow-y: auto; padding: 6px; background: #fbfaf7; border-radius: 3px; }
+  .wersja-karta button { margin-top: 8px; padding: 6px 14px; font-size: .8rem; background: #1e3a5f; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-family: inherit; font-weight: 600; }
+  .wersja-karta button:hover { background: #152a47; }
+  .wersja-karta .kod-awaryjny { font-family: 'SF Mono', Consolas, monospace; font-size: .72rem; color: #6b7280; margin-top: 6px; word-break: break-all; max-height: 40px; overflow-y: auto; }
+
+  /* SKANER */
+  #reader { width: 100%; max-width: 500px; margin: 0 auto; }
+  .skaner-box { background: #fff; border: 1px solid #e8e4dc; border-radius: 6px; padding: 18px; margin-bottom: 16px; }
+  .skaner-box h3 { font-family: Georgia, serif; color: #1e3a5f; font-size: 1rem; margin-bottom: 12px; }
+
+  /* TABELA WYNIKÓW */
   table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: .9rem; }
   th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid #e8e4dc; }
-  th { background: #fbfaf7; font-weight: 700; color: #1e3a5f; font-size: .82rem; text-transform: uppercase; letter-spacing: .5px; }
+  th { background: #fbfaf7; font-weight: 700; color: #1e3a5f; font-size: .8rem; text-transform: uppercase; letter-spacing: .5px; }
   tbody tr:hover { background: #fbfaf7; }
   .pusta { text-align: center; color: #9ca3af; padding: 24px; font-style: italic; }
   .wynik-dobry { color: #166534; font-weight: 700; }
   .wynik-sredni { color: #b45309; font-weight: 700; }
   .wynik-zly { color: #991b1b; font-weight: 700; }
+
+  .pasek-akcji { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+
+  /* MODAL — szczegóły wyniku ucznia */
+  .modal-tlo { position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 1000; display: none; align-items: center; justify-content: center; padding: 20px; }
+  .modal-tlo.on { display: flex; }
+  .modal { background: #fff; border-radius: 8px; padding: 26px 30px; max-width: 800px; width: 100%; max-height: 90vh; overflow-y: auto; }
+  .modal h3 { font-family: Georgia, serif; color: #1e3a5f; font-size: 1.15rem; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid #e8e4dc; }
+  .modal .pytanie-szczeg { border-left: 3px solid #1e3a5f; padding: 12px 16px; margin-bottom: 12px; background: #fbfaf7; border-radius: 0 4px 4px 0; }
+  .modal .pytanie-szczeg.ok { border-left-color: #166534; }
+  .modal .pytanie-szczeg.zle { border-left-color: #991b1b; }
+  .modal .pytanie-szczeg .tresc { font-weight: 600; margin-bottom: 8px; }
+  .modal .pytanie-szczeg .odp { font-size: .88rem; margin: 3px 0; padding-left: 20px; }
+  .modal .pytanie-szczeg .odp.user { color: #991b1b; }
+  .modal .pytanie-szczeg .odp.user.ok { color: #166534; }
+  .modal .pytanie-szczeg .odp.poprawna { color: #166534; font-weight: 600; }
+  .modal .pytanie-szczeg .wyjasnienie { font-size: .82rem; color: #6b7280; margin-top: 6px; font-style: italic; }
 </style>
 </head>
 <body>
 
-<script src="strażnik.js"></script>
-
 <header>
   <h1>Panel nauczyciela</h1>
-  <a href="index.html">← Powrót</a>
-  <a href="podreczniki.html" style="margin-left:8px">Podręczniki</a>
+  <div class="akcje">
+    <a href="index.html">← Powrót</a>
+  </div>
 </header>
 
 <nav>
   <button data-tab="konfig" class="active">Konfiguracja</button>
   <button data-tab="nowy">Nowy test</button>
   <button data-tab="testy">Aktywne testy</button>
+  <button data-tab="skanuj">Zeskanuj wynik</button>
   <button data-tab="wyniki">Wyniki uczniów</button>
 </nav>
 
 <main>
 
+<!-- KONFIGURACJA -->
 <section id="tab-konfig" class="active">
   <h2>Konfiguracja</h2>
   <div class="rzad">
@@ -89,16 +128,17 @@
       <input type="text" id="nauczyciel" placeholder="np. prof. Anna Kowalska">
     </div>
     <div>
-      <label>Szkoła / instytucja (opcjonalnie)</label>
+      <label>Szkoła (opcjonalnie)</label>
       <input type="text" id="szkola" placeholder="np. Liceum nr 3">
     </div>
   </div>
   <button class="glowne" id="zapiszKonfigBtn">Zapisz konfigurację</button>
   <div class="info-box" style="margin-top:18px">
-    Dane są zapisywane w tej przeglądarce. Jeśli chcesz przenieść testy na inny komputer, użyj zakładki „Wyniki uczniów" → Eksport JSON.
+    Dane zapisują się lokalnie w tej przeglądarce. Wyniki i testy też. Aby je przenieść na inny komputer — użyj „Zapisz jako" w zakładce Wyniki uczniów.
   </div>
 </section>
 
+<!-- NOWY TEST -->
 <section id="tab-nowy">
   <h2>Nowy test interaktywny</h2>
   <div class="rzad">
@@ -107,12 +147,16 @@
       <input type="text" id="nowaKlasa" placeholder="np. 3A">
     </div>
     <div>
-      <label>Czas (minuty, 0 = bez limitu)</label>
+      <label>Czas (min, 0 = bez limitu)</label>
       <input type="number" id="nowyCzas" value="30" min="0" max="180">
     </div>
     <div>
       <label>Liczba pytań</label>
-      <input type="number" id="nowaLiczba" value="20" min="1" max="200">
+      <input type="number" id="nowaLiczba" value="20" min="1" max="100">
+    </div>
+    <div>
+      <label>Liczba wersji</label>
+      <input type="number" id="nowaWersji" value="5" min="1" max="26">
     </div>
   </div>
 
@@ -130,32 +174,68 @@
   </div>
 
   <div class="lista-lekcji" id="listaLekcji"><em>Ładowanie lekcji…</em></div>
-
   <div class="info-box" id="infoWyboru">Zaznaczono 0 lekcji, dostępnych 0 pytań.</div>
 
-  <button class="glowne" id="generujBtn">Generuj kod dla uczniów</button>
+  <button class="glowne" id="generujBtn">Generuj test</button>
 
-  <div id="wynikGenerowania" style="display:none;margin-top:20px">
-    <div class="kod-box">
-      <label>Link dla uczniów (udostępnij przez Teams/Classroom):</label>
-      <div class="kod-url" id="kodUrl"></div>
-      <button class="drugie" style="margin-top:8px" data-kopiuj="kodUrl">Skopiuj link</button>
-      <div class="kopia-info">✓ Skopiowano</div>
+  <div id="wynikGenerowania" style="display:none;margin-top:24px">
+    <h2 style="font-family:Georgia,serif;color:#1e3a5f;font-size:1.05rem;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid #e8e4dc;">
+      Test gotowy — pokaż uczniom kody QR
+    </h2>
+    <div class="info-box">
+      <strong>Jak to działa:</strong><br>
+      • Każda wersja ma <strong>inną kolejność pytań i odpowiedzi</strong>. Uczniowie obok siebie nie mogą ściągać.<br>
+      • Wyświetl kody QR na projektorze (albo rozdaj wydrukowane). Uczniowie skanują telefonem.<br>
+      • Uczniowie piszą test — po zakończeniu dostają QR kod z wynikiem.<br>
+      • Ty w zakładce <strong>„Zeskanuj wynik"</strong> skanujesz ich QR — wynik ląduje w tabeli klasy.
     </div>
-    <div class="kod-box">
-      <label>Surowy kod (alternatywnie, do wpisania ręcznie):</label>
-      <div class="kod-krotki" id="kodSurowy"></div>
-      <button class="drugie" style="margin-top:8px" data-kopiuj="kodSurowy">Skopiuj kod</button>
-      <div class="kopia-info">✓ Skopiowano</div>
+    <div class="pasek-akcji">
+      <button class="drugie" onclick="window.print()">Wydrukuj kody QR</button>
+      <button class="drugie warm" id="pokazKodyAwaryjne">Pokaż kody awaryjne (do spisania)</button>
+    </div>
+    <div class="wersje-grid" id="wersjeGrid"></div>
+    <div id="kodyAwaryjne" style="display:none;margin-top:20px;padding:16px;background:#fbfaf7;border:1px solid #e8e4dc;border-radius:6px;">
+      <h3 style="font-family:Georgia,serif;color:#1e3a5f;font-size:.95rem;margin-bottom:10px;">Kody awaryjne (jeśli QR nie działa)</h3>
+      <p style="font-size:.85rem;color:#6b7280;margin-bottom:10px;">Uczeń, który nie może zeskanować QR, wpisuje ten kod ręcznie w przeglądarce jako link albo pokazuje nauczycielowi do przepisania.</p>
+      <div id="kodyAwaryjneTresc"></div>
     </div>
   </div>
 </section>
 
+<!-- AKTYWNE TESTY -->
 <section id="tab-testy">
   <h2>Aktywne testy</h2>
   <div id="listaTestow"><div class="pusta">Brak wygenerowanych testów.</div></div>
 </section>
 
+<!-- SKANUJ WYNIK -->
+<section id="tab-skanuj">
+  <h2>Zeskanuj wynik ucznia</h2>
+
+  <div class="skaner-box">
+    <h3>Kamera</h3>
+    <div class="info-box" style="margin-bottom:12px;">
+      Skieruj kamerę na QR kod z ekranu ucznia. Wynik pojawi się automatycznie w tabeli klasy.
+    </div>
+    <button class="glowne" id="startKameryBtn">Włącz kamerę</button>
+    <button class="drugie" id="stopKameryBtn" style="display:none">Wyłącz kamerę</button>
+    <div id="reader" style="margin-top:14px;"></div>
+  </div>
+
+  <div class="skaner-box">
+    <h3>Albo wpisz kod ucznia ręcznie</h3>
+    <div class="info-box" style="margin-bottom:12px;">
+      Jeśli kamera nie działa albo uczeń nie ma QR — wpisz krótki kod z ekranu ucznia (np. A3K9-P7QT-M2NX-8D4W).
+    </div>
+    <label>Kod wyniku ucznia</label>
+    <input type="text" id="kodReczny" placeholder="A3K9-P7QT-M2NX-8D4W" style="font-family: monospace; font-size: 1.1rem; letter-spacing: 2px; text-transform: uppercase;">
+    <button class="glowne" id="dodajRecznyBtn" style="margin-top:10px;">Dodaj wynik</button>
+  </div>
+
+  <div id="skanerInfo" style="margin-top:14px;"></div>
+</section>
+
+<!-- WYNIKI -->
 <section id="tab-wyniki">
   <h2>Wyniki uczniów</h2>
   <div class="rzad">
@@ -164,23 +244,54 @@
       <select id="wyborTestu"><option value="">— brak —</option></select>
     </div>
   </div>
-
-  <label style="margin-top:14px">Wklej kody uczniów (po jednym w linii):</label>
-  <textarea id="kodyUczniow" placeholder="Wklej tutaj kody skopiowane od uczniów..."></textarea>
-  <div style="margin-top:10px">
-    <button class="glowne" id="dodajWynikiBtn">Dodaj wyniki</button>
-    <button class="drugie" id="eksportJson">Eksport JSON</button>
-    <button class="drugie" id="importJson">Import JSON</button>
-    <input type="file" id="plikImport" accept=".json" style="display:none">
+  <div class="pasek-akcji" style="margin-top:14px">
+    <button class="glowne" id="zapiszJakoBtn" disabled>Zapisz jako...</button>
+    <button class="drugie" id="wczytajZPlikuBtn">Wczytaj z pliku</button>
+    <input type="file" id="plikImport" accept=".json,.csv" style="display:none">
+    <button class="drugie czerwony" id="usunWybranyTestBtn">Usuń ten test</button>
   </div>
-
-  <div id="tabelaWynikow" style="margin-top:20px"></div>
+  <div id="tabelaWynikow"></div>
 </section>
 
 </main>
 
+<!-- MODAL SZCZEGÓŁY -->
+<div class="modal-tlo" id="modalSzczegoly">
+  <div class="modal">
+    <h3 id="modalTytul">Szczegóły</h3>
+    <div id="modalTresc"></div>
+    <div style="text-align:right;margin-top:16px">
+      <button class="glowne" id="modalZamknij">Zamknij</button>
+    </div>
+  </div>
+</div>
+
 <script>
-/* ========== DEKODOWANIE ========== */
+/* ============================================================
+   KONFIGURACJA
+============================================================ */
+var PLIKI = ["G-A1","G-A2","G-B1","G-B2","G-C1","T-A1","T-A2","T-B1","T-B2","T-C1"];
+var DATA = {};
+var filtrPoziom = "all";
+var skaner = null;
+
+var KONFIG = JSON.parse(localStorage.getItem("pn_konfig") || "{}");
+var TESTY  = JSON.parse(localStorage.getItem("pn_testy")  || "[]");
+var WYNIKI = JSON.parse(localStorage.getItem("pn_wyniki") || "{}");
+
+function zapiszKonfig() { localStorage.setItem("pn_konfig", JSON.stringify(KONFIG)); }
+function zapiszTesty()  { localStorage.setItem("pn_testy",  JSON.stringify(TESTY)); }
+function zapiszWyniki() { localStorage.setItem("pn_wyniki", JSON.stringify(WYNIKI)); }
+
+/* ============================================================
+   NARZĘDZIA
+============================================================ */
+function b64Encode(str) {
+  var bytes = new TextEncoder().encode(str);
+  var bin = "";
+  bytes.forEach(function(b) { bin += String.fromCharCode(b); });
+  return btoa(bin).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+}
 function b64Decode(s) {
   s = s.replace(/-/g, "+").replace(/_/g, "/");
   while (s.length % 4) s += "=";
@@ -190,12 +301,6 @@ function b64Decode(s) {
     for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
     return new TextDecoder().decode(bytes);
   } catch (e) { return null; }
-}
-function b64Encode(str) {
-  var bytes = new TextEncoder().encode(str);
-  var bin = "";
-  bytes.forEach(function(b) { bin += String.fromCharCode(b); });
-  return btoa(bin).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
 }
 function escapeHtml(s) {
   return String(s).replace(/[&<>"']/g, function(c) {
@@ -211,26 +316,34 @@ function shuffle(a) {
   return a;
 }
 function krotkiId() {
-  var s = "abcdefghijklmnopqrstuvwxyz0123456789";
+  var s = "abcdefghjkmnpqrstuvwxyz23456789";
   var r = "";
   for (var i = 0; i < 6; i++) r += s[Math.floor(Math.random() * s.length)];
   return r;
 }
+function literaWersji(n) { return String.fromCharCode(65 + n); }
 
-/* ========== STAN ========== */
-var PLIKI = ["G-A1","G-A2","G-B1","G-B2","G-C1","T-A1","T-A2","T-B1","T-B2","T-C1"];
-var DATA = {};
-var filtrPoziom = "all";
+function terazData() {
+  var d = new Date();
+  var r = d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+  return r;
+}
 
-var KONFIG = JSON.parse(localStorage.getItem("pn_konfig") || "{}");
-var TESTY  = JSON.parse(localStorage.getItem("pn_testy")  || "[]");
-var WYNIKI = JSON.parse(localStorage.getItem("pn_wyniki") || "{}");
+/* Krótki kod wyniku — 20 znaków, bez O/0/I/1/l */
+function generujKodKrotki() {
+  var s = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";
+  var czesci = [];
+  for (var k = 0; k < 4; k++) {
+    var czesc = "";
+    for (var i = 0; i < 4; i++) czesc += s[Math.floor(Math.random() * s.length)];
+    czesci.push(czesc);
+  }
+  return czesci.join("-");
+}
 
-function zapiszKonfig() { localStorage.setItem("pn_konfig", JSON.stringify(KONFIG)); }
-function zapiszTesty()  { localStorage.setItem("pn_testy",  JSON.stringify(TESTY)); }
-function zapiszWyniki() { localStorage.setItem("pn_wyniki", JSON.stringify(WYNIKI)); }
-
-/* ========== TABS ========== */
+/* ============================================================
+   TABS
+============================================================ */
 document.querySelectorAll("nav button").forEach(function(btn) {
   btn.addEventListener("click", function() {
     document.querySelectorAll("nav button").forEach(function(b) { b.classList.remove("active"); });
@@ -238,77 +351,14 @@ document.querySelectorAll("nav button").forEach(function(btn) {
     btn.classList.add("active");
     document.getElementById("tab-" + btn.dataset.tab).classList.add("active");
     if (btn.dataset.tab === "testy") renderTesty();
-    if (btn.dataset.tab === "wyniki") renderSelectTestow(), renderWyniki();
+    if (btn.dataset.tab === "wyniki") { renderSelectTestow(); renderWyniki(); }
+    if (btn.dataset.tab === "skanuj") pokazInfoSkanera();
   });
 });
 
-/* ========== KONFIG ========== */
-document.addEventListener("DOMContentLoaded", function() {
-  document.getElementById("nauczyciel").value = KONFIG.nauczyciel || "";
-  document.getElementById("szkola").value = KONFIG.szkola || "";
-  document.getElementById("zapiszKonfigBtn").addEventListener("click", function() {
-    KONFIG.nauczyciel = document.getElementById("nauczyciel").value.trim();
-    KONFIG.szkola = document.getElementById("szkola").value.trim();
-    zapiszKonfig();
-    alert("Zapisano.");
-  });
-
-  // Ładuj lekcje
-  wczytajWszystkie(function() {
-    zebierzDane();
-    renderListaLekcji();
-    renderSelectTestow();
-    renderTesty();
-  });
-
-  // Filtry
-  document.querySelectorAll(".chip[data-fp]").forEach(function(btn) {
-    btn.addEventListener("click", function() {
-      filtrPoziom = btn.dataset.fp;
-      document.querySelectorAll(".chip[data-fp]").forEach(function(b) { b.classList.remove("active"); });
-      btn.classList.add("active");
-      renderListaLekcji();
-    });
-  });
-  document.getElementById("zaznaczWszystkieLekcje").addEventListener("click", function() {
-    document.querySelectorAll("#listaLekcji input[type=checkbox]").forEach(function(c) { c.checked = true; });
-    aktualizujInfoWyboru();
-  });
-  document.getElementById("odznaczWszystkieLekcje").addEventListener("click", function() {
-    document.querySelectorAll("#listaLekcji input[type=checkbox]").forEach(function(c) { c.checked = false; });
-    aktualizujInfoWyboru();
-  });
-
-  // Generuj
-  document.getElementById("generujBtn").addEventListener("click", generujNowyTest);
-
-  // Kopiuj
-  document.querySelectorAll("[data-kopiuj]").forEach(function(btn) {
-    btn.addEventListener("click", function() {
-      var el = document.getElementById(btn.dataset.kopiuj);
-      var text = el.textContent || el.value || "";
-      navigator.clipboard.writeText(text).then(function() {
-        var info = btn.parentElement.querySelector(".kopia-info");
-        if (info) { info.style.display = "block"; setTimeout(function() { info.style.display = "none"; }, 2500); }
-      }).catch(function() {
-        var r = document.createRange(); r.selectNode(el);
-        window.getSelection().removeAllRanges(); window.getSelection().addRange(r);
-        document.execCommand("copy");
-        var info = btn.parentElement.querySelector(".kopia-info");
-        if (info) { info.style.display = "block"; setTimeout(function() { info.style.display = "none"; }, 2500); }
-      });
-    });
-  });
-
-  // Wyniki
-  document.getElementById("dodajWynikiBtn").addEventListener("click", dodajWyniki);
-  document.getElementById("wyborTestu").addEventListener("change", renderWyniki);
-  document.getElementById("eksportJson").addEventListener("click", eksportJSON);
-  document.getElementById("importJson").addEventListener("click", function() { document.getElementById("plikImport").click(); });
-  document.getElementById("plikImport").addEventListener("change", importJSON);
-});
-
-/* ========== ŁADOWANIE LEKCJI ========== */
+/* ============================================================
+   ŁADOWANIE LEKCJI
+============================================================ */
 function wczytajWszystkie(cb) {
   var n = 0;
   PLIKI.forEach(function(g) {
@@ -329,7 +379,9 @@ function zebierzDane() {
   });
 }
 
-/* ========== LISTA LEKCJI ========== */
+/* ============================================================
+   LISTA LEKCJI
+============================================================ */
 function renderListaLekcji() {
   var kont = document.getElementById("listaLekcji");
   var ids = Object.keys(DATA).filter(function(id) {
@@ -350,9 +402,7 @@ function renderListaLekcji() {
     html += '<div class="grupa"><div class="grupa-t">' + g + '</div>';
     grupy[g].forEach(function(id) {
       var l = DATA[id];
-      html += '<label><input type="checkbox" data-id="' + id + '"> ';
-      html += id + " — " + escapeHtml(l.tytul);
-      html += ' <span class="ile">' + l.test.length + ' pytań</span></label>';
+      html += '<label><input type="checkbox" data-id="' + id + '"> ' + id + " — " + escapeHtml(l.tytul) + ' <span class="ile">' + l.test.length + ' pytań</span></label>';
     });
     html += '</div>';
   });
@@ -375,97 +425,285 @@ function aktualizujInfoWyboru() {
   var z = pobierzZaznaczone();
   var ile = 0;
   z.forEach(function(id) { ile += DATA[id].test.length; });
-  document.getElementById("infoWyboru").textContent =
-    "Zaznaczono " + z.length + " lekcji, dostępnych " + ile + " pytań.";
+  document.getElementById("infoWyboru").textContent = "Zaznaczono " + z.length + " lekcji, dostępnych " + ile + " pytań.";
 }
 
-/* ========== GENEROWANIE TESTU ========== */
+/* ============================================================
+   GENEROWANIE TESTU
+============================================================ */
 function generujNowyTest() {
   var klasa = document.getElementById("nowaKlasa").value.trim();
   var czas = parseInt(document.getElementById("nowyCzas").value) || 0;
   var liczba = parseInt(document.getElementById("nowaLiczba").value) || 20;
+  var liczbaWersji = parseInt(document.getElementById("nowaWersji").value) || 5;
   var zaznaczone = pobierzZaznaczone();
 
   if (!klasa) { alert("Wpisz nazwę klasy."); return; }
   if (!zaznaczone.length) { alert("Zaznacz co najmniej jedną lekcję."); return; }
   if (liczba < 1) { alert("Liczba pytań musi być większa od zera."); return; }
+  if (liczbaWersji < 1 || liczbaWersji > 26) { alert("Liczba wersji: 1–26."); return; }
 
   var pula = [];
   zaznaczone.forEach(function(id) {
     DATA[id].test.forEach(function(q) { pula.push(q); });
   });
   if (pula.length < liczba) {
-    alert("Za mało pytań (jest " + pula.length + ", chcesz " + liczba + "). Zmniejsz liczbę lub zaznacz więcej lekcji.");
+    alert("Za mało pytań (jest " + pula.length + ", chcesz " + liczba + ").");
     return;
   }
 
-  var wybrane = shuffle(pula).slice(0, liczba);
+  var bazowa = shuffle(pula).slice(0, liczba);
+  var testId = krotkiId();
+  var wersje = [];
+
+  for (var w = 0; w < liczbaWersji; w++) {
+    var pytaniaWersji = bazowa.map(function(q) {
+      var idx = q.opcje.map(function(_, i) { return i; });
+      var przemieszane = shuffle(idx);
+      return {
+        q: q.q,
+        opcje: przemieszane.map(function(i) { return q.opcje[i]; }),
+        poprawna: przemieszane.indexOf(q.poprawna),
+        wyjasnienie: q.wyjasnienie || ""
+      };
+    });
+    pytaniaWersji = shuffle(pytaniaWersji);
+    wersje.push({
+      litera: literaWersji(w),
+      pytania: pytaniaWersji
+    });
+  }
+
   var test = {
     v: 1,
-    id: krotkiId(),
+    id: testId,
     klasa: klasa,
     nauczyciel: KONFIG.nauczyciel || "",
     czas: czas,
     data: new Date().toISOString(),
-    pytania: wybrane.map(function(q) { return { q: q.q, o: q.opcje, p: q.poprawna }; })
+    wersje: wersje
   };
-
-  var kod = b64Encode(JSON.stringify(test));
-  var base = location.href.substring(0, location.href.lastIndexOf("/"));
-  var url = base + "/uczen.html?k=" + kod;
 
   TESTY.push(test);
   zapiszTesty();
 
-  document.getElementById("kodUrl").textContent = url;
-  document.getElementById("kodSurowy").textContent = kod;
+  pokazWersje(test);
+}
+
+function pokazWersje(test) {
+  var grid = document.getElementById("wersjeGrid");
+  grid.innerHTML = "";
+  var kodyAwaryjne = document.getElementById("kodyAwaryjneTresc");
+  kodyAwaryjne.innerHTML = "";
+
+  test.wersje.forEach(function(w) {
+    var wersjaTest = {
+      v: 1,
+      id: test.id,
+      klasa: test.klasa,
+      nauczyciel: test.nauczyciel,
+      czas: test.czas,
+      wersja: w.litera,
+      pytania: w.pytania
+    };
+    var kod = b64Encode(JSON.stringify(wersjaTest));
+    var base = location.href.substring(0, location.href.lastIndexOf("/"));
+    var url = base + "/uczen.html?k=" + kod;
+
+    var karta = document.createElement("div");
+    karta.className = "wersja-karta";
+    karta.innerHTML = '<div class="litera">Wersja ' + w.litera + '</div>' +
+      '<div class="qr-holder" id="qr-' + w.litera + '"></div>' +
+      '<button data-copy="' + w.litera + '">Skopiuj link</button>' +
+      '<div class="link">' + escapeHtml(url) + '</div>';
+    grid.appendChild(karta);
+
+    QRCode.toCanvas(url, { width: 200, margin: 1, errorCorrectionLevel: "L" }, function(err, canvas) {
+      if (err) { console.error(err); return; }
+      document.getElementById("qr-" + w.litera).innerHTML = "";
+      document.getElementById("qr-" + w.litera).appendChild(canvas);
+    });
+
+    /* Kod awaryjny — bardzo krótki: cała zawartość testu zaszyta w linku jako kod */
+    var kodAwaryjny = kod.length > 200 ? kod.substring(0, 200) + "…" : kod;
+    kodyAwaryjne.innerHTML += '<p style="margin-bottom:6px;"><strong>Wersja ' + w.litera + ':</strong> <span style="font-family:monospace;font-size:.75rem;">' + escapeHtml(url) + '</span></p>';
+  });
+
+  grid.querySelectorAll("button[data-copy]").forEach(function(btn) {
+    btn.addEventListener("click", function() {
+      var karta = btn.closest(".wersja-karta");
+      var url = karta.querySelector(".link").textContent;
+      navigator.clipboard.writeText(url).then(function() {
+        btn.textContent = "✓ Skopiowano";
+        setTimeout(function() { btn.textContent = "Skopiuj link"; }, 2000);
+      });
+    });
+  });
+
   document.getElementById("wynikGenerowania").style.display = "block";
   document.getElementById("wynikGenerowania").scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
-/* ========== AKTYWNE TESTY ========== */
+/* ============================================================
+   AKTYWNE TESTY
+============================================================ */
 function renderTesty() {
   var kont = document.getElementById("listaTestow");
   if (!TESTY.length) { kont.innerHTML = '<div class="pusta">Brak wygenerowanych testów.</div>'; return; }
-  var html = '<table><thead><tr><th>ID</th><th>Klasa</th><th>Pytań</th><th>Czas</th><th>Data</th><th>Akcje</th></tr></thead><tbody>';
+
+  var html = '<table><thead><tr><th>ID</th><th>Klasa</th><th>Wersji</th><th>Pytań</th><th>Czas</th><th>Data</th><th>Akcje</th></tr></thead><tbody>';
   TESTY.slice().reverse().forEach(function(t) {
-    var base = location.href.substring(0, location.href.lastIndexOf("/"));
-    var url = base + "/uczen.html?k=" + b64Encode(JSON.stringify(t));
     html += '<tr>';
     html += '<td><code>' + t.id + '</code></td>';
     html += '<td>' + escapeHtml(t.klasa) + '</td>';
-    html += '<td>' + t.pytania.length + '</td>';
+    html += '<td>' + t.wersje.length + '</td>';
+    html += '<td>' + t.wersje[0].pytania.length + '</td>';
     html += '<td>' + (t.czas ? t.czas + " min" : "—") + '</td>';
     html += '<td>' + new Date(t.data).toLocaleString("pl") + '</td>';
     html += '<td>';
-    html += '<button class="drugie" data-copy-url="' + t.id + '">Kopiuj link</button> ';
-    html += '<button class="drugie czerwony" data-del="' + t.id + '">Usuń</button>';
+    html += '<button class="drugie" data-pokaz="' + t.id + '" style="padding:6px 12px;font-size:.8rem;">Pokaż QR</button> ';
+    html += '<button class="drugie czerwony" data-del="' + t.id + '" style="padding:6px 12px;font-size:.8rem;">Usuń</button>';
     html += '</td>';
     html += '</tr>';
   });
   html += '</tbody></table>';
   kont.innerHTML = html;
 
-  kont.querySelectorAll("[data-copy-url]").forEach(function(btn) {
+  kont.querySelectorAll("[data-pokaz]").forEach(function(btn) {
     btn.addEventListener("click", function() {
-      var t = TESTY.find(function(x) { return x.id === btn.dataset.copyUrl; });
-      var base = location.href.substring(0, location.href.lastIndexOf("/"));
-      var url = base + "/uczen.html?k=" + b64Encode(JSON.stringify(t));
-      navigator.clipboard.writeText(url).then(function() {
-        btn.textContent = "✓ Skopiowano"; setTimeout(function() { btn.textContent = "Kopiuj link"; }, 2000);
-      });
+      var t = TESTY.find(function(x) { return x.id === btn.dataset.pokaz; });
+      if (t) {
+        /* Przejdź do zakładki Nowy test i pokaż kody */
+        document.querySelectorAll("nav button").forEach(function(b) { b.classList.remove("active"); });
+        document.querySelectorAll("section").forEach(function(s) { s.classList.remove("active"); });
+        document.querySelector('nav button[data-tab="nowy"]').classList.add("active");
+        document.getElementById("tab-nowy").classList.add("active");
+        pokazWersje(t);
+      }
     });
   });
   kont.querySelectorAll("[data-del]").forEach(function(btn) {
     btn.addEventListener("click", function() {
-      if (!confirm("Usunąć ten test? (Wyniki uczniów pozostaną)")) return;
+      if (!confirm("Usunąć ten test?")) return;
       TESTY = TESTY.filter(function(x) { return x.id !== btn.dataset.del; });
-      zapiszTesty(); renderTesty(); renderSelectTestow();
+      zapiszTesty();
+      renderTesty();
+      renderSelectTestow();
     });
   });
 }
 
-/* ========== WYNIKI ========== */
+/* ============================================================
+   SKANER QR
+============================================================ */
+document.getElementById("startKameryBtn").addEventListener("click", function() {
+  if (skaner) return;
+  var el = document.getElementById("reader");
+  el.innerHTML = "";
+  skaner = new Html5Qrcode("reader");
+  skaner.start(
+    { facingMode: "environment" },
+    { fps: 10, qrbox: 250 },
+    function(decodedText) {
+      /* Znaleziono QR */
+      obsluzZeskanowanyKod(decodedText);
+    },
+    function(err) { /* ignoruj — ciągłe skanowanie */ }
+  ).then(function() {
+    document.getElementById("startKameryBtn").style.display = "none";
+    document.getElementById("stopKameryBtn").style.display = "inline-block";
+  }).catch(function(err) {
+    alert("Nie udało się uruchomić kamery: " + err + "\n\nSprawdź, czy przeglądarka ma dostęp do kamery.\nMożesz też wpisać kod ręcznie poniżej.");
+  });
+});
+
+document.getElementById("stopKameryBtn").addEventListener("click", function() {
+  if (!skaner) return;
+  skaner.stop().then(function() {
+    skaner.clear();
+    skaner = null;
+    document.getElementById("startKameryBtn").style.display = "inline-block";
+    document.getElementById("stopKameryBtn").style.display = "none";
+  });
+});
+
+function obsluzZeskanowanyKod(tekst) {
+  var dane = null;
+  /* Może być pełny URL albo sam kod krótki */
+  if (tekst.indexOf("http") === 0) {
+    /* Wyciągnij parametr */
+    var idx = tekst.indexOf("kod=");
+    if (idx !== -1) {
+      dane = tekst.substring(idx + 4);
+    } else {
+      /* Może być inny format */
+      alert("Nierozpoznany QR. Nie znaleziono kodu wyniku.");
+      return;
+    }
+  } else {
+    dane = tekst;
+  }
+
+  /* Dwa formaty: krótki kod (XXXX-XXXX-XXXX-XXXX) albo pełny JSON-zakodowany */
+  if (/^[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(dane)) {
+    /* Krótki kod — szukaj w lokalnych wynikach */
+    alert("Znaleziono krótki kod: " + dane + "\n\nUwaga: krótki kod to tylko identyfikator — pełny wynik znajduje się na serwerze ucznia. Użyj pełnego QR (zawiera cały wynik).");
+    return;
+  }
+
+  /* Pełny JSON */
+  var json = b64Decode(dane);
+  if (!json) { alert("Nie udało się odszyfrować kodu."); return; }
+  var wynik;
+  try { wynik = JSON.parse(json); } catch (e) { alert("Błąd parsowania wyniku."); return; }
+
+  dodajWynikDoTabeli(wynik);
+}
+
+function pokazInfoSkanera() {
+  /* Info o kamerze — nic nie robimy, tylko odświeżamy */
+}
+
+/* ============================================================
+   DODAWANIE WYNIKU
+============================================================ */
+document.getElementById("dodajRecznyBtn").addEventListener("click", function() {
+  var kod = document.getElementById("kodReczny").value.trim();
+  if (!kod) { alert("Wpisz kod ucznia."); return; }
+  if (!/^[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(kod.toUpperCase())) {
+    alert("Kod powinien mieć format XXXX-XXXX-XXXX-XXXX.");
+    return;
+  }
+  alert("Wpisałeś krótki kod: " + kod + "\n\nUwaga: krótkie kody nie zawierają pełnego wyniku. Użyj pełnego QR kodu z ekranu ucznia (zawiera pełen wynik).");
+  document.getElementById("kodReczny").value = "";
+});
+
+function dodajWynikDoTabeli(wynik) {
+  /* wynik zawiera: { tid, klasa, u, d, wersja, a (odpowiedzi), pkt, max } */
+  if (!wynik.tid || !wynik.a) { alert("Nieprawidłowy wynik."); return; }
+  if (!WYNIKI[wynik.tid]) WYNIKI[wynik.tid] = [];
+  /* Sprawdź, czy już nie ma tego ucznia (po imieniu + wersji) */
+  var istnieje = WYNIKI[wynik.tid].some(function(w) {
+    return w.u === wynik.u && w.wersja === wynik.wersja;
+  });
+  if (istnieje) {
+    if (!confirm("Ten uczeń już ma zapisany wynik. Nadpisać?")) return;
+    WYNIKI[wynik.tid] = WYNIKI[wynik.tid].filter(function(w) {
+      return !(w.u === wynik.u && w.wersja === wynik.wersja);
+    });
+  }
+  WYNIKI[wynik.tid].push(wynik);
+  zapiszWyniki();
+
+  document.getElementById("skanerInfo").innerHTML =
+    '<div class="info-box" style="background:#f0fdf4;border-color:#166534;color:#166534;">' +
+    '✓ Dodano wynik: <strong>' + escapeHtml(wynik.u) + '</strong> (wersja ' + wynik.wersja + ') — ' + wynik.pkt + ' / ' + wynik.max +
+    '</div>';
+}
+
+/* ============================================================
+   WYNIKI
+============================================================ */
 function renderSelectTestow() {
   var sel = document.getElementById("wyborTestu");
   var obecny = sel.value;
@@ -479,90 +717,248 @@ function renderSelectTestow() {
   if (obecny) sel.value = obecny;
 }
 
-function dodajWyniki() {
-  var text = document.getElementById("kodyUczniow").value.trim();
-  if (!text) { alert("Wklej co najmniej jeden kod ucznia."); return; }
-  var linie = text.split(/\s*\n\s*/).filter(function(l) { return l.length > 0; });
-  var dodane = 0, bledne = 0;
-  var ostatniTid = null;
-  linie.forEach(function(l) {
-    var json = b64Decode(l.trim());
-    if (!json) { bledne++; return; }
-    var rec;
-    try { rec = JSON.parse(json); } catch (e) { bledne++; return; }
-    if (!rec.tid || !rec.a) { bledne++; return; }
-    if (!WYNIKI[rec.tid]) WYNIKI[rec.tid] = [];
-    WYNIKI[rec.tid].push(rec);
-    ostatniTid = rec.tid;
-    dodane++;
-  });
-  zapiszWyniki();
-  document.getElementById("kodyUczniow").value = "";
-  alert("Dodano: " + dodane + (bledne ? ", błędnych kodów: " + bledne : ""));
-  if (ostatniTid) {
-    document.getElementById("wyborTestu").value = ostatniTid;
-    renderWyniki();
-  }
-}
+document.getElementById("wyborTestu").addEventListener("change", renderWyniki);
 
 function renderWyniki() {
   var id = document.getElementById("wyborTestu").value;
   var kont = document.getElementById("tabelaWynikow");
-  if (!id) { kont.innerHTML = ""; return; }
-  var test = TESTY.find(function(t) { return t.id === id; });
-  if (!test) { kont.innerHTML = '<div class="pusta">Nie znaleziono testu.</div>'; return; }
-  var res = WYNIKI[id] || [];
-  if (!res.length) { kont.innerHTML = '<div class="pusta">Brak wyników dla tego testu. Wklej kody uczniów powyżej.</div>'; return; }
+  var btnZapisz = document.getElementById("zapiszJakoBtn");
+  if (!id) { kont.innerHTML = ""; btnZapisz.disabled = true; return; }
 
-  var html = '<table><thead><tr><th>#</th><th>Uczeń</th><th>Punkty</th><th>%</th><th>Ocena</th><th>Data</th></tr></thead><tbody>';
+  var test = TESTY.find(function(t) { return t.id === id; });
+  if (!test) { kont.innerHTML = '<div class="pusta">Nie znaleziono testu.</div>'; btnZapisz.disabled = true; return; }
+
+  var res = WYNIKI[id] || [];
+  if (!res.length) {
+    kont.innerHTML = '<div class="pusta">Brak wyników. Zeskanuj kody QR uczniów w zakładce „Zeskanuj wynik".</div>';
+    btnZapisz.disabled = true;
+    return;
+  }
+
+  btnZapisz.disabled = false;
+
+  var html = '<table><thead><tr><th>#</th><th>Uczeń</th><th>Wersja</th><th>Punkty</th><th>%</th><th>Ocena</th><th>Data</th><th></th></tr></thead><tbody>';
   res.forEach(function(r, i) {
     var punkty = 0;
+    var wersja = test.wersje.find(function(w) { return w.litera === r.wersja; });
+    var pytania = wersja ? wersja.pytania : test.wersje[0].pytania;
     (r.a || []).forEach(function(odp, j) {
-      if (test.pytania[j] && odp === test.pytania[j].p) punkty++;
+      if (pytania[j] && odp === pytania[j].poprawna) punkty++;
     });
-    var max = test.pytania.length;
+    var max = pytania.length;
     var pct = max ? Math.round(punkty / max * 100) : 0;
     var klasa = pct >= 80 ? "wynik-dobry" : (pct >= 50 ? "wynik-sredni" : "wynik-zly");
     var ocena = pct >= 90 ? "5" : pct >= 75 ? "4" : pct >= 50 ? "3" : pct >= 30 ? "2" : "1";
     html += '<tr>';
     html += '<td>' + (i + 1) + '</td>';
     html += '<td>' + escapeHtml(r.u || "?") + '</td>';
+    html += '<td><strong>' + (r.wersja || "?") + '</strong></td>';
     html += '<td>' + punkty + ' / ' + max + '</td>';
     html += '<td class="' + klasa + '">' + pct + '%</td>';
     html += '<td class="' + klasa + '">' + ocena + '</td>';
     html += '<td>' + new Date(r.d).toLocaleString("pl") + '</td>';
+    html += '<td><button class="drugie" data-szczegoly="' + i + '" style="padding:4px 10px;font-size:.78rem;">Szczegóły</button></td>';
     html += '</tr>';
   });
   html += '</tbody></table>';
   kont.innerHTML = html;
+
+  kont.querySelectorAll("[data-szczegoly]").forEach(function(btn) {
+    btn.addEventListener("click", function() {
+      var i = parseInt(btn.dataset.szczegoly);
+      pokazSzczegoly(res[i], test);
+    });
+  });
 }
 
-/* ========== EKSPORT / IMPORT ========== */
-function eksportJSON() {
-  var dane = { konfig: KONFIG, testy: TESTY, wyniki: WYNIKI };
-  var blob = new Blob([JSON.stringify(dane, null, 2)], { type: "application/json" });
+function pokazSzczegoly(wynik, test) {
+  var wersja = test.wersje.find(function(w) { return w.litera === wynik.wersja; });
+  var pytania = wersja ? wersja.pytania : test.wersje[0].pytania;
+  var html = '<p style="margin-bottom:14px;"><strong>Uczeń:</strong> ' + escapeHtml(wynik.u) + ' &nbsp;·&nbsp; <strong>Wersja:</strong> ' + wynik.wersja + ' &nbsp;·&nbsp; <strong>Wynik:</strong> ' + wynik.pkt + ' / ' + wynik.max + '</p>';
+  pytania.forEach(function(p, i) {
+    var odpUcznia = wynik.a[i];
+    var ok = (odpUcznia === p.poprawna);
+    html += '<div class="pytanie-szczeg ' + (ok ? "ok" : "zle") + '">';
+    html += '<div class="tresc">' + (i + 1) + '. ' + escapeHtml(p.q) + '</div>';
+    html += '<div class="odp ' + (ok ? "user ok" : "user") + '"><strong>' + (ok ? "✓" : "✗") + ' Odpowiedź ucznia:</strong> ' + (odpUcznia >= 0 ? String.fromCharCode(65 + odpUcznia) + ') ' + escapeHtml(p.opcje[odpUcznia]) : "(brak)") + '</div>';
+    if (!ok) {
+      html += '<div class="odp poprawna"><strong>✓ Poprawna:</strong> ' + String.fromCharCode(65 + p.poprawna) + ') ' + escapeHtml(p.opcje[p.poprawna]) + '</div>';
+    }
+    if (p.wyjasnienie) html += '<div class="wyjasnienie">' + escapeHtml(p.wyjasnienie) + '</div>';
+    html += '</div>';
+  });
+  document.getElementById("modalTytul").textContent = "Szczegóły — " + wynik.u;
+  document.getElementById("modalTresc").innerHTML = html;
+  document.getElementById("modalSzczegoly").classList.add("on");
+}
+document.getElementById("modalZamknij").addEventListener("click", function() {
+  document.getElementById("modalSzczegoly").classList.remove("on");
+});
+
+/* ============================================================
+   ZAPIS / ODCZYT PLIKU
+============================================================ */
+document.getElementById("zapiszJakoBtn").addEventListener("click", function() {
+  var id = document.getElementById("wyborTestu").value;
+  if (!id) return;
+  var test = TESTY.find(function(t) { return t.id === id; });
+  if (!test) return;
+  var res = WYNIKI[id] || [];
+  if (!res.length) return;
+
+  /* Wybór formatu */
+  var wybor = prompt("Wybierz format zapisu:\n\n1 — CSV (do Excela, do ocen)\n2 — JSON (pełny backup, można wczytać z powrotem)\n\nWpisz 1 lub 2:", "1");
+  if (wybor === null) return;
+  var format = wybor.trim() === "2" ? "json" : "csv";
+
+  var nazwaBazowa = "wyniki-" + test.klasa + "-" + terazData() + "-" + test.id;
+
+  if (format === "csv") {
+    /* CSV z separatorem ; (polski Excel) */
+    var linie = [];
+    linie.push(["Klasa", "Test ID", "Data testu", "Nauczyciel", "Uczeń", "Wersja", "Punkty", "Maks", "Procent", "Ocena", "Data oddania"].join(";"));
+    res.forEach(function(r) {
+      var wersja = test.wersje.find(function(w) { return w.litera === r.wersja; });
+      var pytania = wersja ? wersja.pytania : test.wersje[0].pytania;
+      var punkty = 0;
+      (r.a || []).forEach(function(odp, j) { if (pytania[j] && odp === pytania[j].poprawna) punkty++; });
+      var max = pytania.length;
+      var pct = max ? Math.round(punkty / max * 100) : 0;
+      var ocena = pct >= 90 ? "5" : pct >= 75 ? "4" : pct >= 50 ? "3" : pct >= 30 ? "2" : "1";
+      linie.push([
+        test.klasa,
+        test.id,
+        new Date(test.data).toLocaleString("pl"),
+        test.nauczyciel || "",
+        r.u || "",
+        r.wersja || "",
+        punkty,
+        max,
+        pct + "%",
+        ocena,
+        new Date(r.d).toLocaleString("pl")
+      ].join(";"));
+    });
+    var csv = "\uFEFF" + linie.join("\n");
+    pobierzPlik(csv, nazwaBazowa + ".csv", "text/csv;charset=utf-8");
+  } else {
+    var dane = {
+      wersja: 1,
+      test: test,
+      wyniki: res,
+      wygenerowano: new Date().toISOString()
+    };
+    var json = JSON.stringify(dane, null, 2);
+    pobierzPlik(json, nazwaBazowa + ".json", "application/json");
+  }
+});
+
+function pobierzPlik(tresc, nazwa, mime) {
+  var blob = new Blob([tresc], { type: mime });
+  var url = URL.createObjectURL(blob);
   var a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
-  a.download = "panel-nauczyciela-" + new Date().toISOString().slice(0, 10) + ".json";
+  a.href = url;
+  a.download = nazwa;
+  document.body.appendChild(a);
   a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
 }
 
-function importJSON(e) {
+document.getElementById("wczytajZPlikuBtn").addEventListener("click", function() {
+  document.getElementById("plikImport").click();
+});
+
+document.getElementById("plikImport").addEventListener("change", function(e) {
   var f = e.target.files[0];
   if (!f) return;
-  var reader = new FileReader();
-  reader.onload = function(ev) {
+  var r = new FileReader();
+  r.onload = function(ev) {
     try {
       var d = JSON.parse(ev.target.result);
-      if (d.konfig) { KONFIG = d.konfig; zapiszKonfig(); }
-      if (d.testy) { TESTY = d.testy; zapiszTesty(); }
-      if (d.wyniki) { WYNIKI = d.wyniki; zapiszWyniki(); }
-      alert("Zaimportowano.");
-      location.reload();
-    } catch (err) { alert("Nie udało się zaimportować pliku."); }
+      if (!d.test || !d.wyniki) { alert("Nieprawidłowy plik."); return; }
+      /* Dodaj test jeśli nie ma */
+      var istnieje = TESTY.some(function(t) { return t.id === d.test.id; });
+      if (!istnieje) TESTY.push(d.test);
+      /* Dodaj wyniki */
+      if (!WYNIKI[d.test.id]) WYNIKI[d.test.id] = [];
+      d.wyniki.forEach(function(w) {
+        var juz = WYNIKI[d.test.id].some(function(x) { return x.u === w.u; });
+        if (!juz) WYNIKI[d.test.id].push(w);
+      });
+      zapiszTesty();
+      zapiszWyniki();
+      alert("Wczytano: " + d.wyniki.length + " wyników dla testu " + d.test.id);
+      renderTesty();
+      renderSelectTestow();
+      document.getElementById("wyborTestu").value = d.test.id;
+      renderWyniki();
+    } catch (err) {
+      alert("Nie udało się wczytać pliku. " + err.message);
+    }
   };
-  reader.readAsText(f);
-}
+  r.readAsText(f);
+  e.target.value = "";
+});
+
+document.getElementById("usunWybranyTestBtn").addEventListener("click", function() {
+  var id = document.getElementById("wyborTestu").value;
+  if (!id) return;
+  if (!confirm("Usunąć test " + id + " razem z wynikami?")) return;
+  TESTY = TESTY.filter(function(t) { return t.id !== id; });
+  delete WYNIKI[id];
+  zapiszTesty();
+  zapiszWyniki();
+  renderTesty();
+  renderSelectTestow();
+  renderWyniki();
+});
+
+/* ============================================================
+   START
+============================================================ */
+document.addEventListener("DOMContentLoaded", function() {
+  document.getElementById("nauczyciel").value = KONFIG.nauczyciel || "";
+  document.getElementById("szkola").value = KONFIG.szkola || "";
+
+  document.getElementById("zapiszKonfigBtn").addEventListener("click", function() {
+    KONFIG.nauczyciel = document.getElementById("nauczyciel").value.trim();
+    KONFIG.szkola = document.getElementById("szkola").value.trim();
+    zapiszKonfig();
+    alert("Zapisano.");
+  });
+
+  wczytajWszystkie(function() {
+    zebierzDane();
+    renderListaLekcji();
+    renderSelectTestow();
+    renderTesty();
+  });
+
+  document.querySelectorAll(".chip[data-fp]").forEach(function(btn) {
+    btn.addEventListener("click", function() {
+      filtrPoziom = btn.dataset.fp;
+      document.querySelectorAll(".chip[data-fp]").forEach(function(b) { b.classList.remove("active"); });
+      btn.classList.add("active");
+      renderListaLekcji();
+    });
+  });
+  document.getElementById("zaznaczWszystkieLekcje").addEventListener("click", function() {
+    document.querySelectorAll("#listaLekcji input[type=checkbox]").forEach(function(c) { c.checked = true; });
+    aktualizujInfoWyboru();
+  });
+  document.getElementById("odznaczWszystkieLekcje").addEventListener("click", function() {
+    document.querySelectorAll("#listaLekcji input[type=checkbox]").forEach(function(c) { c.checked = false; });
+    aktualizujInfoWyboru();
+  });
+  document.getElementById("generujBtn").addEventListener("click", generujNowyTest);
+
+  document.getElementById("pokazKodyAwaryjne").addEventListener("click", function() {
+    var el = document.getElementById("kodyAwaryjne");
+    if (el.style.display === "none") el.style.display = "block";
+    else el.style.display = "none";
+  });
+});
 </script>
 </body>
 </html>
