@@ -6,7 +6,8 @@ const KURS = {
   tytul: "Angielski online",
   wersja: "1.0",
 
-  poziomy: [
+   poziomy: [
+    { id: "A0", nazwa: "A0", opis: "Dla początkujących" },
     { id: "A1", nazwa: "A1", opis: "Podstawy" },
     { id: "A2", nazwa: "A2", opis: "Podstawy rozszerzone" },
     { id: "B1", nazwa: "B1", opis: "Średniozaawansowany" },
@@ -33,6 +34,30 @@ const KURS = {
     G16: { tytul: "Phrasal Verbs",               ikona: "🌀",  opis: "Czasowniki frazowe – najczęstsze i utrwalone" }
   },
 
+  a0: {
+    tytul: "A0 — dla początkujących",
+    opis: "Kurs dla osób, które nigdy nie uczyły się angielskiego",
+    lekcje: [
+      { id: "A0-1", tytul: "Alfabet i wymowa" },
+      { id: "A0-2", tytul: "Liczby 0–20" },
+      { id: "A0-3", tytul: "Powitania i pożegnania" },
+      { id: "A0-4", tytul: "Przedstawianie się" },
+      { id: "A0-5", tytul: "Kolory" },
+      { id: "A0-6", tytul: "Rodzina" },
+      { id: "A0-7", tytul: "Ciało" },
+      { id: "A0-8", tytul: "Jedzenie i picie" },
+      { id: "A0-9", tytul: "Ubrania" },
+      { id: "A0-10", tytul: "Dom i pokoje" },
+      { id: "A0-11", tytul: "Zwierzęta" },
+      { id: "A0-12", tytul: "Dni tygodnia i miesiące" },
+      { id: "A0-13", tytul: "Podstawowe czasowniki" },
+      { id: "A0-14", tytul: 'Czasownik "to be"' },
+      { id: "A0-15", tytul: 'Czasownik "have got"' },
+      { id: "A0-16", tytul: "Proste zdania i pytania" }
+    ]
+  },
+
+
   tematyka: {
     T1:  { tytul: "Człowiek, tożsamość",       ikona: "👤",     opis: "Wygląd, charakter, osobowość, tożsamość" },
     T2:  { tytul: "Rodzina, relacje",          ikona: "👨‍👩‍👧", opis: "Rodzina, związki, konflikty, wsparcie" },
@@ -50,6 +75,15 @@ const KURS = {
     T14: { tytul: "Problemy, etyka",           ikona: "🤔",     opis: "Rozwiązywanie problemów, dylematy etyczne" },
     T15: { tytul: "Ubrania, moda",             ikona: "👕",     opis: "Ubrania, moda, zakupy, etyczna moda" },
     T16: { tytul: "Podróże",                   ikona: "✈️",     opis: "Podróże, wakacje, transport, turystyka" }
+  },
+
+  isA0: function(lessonId) {
+    return /^A0-\d+$/.test(lessonId);
+  },
+
+  getA0Lekcja: function(lessonId) {
+    if (!this.a0) return null;
+    return this.a0.lekcje.find(function(l) { return l.id === lessonId; }) || null;
   },
 
   getDzial: function(lessonId) {
@@ -86,6 +120,7 @@ const KURS = {
 
   getAllLessonIds: function() {
     const ids = [];
+    if (this.a0) this.a0.lekcje.forEach(function(l) { ids.push(l.id); });
     const poziomy = this.poziomy.map(p => p.id);
     Object.keys(this.gramatyka).forEach(d => poziomy.forEach(p => ids.push(d + p)));
     Object.keys(this.tematyka).forEach(d => poziomy.forEach(p => ids.push(d + p)));
