@@ -23,12 +23,16 @@
   .kafel::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: #1e3a5f; }
   .kafel.t::before { background: #b45309; }
   .kafel.d::before { background: #0f766e; }
+  .kafel.a0::before { background: #0891b2; }
+  .kafel.a0 { background: linear-gradient(135deg, #f0fdfa 0%, #ffffff 100%); }
   .kafel:hover { box-shadow: 0 6px 20px rgba(30,58,95,.12); transform: translateY(-2px); border-color: #c8c2b5; }
   .kafel h3 { font-family: Georgia, serif; font-size: 1.15rem; color: #1e3a5f; font-weight: 700; }
   .kafel p { color: #6b7280; font-size: .9rem; line-height: 1.55; flex: 1; }
   .kafel .tag { display: inline-block; font-size: .72rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #b45309; }
   .kafel.d .tag { color: #0f766e; }
+  .kafel.a0 .tag { color: #0891b2; }
   .kafel .arrow { color: #b45309; font-weight: 700; font-size: .9rem; margin-top: 4px; }
+  .kafel.a0 .arrow { color: #0891b2; }
   footer { text-align: center; padding: 30px 20px; color: #9ca3af; font-size: .85rem; border-top: 1px solid #e8e4dc; margin-top: 30px; }
   footer .maly-link { color: #9ca3af; text-decoration: none; font-size: .82rem; }
   footer .maly-link:hover { color: #1e3a5f; text-decoration: underline; }
@@ -63,6 +67,13 @@
   </section>
 
   <div class="grid">
+
+    <a class="kafel a0" href="kurs.html?level=A0">
+      <span class="tag">A0 — dla początkujących</span>
+      <h3>Zacznij od zera</h3>
+      <p>Kurs dla osób, które nigdy nie uczyły się angielskiego. Alfabet, liczby, powitania, kolory, rodzina, podstawowe czasowniki — krok po kroku.</p>
+      <span class="arrow">Otwórz kurs A0 →</span>
+    </a>
 
     <a class="kafel" href="kurs.html">
       <span class="tag">Kurs</span>
@@ -105,6 +116,7 @@
       <p>60 pytań — po 12 z każdego poziomu A1–C1. Po zakończeniu dostaniesz swój poziom, słabe strony i indywidualny program nauki do wydrukowania.</p>
       <span class="arrow">Rozpocznij test →</span>
     </a>
+
     <a class="kafel" href="instrukcja-ucznia.html">
       <span class="tag">Pomoc</span>
       <h3>Instrukcja dla ucznia</h3>
