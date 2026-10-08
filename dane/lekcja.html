@@ -1,0 +1,1273 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ładowanie...</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f7f5f0;
+    --surface: #ffffff;
+    --surface-alt: #fbfaf7;
+    --border: #e8e4dc;
+    --border-strong: #c8c2b5;
+    --text: #1f2933;
+    --text-muted: #6b7280;
+    --primary: #1e3a5f;
+    --primary-hover: #152a47;
+    --accent: #0f766e;
+    --accent-bg: #f0fdfa;
+    --warm: #b45309;
+    --warm-bg: #fffbeb;
+    --success: #166534;
+    --success-bg: #f0fdf4;
+    --danger: #991b1b;
+    --danger-bg: #fef2f2;
+    --warning: #78350f;
+    --warning-bg: #fefce8;
+    --warning-border: #fde68a;
+    --radius: 6px;
+    --font-serif: 'Georgia', 'Iowan Old Style', 'Times New Roman', serif;
+    --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    --font-mono: 'SF Mono', Monaco, 'Cascadia Code', Consolas, monospace;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background: var(--bg);
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    background-image:
+      radial-gradient(circle at 20% 50%, rgba(180,83,9,.025) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(15,118,110,.025) 0%, transparent 50%);
+    background-attachment: fixed;
+  }
+
+  .lesson-header {
+    background: var(--primary);
+    color: #fff;
+    padding: 20px 26px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    position: relative;
+    border-bottom: 4px solid var(--warm);
+  }
+  .lesson-header::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,.06) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .lesson-header > * { position: relative; z-index: 1; }
+  .lesson-header h1 {
+    font-family: var(--font-serif);
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: .2px;
+  }
+  .lesson-header .meta { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .lesson-header .level-badge {
+    background: var(--warm);
+    color: #fff;
+    padding: 3px 12px;
+    border-radius: 3px;
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+  .lesson-header .back-btn {
+    background: transparent;
+    color: #fff;
+    border: 1px solid rgba(255,255,255,.4);
+    padding: 7px 16px;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+    font-size: .82rem;
+    transition: .15s;
+  }
+  .lesson-header .back-btn:hover { background: rgba(255,255,255,.15); border-color: rgba(255,255,255,.7); }
+
+  .voice-bar {
+    background: var(--surface);
+    padding: 11px 26px;
+    display: flex;
+    gap: 18px;
+    align-items: center;
+    flex-wrap: wrap;
+    border-bottom: 1px solid var(--border);
+    font-size: .82rem;
+    position: sticky; top: 0; z-index: 30;
+    box-shadow: 0 1px 3px rgba(0,0,0,.03);
+  }
+  .voice-bar .label-main {
+    font-family: var(--font-serif);
+    font-weight: 700;
+    color: var(--primary);
+    letter-spacing: .3px;
+    font-style: italic;
+    padding-right: 12px;
+    border-right: 1px solid var(--border);
+  }
+  .voice-bar label {
+    display: flex; align-items: center; gap: 6px;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+  .voice-bar select {
+    padding: 5px 9px;
+    border: 1px solid var(--border-strong);
+    border-radius: 4px;
+    font-size: .8rem;
+    font-family: inherit;
+    max-width: 180px;
+    cursor: pointer;
+    background: var(--surface);
+    color: var(--text);
+  }
+  .voice-bar select:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(30,58,95,.08); }
+  .voice-bar input[type="range"] { width: 90px; accent-color: var(--warm); }
+  .voice-bar .test-btn {
+    padding: 5px 14px;
+    background: var(--warm);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: .78rem;
+    cursor: pointer;
+    font-family: inherit;
+    transition: .15s;
+  }
+  .voice-bar .test-btn:hover { background: #92400e; }
+  .voice-bar .rate-val {
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: .75rem;
+    min-width: 32px;
+  }
+
+  .iphone-hint {
+    background: var(--warning-bg);
+    color: var(--warning);
+    padding: 11px 26px;
+    font-size: .82rem;
+    border-bottom: 1px solid var(--warning-border);
+    line-height: 1.5;
+  }
+  .iphone-hint.hidden { display: none; }
+  .iphone-hint b { font-weight: 700; }
+
+  .lesson-wrap {
+    max-width: 880px;
+    margin: 28px auto;
+    padding: 0 20px;
+  }
+
+  .section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 26px 30px 28px;
+    margin-bottom: 22px;
+    position: relative;
+    box-shadow: 0 1px 2px rgba(0,0,0,.02);
+    overflow: hidden;
+  }
+  .section::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--primary);
+  }
+  .section.teoria::before { background: var(--primary); }
+  .section.praca::before { background: var(--warm); }
+  .section.test-sek::before { background: var(--accent); }
+
+  .section-title {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-title > .title-text {
+    font-family: var(--font-serif);
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--primary);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-title > .title-text::before {
+    content: "";
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background: currentColor;
+    border-radius: 1px;
+    transform: rotate(45deg);
+  }
+  .section.praca .section-title > .title-text { color: var(--warm); }
+  .section.test-sek .section-title > .title-text { color: var(--accent); }
+
+  .section-title .time-badge {
+    margin-left: auto;
+    background: var(--surface-alt);
+    color: var(--text-muted);
+    padding: 4px 12px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    font-family: var(--font-mono);
+    font-size: .72rem;
+    letter-spacing: .5px;
+  }
+
+  .section h3 {
+    font-family: var(--font-serif);
+    color: var(--primary);
+    font-size: 1.08rem;
+    margin: 26px 0 12px;
+    font-weight: 700;
+    letter-spacing: .2px;
+    padding-left: 14px;
+    position: relative;
+  }
+  .section h3:first-child { margin-top: 0; }
+  .section h3::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 4px;
+    width: 3px;
+    height: calc(100% - 8px);
+    background: var(--warm);
+    border-radius: 2px;
+  }
+  .section p { margin-bottom: 12px; }
+  .section ul { margin: 10px 0 16px 22px; }
+  .section ul li { margin-bottom: 6px; padding-left: 4px; }
+  .section ul li::marker { color: var(--warm); }
+
+  .en {
+    color: var(--primary);
+    font-weight: 600;
+    background: #f0f5fb;
+    padding: 2px 8px;
+    border-left: 3px solid var(--primary);
+    border-radius: 0 3px 3px 0;
+    display: inline-block;
+    margin: 3px 0;
+    line-height: 1.5;
+  }
+  table .en {
+    background: transparent;
+    border-left: none;
+    padding: 0;
+    display: inline;
+    font-weight: 600;
+    color: var(--primary);
+  }
+
+  .pl { color: var(--text-muted); font-style: italic; }
+  b, strong { color: var(--text); font-weight: 600; }
+  b.en, strong.en { color: var(--primary); }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0 20px;
+    font-size: .93rem;
+    background: var(--surface);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  th, td {
+    padding: 10px 14px;
+    text-align: left;
+    vertical-align: top;
+    border-bottom: 1px solid var(--border);
+  }
+  th {
+    background: var(--primary);
+    color: #fff;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: .78rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border-bottom: none;
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:nth-child(even) td { background: var(--surface-alt); }
+  tbody tr:hover td { background: rgba(180,83,9,.04); }
+
+  .hint-box {
+    background: linear-gradient(135deg, var(--warning-bg) 0%, #fef9c3 100%);
+    border-left: 4px solid var(--warning);
+    padding: 12px 16px;
+    margin-bottom: 20px;
+    font-size: .88rem;
+    color: var(--warning);
+    border-radius: 0 var(--radius) var(--radius) 0;
+  }
+  .hint-box b { color: var(--warning); font-weight: 700; }
+
+  .tip-box {
+    background: var(--accent-bg);
+    border-left: 4px solid var(--accent);
+    padding: 14px 18px;
+    margin: 16px 0;
+    font-size: .92rem;
+    border-radius: 0 var(--radius) var(--radius) 0;
+  }
+  .tip-box b { color: var(--accent); font-weight: 700; }
+  .tip-box .en {
+    background: rgba(255,255,255,.6);
+    margin: 2px 0;
+  }
+
+  .word {
+    display: inline;
+    cursor: pointer;
+    border-radius: 3px;
+    padding: 0 2px;
+    transition: all .12s;
+    border-bottom: 1px dotted transparent;
+  }
+  .word:hover {
+    background: var(--warning-bg);
+    border-bottom-color: var(--warm);
+  }
+  .word.speaking {
+    background: var(--warning-bg);
+    border-bottom-color: var(--warm);
+  }
+
+  .word-popup {
+    position: fixed;
+    z-index: 1000;
+    background: var(--surface);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    width: 240px;
+    max-width: 90vw;
+    box-shadow: 0 12px 32px rgba(0,0,0,.15);
+    font-size: .88rem;
+  }
+  .word-popup::before {
+    content: "";
+    position: absolute;
+    top: -1px; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary), var(--warm), var(--accent));
+    border-radius: var(--radius) var(--radius) 0 0;
+  }
+  .word-popup.hidden { display: none; }
+  .wp-word {
+    font-family: var(--font-serif);
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    word-break: break-word;
+    padding-top: 4px;
+  }
+  .wp-buttons { display: flex; gap: 6px; flex-wrap: wrap; }
+  .wp-buttons button, .wp-buttons a {
+    padding: 7px 12px;
+    border: 1px solid var(--border-strong);
+    border-radius: 4px;
+    background: var(--surface);
+    color: var(--primary);
+    font-weight: 500;
+    font-size: .78rem;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    flex: 1;
+    min-width: 60px;
+    transition: .15s;
+    font-family: inherit;
+  }
+  .wp-buttons button:hover, .wp-buttons a:hover {
+    background: var(--primary);
+    color: #fff;
+    border-color: var(--primary);
+  }
+
+  .read-sel-btn {
+    position: fixed;
+    bottom: 24px; right: 24px;
+    z-index: 999;
+    background: var(--warm);
+    color: #fff;
+    border: none;
+    border-radius: 24px;
+    padding: 13px 22px;
+    font-weight: 600;
+    font-size: .88rem;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(180,83,9,.35);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .2s, transform .15s;
+    font-family: inherit;
+    letter-spacing: .3px;
+  }
+  .read-sel-btn.visible { opacity: 1; pointer-events: auto; }
+  .read-sel-btn:hover { background: #92400e; transform: translateY(-2px); }
+
+  .exercise {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--warm);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    padding: 15px 18px;
+    margin-bottom: 12px;
+    transition: border-color .15s, box-shadow .15s;
+  }
+  .exercise:hover {
+    box-shadow: 0 2px 8px rgba(180,83,9,.06);
+  }
+  .exercise .ex-num {
+    display: inline-block;
+    background: var(--warm);
+    color: #fff;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 26px;
+    font-weight: 700;
+    font-size: .78rem;
+    margin-right: 10px;
+    font-family: var(--font-mono);
+  }
+  .exercise .ex-text {
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 12px;
+    display: block;
+  }
+  .exercise .ex-text .en {
+    background: rgba(240,245,251,.7);
+    margin: 2px 0;
+  }
+  .exercise input[type="text"] {
+    padding: 9px 13px;
+    border: 1px solid var(--border-strong);
+    border-radius: 4px;
+    font-size: .92rem;
+    font-family: inherit;
+    min-width: 180px;
+    max-width: 100%;
+    background: var(--surface);
+    color: var(--text);
+    transition: .15s;
+  }
+  .exercise input[type="text"]:focus {
+    outline: none;
+    border-color: var(--warm);
+    box-shadow: 0 0 0 3px rgba(180,83,9,.12);
+  }
+  .exercise input[type="text"]:disabled {
+    background: var(--surface-alt);
+    color: var(--text-muted);
+    cursor: not-allowed;
+  }
+
+  .exercise-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+  }
+  .exercise button.check-btn,
+  .exercise button.skip-btn {
+    background: var(--surface);
+    color: var(--warm);
+    border: 1px solid var(--warm);
+    padding: 7px 18px;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: .82rem;
+    cursor: pointer;
+    transition: .15s;
+    font-family: inherit;
+    letter-spacing: .3px;
+  }
+  .exercise button.check-btn:hover:not(:disabled),
+  .exercise button.skip-btn:hover:not(:disabled) {
+    background: var(--warm);
+    color: #fff;
+  }
+  .exercise button.skip-btn {
+    color: var(--text-muted);
+    border-color: var(--border-strong);
+  }
+  .exercise button.skip-btn:hover:not(:disabled) {
+    background: var(--text-muted);
+    color: #fff;
+    border-color: var(--text-muted);
+  }
+  .exercise button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  .exercise .feedback {
+    margin-top: 12px;
+    padding: 10px 14px;
+    border-radius: 4px;
+    font-size: .88rem;
+    display: none;
+    border-left: 3px solid;
+  }
+  .exercise .feedback.show { display: block; }
+  .exercise .feedback.correct {
+    background: var(--success-bg);
+    color: var(--success);
+    border-color: var(--success);
+  }
+  .exercise .feedback.wrong {
+    background: var(--danger-bg);
+    color: var(--danger);
+    border-color: var(--danger);
+  }
+  .exercise .feedback.neutral {
+    background: var(--accent-bg);
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+  .exercise.open-ended {
+    background: linear-gradient(135deg, var(--accent-bg) 0%, #f0fdfa 100%);
+    border-left-color: var(--accent);
+  }
+  .exercise.open-ended .ex-num { background: var(--accent); }
+  .exercise.open-ended button.check-btn {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .exercise.open-ended button.check-btn:hover:not(:disabled) {
+    background: var(--accent);
+    color: #fff;
+  }
+
+  .test-q {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    padding: 15px 18px;
+    margin-bottom: 12px;
+    transition: border-color .15s;
+  }
+  .test-q:hover {
+    box-shadow: 0 2px 8px rgba(15,118,110,.06);
+  }
+  .test-q .q-num {
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-weight: 700;
+    margin-right: 8px;
+  }
+  .test-q .q-text {
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 12px;
+    display: block;
+  }
+  .test-q label {
+    display: block;
+    padding: 9px 14px;
+    margin-bottom: 4px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: .1s;
+    font-size: .92rem;
+    border: 1px solid transparent;
+  }
+  .test-q label:hover {
+    background: var(--accent-bg);
+    border-color: var(--border);
+  }
+  .test-q input[type="radio"] {
+    margin-right: 10px;
+    accent-color: var(--accent);
+  }
+  .test-q.correct {
+    border-left-color: var(--success);
+    background: var(--success-bg);
+  }
+  .test-q.wrong {
+    border-left-color: var(--danger);
+    background: var(--danger-bg);
+  }
+  .test-q .feedback {
+    margin-top: 12px;
+    padding: 10px 14px;
+    border-radius: 4px;
+    font-size: .86rem;
+    border-left: 3px solid;
+    line-height: 1.55;
+    background: #ffffff;
+  }
+  .test-q.correct .feedback {
+    color: var(--success);
+    border-color: var(--success);
+  }
+  .test-q.wrong .feedback {
+    color: var(--danger);
+    border-color: var(--danger);
+  }
+  .test-q .feedback b { color: inherit; font-weight: 700; }
+
+  .check-test-btn {
+    display: block;
+    margin: 28px auto 0;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    padding: 14px 40px;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: .95rem;
+    cursor: pointer;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-family: inherit;
+    transition: .15s;
+    box-shadow: 0 4px 14px rgba(30,58,95,.2);
+  }
+  .check-test-btn:hover {
+    background: var(--primary-hover);
+    box-shadow: 0 6px 18px rgba(30,58,95,.28);
+    transform: translateY(-1px);
+  }
+
+  .test-result {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 32px 24px;
+    text-align: center;
+    margin: 28px 0 0;
+    display: none;
+    position: relative;
+    overflow: hidden;
+  }
+  .test-result::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 5px;
+    background: var(--primary);
+  }
+  .test-result.show { display: block; }
+  .test-result h3 {
+    font-family: var(--font-serif);
+    font-size: 1.1rem;
+    color: var(--primary);
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    font-weight: 700;
+    padding: 0;
+  }
+  .test-result h3::before { display: none; }
+  .test-result .score {
+    font-family: var(--font-serif);
+    font-size: 3.4rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin: 14px 0;
+    letter-spacing: 2px;
+  }
+  .test-result .score-text {
+    color: var(--text-muted);
+    font-size: .92rem;
+    margin-bottom: 18px;
+  }
+  .test-result.good::before { background: var(--success); }
+  .test-result.good .score { color: var(--success); }
+  .test-result.medium::before { background: var(--warm); }
+  .test-result.medium .score { color: var(--warm); }
+  .test-result.bad::before { background: var(--danger); }
+  .test-result.bad .score { color: var(--danger); }
+  .test-result button {
+    margin-top: 8px;
+    background: var(--surface);
+    color: var(--primary);
+    border: 1px solid var(--primary);
+    padding: 10px 28px;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: .85rem;
+    letter-spacing: .5px;
+    font-family: inherit;
+    transition: .15s;
+  }
+  .test-result button:hover { background: var(--primary); color: #fff; }
+
+  @media (max-width: 600px) {
+    .lesson-wrap { padding: 0 10px; margin: 18px auto; }
+    .section { padding: 18px 18px; }
+    .exercise input[type="text"] { min-width: 100%; }
+    .voice-bar { padding: 9px 14px; gap: 10px; }
+    .voice-bar select { max-width: 130px; font-size: .75rem; }
+    .voice-bar input[type="range"] { width: 70px; }
+    .voice-bar .label-main { padding-right: 8px; }
+    .section-title > .title-text { font-size: .9rem; letter-spacing: 1px; }
+    .section-title > .title-text::before { width: 8px; height: 8px; }
+    .en { padding: 2px 6px; font-size: .95em; }
+  }
+</style>
+</head>
+<body>
+
+<div class="lesson-header">
+  <div>
+    <h1 id="lessonTitle">Ładowanie...</h1>
+  </div>
+  <div class="meta">
+    <span class="level-badge" id="lessonLevel">-</span>
+    <button class="back-btn" id="backBtn">Wróć</button>
+  </div>
+</div>
+
+<div class="voice-bar">
+  <span class="label-main">Lektor</span>
+  <label>EN <select id="voiceEn"></select></label>
+  <label>PL <select id="voicePl"></select></label>
+  <label>Tempo <input type="range" id="rateSlider" min="0.5" max="1.5" step="0.1" value="1"><span class="rate-val" id="rateVal">1.0</span></label>
+  <button class="test-btn" id="testVoice">Test</button>
+</div>
+
+<div id="iphoneHint" class="iphone-hint hidden"><b>iPhone:</b> dla lepszego głosu wejdź w Ustawienia → Dostępność → Mowa → Udostępnione głosy i pobierz Samantha (EN) lub Zosia (PL).</div>
+
+<div class="lesson-wrap">
+  <div class="section teoria">
+    <div class="section-title">
+      <span class="title-text">Omówienie tematu</span>
+      <span class="time-badge">10 min</span>
+    </div>
+    <div class="hint-box"><b>Wskazówka:</b> kliknij dowolne słowo, aby usłyszeć wymowę i otworzyć słownik.</div>
+    <div id="teoria"><p>Ładowanie...</p></div>
+  </div>
+
+  <div class="section praca">
+    <div class="section-title">
+      <span class="title-text">Karta pracy</span>
+      <span class="time-badge">20–30 min</span>
+    </div>
+    <p style="margin-bottom:16px;">Wpisz odpowiedź i kliknij Sprawdź. Masz dwie próby — potem zobaczysz prawidłową odpowiedź.</p>
+    <div id="karta"></div>
+  </div>
+
+  <div class="section test-sek">
+    <div class="section-title">
+      <span class="title-text">Test</span>
+      <span class="time-badge">10 min</span>
+    </div>
+    <p style="margin-bottom:16px;">Wybierz poprawną odpowiedź, a następnie kliknij Sprawdź test.</p>
+    <div id="testContainer"></div>
+    <button class="check-test-btn" id="checkTestBtn">Sprawdź test</button>
+    <div class="test-result" id="testResult"></div>
+  </div>
+</div>
+
+<div id="wordPopup" class="word-popup hidden"></div>
+<button id="readSelBtn" class="read-sel-btn">Czytaj zaznaczone</button>
+
+<script>
+var lessonId = new URLSearchParams(location.search).get("id") || "G1A1";
+var lessonData = null;
+
+function getGroup(id) {
+  /* A0-x → plik A0.js */
+  if (/^A0-\d+$/.test(id)) return "A0";
+  var m = id.match(/^([GT])(\d+)(A1|A2|B1|B2|C1|TEST)$/);
+  if (!m) return null;
+  return m[1] + "-" + m[3];
+}
+
+function loadLessonData(id, callback) {
+  var group = getGroup(id);
+  if (!group) {
+    document.getElementById("teoria").innerHTML = "<p style='color:#991b1b'>Nieprawidłowy ID lekcji: " + id + "</p>";
+    return;
+  }
+  var script = document.createElement("script");
+  script.src = "dane/" + group + ".js";
+  script.onload = function() {
+    if (window.LESSON_DATA && window.LESSON_DATA[id]) {
+      lessonData = window.LESSON_DATA[id];
+      callback();
+    } else {
+      document.getElementById("teoria").innerHTML = "<p style='color:#991b1b'>Nie znaleziono lekcji " + id + " w pliku dane/" + group + ".js</p>";
+    }
+  };
+  script.onerror = function() {
+    document.getElementById("teoria").innerHTML = "<p style='color:#991b1b'>Nie udało się wczytać pliku danych: dane/" + group + ".js</p>";
+  };
+  document.head.appendChild(script);
+}
+
+function renderLesson() {
+  document.title = lessonId + " – " + lessonData.tytul;
+  document.getElementById("lessonTitle").textContent = lessonId + " – " + lessonData.tytul;
+  document.getElementById("lessonLevel").textContent = lessonData.poziom;
+  document.getElementById("teoria").innerHTML = lessonData.teoria;
+  renderKarta(lessonData.karta || []);
+  renderTest(lessonData.test || []);
+}
+
+function renderKarta(karta) {
+  var html = "";
+  var num = 0;
+  for (var i = 0; i < karta.length; i++) {
+    var it = karta[i];
+    if (it.type === "header") {
+      html += '<h3>' + it.text + '</h3>';
+    } else if (it.type === "gap") {
+      num++;
+      var ansJson = JSON.stringify(it.answers).replace(/'/g, "&#39;");
+      html += '<div class="exercise" data-answers=\'' + ansJson + '\'>';
+      html += '<span class="ex-text"><span class="ex-num">' + num + '</span> ' + it.text + '</span>';
+      html += '<input type="text" placeholder="' + (it.placeholder || 'wpisz odpowiedź') + '"' + (it.wide ? ' style="min-width:100%">' : '>');
+      html += '<div class="exercise-actions">';
+      html += '<button class="check-btn" disabled>Sprawdź</button>';
+      html += '<button class="skip-btn" type="button">Nie wiem</button>';
+      html += '</div>';
+      html += '<div class="feedback"></div>';
+      html += '</div>';
+    } else if (it.type === "open") {
+      num++;
+      html += '<div class="exercise open-ended" data-answers="OPEN_ENDED">';
+      html += '<span class="ex-text"><span class="ex-num">' + num + '</span> ' + it.text + '</span>';
+      html += '<input type="text" placeholder="' + (it.placeholder || 'napisz') + '" style="min-width:100%">';
+      html += '<div class="exercise-actions">';
+      html += '<button class="check-btn" disabled>Zapisz</button>';
+      html += '</div>';
+      html += '<div class="feedback"></div>';
+      html += '</div>';
+    }
+  }
+  document.getElementById("karta").innerHTML = html;
+  initWorkbook();
+}
+
+function renderTest(test) {
+  var html = "";
+  for (var i = 0; i < test.length; i++) {
+    var q = test[i];
+    html += '<div class="test-q" data-q="' + i + '">';
+    html += '<span class="q-text"><span class="q-num">' + (i + 1) + '.</span> ' + q.q + '</span>';
+    for (var j = 0; j < q.opcje.length; j++) {
+      html += '<label><input type="radio" name="tq' + i + '" value="' + j + '"> ' + String.fromCharCode(65 + j) + ') ' + q.opcje[j] + '</label>';
+    }
+    html += '</div>';
+  }
+  document.getElementById("testContainer").innerHTML = html;
+}
+
+function normalizeText(s) {
+  return s.toLowerCase().trim().replace(/\s+/g, " ").replace(/[.!?,;:]+$/g, "").replace(/[\u2018\u2019\u00B4`]/g, "'");
+}
+
+function initWorkbook() {
+  var exercises = document.querySelectorAll(".exercise");
+  for (var i = 0; i < exercises.length; i++) {
+    (function(ex) {
+      var btnCheck = ex.querySelector(".check-btn");
+      var btnSkip  = ex.querySelector(".skip-btn");
+      var input    = ex.querySelector("input[type='text']");
+      var feedback = ex.querySelector(".feedback");
+      var isOpenEnded = ex.dataset.answers === "OPEN_ENDED";
+      var answers = [];
+      if (!isOpenEnded) {
+        try { answers = JSON.parse(ex.dataset.answers.replace(/&#39;/g, "'")); } catch (e) { console.error(e); }
+      }
+      var attempts = 0;
+      var finished = false;
+
+      function updateCheckBtn() {
+        if (!btnCheck) return;
+        if (finished) { btnCheck.disabled = true; return; }
+        var v = input.value.trim();
+        btnCheck.disabled = (v.length === 0);
+      }
+
+      function lockAll() {
+        finished = true;
+        btnCheck.disabled = true;
+        if (btnSkip) btnSkip.disabled = true;
+        input.disabled = true;
+      }
+
+      input.addEventListener("input", updateCheckBtn);
+      updateCheckBtn();
+
+      btnCheck.addEventListener("click", function() {
+        if (finished) return;
+
+        if (isOpenEnded) {
+          feedback.className = "feedback show neutral";
+          feedback.innerHTML = "Dobrze. Sprawdź swoje zdanie z nauczycielem.";
+          lockAll();
+          return;
+        }
+
+        var userAns = normalizeText(input.value);
+        var ok = false;
+        for (var k = 0; k < answers.length; k++) {
+          if (normalizeText(answers[k]) === userAns) { ok = true; break; }
+        }
+        attempts++;
+
+        if (ok) {
+          feedback.className = "feedback show correct";
+          feedback.innerHTML = "✓ Dobrze";
+          lockAll();
+        } else if (attempts === 1) {
+          feedback.className = "feedback show neutral";
+          feedback.innerHTML = "✗ Źle. Spróbuj jeszcze raz — zastanów się dobrze, zanim sprawdzisz ponownie.";
+        } else {
+          feedback.className = "feedback show wrong";
+          feedback.innerHTML = "✗ Źle. Poprawna odpowiedź: <b>" + (answers[0] || "?") + "</b>";
+          lockAll();
+        }
+      });
+
+      input.addEventListener("keydown", function(e) {
+        if (e.key === "Enter" && btnCheck && !btnCheck.disabled) btnCheck.click();
+      });
+
+      if (btnSkip) {
+        btnSkip.addEventListener("click", function() {
+          if (finished) return;
+          feedback.className = "feedback show wrong";
+          feedback.innerHTML = "Poprawna odpowiedź: <b>" + (answers[0] || "?") + "</b>";
+          lockAll();
+        });
+      }
+    })(exercises[i]);
+  }
+}
+
+function checkTest() {
+  if (!lessonData || !lessonData.test) return;
+  var test = lessonData.test;
+  var score = 0;
+  for (var i = 0; i < test.length; i++) {
+    var q = test[i];
+    var qEl = document.querySelector('.test-q[data-q="' + i + '"]');
+    if (!qEl) continue;
+    var checked = qEl.querySelector('input[type="radio"]:checked');
+    var userAns = checked ? parseInt(checked.value) : -1;
+    var isCorrect = userAns === q.poprawna;
+    qEl.classList.remove("correct", "wrong");
+    qEl.classList.add(isCorrect ? "correct" : "wrong");
+    var oldFb = qEl.querySelector(".feedback");
+    if (oldFb) oldFb.remove();
+    var fb = document.createElement("div");
+    fb.className = "feedback";
+    if (isCorrect) {
+      score++;
+      fb.innerHTML = "✓ Dobrze. " + (q.wyjasnienie || "");
+    } else {
+      fb.innerHTML = "✗ Źle. Poprawna: <b>" + q.opcje[q.poprawna] + "</b>. " + (q.wyjasnienie || "");
+    }
+    qEl.appendChild(fb);
+  }
+  var total = test.length;
+  var pct = Math.round(score / total * 100);
+  var klasa = "bad", komentarz = "Musisz jeszcze powtórzyć materiał.";
+  if (pct >= 80) { klasa = "good"; komentarz = "Świetnie."; }
+  else if (pct >= 60) { klasa = "medium"; komentarz = "Nieźle, ale warto powtórzyć."; }
+  var result = document.getElementById("testResult");
+  result.className = "test-result show " + klasa;
+  result.innerHTML = '<h3>Twój wynik</h3><div class="score">' + score + ' / ' + total + '</div><p class="score-text">' + pct + '% — ' + komentarz + '</p><button onclick="resetTest()">Spróbuj ponownie</button>';
+  result.scrollIntoView({ behavior: "smooth", block: "center" });
+}
+
+function resetTest() {
+  var qs = document.querySelectorAll(".test-q");
+  for (var i = 0; i < qs.length; i++) {
+    qs[i].classList.remove("correct", "wrong");
+    var radios = qs[i].querySelectorAll("input[type=radio]");
+    for (var j = 0; j < radios.length; j++) radios[j].checked = false;
+    var fb = qs[i].querySelector(".feedback");
+    if (fb) fb.remove();
+  }
+  document.getElementById("testResult").classList.remove("show");
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+var voiceEn = null, voicePl = null;
+var selectedEnName = localStorage.getItem("voiceEn") || "";
+var selectedPlName = localStorage.getItem("voicePl") || "";
+
+function detectPlatform() {
+  var ua = navigator.userAgent || "";
+  if (/iPhone|iPad|iPod/i.test(ua)) return "ios";
+  if (/Android/i.test(ua)) return "android";
+  return "desktop";
+}
+
+function loadVoices() {
+  if (typeof speechSynthesis === "undefined") return;
+  var all = speechSynthesis.getVoices();
+  function isBad(v) {
+    var n = (v.name || "").toLowerCase();
+    return n.indexOf("child") !== -1 || n.indexOf("kid") !== -1 || n.indexOf("junior") !== -1;
+  }
+  var enList = [], plList = [];
+  for (var i = 0; i < all.length; i++) {
+    var v = all[i];
+    if (isBad(v)) continue;
+    if (v.lang.toLowerCase().indexOf("en") === 0) enList.push(v);
+    if (v.lang.toLowerCase().indexOf("pl") === 0) plList.push(v);
+  }
+  enList.sort(function(a, b) {
+    function prio(l) { l = l.toLowerCase(); return l === "en-us" ? 0 : l === "en-gb" ? 1 : 2; }
+    return prio(a.lang) - prio(b.lang) || a.name.localeCompare(b.name);
+  });
+  plList.sort(function(a, b) { return a.name.localeCompare(b.name); });
+  var selEn = document.getElementById("voiceEn");
+  var selPl = document.getElementById("voicePl");
+  if (!selEn || !selPl) return;
+  selEn.innerHTML = "";
+  if (!enList.length) selEn.innerHTML = '<option value="">(brak)</option>';
+  else {
+    for (var k = 0; k < enList.length; k++) {
+      var opt = document.createElement("option");
+      opt.value = enList[k].name;
+      opt.textContent = enList[k].name + " (" + enList[k].lang + ")";
+      selEn.appendChild(opt);
+    }
+    if (selectedEnName && enList.some(function(v) { return v.name === selectedEnName; })) selEn.value = selectedEnName;
+    else { selEn.value = enList[0].name; selectedEnName = enList[0].name; }
+  }
+  selPl.innerHTML = "";
+  if (!plList.length) selPl.innerHTML = '<option value="">(brak)</option>';
+  else {
+    for (var m = 0; m < plList.length; m++) {
+      var opt2 = document.createElement("option");
+      opt2.value = plList[m].name;
+      opt2.textContent = plList[m].name + " (" + plList[m].lang + ")";
+      selPl.appendChild(opt2);
+    }
+    if (selectedPlName && plList.some(function(v) { return v.name === selectedPlName; })) selPl.value = selectedPlName;
+    else { selPl.value = plList[0].name; selectedPlName = plList[0].name; }
+  }
+  voiceEn = enList.find(function(v) { return v.name === selEn.value; }) || null;
+  voicePl = plList.find(function(v) { return v.name === selPl.value; }) || null;
+}
+
+function getRate() {
+  var el = document.getElementById("rateSlider");
+  return el ? parseFloat(el.value) : 1;
+}
+
+function speak(text) {
+  if (!text) return;
+  if (typeof speechSynthesis === "undefined") return;
+
+  if (speechSynthesis.paused) {
+    try { speechSynthesis.resume(); } catch (e) {}
+  }
+
+  if (!voiceEn && !voicePl) {
+    try { loadVoices(); } catch (e) {}
+  }
+
+  var isPl = /[ąćęłńóśźż]/i.test(text);
+  var u = new SpeechSynthesisUtterance(text);
+  u.rate = getRate();
+  u.pitch = 1;
+  u.volume = 1;
+  if (isPl) {
+    if (voicePl) { u.voice = voicePl; u.lang = voicePl.lang; }
+    else { u.lang = "pl-PL"; }
+  } else {
+    if (voiceEn) { u.voice = voiceEn; u.lang = voiceEn.lang; }
+    else { u.lang = "en-US"; }
+  }
+
+  speechSynthesis.cancel();
+  setTimeout(function () {
+    try { speechSynthesis.speak(u); } catch (e) { console.error(e); }
+  }, 60);
+}
+
+function attachVoiceSelectors() {
+  var selEn = document.getElementById("voiceEn");
+  var selPl = document.getElementById("voicePl");
+  var rate = document.getElementById("rateSlider");
+  var rateVal = document.getElementById("rateVal");
+  var testBtn = document.getElementById("testVoice");
+  if (selEn) selEn.addEventListener("change", function() {
+    selectedEnName = selEn.value; localStorage.setItem("voiceEn", selectedEnName); loadVoices();
+  });
+  if (selPl) selPl.addEventListener("change", function() {
+    selectedPlName = selPl.value; localStorage.setItem("voicePl", selectedPlName); loadVoices();
+  });
+  if (rate) rate.addEventListener("input", function() {
+    if (rateVal) rateVal.textContent = parseFloat(rate.value).toFixed(1);
+  });
+  if (testBtn) testBtn.addEventListener("click", function() { speak("Hello. This is the English voice."); });
+}
+
+function showIphoneHint() {
+  if (detectPlatform() === "ios") {
+    var hint = document.getElementById("iphoneHint");
+    if (hint) hint.classList.remove("hidden");
+  }
+}
+
+function showPopup(word, x, y) {
+  var popup = document.getElementById("wordPopup");
+  var googleUrl = "https://translate.google.com/?sl=en&tl=pl&text=" + encodeURIComponent(word) + "&op=translate";
+  popup.innerHTML = '<div class="wp-word">' + word + '</div>' +
+    '<div class="wp-buttons">' +
+    '<button data-a="en">Wymowa</button>' +
+    '<a href="' + googleUrl + '" target="_blank" rel="noopener">Google</a>' +
+    '<button class="save" data-a="save">Zapisz</button>' +
+    '</div>';
+  popup.classList.remove("hidden");
+  var W = popup.offsetWidth || 240;
+  var H = popup.offsetHeight || 110;
+  var px = x + 12, py = y + 12;
+  if (px + W > window.innerWidth - 10) px = x - W - 12;
+  if (py + H > window.innerHeight - 10) py = y - H - 12;
+  if (px < 10) px = 10;
+  if (py < 10) py = 10;
+  popup.style.left = px + "px";
+  popup.style.top = py + "px";
+  popup.querySelector('[data-a="en"]').addEventListener("click", function() { speak(word); });
+  popup.querySelector('[data-a="save"]').addEventListener("click", function() {
+    var saved = [];
+    try { saved = JSON.parse(localStorage.getItem("dict_" + lessonId) || "[]"); } catch (e) { saved = []; }
+    var exists = false;
+    for (var i = 0; i < saved.length; i++) if (saved[i].en.toLowerCase() === word.toLowerCase()) { exists = true; break; }
+    if (!exists) {
+      saved.push({ en: word, pl: "" });
+      localStorage.setItem("dict_" + lessonId, JSON.stringify(saved));
+      alert("Zapisano: " + word);
+    } else alert("Już zapisane");
+    popup.classList.add("hidden");
+  });
+}
+
+function makeWordsClickable() {
+  var root = document.querySelector(".lesson-wrap");
+  if (!root) return;
+  var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null, false);
+  var nodes = [];
+  var n;
+  while ((n = walker.nextNode())) {
+    if (n.parentElement.closest("button, a, input, label, .word, .lesson-header, .hint-box, .voice-bar, .iphone-hint")) continue;
+    if (n.nodeValue && n.nodeValue.trim()) nodes.push(n);
+  }
+  for (var i = 0; i < nodes.length; i++) {
+    (function(node) {
+      var tokens = node.nodeValue.split(/(\s+)/);
+      var frag = document.createDocumentFragment();
+      for (var j = 0; j < tokens.length; j++) {
+        var tok = tokens[j];
+        if (/^\s+$/.test(tok)) { frag.appendChild(document.createTextNode(tok)); continue; }
+        var clean = tok.replace(/[^\w\u00C0-\u017F'’-]/g, "");
+        if (!clean || clean.length < 2) { frag.appendChild(document.createTextNode(tok)); continue; }
+        var span = document.createElement("span");
+        span.className = "word";
+        span.textContent = tok;
+        (function(w) {
+          span.addEventListener("click", function(e) {
+            e.stopPropagation();
+            var all = document.querySelectorAll(".word.speaking");
+            for (var k = 0; k < all.length; k++) all[k].classList.remove("speaking");
+            span.classList.add("speaking");
+            speak(w);
+            showPopup(w, e.clientX, e.clientY);
+            setTimeout(function() { span.classList.remove("speaking"); }, 1200);
+          });
+        })(clean);
+        frag.appendChild(span);
+      }
+      node.parentNode.replaceChild(frag, node);
+    })(nodes[i]);
+  }
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+  loadVoices();
+  if (typeof speechSynthesis !== "undefined") {
+    speechSynthesis.onvoiceschanged = loadVoices;
+    setTimeout(loadVoices, 300);
+    setTimeout(loadVoices, 800);
+    setTimeout(loadVoices, 1500);
+  }
+  attachVoiceSelectors();
+  showIphoneHint();
+
+  document.getElementById("backBtn").addEventListener("click", function() {
+    window.location.href = "index.html";
+  });
+
+  var btn = document.getElementById("checkTestBtn");
+  if (btn) btn.addEventListener("click", checkTest);
+
+  document.addEventListener("click", function(e) {
+    var popup = document.getElementById("wordPopup");
+    if (popup && !popup.classList.contains("hidden") && !popup.contains(e.target)) {
+      popup.classList.add("hidden");
+    }
+  });
+
+  var readBtn = document.getElementById("readSelBtn");
+  if (readBtn) {
+    readBtn.addEventListener("click", function() {
+      var sel = window.getSelection().toString().trim();
+      if (!sel) return;
+      var sentences = sel.split(/(?<=[.!?;:])\s+/);
+      for (var i = 0; i < sentences.length; i++) if (sentences[i].trim()) speak(sentences[i]);
+      readBtn.classList.remove("visible");
+      window.getSelection().removeAllRanges();
+    });
+  }
+
+  document.addEventListener("selectionchange", function() {
+    var sel = window.getSelection().toString().trim();
+    var btn = document.getElementById("readSelBtn");
+    if (!btn) return;
+    if (sel.length > 3) btn.classList.add("visible");
+    else btn.classList.remove("visible");
+  });
+
+  loadLessonData(lessonId, function() {
+    renderLesson();
+    makeWordsClickable();
+  });
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kurs — wybierz lekcję</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <h1>Angielski online</h1>
+    <div class="topbar-actions">
+      <a class="btn btn-secondary" href="index.html">← Strona główna</a>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="hero">
+    <h2>Wybierz lekcję</h2>
+    <p>160 lekcji – 16 działów gramatycznych i 16 tematycznych na pięciu poziomach (A1–C1).</p>
+  </section>
+
+  <section class="filters">
+    <div class="filter-group">
+      <label>Poziom:</label>
+      <button class="chip active" data-level="all">Wszystkie</button>
+      <button class="chip" data-level="A0">A0</button>
+      <button class="chip" data-level="A1">A1</button>
+      <button class="chip" data-level="A2">A2</button>
+      <button class="chip" data-level="B1">B1</button>
+      <button class="chip" data-level="B2">B2</button>
+      <button class="chip" data-level="C1">C1</button>
+    </div>
+    <div class="filter-group">
+      <label>Typ:</label>
+      <button class="chip active" data-type="all">Wszystkie</button>
+      <button class="chip" data-type="gramatyka">Gramatyka</button>
+      <button class="chip" data-type="tematyka">Tematyka</button>
+    </div>
+    <div class="filter-group">
+      <input type="search" id="searchInput" placeholder="Szukaj lekcji…">
+    </div>
+  </section>
+
+  <section id="lessonsContainer" class="lessons"></section>
+
+</main>
+
+<footer class="footer">
+  <p>Angielski online &copy; 2026</p>
+</footer>
+
+<script src="config.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
