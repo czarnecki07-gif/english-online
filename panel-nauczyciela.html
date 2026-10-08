@@ -526,7 +526,7 @@ function pokazWersje(test) {
         try {
       var holder = document.getElementById("qr-" + w.litera);
       holder.innerHTML = "";
-      new QRCode(holder, { text: url, width: 200, height: 200, correctLevel: QRCode.CorrectLevel.L });
+      new QRCode(holder, { text: url, width: 600, height: 600, correctLevel: QRCode.CorrectLevel.L });
     } catch (e) { console.error("QR błąd:", e); }
 
     /* Kod awaryjny — bardzo krótki: cała zawartość testu zaszyta w linku jako kod */
