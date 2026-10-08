@@ -1176,3 +1176,376 @@ window.LESSON_DATA["A0-16"] = {
     { q: "Które słowo pytające znaczy „kiedy"?", opcje: ["What", "Where", "When", "Who"], poprawna: 2, wyjasnienie: "„When" = kiedy." }
   ]
 };
+
+
+/* ============================================================
+   A0-5 — Kolory
+============================================================ */
+window.LESSON_DATA["A0-5"] = {
+  tytul: "Kolory",
+  poziom: "A0",
+  dzial: "A0",
+  teoria: `
+    <h3>Podstawowe kolory</h3>
+    <table>
+      <tr><th>Kolor</th><th>Angielski</th><th>Wymowa</th></tr>
+      <tr><td>🔴</td><td class="en">red</td><td>red</td></tr>
+      <tr><td>🔵</td><td class="en">blue</td><td>blu</td></tr>
+      <tr><td>🟢</td><td class="en">green</td><td>grin</td></tr>
+      <tr><td>🟡</td><td class="en">yellow</td><td>jeloł</td></tr>
+      <tr><td>⚫</td><td class="en">black</td><td>blek</td></tr>
+      <tr><td>⚪</td><td class="en">white</td><td>łajt</td></tr>
+      <tr><td>🟠</td><td class="en">orange</td><td>oryndż</td></tr>
+      <tr><td>🟣</td><td class="en">purple</td><td>pypl</td></tr>
+      <tr><td>🩷</td><td class="en">pink</td><td>pink</td></tr>
+      <tr><td>🟤</td><td class="en">brown</td><td>brałn</td></tr>
+      <tr><td>⬜</td><td class="en">grey / gray</td><td>grej</td></tr>
+    </table>
+
+    <h3>Jak zapytać o kolor?</h3>
+    <p><span class="en">What colour is it?</span> — Jakiego to jest koloru?</p>
+    <p>Odpowiedź: <span class="en">It is red.</span> albo <span class="en">It's red.</span></p>
+
+    <h3>Przykłady</h3>
+    <table>
+      <tr><td class="en">The apple is red. 🍎</td><td>Jabłko jest czerwone.</td></tr>
+      <tr><td class="en">The sun is yellow. ☀️</td><td>Słońce jest żółte.</td></tr>
+      <tr><td class="en">The sky is blue. 🌤️</td><td>Niebo jest niebieskie.</td></tr>
+      <tr><td class="en">The grass is green. 🌿</td><td>Trawa jest zielona.</td></tr>
+      <tr><td class="en">The snow is white. ❄️</td><td>Śnieg jest biały.</td></tr>
+    </table>
+
+    <div class="tip-box">
+      <b>Zapamiętaj:</b><br>
+      • <b>colour</b> (brytyjski) = <b>color</b> (amerykański) — oba poprawne.<br>
+      • Przedmiot + <b>is</b> + kolor: <span class="en">The ball is green.</span><br>
+      • Pytanie: <span class="en">What colour is it?</span>
+    </div>
+  `,
+  karta: [
+    { type: "header", text: "A. Napisz kolor po angielsku" },
+    { type: "gap", text: '<span class="pl">czerwony:</span>', answers: ["red"] },
+    { type: "gap", text: '<span class="pl">niebieski:</span>', answers: ["blue"] },
+    { type: "gap", text: '<span class="pl">zielony:</span>', answers: ["green"] },
+    { type: "gap", text: '<span class="pl">żółty:</span>', answers: ["yellow"] },
+    { type: "gap", text: '<span class="pl">czarny:</span>', answers: ["black"] },
+    { type: "gap", text: '<span class="pl">biały:</span>', answers: ["white"] },
+    { type: "gap", text: '<span class="pl">pomarańczowy:</span>', answers: ["orange"] },
+    { type: "gap", text: '<span class="pl">różowy:</span>', answers: ["pink"] },
+    { type: "gap", text: '<span class="pl">brązowy:</span>', answers: ["brown"] },
+    { type: "header", text: "B. Jakiego koloru jest...?" },
+    { type: "gap", text: '<span class="en">The apple is ________. 🍎</span>', answers: ["red"] },
+    { type: "gap", text: '<span class="en">The sun is ________. ☀️</span>', answers: ["yellow"] },
+    { type: "gap", text: '<span class="en">The snow is ________. ❄️</span>', answers: ["white"] },
+    { type: "gap", text: '<span class="en">The grass is ________. 🌿</span>', answers: ["green"] },
+    { type: "header", text: "C. Przetłumacz" },
+    { type: "gap", text: '<span class="pl">Jaki to kolor?</span>', answers: ["what colour is it", "what color is it", "what colour is it?", "what color is it?"], wide: true },
+    { type: "gap", text: '<span class="pl">To jest czerwone.</span>', answers: ["it is red", "it's red", "it is red.", "it's red."], wide: true },
+    { type: "gap", text: '<span class="pl">Piłka jest zielona.</span>', answers: ["the ball is green", "the ball is green."], wide: true },
+    { type: "gap", text: '<span class="pl">Jabłko jest czerwone.</span>', answers: ["the apple is red", "the apple is red."], wide: true },
+    { type: "header", text: "D. Popraw błędy" },
+    { type: "gap", text: '<span class="en">"The ball red is" → (poprawnie)</span>', answers: ["the ball is red", "the ball is red."], wide: true },
+    { type: "gap", text: '<span class="en">"It red." → (poprawnie)</span>', answers: ["it is red", "it's red", "it is red.", "it's red."], wide: true }
+  ],
+  test: [
+    { q: "Co znaczy „green"?", opcje: ["czerwony", "zielony", "niebieski", "żółty"], poprawna: 1, wyjasnienie: "„Green" = zielony." },
+    { q: "Jak powiesz „różowy"?", opcje: ["purple", "pink", "red", "orange"], poprawna: 1, wyjasnienie: "„Pink" = różowy. „Purple" = fioletowy." },
+    { q: "Co znaczy „What colour is it"?", opcje: ["Jaki to kształt?", "Jaki to kolor?", "Gdzie to jest?", "Co to jest?"], poprawna: 1, wyjasnienie: "„What colour is it?" = Jaki to kolor?" },
+    { q: "Jak powiesz „Jabłko jest czerwone"?", opcje: ["The apple red is", "Red the apple is", "The apple is red", "Apple is red the"], poprawna: 2, wyjasnienie: "Kolejność: podmiot + is + kolor." },
+    { q: "Co znaczy „black"?", opcje: ["biały", "czarny", "brązowy", "zielony"], poprawna: 1, wyjasnienie: "„Black" = czarny." },
+    { q: "Jak zapytać o kolor po angielsku?", opcje: ["What colour is it?", "What colour are you?", "How is colour?", "Colour what is?"], poprawna: 0, wyjasnienie: "„What colour is it?" = Jaki to kolor?" }
+  ]
+};
+
+/* ============================================================
+   A0-6 — Rodzina
+============================================================ */
+window.LESSON_DATA["A0-6"] = {
+  tytul: "Rodzina",
+  poziom: "A0",
+  dzial: "A0",
+  teoria: `
+    <h3>Członkowie rodziny</h3>
+    <table>
+      <tr><th>Angielski</th><th>Polski</th></tr>
+      <tr><td class="en">mother / mum 👩</td><td>mama, matka</td></tr>
+      <tr><td class="en">father / dad 👨</td><td>tata, ojciec</td></tr>
+      <tr><td class="en">parents 👫</td><td>rodzice</td></tr>
+      <tr><td class="en">sister 👧</td><td>siostra</td></tr>
+      <tr><td class="en">brother 👦</td><td>brat</td></tr>
+      <tr><td class="en">grandmother / grandma 👵</td><td>babcia</td></tr>
+      <tr><td class="en">grandfather / grandpa 👴</td><td>dziadek</td></tr>
+      <tr><td class="en">aunt 👩</td><td>ciocia</td></tr>
+      <tr><td class="en">uncle 👨</td><td>wujek</td></tr>
+      <tr><td class="en">cousin 🧑</td><td>kuzyn / kuzynka</td></tr>
+      <tr><td class="en">son 👦</td><td>syn</td></tr>
+      <tr><td class="en">daughter 👧</td><td>córka</td></tr>
+      <tr><td class="en">baby 👶</td><td>niemowlę</td></tr>
+      <tr><td class="en">family 👨‍👩‍👧</td><td>rodzina</td></tr>
+    </table>
+
+    <h3>Zaimki dzierżawcze</h3>
+    <table>
+      <tr><td class="en">my</td><td>mój / moja / moje</td></tr>
+      <tr><td class="en">your</td><td>twój / twoja / twoje</td></tr>
+      <tr><td class="en">his</td><td>jego</td></tr>
+      <tr><td class="en">her</td><td>jej</td></tr>
+      <tr><td class="en">our</td><td>nasz / nasza</td></tr>
+      <tr><td class="en">their</td><td>ich</td></tr>
+    </table>
+
+    <h3>Przykłady</h3>
+    <table>
+      <tr><td class="en">This is my mother. 👩</td><td>To jest moja mama.</td></tr>
+      <tr><td class="en">I have one brother. 👦</td><td>Mam jednego brata.</td></tr>
+      <tr><td class="en">Her name is Anna.</td><td>Ona ma na imię Anna.</td></tr>
+      <tr><td class="en">My family is big. 👨‍👩‍👧‍👦</td><td>Moja rodzina jest duża.</td></tr>
+    </table>
+
+    <h3>Jak powiedzieć „mam brata / siostrę"?</h3>
+    <p><span class="en">I have a brother.</span> — Mam brata.</p>
+    <p><span class="en">I have two sisters.</span> — Mam dwie siostry.</p>
+    <p><span class="en">I don't have a brother.</span> — Nie mam brata.</p>
+
+    <div class="tip-box">
+      <b>Zapamiętaj:</b><br>
+      • <b>my</b> = mój / moja / moje (bez zmiany!)<br>
+      • <b>brother</b> = brat, <b>sister</b> = siostra<br>
+      • <b>I have a brother</b> = Mam brata. (z „a" przed „brother")
+    </div>
+  `,
+  karta: [
+    { type: "header", text: "A. Napisz po angielsku" },
+    { type: "gap", text: '<span class="pl">mama:</span>', answers: ["mother", "mum", "mom"] },
+    { type: "gap", text: '<span class="pl">tata:</span>', answers: ["father", "dad"] },
+    { type: "gap", text: '<span class="pl">siostra:</span>', answers: ["sister"] },
+    { type: "gap", text: '<span class="pl">brat:</span>', answers: ["brother"] },
+    { type: "gap", text: '<span class="pl">babcia:</span>', answers: ["grandmother", "grandma"] },
+    { type: "gap", text: '<span class="pl">dziadek:</span>', answers: ["grandfather", "grandpa"] },
+    { type: "gap", text: '<span class="pl">rodzina:</span>', answers: ["family"] },
+    { type: "header", text: "B. Zaimki dzierżawcze" },
+    { type: "gap", text: '<span class="en">________ mother (moja mama)</span>', answers: ["my"] },
+    { type: "gap", text: '<span class="en">________ father (twój tata)</span>', answers: ["your"] },
+    { type: "gap", text: '<span class="en">________ brother (jej brat)</span>', answers: ["her"] },
+    { type: "gap", text: '<span class="en">________ sister (jego siostra)</span>', answers: ["his"] },
+    { type: "gap", text: '<span class="en">________ family (nasza rodzina)</span>', answers: ["our"] },
+    { type: "header", text: "C. Uzupełnij" },
+    { type: "gap", text: '<span class="en">I ________ a brother. (mam)</span>', answers: ["have"] },
+    { type: "gap", text: '<span class="en">I ________ ________ a sister. (nie mam)</span>', answers: ["don't have", "do not have"] },
+    { type: "gap", text: '<span class="en">My mother ________ Anna. (ma na imię)</span>', answers: ["is"] },
+    { type: "gap", text: '<span class="en">________ is my father. 👨</span>', answers: ["this"] },
+    { type: "header", text: "D. Przetłumacz" },
+    { type: "gap", text: '<span class="pl">To jest moja mama.</span>', answers: ["this is my mother", "this is my mother.", "this is my mum", "this is my mum."], wide: true },
+    { type: "gap", text: '<span class="pl">Mam jednego brata.</span>', answers: ["i have one brother", "i have one brother.", "i have a brother", "i have a brother."], wide: true },
+    { type: "gap", text: '<span class="pl">Moja rodzina jest duża.</span>', answers: ["my family is big", "my family is big."], wide: true },
+    { type: "gap", text: '<span class="pl">Nie mam siostry.</span>', answers: ["i don't have a sister", "i do not have a sister", "i don't have a sister.", "i don't have any sister"], wide: true },
+    { type: "header", text: "E. Popraw błędy" },
+    { type: "gap", text: '<span class="en">"I have sister." → (poprawnie)</span>', answers: ["i have a sister", "i have a sister."], wide: true },
+    { type: "gap", text: '<span class="en">"My name mother is Anna." → (poprawnie)</span>', answers: ["my mother is anna", "my mother is anna.", "my mother's name is anna", "my mother's name is anna."], wide: true }
+  ],
+  test: [
+    { q: "Co znaczy „brother"?", opcje: ["siostra", "brat", "mama", "tata"], poprawna: 1, wyjasnienie: "„Brother" = brat." },
+    { q: "Jak powiesz „babcia"?", opcje: ["grandfather", "mother", "grandmother", "aunt"], poprawna: 2, wyjasnienie: "„Grandmother" = babcia." },
+    { q: "Co znaczy „my family"?", opcje: ["twoja rodzina", "moja rodzina", "jego rodzina", "ich rodzina"], poprawna: 1, wyjasnienie: "„My" = mój/moja/moje." },
+    { q: "Jak powiesz „Mam brata"?", opcje: ["I have brother", "I have a brother", "I am a brother", "I a brother have"], poprawna: 1, wyjasnienie: "„I have a brother" (z „a" przed „brother")." },
+    { q: "Co znaczy „sister"?", opcje: ["brat", "siostra", "ciocia", "kuzynka"], poprawna: 1, wyjasnienie: "„Sister" = siostra." },
+    { q: "Który zaimek znaczy „jej"?", opcje: ["his", "her", "our", "their"], poprawna: 1, wyjasnienie: "„Her" = jej. „His" = jego." }
+  ]
+};
+
+/* ============================================================
+   A0-7 — Ciało
+============================================================ */
+window.LESSON_DATA["A0-7"] = {
+  tytul: "Ciało",
+  poziom: "A0",
+  dzial: "A0",
+  teoria: `
+    <h3>Części ciała</h3>
+    <table>
+      <tr><th>Angielski</th><th>Polski</th></tr>
+      <tr><td class="en">head</td><td>głowa 👤</td></tr>
+      <tr><td class="en">hair</td><td>włosy 💇</td></tr>
+      <tr><td class="en">face</td><td>twarz 🙂</td></tr>
+      <tr><td class="en">eye / eyes</td><td>oko / oczy 👁️</td></tr>
+      <tr><td class="en">ear / ears</td><td>ucho / uszy 👂</td></tr>
+      <tr><td class="en">nose</td><td>nos 👃</td></tr>
+      <tr><td class="en">mouth</td><td>usta 👄</td></tr>
+      <tr><td class="en">tooth / teeth</td><td>ząb / zęby 🦷</td></tr>
+      <tr><td class="en">hand / hands</td><td>ręka / ręce ✋</td></tr>
+      <tr><td class="en">arm / arms</td><td>ramiona 💪</td></tr>
+      <tr><td class="en">leg / legs</td><td>noga / nogi 🦵</td></tr>
+      <tr><td class="en">foot / feet</td><td>stopa / stopy 🦶</td></tr>
+      <tr><td class="en">body</td><td>ciało</td></tr>
+    </table>
+
+    <h3>Liczba mnoga nieregularna</h3>
+    <table>
+      <tr><td class="en">one tooth → two teeth</td><td>jeden ząb → dwa zęby</td></tr>
+      <tr><td class="en">one foot → two feet</td><td>jedna stopa → dwie stopy</td></tr>
+    </table>
+
+    <h3>Przykłady</h3>
+    <table>
+      <tr><td class="en">I have two eyes. 👁️👁️</td><td>Mam dwoje oczu.</td></tr>
+      <tr><td class="en">My hair is brown.</td><td>Moje włosy są brązowe.</td></tr>
+      <tr><td class="en">I have a small nose.</td><td>Mam mały nos.</td></tr>
+      <tr><td class="en">I have big hands.</td><td>Mam duże dłonie.</td></tr>
+    </table>
+
+    <h3>Przymiotniki — duży i mały</h3>
+    <table>
+      <tr><td class="en">big</td><td>duży</td></tr>
+      <tr><td class="en">small</td><td>mały</td></tr>
+      <tr><td class="en">long</td><td>długi</td></tr>
+      <tr><td class="en">short</td><td>krótki</td></tr>
+    </table>
+
+    <div class="tip-box">
+      <b>Zapamiętaj:</b><br>
+      • <b>tooth → teeth</b> (ząb → zęby)<br>
+      • <b>foot → feet</b> (stopa → stopy)<br>
+      • <b>hair</b> — nie ma liczby mnogiej: <span class="en">My hair is long.</span> (nie „hairs")
+    </div>
+  `,
+  karta: [
+    { type: "header", text: "A. Napisz po angielsku" },
+    { type: "gap", text: '<span class="pl">głowa:</span>', answers: ["head"] },
+    { type: "gap", text: '<span class="pl">oko:</span>', answers: ["eye"] },
+    { type: "gap", text: '<span class="pl">ucho:</span>', answers: ["ear"] },
+    { type: "gap", text: '<span class="pl">nos:</span>', answers: ["nose"] },
+    { type: "gap", text: '<span class="pl">usta:</span>', answers: ["mouth"] },
+    { type: "gap", text: '<span class="pl">ręka:</span>', answers: ["hand"] },
+    { type: "gap", text: '<span class="pl">noga:</span>', answers: ["leg"] },
+    { type: "gap", text: '<span class="pl">włosy:</span>', answers: ["hair"] },
+    { type: "header", text: "B. Liczba mnoga" },
+    { type: "gap", text: '<span class="en">one tooth → two ________</span>', answers: ["teeth"] },
+    { type: "gap", text: '<span class="en">one foot → two ________</span>', answers: ["feet"] },
+    { type: "gap", text: '<span class="en">one eye → two ________</span>', answers: ["eyes"] },
+    { type: "gap", text: '<span class="en">one hand → two ________</span>', answers: ["hands"] },
+    { type: "header", text: "C. Uzupełnij" },
+    { type: "gap", text: '<span class="en">I have two ________. 👁️👁️</span>', answers: ["eyes"] },
+    { type: "gap", text: '<span class="en">My ________ is brown. (włosy)</span>', answers: ["hair"] },
+    { type: "gap", text: '<span class="en">I have a small ________. 👃</span>', answers: ["nose"] },
+    { type: "gap", text: '<span class="en">My ________ is big. (głowa)</span>', answers: ["head"] },
+    { type: "header", text: "D. Przetłumacz" },
+    { type: "gap", text: '<span class="pl">Mam dwoje oczu.</span>', answers: ["i have two eyes", "i have two eyes.", "i've got two eyes"], wide: true },
+    { type: "gap", text: '<span class="pl">Moje włosy są długie.</span>', answers: ["my hair is long", "my hair is long."], wide: true },
+    { type: "gap", text: '<span class="pl">Mam mały nos.</span>', answers: ["i have a small nose", "i have a small nose."], wide: true },
+    { type: "gap", text: '<span class="pl">Moja ręka jest duża.</span>', answers: ["my hand is big", "my hand is big."], wide: true },
+    { type: "header", text: "E. Popraw błędy" },
+    { type: "gap", text: '<span class="en">"two foots" → (poprawnie)</span>', answers: ["two feet", "two feet."], wide: true },
+    { type: "gap", text: '<span class="en">"two tooths" → (poprawnie)</span>', answers: ["two teeth", "two teeth."], wide: true }
+  ],
+  test: [
+    { q: "Co znaczy „head"?", opcje: ["ręka", "głowa", "noga", "oko"], poprawna: 1, wyjasnienie: "„Head" = głowa." },
+    { q: "Jak powiesz „oko"?", opcje: ["ear", "eye", "nose", "mouth"], poprawna: 1, wyjasnienie: "„Eye" = oko." },
+    { q: "Liczba mnoga od „tooth" to:", opcje: ["tooths", "toothes", "teeth", "tooth"], poprawna: 2, wyjasnienie: "„Tooth → teeth" — nieregularna." },
+    { q: "Liczba mnoga od „foot" to:", opcje: ["foots", "feets", "feet", "footes"], poprawna: 2, wyjasnienie: "„Foot → feet" — nieregularna." },
+    { q: "Co znaczy „hand"?", opcje: ["głowa", "ręka", "noga", "stopa"], poprawna: 1, wyjasnienie: "„Hand" = ręka (dłoń)." },
+    { q: "Jak powiesz „Mam dwoje oczu"?", opcje: ["I have two eyes", "I have two eye", "I has two eyes", "I two eyes have"], poprawna: 0, wyjasnienie: "„I have two eyes" — z liczbą mnogą." }
+  ]
+};
+
+/* ============================================================
+   A0-8 — Jedzenie i picie
+============================================================ */
+window.LESSON_DATA["A0-8"] = {
+  tytul: "Jedzenie i picie",
+  poziom: "A0",
+  dzial: "A0",
+  teoria: `
+    <h3>Podstawowe jedzenie</h3>
+    <table>
+      <tr><th>Angielski</th><th>Polski</th></tr>
+      <tr><td class="en">apple 🍎</td><td>jabłko</td></tr>
+      <tr><td class="en">banana 🍌</td><td>banan</td></tr>
+      <tr><td class="en">orange 🍊</td><td>pomarańcza</td></tr>
+      <tr><td class="en">bread 🍞</td><td>chleb</td></tr>
+      <tr><td class="en">cheese 🧀</td><td>ser</td></tr>
+      <tr><td class="en">egg 🥚</td><td>jajko</td></tr>
+      <tr><td class="en">meat 🍖</td><td>mięso</td></tr>
+      <tr><td class="en">fish 🐟</td><td>ryba</td></tr>
+      <tr><td class="en">rice 🍚</td><td>ryż</td></tr>
+      <tr><td class="en">soup 🍲</td><td>zupa</td></tr>
+      <tr><td class="en">salad 🥗</td><td>sałatka</td></tr>
+      <tr><td class="en">pizza 🍕</td><td>pizza</td></tr>
+      <tr><td class="en">chocolate 🍫</td><td>czekolada</td></tr>
+    </table>
+
+    <h3>Picie</h3>
+    <table>
+      <tr><td class="en">water 💧</td><td>woda</td></tr>
+      <tr><td class="en">milk 🥛</td><td>mleko</td></tr>
+      <tr><td class="en">tea 🍵</td><td>herbata</td></tr>
+      <tr><td class="en">coffee ☕</td><td>kawa</td></tr>
+      <tr><td class="en">juice 🧃</td><td>sok</td></tr>
+    </table>
+
+    <h3>Posiłki</h3>
+    <table>
+      <tr><td class="en">breakfast 🍳</td><td>śniadanie</td></tr>
+      <tr><td class="en">lunch 🥪</td><td>lunch (obiad w szkole)</td></tr>
+      <tr><td class="en">dinner 🍽️</td><td>obiad (wieczorem)</td></tr>
+    </table>
+
+    <h3>„Lubię" i „nie lubię"</h3>
+    <table>
+      <tr><td class="en">I like pizza. 🍕</td><td>Lubię pizzę.</td></tr>
+      <tr><td class="en">I love chocolate. 🍫</td><td>Uwielbiam czekoladę.</td></tr>
+      <tr><td class="en">I don't like fish. 🐟</td><td>Nie lubię ryby.</td></tr>
+      <tr><td class="en">I hate soup. 🍲</td><td>Nie cierpię zupy.</td></tr>
+    </table>
+
+    <h3>Jak zapytać, co ktoś lubi?</h3>
+    <p><span class="en">Do you like pizza?</span> — Lubisz pizzę?</p>
+    <p>Odpowiedź: <span class="en">Yes, I do.</span> / <span class="en">No, I don't.</span></p>
+
+    <div class="tip-box">
+      <b>Zapamiętaj:</b><br>
+      • <b>I like</b> = Lubię<br>
+      • <b>I don't like</b> = Nie lubię<br>
+      • <b>I love</b> = Uwielbiam<br>
+      • <b>I hate</b> = Nie cierpię<br>
+      • Po „I like" rzeczownik bez „a": <span class="en">I like pizza.</span> (nie „I like a pizza")
+    </div>
+  `,
+  karta: [
+    { type: "header", text: "A. Napisz po angielsku" },
+    { type: "gap", text: '<span class="pl">jabłko:</span>', answers: ["apple"] },
+    { type: "gap", text: '<span class="pl">chleb:</span>', answers: ["bread"] },
+    { type: "gap", text: '<span class="pl">mleko:</span>', answers: ["milk"] },
+    { type: "gap", text: '<span class="pl">woda:</span>', answers: ["water"] },
+    { type: "gap", text: '<span class="pl">ser:</span>', answers: ["cheese"] },
+    { type: "gap", text: '<span class="pl">jajko:</span>', answers: ["egg"] },
+    { type: "gap", text: '<span class="pl">ryba:</span>', answers: ["fish"] },
+    { type: "gap", text: '<span class="pl">herbata:</span>', answers: ["tea"] },
+    { type: "header", text: "B. Uzupełnij" },
+    { type: "gap", text: '<span class="en">I ________ pizza. 🍕 (lubię)</span>', answers: ["like"] },
+    { type: "gap", text: '<span class="en">I ________ like fish. 🐟 (nie lubię)</span>', answers: ["don't", "do not"] },
+    { type: "gap", text: '<span class="en">I ________ chocolate. 🍫 (uwielbiam)</span>', answers: ["love"] },
+    { type: "gap", text: '<span class="en">Do you ________ pizza?</span>', answers: ["like"] },
+    { type: "gap", text: '<span class="en">Yes, I ________.</span>', answers: ["do"] },
+    { type: "gap", text: '<span class="en">No, I ________.</span>', answers: ["don't", "do not"] },
+    { type: "header", text: "C. Posiłki" },
+    { type: "gap", text: '<span class="pl">śniadanie:</span>', answers: ["breakfast"] },
+    { type: "gap", text: '<span class="pl">obiad (wieczorem):</span>', answers: ["dinner"] },
+    { type: "gap", text: '<span class="pl">lunch (w szkole):</span>', answers: ["lunch"] },
+    { type: "header", text: "D. Przetłumacz" },
+    { type: "gap", text: '<span class="pl">Lubię pizzę.</span>', answers: ["i like pizza", "i like pizza."], wide: true },
+    { type: "gap", text: '<span class="pl">Nie lubię ryby.</span>', answers: ["i don't like fish", "i do not like fish", "i don't like fish.", "i do not like fish."], wide: true },
+    { type: "gap", text: '<span class="pl">Lubisz czekoladę?</span>', answers: ["do you like chocolate", "do you like chocolate?"], wide: true },
+    { type: "gap", text: '<span class="pl">Uwielbiam wodę.</span>', answers: ["i love water", "i love water."], wide: true },
+    { type: "header", text: "E. Popraw błędy" },
+    { type: "gap", text: '<span class="en">"I like a pizza." → (poprawnie)</span>', answers: ["i like pizza", "i like pizza."], wide: true },
+    { type: "gap", text: '<span class="en">"I no like fish." → (poprawnie)</span>', answers: ["i don't like fish", "i do not like fish", "i don't like fish.", "i don't like fish at all"], wide: true }
+  ],
+  test: [
+    { q: "Co znaczy „bread"?", opcje: ["masło", "chleb", "ser", "jajko"], poprawna: 1, wyjasnienie: "„Bread" = chleb." },
+    { q: "Jak powiesz „woda"?", opcje: ["milk", "water", "tea", "juice"], poprawna: 1, wyjasnienie: "„Water" = woda." },
+    { q: "Co znaczy „I like pizza"?", opcje: ["Mam pizzę", "Lubię pizzę", "Jem pizzę", "Chcę pizzę"], poprawna: 1, wyjasnienie: "„I like" = Lubię." },
+    { q: "Jak powiesz „Nie lubię ryby"?", opcje: ["I no like fish", "I don't like fish", "I not like fish", "I doesn't like fish"], poprawna: 1, wyjasnienie: "„I don't like" = Nie lubię." },
+    { q: "Co znaczy „breakfast"?", opcje: ["obiad", "kolacja", "śniadanie", "lunch"], poprawna: 2, wyjasnienie: "„Breakfast" = śniadanie." },
+    { q: "Które zdanie jest poprawne?", opcje: ["I like a pizza", "I like pizza", "I likes pizza", "I like pizzas"], poprawna: 1, wyjasnienie: "Po „I like" rzeczownik bez „a": „I like pizza"." }
+  ]
+};
