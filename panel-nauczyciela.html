@@ -632,42 +632,59 @@ document.getElementById("stopKameryBtn").addEventListener("click", function() {
 });
 
 function obsluzZeskanowanyKod(tekst) {
-  var dane = null;
-  /* Może być pełny URL albo sam kod krótki */
-  if (tekst.indexOf("http") === 0) {
-    /* Wyciągnij parametr */
-    var idx = tekst.indexOf("kod=");
-    if (idx !== -1) {
-      dane = tekst.substring(idx + 4);
-    } else {
-      /* Może być inny format */
-      alert("Nierozpoznany QR. Nie znaleziono kodu wyniku.");
-      return;
-    }
-  } else {
-    dane = tekst;
-  }
-
-  /* Dwa formaty: krótki kod (XXXX-XXXX-XXXX-XXXX) albo pełny JSON-zakodowany */
-  if (/^[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(dane)) {
-    /* Krótki kod — szukaj w lokalnych wynikach */
-    alert("Znaleziono krótki kod: " + dane + "\n\nUwaga: krótki kod to tylko identyfikator — pełny wynik znajduje się na serwerze ucznia. Użyj pełnego QR (zawiera cały wynik).");
+  /* 1. Format nowy: prefiks "WYNIK:" + base64 z JSON-em ucznia */
+  if (tekst.indexOf("WYNIK:") === 0) {
+    var zakodowane = tekst.substring(6);
+    var json = b64Decode(zakodowane);
+    if (!json) { alert("Nie udało się odszyfrować QR ucznia."); return; }
+    var wynik;
+    try { wynik = JSON.parse(json); } catch (e) { alert("Błąd parsowania wyniku."); return; }
+    dodajWynikDoTabeli(wynik);
     return;
   }
 
-  /* Pełny JSON */
-  var json = b64Decode(dane);
-  if (!json) { alert("Nie udało się odszyfrować kodu."); return; }
-  var wynik;
-  try { wynik = JSON.parse(json); } catch (e) { alert("Błąd parsowania wyniku."); return; }
+  /* 2. Format: pełny URL z ?kod=... */
+  if (tekst.indexOf("http") === 0) {
+    var idx = tekst.indexOf("kod=");
+    if (idx !== -1) {
+      var k = tekst.substring(idx + 4);
+      var json2 = b64Decode(k);
+      if (json2) {
+        try {
+          var wynik2 = JSON.parse(json2);
+          dodajWynikDoTabeli(wynik2);
+          return;
+        } catch (e) {}
+      }
+    }
+    alert("Nierozpoznany QR. Nie znaleziono kodu wyniku.");
+    return;
+  }
 
-  dodajWynikDoTabeli(wynik);
+  /* 3. Format: samo base64 (bez prefiksu) */
+  var json3 = b64Decode(tekst);
+  if (json3) {
+    try {
+      var wynik3 = JSON.parse(json3);
+      if (wynik3.tid && wynik3.a) {
+        dodajWynikDoTabeli(wynik3);
+        return;
+      }
+    } catch (e) {}
+  }
+
+  /* 4. Krótki kod — informujemy, że to tylko identyfikator */
+  if (/^[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(tekst)) {
+    alert("To jest tylko krótki kod identyfikacyjny — nie zawiera pełnego wyniku ucznia.\n\nPoproś ucznia, żeby pokazał QR kod z ekranu.");
+    return;
+  }
+
+  alert("Nierozpoznany format kodu.");
 }
 
 function pokazInfoSkanera() {
   /* Info o kamerze — nic nie robimy, tylko odświeżamy */
 }
-
 /* ============================================================
    DODAWANIE WYNIKU
 ============================================================ */
