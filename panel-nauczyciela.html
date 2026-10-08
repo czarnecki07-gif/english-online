@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Panel nauczyciela</title>
 <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lz-string@1.5.0/libs/lz-string.min.js"></script>
 <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -510,7 +511,7 @@ function pokazWersje(test) {
       wersja: w.litera,
       pytania: w.pytania
     };
-    var kod = b64Encode(JSON.stringify(wersjaTest));
+    var kod = LZString.compressToEncodedURIComponent(JSON.stringify(wersjaTest));
     var base = location.href.substring(0, location.href.lastIndexOf("/"));
     var url = base + "/uczen.html?k=" + kod;
 
