@@ -801,6 +801,8 @@ var lessonId = new URLSearchParams(location.search).get("id") || "G1A1";
 var lessonData = null;
 
 function getGroup(id) {
+  /* A0-x → plik A0.js */
+  if (/^A0-\d+$/.test(id)) return "A0";
   var m = id.match(/^([GT])(\d+)(A1|A2|B1|B2|C1|TEST)$/);
   if (!m) return null;
   return m[1] + "-" + m[3];
