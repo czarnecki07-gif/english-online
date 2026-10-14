@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sprawdzian – generator</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-klient.js"></script>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; background: #f7f5f0; color: #1f2933; font-size: 15px; line-height: 1.6; }
@@ -98,8 +100,6 @@
 </head>
 <body>
 
-<script src="strażnik.js"></script>
-
 <header>
   <h1>Generator sprawdzianu</h1>
   <a href="index.html">← Powrót</a>
@@ -114,6 +114,7 @@
       <div>
         <strong>Poziom:</strong>
         <button class="chip active" data-filtr-poziom="all">Wszystkie</button>
+        <button class="chip" data-filtr-poziom="A0">A0</button>
         <button class="chip" data-filtr-poziom="A1">A1</button>
         <button class="chip" data-filtr-poziom="A2">A2</button>
         <button class="chip" data-filtr-poziom="B1">B1</button>
@@ -125,6 +126,7 @@
         <button class="chip active" data-filtr-typ="all">Wszystkie</button>
         <button class="chip" data-filtr-typ="gramatyka">Gramatyka</button>
         <button class="chip" data-filtr-typ="tematyka">Tematyka</button>
+        <button class="chip" data-filtr-typ="a0">A0</button>
       </div>
     </div>
 
@@ -173,11 +175,31 @@
 </main>
 
 <script>
-var PLIKI = ["G-A1","G-A2","G-B1","G-B2","G-C1","T-A1","T-A2","T-B1","T-B2","T-C1"];
+var PLIKI = ["A0","G-A1","G-A2","G-B1","G-B2","G-C1","T-A1","T-A2","T-B1","T-B2","T-C1"];
 var DATA = {};
 var filtrPoziom = "all";
 var filtrTyp = "all";
 
+/* ---------- SPRAWDZENIE LOGOWANIA ---------- */
+async function czekajNaSb(){
+  if (window.sbGotowy) return;
+  await new Promise(function(r){
+    var n=0; var i=setInterval(function(){ n++; if(window.sbGotowy||n>30){ clearInterval(i); r(); } },100);
+  });
+}
+
+async function sprawdzSesje(){
+  await czekajNaSb();
+  if (!window.sb) return false;
+  try {
+    var s = await window.sb.auth.getSession();
+    if (!s.data.session) return false;
+    var o = await window.sb.from("profiles").select("aktywny").eq("id", s.data.session.user.id).single();
+    return o.data && o.data.aktywny === true;
+  } catch (e) { return false; }
+}
+
+/* ---------- ŁADOWANIE LEKCJI ---------- */
 function wczytajWszystkie(cb) {
   var zaladowane = 0;
   PLIKI.forEach(function(g) {
@@ -209,22 +231,38 @@ function zebierzDane() {
 
 function pasujeDoFiltrow(id) {
   var l = DATA[id];
-  if (filtrPoziom !== "all" && l.poziom !== filtrPoziom) return false;
-  if (filtrTyp === "gramatyka" && id.charAt(0) !== "G") return false;
-  if (filtrTyp === "tematyka" && id.charAt(0) !== "T") return false;
+  var czyA0 = /^A0-\d+$/.test(id);
+
+  if (filtrPoziom !== "all") {
+    if (czyA0) {
+      if (filtrPoziom !== "A0") return false;
+    } else {
+      if (l.poziom !== filtrPoziom) return false;
+    }
+  }
+
+  if (filtrTyp === "gramatyka") return id.charAt(0) === "G";
+  if (filtrTyp === "tematyka") return id.charAt(0) === "T";
+  if (filtrTyp === "a0") return czyA0;
+
   return true;
 }
 
 function renderLista() {
   var kontener = document.getElementById("listaLekcji");
-  var widoczne = Object.keys(DATA).filter(pasujeDoFiltrow).sort();
+  var widoczne = Object.keys(DATA).filter(pasujeDoFiltrow).sort(function(a,b){
+    var da = a.match(/^([GT]\d+|A0)/); var db = b.match(/^([GT]\d+|A0)/);
+    var ga = da ? da[1] : "?"; var gb = db ? db[1] : "?";
+    if (ga !== gb) return ga.localeCompare(gb);
+    return a.localeCompare(b);
+  });
   if (!widoczne.length) {
     kontener.innerHTML = '<p class="brak-lekcji">Brak lekcji dla wybranych filtrów.</p>';
     return;
   }
   var grupy = {};
   widoczne.forEach(function(id) {
-    var m = id.match(/^([GT]\d+)/);
+    var m = id.match(/^([GT]\d+|A0)/);
     var dzial = m ? m[1] : "?";
     if (!grupy[dzial]) grupy[dzial] = [];
     grupy[dzial].push(id);
@@ -348,10 +386,8 @@ function generuj() {
     return;
   }
 
-  // Bazowa pula pytań wylosowana raz
   var bazoweWybrane = shuffle(pula).slice(0, liczba);
 
-  // Dla każdej wersji: przemieszaj kolejność pytań i (opcjonalnie) odpowiedzi
   var wersje = [];
   for (var w = 0; w < liczbaWersji; w++) {
     var pytaniaWersji = bazoweWybrane.map(function(item) {
@@ -371,7 +407,6 @@ function generuj() {
         wyjasnienie: q.wyjasnienie || ""
       };
     });
-    // Przemieszaj kolejność pytań w wersji
     pytaniaWersji = shuffle(pytaniaWersji);
     wersje.push({ litera: literaWersji(w), pytania: pytaniaWersji });
   }
@@ -416,7 +451,6 @@ function renderSprawdzian(wersje, liczba) {
 
   document.getElementById("arkusze").innerHTML = html;
 
-  // Klucz odpowiedzi
   var khtml = '<h2>Klucz odpowiedzi (dla nauczyciela)</h2>';
   wersje.forEach(function(wersja) {
     khtml += '<div class="wersja-sekcja">';
@@ -437,7 +471,15 @@ function przewinDoGory() {
   document.getElementById("wybor").scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
-document.addEventListener("DOMContentLoaded", function() {
+/* ---------- START ---------- */
+document.addEventListener("DOMContentLoaded", async function() {
+  /* Sprawdź logowanie */
+  var zalogowany = await sprawdzSesje();
+  if (!zalogowany) {
+    window.location.href = "login.html";
+    return;
+  }
+
   document.querySelectorAll(".chip").forEach(function(btn) {
     btn.addEventListener("click", function() {
       if (btn.dataset.filtrPoziom !== undefined) {
@@ -484,7 +526,7 @@ document.addEventListener("DOMContentLoaded", function() {
     zebierzDane();
     if (!Object.keys(DATA).length) {
       document.getElementById("listaLekcji").innerHTML =
-        '<p class="brak-lekcji">Nie udało się wczytać lekcji. Sprawdź, czy folder <code>dane/</code> istnieje i zawiera pliki <code>G-A1.js</code>, <code>G-A2.js</code>, <code>G-B1.js</code>, <code>G-B2.js</code>, <code>G-C1.js</code> oraz <code>T-A1.js</code>, <code>T-A2.js</code>, <code>T-B1.js</code>, <code>T-B2.js</code>, <code>T-C1.js</code>.</p>';
+        '<p class="brak-lekcji">Nie udało się wczytać lekcji. Sprawdź folder <code>dane/</code>.</p>';
       return;
     }
     renderLista();
