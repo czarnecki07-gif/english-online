@@ -53,7 +53,7 @@ nav button.active{color:#1e3a5f;border-bottom-color:#b45309}
 
 <header>
   <h1 style="margin:0;font-size:1.15rem">Panel nauczyciela</h1>
-  <div><a href="index.html"> Powrót</a><a href="#" id="wyloguj">Wyloguj</a></div>
+  <div><a href="index.html">← Powrót</a><a href="#" id="wyloguj">Wyloguj</a></div>
 </header>
 
 <nav>
@@ -67,13 +67,13 @@ nav button.active{color:#1e3a5f;border-bottom-color:#b45309}
 <section id="tab-nowy" class="active">
   <h2>Nowy test online</h2>
   <div class="info-box">
-    Wygeneruj test  dostaniesz <strong>QR kod i link</strong>. W klasie wywietl QR na projektorze, zdalnie skopiuj link. Wyniki zobaczysz w zakadce Wyniki uczniów".
+    Wygeneruj test — dostaniesz <strong>QR kod i link</strong>. W klasie wyświetl QR na projektorze, zdalnie skopiuj link. Wyniki zobaczysz w zakładce „Wyniki uczniów".
   </div>
 
   <div class="rzad">
     <div><label>Klasa</label><input type="text" id="klasa" placeholder="np. 3A"></div>
     <div><label>Czas (min, 0 = bez limitu)</label><input type="number" id="czas" value="30"></div>
-    <div><label>Liczba pyta</label><input type="number" id="liczba" value="20"></div>
+    <div><label>Liczba pytań</label><input type="number" id="liczba" value="20"></div>
   </div>
 
   <label>Wybierz lekcje:</label>
@@ -88,7 +88,7 @@ nav button.active{color:#1e3a5f;border-bottom-color:#b45309}
     <button class="chip" id="zaznaczWszystkie" style="margin-left:auto">Zaznacz wszystkie</button>
   </div>
 
-  <div class="lista-lekcji" id="listaLekcji">adowanie...</div>
+  <div class="lista-lekcji" id="listaLekcji">Ładowanie...</div>
   <div class="info-box" id="infoWyboru">Zaznaczono 0 lekcji.</div>
 
   <button class="glowne" id="generujBtn">Generuj test</button>
@@ -98,14 +98,14 @@ nav button.active{color:#1e3a5f;border-bottom-color:#b45309}
 
 <section id="tab-testy">
   <h2>Moje testy</h2>
-  <div id="listaTestow" class="pusta">adowanie...</div>
+  <div id="listaTestow" class="pusta">Ładowanie...</div>
 </section>
 
 <section id="tab-wyniki">
   <h2>Wyniki uczniów</h2>
   <div class="rzad">
-    <div style="flex:2"><label>Wybierz test</label><select id="wyborTestu"><option value=""> wybierz </option></select></div>
-    <div><button class="drugie" id="odswiezWynikiBtn">Odwie</button></div>
+    <div style="flex:2"><label>Wybierz test</label><select id="wyborTestu"><option value="">— wybierz —</option></select></div>
+    <div><button class="drugie" id="odswiezWynikiBtn">Odśwież</button></div>
   </div>
   <div id="tabelaWynikow"></div>
 </section>
@@ -141,7 +141,7 @@ async function czekajNaSb(){
 
 async function start(){
   await czekajNaSb();
-  if(!window.sb){alert("Bd inicjalizacji.");return}
+  if(!window.sb){alert("Błąd inicjalizacji.");return}
   var s=await window.sb.auth.getSession();
   if(!s.data.session){location.href="login.html";return}
   var o=await window.sb.from("profiles").select("*").eq("id",s.data.session.user.id).single();
@@ -177,7 +177,7 @@ function renderujListeLekcji(){
     html+='<div class="grupa-t">'+g+'</div>';
     grupy[g].forEach(function(id){
       var l=WSZYSTKIE_LEKCJE[id];
-      html+='<label><input type="checkbox" data-id="'+id+'"> '+id+"  "+esc(l.tytul)+' ('+l.liczba+' pyta)</label>';
+      html+='<label><input type="checkbox" data-id="'+id+'"> '+id+" — "+esc(l.tytul)+' ('+l.liczba+' pytań)</label>';
     });
   });
   kont.innerHTML=html;
@@ -195,7 +195,7 @@ function aktualizujInfo(){
   var z=pobierzZaznaczone();
   var ile=0;
   z.forEach(function(id){ile+=WSZYSTKIE_LEKCJE[id].liczba});
-  document.getElementById("infoWyboru").textContent="Zaznaczono "+z.length+" lekcji, dostpnych "+ile+" pyta.";
+  document.getElementById("infoWyboru").textContent="Zaznaczono "+z.length+" lekcji, dostępnych "+ile+" pytań.";
 }
 
 function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
@@ -212,46 +212,46 @@ async function generujTest(){
   var czas=parseInt(document.getElementById("czas").value)||0;
   var liczba=parseInt(document.getElementById("liczba").value)||20;
   var zazn=pobierzZaznaczone();
-  if(!klasa){alert("Wpisz klas.");return}
-  if(!zazn.length){alert("Zaznacz lekcj.");return}
+  if(!klasa){alert("Wpisz klasę.");return}
+  if(!zazn.length){alert("Zaznacz lekcję.");return}
   var pula=[];
   zazn.forEach(function(id){lekcje[id].test.forEach(function(q){pula.push(q)})});
-  if(pula.length<liczba){alert("Za mao pyta.");return}
+  if(pula.length<liczba){alert("Za mało pytań.");return}
   var wybrane=shuffle(pula).slice(0,liczba);
   var btn=document.getElementById("generujBtn");
-  btn.disabled=true;btn.textContent="Generuj...";
+  btn.disabled=true;btn.textContent="Generuję...";
   var o=await window.sb.from("testy").insert({nauczyciel_id:profil.id,klasa:klasa,nazwa:klasa,liczba_pytan:wybrane.length,czas_min:czas,pytania:wybrane,wersje:1}).select().single();
   btn.disabled=false;btn.textContent="Generuj test";
-  if(o.error){alert("Bd: "+o.error.message);return}
+  if(o.error){alert("Błąd: "+o.error.message);return}
   var link=location.origin+"/uczen.html?t="+o.data.id;
   var kont=document.getElementById("wynikGenerowania");
   kont.style.display="block";
-  kont.innerHTML='<div class="link-box"><h3>Test gotowy</h3><p style="color:#166534"><strong>W klasie:</strong> wywietl QR na projektorze  uczniowie skanuj.<br><strong>Zdalnie:</strong> kopiuj link i wylij.</p><div class="link-siatka"><div><div class="qr-holder" id="qrNowy"></div></div><div><label>Link:</label><div class="link-url" id="linkTestu">'+esc(link)+'</div><button class="glowne" onclick="kopiujLink()">Kopiuj link</button></div></div></div>';
+  kont.innerHTML='<div class="link-box"><h3>Test gotowy</h3><p style="color:#166534"><strong>W klasie:</strong> wyświetl QR na projektorze — uczniowie skanują.<br><strong>Zdalnie:</strong> kopiuj link i wyślij.</p><div class="link-siatka"><div><div class="qr-holder" id="qrNowy"></div></div><div><label>Link:</label><div class="link-url" id="linkTestu">'+esc(link)+'</div><button class="glowne" onclick="kopiujLink()">Kopiuj link</button></div></div></div>';
   kont.scrollIntoView({behavior:"smooth"});
   setTimeout(function(){pokazQR(link,"qrNowy")},50);
 }
 
 function kopiujLink(){
   var t=document.getElementById("linkTestu").textContent;
-  navigator.clipboard.writeText(t).then(function(){alert("Skopiowano!")}).catch(function(){alert("Skopiuj rcznie")});
+  navigator.clipboard.writeText(t).then(function(){alert("Skopiowano!")}).catch(function(){alert("Skopiuj ręcznie")});
 }
 
 async function odswiezTesty(){
   var o=await window.sb.from("testy").select("*").eq("nauczyciel_id",profil.id).order("data_utworzenia",{ascending:false});
   var kont=document.getElementById("listaTestow");
-  if(o.error){kont.innerHTML='<div class="pusta">Bd: '+o.error.message+'</div>';return}
+  if(o.error){kont.innerHTML='<div class="pusta">Błąd: '+o.error.message+'</div>';return}
   if(!o.data.length){kont.innerHTML='<div class="pusta">Brak testów.</div>';return}
   var html='<table><thead><tr><th>Klasa</th><th>Pytania</th><th>Czas</th><th>Data</th><th>Akcje</th></tr></thead><tbody>';
   o.data.forEach(function(t){
     var link=location.origin+"/uczen.html?t="+t.id;
-    html+='<tr><td><strong>'+esc(t.klasa||"")+'</strong></td><td>'+t.liczba_pytan+'</td><td>'+(t.czas_min?t.czas_min+" min":"")+'</td><td>'+new Date(t.data_utworzenia).toLocaleString("pl")+'</td>';
-    html+='<td><button class="drugie" data-qr="'+t.id+'" data-link="'+esc(link)+'">Poka QR</button> <button class="drugie" data-copy="'+esc(link)+'">Kopiuj link</button> <button class="drugie czerwony" data-del="'+t.id+'">Usu</button></td></tr>';
+    html+='<tr><td><strong>'+esc(t.klasa||"—")+'</strong></td><td>'+t.liczba_pytan+'</td><td>'+(t.czas_min?t.czas_min+" min":"—")+'</td><td>'+new Date(t.data_utworzenia).toLocaleString("pl")+'</td>';
+    html+='<td><button class="drugie" data-qr="'+t.id+'" data-link="'+esc(link)+'">Pokaż QR</button> <button class="drugie" data-copy="'+esc(link)+'">Kopiuj link</button> <button class="drugie czerwony" data-del="'+t.id+'">Usuń</button></td></tr>';
   });
   html+='</tbody></table>';
   kont.innerHTML=html;
   kont.querySelectorAll("[data-copy]").forEach(function(b){b.onclick=function(){navigator.clipboard.writeText(b.dataset.copy).then(function(){alert("Skopiowano!")})}});
   kont.querySelectorAll("[data-qr]").forEach(function(b){b.onclick=function(){document.getElementById("modalQRLink").textContent=b.dataset.link;document.getElementById("modalQR").classList.add("on");setTimeout(function(){pokazQR(b.dataset.link,"modalQRHolder")},50)}});
-  kont.querySelectorAll("[data-del]").forEach(function(b){b.onclick=async function(){if(!confirm("Usun?"))return;await window.sb.from("testy").delete().eq("id",b.dataset.del);odswiezTesty()}});
+  kont.querySelectorAll("[data-del]").forEach(function(b){b.onclick=async function(){if(!confirm("Usunąć?"))return;await window.sb.from("testy").delete().eq("id",b.dataset.del);odswiezTesty()}});
 }
 
 document.getElementById("modalZamknij").onclick=function(){document.getElementById("modalQR").classList.remove("on")};
@@ -260,12 +260,12 @@ document.getElementById("modalKopiuj").onclick=function(){navigator.clipboard.wr
 async function odswiezWyborTestow(){
   var o=await window.sb.from("testy").select("id,klasa,liczba_pytan,data_utworzenia").eq("nauczyciel_id",profil.id).order("data_utworzenia",{ascending:false});
   var sel=document.getElementById("wyborTestu");
-  sel.innerHTML='<option value=""> wybierz </option>';
+  sel.innerHTML='<option value="">— wybierz —</option>';
   if(!o.data)return;
   o.data.forEach(function(t){
     var opt=document.createElement("option");
     opt.value=t.id;
-    opt.textContent=(t.klasa||"?")+"  "+t.liczba_pytan+" pyta  "+new Date(t.data_utworzenia).toLocaleDateString("pl");
+    opt.textContent=(t.klasa||"?")+" · "+t.liczba_pytan+" pytań · "+new Date(t.data_utworzenia).toLocaleDateString("pl");
     sel.appendChild(opt);
   });
 }
@@ -275,9 +275,9 @@ async function odswiezWyniki(){
   var kont=document.getElementById("tabelaWynikow");
   if(!id){kont.innerHTML="";return}
   var o=await window.sb.from("wyniki").select("*").eq("test_id",id).order("data_oddania",{ascending:false});
-  if(o.error){kont.innerHTML='<div class="pusta">Bd: '+o.error.message+'</div>';return}
+  if(o.error){kont.innerHTML='<div class="pusta">Błąd: '+o.error.message+'</div>';return}
   if(!o.data.length){kont.innerHTML='<div class="pusta">Brak wyników.</div>';return}
-  var html='<table><thead><tr><th>#</th><th>Ucze</th><th>Punkty</th><th>%</th><th>Ocena</th><th>Data</th></tr></thead><tbody>';
+  var html='<table><thead><tr><th>#</th><th>Uczeń</th><th>Punkty</th><th>%</th><th>Ocena</th><th>Data</th></tr></thead><tbody>';
   o.data.forEach(function(w,i){
     var pct=w.procent||0;
     var k=pct>=80?"dobry":(pct>=50?"sredni":"zly");
@@ -293,7 +293,7 @@ document.getElementById("odswiezWynikiBtn").onclick=odswiezWyniki;
 document.querySelectorAll(".chip[data-fp]").forEach(function(b){b.onclick=function(){filtrPoziom=b.dataset.fp;document.querySelectorAll(".chip[data-fp]").forEach(function(x){x.classList.remove("active")});b.classList.add("active");renderujListeLekcji()}});
 document.getElementById("zaznaczWszystkie").onclick=function(){document.querySelectorAll("#listaLekcji input[type=checkbox]").forEach(function(c){c.checked=true});aktualizujInfo()};
 document.getElementById("generujBtn").onclick=generujTest;
-document.getElementById("wyloguj").onclick=async function(e){e.preventDefault();if(!confirm("Wylogowa?"))return;await window.sb.auth.signOut();location.href="login.html"};
+document.getElementById("wyloguj").onclick=async function(e){e.preventDefault();if(!confirm("Wylogować?"))return;await window.sb.auth.signOut();location.href="login.html"};
 
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",start);else start();
 </script>
