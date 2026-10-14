@@ -19,7 +19,7 @@ section.active{display:block}
 h2{color:#1e3a5f;margin-top:0}
 label{display:block;font-weight:600;font-size:.88rem;margin-bottom:4px;color:#4b5563}
 input,select{width:100%;padding:9px;border:1px solid #ccc;border-radius:4px;font-size:.95rem;box-sizing:border-box;font-family:inherit}
-.rzad{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:14px}
+.rzad{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:14px;align-items:flex-end}
 .rzad>div{flex:1;min-width:150px}
 button{cursor:pointer;font-family:inherit}
 .glowne{background:#1e3a5f;color:#fff;border:none;padding:12px 28px;border-radius:4px;font-weight:700;text-transform:uppercase;letter-spacing:1px}
@@ -51,6 +51,20 @@ th{background:#fbfaf7;color:#1e3a5f;font-size:.8rem;text-transform:uppercase}
 .modal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;padding:20px;z-index:1000}
 .modal.on{display:flex}
 .modal-tresc{background:#fff;border-radius:10px;padding:30px;text-align:center;max-width:500px}
+.modal-duzy{background:#fff;border-radius:10px;padding:26px 30px;max-width:820px;width:100%;max-height:90vh;overflow-y:auto}
+.modal-duzy h3{font-family:Georgia,serif;color:#1e3a5f;font-size:1.15rem;margin-top:0;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid #eee}
+.modal-duzy .naglowek-info{background:#f0f4fb;border-left:4px solid #1e3a5f;padding:12px 16px;border-radius:0 4px 4px 0;margin-bottom:16px;font-size:.9rem;color:#1e3a5f}
+.pyt-szcz{background:#fff;border-left:4px solid #1e3a5f;border-radius:0 6px 6px 0;padding:14px 18px;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.pyt-szcz.ok{border-left-color:#166534}
+.pyt-szcz.zle{border-left-color:#991b1b}
+.pyt-szcz .tresc{font-weight:600;margin-bottom:8px;font-size:.92rem}
+.pyt-szcz .tresc .nr{color:#1e3a5f;font-weight:700;margin-right:6px}
+.pyt-szcz .odp{font-size:.87rem;margin:4px 0;padding-left:18px}
+.pyt-szcz .odp.user{color:#991b1b}
+.pyt-szcz .odp.user.ok{color:#166534}
+.pyt-szcz .odp.poprawna{color:#166534;font-weight:600}
+.pyt-szcz .wyjasnienie{font-size:.82rem;color:#6b7280;margin-top:6px;font-style:italic;padding-left:18px}
+.modal-duzy .zamknij-box{text-align:right;margin-top:16px}
 </style>
 </head>
 <body>
@@ -122,6 +136,13 @@ th{background:#fbfaf7;color:#1e3a5f;font-size:.8rem;text-transform:uppercase}
   <div class="link-url" id="modalQRLink"></div>
   <button class="glowne" id="modalKopiuj">Kopiuj link</button>
   <button class="drugie" id="modalZamknij">Zamknij</button>
+</div></div>
+
+<div class="modal" id="modalSzczegoly"><div class="modal-duzy">
+  <h3 id="modalSzczegolyTytul">Szczegóły odpowiedzi ucznia</h3>
+  <div class="naglowek-info" id="modalSzczegolyInfo"></div>
+  <div id="modalSzczegolyTresc"></div>
+  <div class="zamknij-box"><button class="glowne" id="modalSzczegolyZamknij">Zamknij</button></div>
 </div></div>
 
 <script>
@@ -281,16 +302,62 @@ async function odswiezWyniki(){
   var o=await window.sb.from("wyniki").select("*").eq("test_id",id).order("data_oddania",{ascending:false});
   if(o.error){kont.innerHTML='<div class="pusta">Błąd: '+o.error.message+'</div>';return}
   if(!o.data.length){kont.innerHTML='<div class="pusta">Brak wyników.</div>';return}
-  var html='<table><thead><tr><th>#</th><th>Uczeń</th><th>Punkty</th><th>%</th><th>Ocena</th><th>Data</th></tr></thead><tbody>';
+  var html='<table><thead><tr><th>#</th><th>Uczeń</th><th>Punkty</th><th>%</th><th>Ocena</th><th>Data</th><th></th></tr></thead><tbody>';
   o.data.forEach(function(w,i){
     var pct=w.procent||0;
     var k=pct>=80?"dobry":(pct>=50?"sredni":"zly");
     var oc=pct>=90?"5":pct>=75?"4":pct>=50?"3":pct>=30?"2":"1";
-    html+='<tr><td>'+(i+1)+'</td><td><strong>'+esc(w.uczen_imie||"?")+'</strong></td><td>'+w.punkty+" / "+w.max_punktow+'</td><td class="'+k+'">'+pct+'%</td><td class="'+k+'">'+oc+'</td><td>'+new Date(w.data_oddania).toLocaleString("pl")+'</td></tr>';
+    html+='<tr><td>'+(i+1)+'</td><td><strong>'+esc(w.uczen_imie||"?")+'</strong></td><td>'+w.punkty+" / "+w.max_punktow+'</td><td class="'+k+'">'+pct+'%</td><td class="'+k+'">'+oc+'</td><td>'+new Date(w.data_oddania).toLocaleString("pl")+'</td>';
+    html+='<td><button class="drugie" data-szczegoly="'+w.id+'" style="padding:5px 12px;font-size:.8rem">Szczegóły</button></td></tr>';
   });
   html+='</tbody></table>';
   kont.innerHTML=html;
+
+  kont.querySelectorAll("[data-szczegoly]").forEach(function(b){
+    b.onclick=function(){
+      var wynik = o.data.find(function(x){return x.id === b.dataset.szczegoly;});
+      if(wynik) pokazSzczegoly(wynik);
+    };
+  });
 }
+
+async function pokazSzczegoly(wynik){
+  var o = await window.sb.from("testy").select("pytania,klasa").eq("id",wynik.test_id).single();
+  if(o.error || !o.data){
+    alert("Nie można pobrać pytań testu: " + (o.error?o.error.message:"brak danych"));
+    return;
+  }
+  var pytania = o.data.pytania || [];
+  var odpUcznia = wynik.odpowiedzi || [];
+
+  document.getElementById("modalSzczegolyTytul").textContent = "Szczegóły — " + (wynik.uczen_imie || "?");
+  document.getElementById("modalSzczegolyInfo").innerHTML =
+    "<strong>Uczeń:</strong> " + esc(wynik.uczen_imie || "?") + "<br>" +
+    "<strong>Klasa:</strong> " + esc(o.data.klasa || "—") + "<br>" +
+    "<strong>Wynik:</strong> " + wynik.punkty + " / " + wynik.max_punktow + " (" + wynik.procent + "%)<br>" +
+    "<strong>Data oddania:</strong> " + new Date(wynik.data_oddania).toLocaleString("pl");
+
+  var html = "";
+  pytania.forEach(function(p, i){
+    var odp = odpUcznia[i];
+    var ok = (odp === p.poprawna);
+    html += '<div class="pyt-szcz ' + (ok ? "ok" : "zle") + '">';
+    html += '<div class="tresc"><span class="nr">' + (i+1) + '.</span> ' + esc(p.q) + '</div>';
+    html += '<div class="odp user ' + (ok ? "ok" : "") + '"><strong>' + (ok ? "✓" : "✗") + ' Odpowiedź ucznia:</strong> ';
+    html += (odp >= 0 && p.opcje[odp] !== undefined ? String.fromCharCode(65+odp) + ') ' + esc(p.opcje[odp]) : "(brak)") + '</div>';
+    if(!ok){
+      html += '<div class="odp poprawna"><strong>✓ Poprawna:</strong> ' + String.fromCharCode(65+p.poprawna) + ') ' + esc(p.opcje[p.poprawna]) + '</div>';
+    }
+    if(p.wyjasnienie) html += '<div class="wyjasnienie">' + esc(p.wyjasnienie) + '</div>';
+    html += '</div>';
+  });
+  document.getElementById("modalSzczegolyTresc").innerHTML = html;
+  document.getElementById("modalSzczegoly").classList.add("on");
+}
+
+document.getElementById("modalSzczegolyZamknij").onclick = function(){
+  document.getElementById("modalSzczegoly").classList.remove("on");
+};
 
 document.getElementById("wyborTestu").onchange=odswiezWyniki;
 document.getElementById("odswiezWynikiBtn").onclick=odswiezWyniki;
