@@ -8,25 +8,32 @@
 <script src="supabase-klient.js"></script>
 <style>
 body{font-family:Arial,sans-serif;background:#f7f5f0;margin:0;padding:20px;color:#1f2933}
-header{background:#1e3a5f;color:#fff;padding:16px;margin:-20px -20px 20px;display:flex;justify-content:space-between}
+header{background:#1e3a5f;color:#fff;padding:16px;margin:-20px -20px 0;display:flex;justify-content:space-between;align-items:center}
 header a{color:#fff;text-decoration:none;margin-left:10px}
+nav{background:#fff;border-bottom:1px solid #ddd;padding:0 20px;margin:0 -20px 20px;display:flex;gap:4px}
+nav button{background:none;border:none;padding:14px 18px;font-weight:600;color:#6b7280;border-bottom:3px solid transparent;cursor:pointer;font-family:inherit;font-size:.92rem}
+nav button.active{color:#1e3a5f;border-bottom-color:#b45309}
 main{max-width:1100px;margin:0 auto}
-section{display:none;background:#fff;border:1px solid #ddd;border-radius:6px;padding:20px;margin-bottom:16px} section.active{di
+section{display:none;background:#fff;border:1px solid #ddd;border-radius:6px;padding:20px;margin-bottom:16px}
+section.active{display:block}
 h2{color:#1e3a5f;margin-top:0}
 label{display:block;font-weight:600;font-size:.88rem;margin-bottom:4px;color:#4b5563}
-input,select{width:100%;padding:9px;border:1px solid #ccc;border-radius:4px;font-size:.95rem;box-sizing:border-box}
+input,select{width:100%;padding:9px;border:1px solid #ccc;border-radius:4px;font-size:.95rem;box-sizing:border-box;font-family:inherit}
 .rzad{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:14px}
 .rzad>div{flex:1;min-width:150px}
 button{cursor:pointer;font-family:inherit}
 .glowne{background:#1e3a5f;color:#fff;border:none;padding:12px 28px;border-radius:4px;font-weight:700;text-transform:uppercase;letter-spacing:1px}
+.glowne:hover{background:#152a47}
 .drugie{background:#fff;color:#1e3a5f;border:1px solid #1e3a5f;padding:8px 18px;border-radius:4px;font-weight:600}
+.drugie:hover{background:#1e3a5f;color:#fff}
 .czerwony{color:#991b1b;border-color:#991b1b}
+.czerwony:hover{background:#991b1b;color:#fff}
 .lista-lekcji{max-height:300px;overflow-y:auto;border:1px solid #ddd;border-radius:4px;padding:12px;margin-bottom:14px;background:#fbfaf7}
 .grupa-t{font-weight:700;color:#1e3a5f;margin:8px 0 4px}
 .lista-lekcji label{display:flex;align-items:center;gap:8px;padding:4px;font-weight:400;cursor:pointer;font-size:.87rem}
 .lista-lekcji input[type=checkbox]{width:auto}
 .filtry{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
-.chip{padding:5px 12px;border:1px solid #ccc;background:#fff;border-radius:20px;font-size:.8rem}
+.chip{padding:5px 12px;border:1px solid #ccc;background:#fff;border-radius:20px;font-size:.8rem;cursor:pointer}
 .chip.active{background:#1e3a5f;color:#fff;border-color:#1e3a5f}
 .info-box{background:#fffbeb;border-left:4px solid #b45309;padding:12px;margin-bottom:14px;color:#78350f;font-size:.88rem}
 .link-box{background:#f0fdf4;border:2px solid #166534;border-radius:6px;padding:18px;margin-top:18px}
@@ -41,9 +48,6 @@ th{background:#fbfaf7;color:#1e3a5f;font-size:.8rem;text-transform:uppercase}
 .dobry{color:#166534;font-weight:700}
 .sredni{color:#b45309;font-weight:700}
 .zly{color:#991b1b;font-weight:700}
-nav{background:#fff;border-bottom:1px solid #ddd;padding:0 20px;margin:-20px -20px 20px;display:flex;gap:4px}
-nav button{background:none;border:none;padding:14px 18px;font-weight:600;color:#6b7280;border-bottom:3px solid transparent}
-nav button.active{color:#1e3a5f;border-bottom-color:#b45309}
 .modal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;padding:20px;z-index:1000}
 .modal.on{display:flex}
 .modal-tresc{background:#fff;border-radius:10px;padding:30px;text-align:center;max-width:500px}
@@ -67,7 +71,7 @@ nav button.active{color:#1e3a5f;border-bottom-color:#b45309}
 <section id="tab-nowy" class="active">
   <h2>Nowy test online</h2>
   <div class="info-box">
-    Wygeneruj test — dostaniesz <strong>QR kod i link</strong>. W klasie wyświetl QR na projektorze, zdalnie skopiuj link. Wyniki zobaczysz w zakładce "Wyniki uczniów".
+    Wygeneruj test — dostaniesz <strong>QR kod i link</strong>. W klasie wyświetl QR na projektorze, zdalnie skopiuj link. Wyniki zobaczysz w zakładce „Wyniki uczniów".
   </div>
 
   <div class="rzad">
@@ -216,7 +220,7 @@ async function generujTest(){
   if(!zazn.length){alert("Zaznacz lekcję.");return}
   var pula=[];
   zazn.forEach(function(id){lekcje[id].test.forEach(function(q){pula.push(q)})});
-  if(pula.length<liczba){alert("Za mało pytań.");return}
+  if(pula.length<liczba){alert("Za mało pytań (dostępne: "+pula.length+").");return}
   var wybrane=shuffle(pula).slice(0,liczba);
   var btn=document.getElementById("generujBtn");
   btn.disabled=true;btn.textContent="Generuję...";
@@ -240,7 +244,7 @@ async function odswiezTesty(){
   var o=await window.sb.from("testy").select("*").eq("nauczyciel_id",profil.id).order("data_utworzenia",{ascending:false});
   var kont=document.getElementById("listaTestow");
   if(o.error){kont.innerHTML='<div class="pusta">Błąd: '+o.error.message+'</div>';return}
-  if(!o.data.length){kont.innerHTML='<div class="pusta">Brak testów.</div>';return}
+  if(!o.data.length){kont.innerHTML='<div class="pusta">Brak testów. Wygeneruj pierwszy w zakładce „Nowy test".</div>';return}
   var html='<table><thead><tr><th>Klasa</th><th>Pytania</th><th>Czas</th><th>Data</th><th>Akcje</th></tr></thead><tbody>';
   o.data.forEach(function(t){
     var link=location.origin+"/uczen.html?t="+t.id;
