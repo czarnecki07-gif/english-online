@@ -53,7 +53,7 @@ nav button.active{color:#1e3a5f;border-bottom-color:#b45309}
 
 <header>
   <h1 style="margin:0;font-size:1.15rem">Panel nauczyciela</h1>
-  <div><a href="index.html">← Powrót</a><a href="#" id="wyloguj">Wyloguj</a></div>
+  <div><a href="index.html"> Powrót</a><a href="#" id="wyloguj">Wyloguj</a></div>
 </header>
 
 <nav>
@@ -67,12 +67,12 @@ nav button.active{color:#1e3a5f;border-bottom-color:#b45309}
 <section id="tab-nowy" class="active">
   <h2>Nowy test online</h2>
   <div class="info-box">
-    Wygeneruj test → dostaniesz <strong>QR kod i link</strong>. W klasie wywietl QR na projektorze, zdalnie skopiuj link. Wyniki zobaczysz w zakadce „Wyniki uczniów".
+    Wygeneruj test  dostaniesz <strong>QR kod i link</strong>. W klasie wywietl QR na projektorze, zdalnie skopiuj link. Wyniki zobaczysz w zakadce Wyniki uczniów".
   </div>
 
   <div class="rzad">
     <div><label>Klasa</label><input type="text" id="klasa" placeholder="np. 3A"></div>
-    <div><label>Czas (min, 0=bez limitu)</label><input type="number" id="czas" value="30"></div>
+    <div><label>Czas (min, 0 = bez limitu)</label><input type="number" id="czas" value="30"></div>
     <div><label>Liczba pyta</label><input type="number" id="liczba" value="20"></div>
   </div>
 
@@ -104,7 +104,7 @@ nav button.active{color:#1e3a5f;border-bottom-color:#b45309}
 <section id="tab-wyniki">
   <h2>Wyniki uczniów</h2>
   <div class="rzad">
-    <div style="flex:2"><label>Wybierz test</label><select id="wyborTestu"><option value="">— wybierz —</option></select></div>
+    <div style="flex:2"><label>Wybierz test</label><select id="wyborTestu"><option value=""> wybierz </option></select></div>
     <div><button class="drugie" id="odswiezWynikiBtn">Odwie</button></div>
   </div>
   <div id="tabelaWynikow"></div>
@@ -177,7 +177,7 @@ function renderujListeLekcji(){
     html+='<div class="grupa-t">'+g+'</div>';
     grupy[g].forEach(function(id){
       var l=WSZYSTKIE_LEKCJE[id];
-      html+='<label><input type="checkbox" data-id="'+id+'"> '+id+" — "+esc(l.tytul)+' ('+l.liczba+' pyta)</label>';
+      html+='<label><input type="checkbox" data-id="'+id+'"> '+id+"  "+esc(l.tytul)+' ('+l.liczba+' pyta)</label>';
     });
   });
   kont.innerHTML=html;
@@ -226,7 +226,7 @@ async function generujTest(){
   var link=location.origin+"/uczen.html?t="+o.data.id;
   var kont=document.getElementById("wynikGenerowania");
   kont.style.display="block";
-  kont.innerHTML='<div class="link-box"><h3>✓ Test gotowy</h3><p style="color:#166534"><strong>W klasie:</strong> wywietl QR na projektorze — uczniowie skanuj.<br><strong>Zdalnie:</strong> kopiuj link i wylij.</p><div class="link-siatka"><div><div class="qr-holder" id="qrNowy"></div></div><div><label>Link:</label><div class="link-url" id="linkTestu">'+esc(link)+'</div><button class="glowne" onclick="kopiujLink()">Kopiuj link</button></div></div></div>';
+  kont.innerHTML='<div class="link-box"><h3>Test gotowy</h3><p style="color:#166534"><strong>W klasie:</strong> wywietl QR na projektorze  uczniowie skanuj.<br><strong>Zdalnie:</strong> kopiuj link i wylij.</p><div class="link-siatka"><div><div class="qr-holder" id="qrNowy"></div></div><div><label>Link:</label><div class="link-url" id="linkTestu">'+esc(link)+'</div><button class="glowne" onclick="kopiujLink()">Kopiuj link</button></div></div></div>';
   kont.scrollIntoView({behavior:"smooth"});
   setTimeout(function(){pokazQR(link,"qrNowy")},50);
 }
@@ -244,7 +244,7 @@ async function odswiezTesty(){
   var html='<table><thead><tr><th>Klasa</th><th>Pytania</th><th>Czas</th><th>Data</th><th>Akcje</th></tr></thead><tbody>';
   o.data.forEach(function(t){
     var link=location.origin+"/uczen.html?t="+t.id;
-    html+='<tr><td><strong>'+esc(t.klasa||"—")+'</strong></td><td>'+t.liczba_pytan+'</td><td>'+(t.czas_min?t.czas_min+" min":"—")+'</td><td>'+new Date(t.data_utworzenia).toLocaleString("pl")+'</td>';
+    html+='<tr><td><strong>'+esc(t.klasa||"")+'</strong></td><td>'+t.liczba_pytan+'</td><td>'+(t.czas_min?t.czas_min+" min":"")+'</td><td>'+new Date(t.data_utworzenia).toLocaleString("pl")+'</td>';
     html+='<td><button class="drugie" data-qr="'+t.id+'" data-link="'+esc(link)+'">Poka QR</button> <button class="drugie" data-copy="'+esc(link)+'">Kopiuj link</button> <button class="drugie czerwony" data-del="'+t.id+'">Usu</button></td></tr>';
   });
   html+='</tbody></table>';
@@ -260,12 +260,12 @@ document.getElementById("modalKopiuj").onclick=function(){navigator.clipboard.wr
 async function odswiezWyborTestow(){
   var o=await window.sb.from("testy").select("id,klasa,liczba_pytan,data_utworzenia").eq("nauczyciel_id",profil.id).order("data_utworzenia",{ascending:false});
   var sel=document.getElementById("wyborTestu");
-  sel.innerHTML='<option value="">— wybierz —</option>';
+  sel.innerHTML='<option value=""> wybierz </option>';
   if(!o.data)return;
   o.data.forEach(function(t){
     var opt=document.createElement("option");
     opt.value=t.id;
-    opt.textContent=(t.klasa||"?")+" · "+t.liczba_pytan+" pyta · "+new Date(t.data_utworzenia).toLocaleDateString("pl");
+    opt.textContent=(t.klasa||"?")+"  "+t.liczba_pytan+" pyta  "+new Date(t.data_utworzenia).toLocaleDateString("pl");
     sel.appendChild(opt);
   });
 }
