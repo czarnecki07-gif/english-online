@@ -1,9 +1,11 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Angielski online — strona główna</title>
+<title>Angielski online — strona gówna</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-klient.js"></script>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; background: #f7f5f0; color: #1f2933; font-size: 15px; line-height: 1.65; }
@@ -41,18 +43,10 @@
   footer .maly-link { color: #9ca3af; text-decoration: none; font-size: .82rem; }
   footer .maly-link:hover { color: #1e3a5f; text-decoration: underline; }
   .ukryj { display: none !important; }
+  .ladowanie { text-align: center; padding: 60px 20px; color: #6b7280; }
 </style>
 </head>
 <body>
-
-<script src="admin.js"></script>
-<script>
-(function() {
-  var d = null;
-  try { d = JSON.parse(localStorage.getItem("angielski_dostep") || "null"); } catch (e) {}
-  window.CZY_NAUCZYCIEL = !!(d && d.wazne && d.wazne > Date.now());
-})();
-</script>
 
 <header class="topbar">
   <h1>Angielski online</h1>
@@ -63,122 +57,160 @@
 </header>
 
 <main>
+  <div class="ladowanie" id="ladowanie">adowanie...</div>
 
-  <section class="hero">
-    <div class="badge" id="heroBadge">Wersja testowa</div>
-    <h2 id="heroTytul">Witaj na kursie angielskiego</h2>
-    <p id="heroOpis">Wybierz sekcję, którą chcesz otworzyć.</p>
-  </section>
+  <div id="tresc" style="display:none;">
+    <section class="hero">
+      <div class="badge" id="heroBadge">Wersja testowa</div>
+      <h2 id="heroTytul">Witaj na kursie angielskiego</h2>
+      <p id="heroOpis">Wybierz sekcj, któr chcesz otworzy.</p>
+    </section>
 
-  <div class="grid">
+    <div class="grid">
 
-    <a class="kafel a0" href="kurs.html?level=A0">
-      <span class="tag">A0 — dla początkujących</span>
-      <h3>Zacznij od zera</h3>
-      <p>Kurs dla osób, które nigdy nie uczyły się angielskiego. Alfabet, liczby, powitania, kolory, rodzina, podstawowe czasowniki — krok po kroku.</p>
-      <span class="arrow">Otwórz kurs A0 →</span>
-    </a>
+      <a class="kafel a0" href="kurs.html?level=A0">
+        <span class="tag">A0 — dla pocztkujcych</span>
+        <h3>Zacznij od zera</h3>
+        <p>Kurs dla osób, które nigdy nie uczyy si angielskiego. Alfabet, liczby, powitania, kolory, rodzina, podstawowe czasowniki — krok po kroku.</p>
+        <span class="arrow">Otwórz kurs A0 →</span>
+      </a>
 
-    <a class="kafel" href="kurs.html">
-      <span class="tag">Kurs</span>
-      <h3>Lekcje — 16 działów gramatyki i 16 tematów</h3>
-      <p>Każdy dział na pięciu poziomach A1–C1. Omówienie tematu, karta pracy, test. Kliknij dowolne angielskie słowo, aby usłyszeć wymowę.</p>
-      <span class="arrow">Otwórz kurs →</span>
-    </a>
+      <a class="kafel" href="kurs.html">
+        <span class="tag">Kurs</span>
+        <h3>Lekcje — 16 dziaów gramatyki i 16 tematów</h3>
+        <p>Kady dzia na piciu poziomach A1–C1. Omówienie tematu, karta pracy, test. Kliknij dowolne angielskie sowo, aby usysze wymow.</p>
+        <span class="arrow">Otwórz kurs →</span>
+      </a>
 
-    <a class="kafel sciagawka" href="sciagawka.html">
-      <span class="tag">Ściągawka</span>
-      <h3>Wszystko w jednym miejscu</h3>
-      <p>Gramatyka, czasowniki nieregularne, przedimki, przyimki, pisownia, liczebniki, rozmówki, idiomy. Do druku i do słuchania — kliknij dowolne angielskie słowo, żeby usłyszeć wymowę.</p>
-      <span class="arrow">Otwórz ściągawkę →</span>
-    </a>
+      <a class="kafel sciagawka" href="sciagawka.html">
+        <span class="tag">cigawka</span>
+        <h3>Wszystko w jednym miejscu</h3>
+        <p>Gramatyka, czasowniki nieregularne, przedimki, przyimki, pisownia, liczebniki, rozmówki, idiomy. Do druku i do suchania — kliknij dowolne angielskie sowo, eby usysze wymow.</p>
+        <span class="arrow">Otwórz cigawk →</span>
+      </a>
 
-    <a class="kafel t kafel-naucz" href="podreczniki.html">
-      <span class="tag">Podręczniki</span>
-      <h3>Mapa podręczników szkolnych</h3>
-      <p>Wybierz podręcznik i zobacz, które lekcje pasują do każdego unitu. Eksport rocznego planu.</p>
-      <span class="arrow">Otwórz mapę →</span>
-    </a>
+      <a class="kafel t kafel-naucz" href="podreczniki.html">
+        <span class="tag">Podrczniki</span>
+        <h3>Mapa podrczników szkolnych</h3>
+        <p>Wybierz podrcznik i zobacz, które lekcje pasuj do kadego unitu. Eksport rocznego planu.</p>
+        <span class="arrow">Otwórz map →</span>
+      </a>
 
-    <a class="kafel d kafel-naucz" href="sprawdzian.html">
-      <span class="tag">Sprawdzian</span>
-      <h3>Generator sprawdzianu do druku</h3>
-      <p>Wybierz lekcje, liczbę pytań i wersji (A, B, C…). Wygeneruj arkusz + klucz odpowiedzi.</p>
-      <span class="arrow">Generuj sprawdzian →</span>
-    </a>
+      <a class="kafel d kafel-naucz" href="sprawdzian.html">
+        <span class="tag">Sprawdzian</span>
+        <h3>Generator sprawdzianu do druku</h3>
+        <p>Wybierz lekcje, liczb pyta i wersji (A, B, C…). Wygeneruj arkusz + klucz odpowiedzi.</p>
+        <span class="arrow">Generuj sprawdzian →</span>
+      </a>
 
-    <a class="kafel d kafel-naucz" href="panel-nauczyciela.html">
-      <span class="tag">Sprawdzian online</span>
-      <h3>Panel nauczyciela — testy interaktywne</h3>
-      <p>Wygeneruj test dla klasy, wyślij uczniom link. Uczniowie rozwiązują w przeglądarce, dostajesz kody wyników.</p>
-      <span class="arrow">Otwórz panel →</span>
-    </a>
+      <a class="kafel d kafel-naucz" href="panel-nauczyciela.html">
+        <span class="tag">Sprawdzian online</span>
+        <h3>Panel nauczyciela — testy interaktywne</h3>
+        <p>Wygeneruj test dla klasy, wylij uczniom link. Uczniowie rozwizuj w przegldarce, dostajesz kody wyników.</p>
+        <span class="arrow">Otwórz panel →</span>
+      </a>
 
-    <a class="kafel kafel-naucz" href="instrukcja.html">
-      <span class="tag">Pomoc</span>
-      <h3>Instrukcja dla nauczyciela</h3>
-      <p>Krótki przewodnik: jak używać kursu, jak generować sprawdziany, jak odbierać wyniki uczniów.</p>
-      <span class="arrow">Czytaj →</span>
-    </a>
+      <a class="kafel kafel-naucz" href="instrukcja.html">
+        <span class="tag">Pomoc</span>
+        <h3>Instrukcja dla nauczyciela</h3>
+        <p>Krótki przewodnik: jak uywa kursu, jak generowa sprawdziany, jak odbiera wyniki uczniów.</p>
+        <span class="arrow">Czytaj →</span>
+      </a>
 
-    <a class="kafel d" href="test-poziomujacy.html">
-      <span class="tag">Test poziomujący</span>
-      <h3>Sprawdź swój poziom angielskiego</h3>
-      <p>60 pytań — po 12 z każdego poziomu A1–C1. Po zakończeniu dostaniesz swój poziom, słabe strony i indywidualny program nauki do wydrukowania.</p>
-      <span class="arrow">Rozpocznij test →</span>
-    </a>
+      <a class="kafel d" href="test-poziomujacy.html">
+        <span class="tag">Test poziomujcy</span>
+        <h3>Sprawd swój poziom angielskiego</h3>
+        <p>60 pyta — po 12 z kadego poziomu A1–C1. Po zakoczeniu dostaniesz swój poziom, sabe strony i indywidualny program nauki do wydrukowania.</p>
+        <span class="arrow">Rozpocznij test →</span>
+      </a>
 
-    <a class="kafel" href="instrukcja-ucznia.html">
-      <span class="tag">Pomoc</span>
-      <h3>Instrukcja dla ucznia</h3>
-      <p>Jak wchodzić na lekcję, jak rozwiązywać karty pracy i testy, jak wysłać nauczycielowi wynik sprawdzianu.</p>
-      <span class="arrow">Czytaj →</span>
-    </a>
+      <a class="kafel" href="instrukcja-ucznia.html">
+        <span class="tag">Pomoc</span>
+        <h3>Instrukcja dla ucznia</h3>
+        <p>Jak wchodzi na lekcj, jak rozwizywa karty pracy i testy, jak wysa nauczycielowi wynik sprawdzianu.</p>
+        <span class="arrow">Czytaj →</span>
+      </a>
 
+    </div>
   </div>
-
 </main>
 
 <footer>
   Angielski online &copy; 2026 · Wersja testowa
   <span id="stopkaLogin" style="display:none">
-    <br><a class="maly-link" href="bramka.html">Zaloguj jako nauczyciel</a>
-  </span>
-  <span id="stopkaWylog" style="display:none">
-    <br><a class="maly-link" href="#" id="linkWylog">Wyloguj nauczyciela</a>
+    <br><a class="maly-link" href="login.html">Zaloguj jako nauczyciel</a>
   </span>
 </footer>
 
 <script>
-(function() {
-  var jest = window.CZY_NAUCZYCIEL;
-  document.getElementById("rolaBadge").textContent = jest ? "Nauczyciel" : "Uczeń";
-  if (jest) {
-    document.getElementById("wylogujBtn").style.display = "inline-block";
-    document.getElementById("heroBadge").textContent = "Nauczyciel — pełny dostęp";
-    document.getElementById("heroTytul").textContent = "Witaj, nauczycielu";
-    document.getElementById("heroOpis").textContent = "Masz dostęp do wszystkich narzędzi: kurs, podręczniki, generator sprawdzianu, panel testów.";
-    document.getElementById("stopkaWylog").style.display = "inline";
-  } else {
-    document.querySelectorAll(".kafel-naucz").forEach(function(el) { el.classList.add("ukryj"); });
-    document.getElementById("heroBadge").textContent = "Dostęp uczniowski";
-    document.getElementById("heroTytul").textContent = "Witaj na kursie angielskiego";
-    document.getElementById("heroOpis").textContent = "Otwórz kurs i wybierz lekcję. Aby oddać sprawdzian, użyj linku od nauczyciela.";
-    document.getElementById("stopkaLogin").style.display = "inline";
+async function inicjalizuj() {
+  /* Czekaj na klienta Supabase */
+  if (!window.sbGotowy) {
+    await new Promise(function(resolve) {
+      var prob = 0;
+      var int = setInterval(function() {
+        prob++;
+        if (window.sbGotowy || prob > 20) { clearInterval(int); resolve(); }
+      }, 100);
+    });
   }
-})();
 
-document.getElementById("wylogujBtn").addEventListener("click", function() {
-  if (!confirm("Wylogować nauczyciela?")) return;
-  localStorage.removeItem("angielski_dostep");
+  /* Domylnie: widok ucznia */
+  document.getElementById("rolaBadge").textContent = "Ucze";
+  document.getElementById("heroBadge").textContent = "Dostp uczniowski";
+  document.getElementById("heroTytul").textContent = "Witaj na kursie angielskiego";
+  document.getElementById("heroOpis").textContent = "Otwórz kurs i wybierz lekcj. Aby odda sprawdzian, uyj linku od nauczyciela.";
+  document.getElementById("stopkaLogin").style.display = "inline";
+  document.querySelectorAll(".kafel-naucz").forEach(function(el) { el.classList.add("ukryj"); });
+
+  /* Sprawd sesj Supabase */
+  if (!window.sb) {
+    document.getElementById("ladowanie").style.display = "none";
+    document.getElementById("tresc").style.display = "block";
+    return;
+  }
+
+  try {
+    var sesja = await window.sb.auth.getSession();
+    if (!sesja || !sesja.data || !sesja.data.session) {
+      document.getElementById("ladowanie").style.display = "none";
+      document.getElementById("tresc").style.display = "block";
+      return;
+    }
+
+    var user = sesja.data.session.user;
+    var odp = await window.sb.from("profiles").select("aktywny, imie_nazwisko").eq("id", user.id).single();
+    var profil = odp.data;
+
+    if (profil && profil.aktywny) {
+      /* Widok nauczyciela */
+      document.getElementById("rolaBadge").textContent = "Nauczyciel";
+      document.getElementById("heroBadge").textContent = "Nauczyciel — peny dostp";
+      document.getElementById("heroTytul").textContent = "Witaj, " + (profil.imie_nazwisko || "nauczycielu");
+      document.getElementById("heroOpis").textContent = "Masz dostp do wszystkich narzdzi: kurs, podrczniki, generator sprawdzianu, panel testów.";
+      document.getElementById("stopkaLogin").style.display = "none";
+      document.getElementById("wylogujBtn").style.display = "inline-block";
+      document.querySelectorAll(".kafel-naucz").forEach(function(el) { el.classList.remove("ukryj"); });
+    }
+  } catch (e) {
+    console.error("Bd sprawdzania sesji:", e);
+  }
+
+  document.getElementById("ladowanie").style.display = "none";
+  document.getElementById("tresc").style.display = "block";
+}
+
+document.getElementById("wylogujBtn").addEventListener("click", async function() {
+  if (!confirm("Wylogowa si?")) return;
+  if (window.sb) await window.sb.auth.signOut();
   window.location.reload();
 });
-document.getElementById("linkWylog").addEventListener("click", function(e) {
-  e.preventDefault();
-  if (!confirm("Wylogować nauczyciela?")) return;
-  localStorage.removeItem("angielski_dostep");
-  window.location.reload();
-});
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", inicjalizuj);
+} else {
+  inicjalizuj();
+}
 </script>
 
 </body>
