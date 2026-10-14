@@ -4,95 +4,40 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sprawdzian</title>
-<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/lz-string@1.5.0/libs/lz-string.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-klient.js"></script>
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; }
-  .ekran { min-height: 100vh; padding: 40px 20px; display: flex; align-items: center; justify-content: center; }
-  .karta { background: #fff; border: 1px solid #e8e4dc; border-radius: 8px; padding: 32px 36px; max-width: 580px; width: 100%; box-shadow: 0 4px 20px rgba(0,0,0,.06); }
-  .karta h1 { font-family: Georgia, serif; font-size: 1.4rem; color: #1e3a5f; margin-bottom: 8px; }
-  .karta .meta { color: #6b7280; font-size: .9rem; margin-bottom: 22px; line-height: 1.7; }
-  .karta label { display: block; margin-bottom: 8px; font-weight: 600; font-size: .9rem; }
-  .karta input[type=text] { width: 100%; padding: 12px 14px; border: 2px solid #c8c2b5; border-radius: 6px; font-family: inherit; font-size: 1rem; }
-  .karta input[type=text]:focus { outline: none; border-color: #1e3a5f; }
-  .karta button { margin-top: 18px; width: 100%; padding: 14px 24px; background: #1e3a5f; color: #fff; border: none; border-radius: 6px; font-family: inherit; font-weight: 700; font-size: 1rem; cursor: pointer; letter-spacing: 1px; text-transform: uppercase; }
-  .karta button:hover { background: #152a47; }
-  .karta .info-blokada { background: #fffbeb; border-left: 4px solid #b45309; padding: 12px 16px; font-size: .9rem; color: #78350f; border-radius: 0 4px 4px 0; margin: 16px 0; line-height: 1.6; }
-  .karta .info-blokada strong { color: #78350f; }
-
-  body.w-test { background: #bfdbfe; }
-  .test-header { position: sticky; top: 0; z-index: 10; background: #1e3a5f; color: #fff; padding: 14px 26px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; box-shadow: 0 2px 10px rgba(0,0,0,.15); }
-  .test-header .info { font-size: .9rem; }
-  .test-header .info strong { font-size: 1.05rem; }
-  .test-header .zegar { font-family: 'SF Mono', Consolas, monospace; font-size: 1.5rem; font-weight: 700; letter-spacing: 1px; background: rgba(255,255,255,.15); padding: 6px 16px; border-radius: 6px; }
-  .test-header .zegar.ostrzezony { background: #dc2626; animation: puls 1s infinite; }
-  @keyframes puls { 50% { opacity: .6; } }
-
-  .test-main { max-width: 780px; margin: 22px auto; padding: 0 20px 40px; }
-  .postep { background: rgba(255,255,255,.7); border-radius: 6px; padding: 10px 16px; margin-bottom: 18px; font-size: .9rem; color: #1e3a5f; text-align: center; font-weight: 600; }
-  .pytanie { background: #fff; border: 1px solid #dbeafe; border-radius: 8px; padding: 20px 24px; margin-bottom: 14px; box-shadow: 0 2px 8px rgba(30,58,95,.06); }
-  .pytanie.odpowiedziane { border-color: #93c5fd; }
-  .pytanie .nr { color: #1e3a5f; font-weight: 700; margin-right: 10px; }
-  .pytanie .tresc { font-weight: 600; margin-bottom: 14px; font-size: 1rem; }
-  .pytanie .opcje { display: flex; flex-direction: column; gap: 6px; }
-  .pytanie .opcje label { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 6px; cursor: pointer; border: 2px solid transparent; transition: .1s; }
-  .pytanie .opcje label:hover { background: #eff6ff; }
-  .pytanie .opcje input { accent-color: #1e3a5f; width: 18px; height: 18px; }
-  .pytanie .opcje label.wybrane { background: #dbeafe; border-color: #3b82f6; }
-  .pytanie .opcje .lit { font-weight: 700; color: #6b7280; }
-  .przycisk-zakoncz { display: block; margin: 26px auto 0; padding: 16px 44px; background: #1e3a5f; color: #fff; border: none; border-radius: 6px; font-family: inherit; font-weight: 700; font-size: 1rem; cursor: pointer; letter-spacing: 1.5px; text-transform: uppercase; }
-  .przycisk-zakoncz:hover { background: #152a47; }
-  .auto-info { text-align: center; margin-top: 20px; padding: 14px; background: #fffbeb; border: 2px solid #fcd34d; border-radius: 6px; color: #78350f; font-weight: 600; }
-  .auto-info .licznik { font-family: monospace; font-size: 1.6rem; }
-
-  /* EKRAN KOŃCOWY — pełny wynik */
-  .wynik-box { background: #fff; border: 1px solid #e8e4dc; border-radius: 8px; padding: 36px 40px; max-width: 820px; width: 100%; box-shadow: 0 4px 20px rgba(0,0,0,.06); }
-  .wynik-box h1 { font-family: Georgia, serif; font-size: 1.5rem; color: #1e3a5f; margin-bottom: 8px; text-align: center; }
-  .wynik-box > .podtytul { text-align: center; color: #6b7280; font-size: .92rem; margin-bottom: 26px; }
-
-  .wynik-glowny { text-align: center; margin-bottom: 26px; }
-  .wynik-glowny .punkty { font-family: Georgia, serif; font-size: 3.4rem; font-weight: 700; color: #1e3a5f; line-height: 1; }
-  .wynik-glowny .proc { color: #6b7280; font-size: 1.05rem; margin-top: 6px; }
-  .wynik-glowny .opis { margin-top: 10px; font-size: .95rem; color: #4b5563; max-width: 500px; margin-left: auto; margin-right: auto; }
-
-  .proba-badge { display: inline-block; background: #b45309; color: #fff; padding: 6px 18px; border-radius: 20px; font-size: .85rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 16px; }
-  .proba-badge.wielokrotna { background: #991b1b; }
-
-  .kod-sekcja { background: #fbfaf7; border: 1px solid #e8e4dc; border-radius: 8px; padding: 20px 22px; margin: 22px 0; text-align: center; }
-  .kod-sekcja h3 { font-family: Georgia, serif; color: #1e3a5f; font-size: 1rem; margin-bottom: 8px; }
-  .kod-sekcja p { color: #6b7280; font-size: .85rem; margin-bottom: 12px; }
-  .kod-krotki { font-family: 'SF Mono', Consolas, monospace; font-size: 1.4rem; font-weight: 700; letter-spacing: 3px; color: #1e3a5f; background: #fff; border: 2px solid #1e3a5f; padding: 14px 20px; border-radius: 6px; display: inline-block; user-select: all; }
-  .kod-qr { background: #fff; padding: 12px; display: inline-block; border: 2px solid #1e3a5f; border-radius: 6px; margin-top: 14px; }
-  .kod-qr canvas, .kod-qr img { display: block; }
-
-  .bledy-lista { margin-top: 26px; }
-  .bledy-lista h2 { font-family: Georgia, serif; color: #1e3a5f; font-size: 1.1rem; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid #e8e4dc; }
-  .pyt-szcz { border-left: 3px solid #1e3a5f; padding: 14px 18px; margin-bottom: 10px; background: #fbfaf7; border-radius: 0 4px 4px 0; }
-  .pyt-szcz.ok { border-left-color: #166534; }
-  .pyt-szcz.zle { border-left-color: #991b1b; }
-  .pyt-szcz .tresc { font-weight: 600; margin-bottom: 8px; font-size: .95rem; }
-  .pyt-szcz .odp { font-size: .88rem; margin: 4px 0; padding-left: 20px; }
-  .pyt-szcz .odp.user { color: #991b1b; }
-  .pyt-szcz .odp.user.ok { color: #166534; }
-  .pyt-szcz .odp.poprawna { color: #166534; font-weight: 600; }
-  .pyt-szcz .wyjasnienie { font-size: .82rem; color: #6b7280; margin-top: 8px; font-style: italic; }
-
-  .przyciski-koniec { text-align: center; margin-top: 26px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
-  .przyciski-koniec button { padding: 12px 28px; border-radius: 6px; font-family: inherit; font-weight: 600; font-size: .9rem; cursor: pointer; }
-  .przyciski-koniec .pierwszorzedny { background: #1e3a5f; color: #fff; border: 1px solid #1e3a5f; }
-  .przyciski-koniec .pierwszorzedny:hover { background: #152a47; }
-  .przyciski-koniec .drugi { background: #fff; color: #1e3a5f; border: 1px solid #1e3a5f; }
-  .przyciski-koniec .drugi:hover { background: #1e3a5f; color: #fff; }
-
-  .bledy { color: #991b1b; padding: 20px; text-align: center; font-size: .95rem; line-height: 1.6; }
-
-  @media print {
-    body { background: #fff; }
-    .przyciski-koniec { display: none !important; }
-    .kod-sekcja { page-break-inside: avoid; }
-    .pyt-szcz { page-break-inside: avoid; }
-  }
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#f7f5f0;color:#1f2933;line-height:1.6}
+.ekran{min-height:100vh;padding:40px 20px;display:flex;align-items:center;justify-content:center}
+.karta{background:#fff;border:1px solid #e8e4dc;border-radius:8px;padding:32px 36px;max-width:580px;width:100%;box-shadow:0 4px 20px rgba(0,0,0,.06)}
+.karta h1{font-family:Georgia,serif;font-size:1.4rem;color:#1e3a5f;margin-bottom:8px}
+.karta .meta{color:#6b7280;font-size:.9rem;margin-bottom:22px;line-height:1.7}
+.karta label{display:block;margin-bottom:8px;font-weight:600;font-size:.9rem}
+.karta input[type=text]{width:100%;padding:12px 14px;border:2px solid #c8c2b5;border-radius:6px;font-size:1rem;font-family:inherit}
+.karta input[type=text]:focus{outline:none;border-color:#1e3a5f}
+.karta button{margin-top:18px;width:100%;padding:14px 24px;background:#1e3a5f;color:#fff;border:none;border-radius:6px;font-weight:700;font-size:1rem;cursor:pointer;letter-spacing:1px;text-transform:uppercase;font-family:inherit}
+.karta button:hover{background:#152a47}
+body.w-test{background:#bfdbfe}
+.test-header{position:sticky;top:0;z-index:10;background:#1e3a5f;color:#fff;padding:14px 26px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.test-header .info{font-size:.9rem}
+.test-header .info strong{font-size:1.05rem}
+.test-header .zegar{font-family:monospace;font-size:1.5rem;font-weight:700;background:rgba(255,255,255,.15);padding:6px 16px;border-radius:6px}
+.test-header .zegar.ostrzezony{background:#dc2626}
+.test-main{max-width:780px;margin:22px auto;padding:0 20px 40px}
+.postep{background:rgba(255,255,255,.7);border-radius:6px;padding:10px 16px;margin-bottom:18px;text-align:center;font-weight:600;color:#1e3a5f}
+.pytanie{background:#fff;border:1px solid #dbeafe;border-radius:8px;padding:20px 24px;margin-bottom:14px}
+.pytanie .nr{color:#1e3a5f;font-weight:700;margin-right:10px}
+.pytanie .tresc{font-weight:600;margin-bottom:14px}
+.pytanie .opcje{display:flex;flex-direction:column;gap:6px}
+.pytanie .opcje label{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:6px;cursor:pointer;border:2px solid transparent}
+.pytanie .opcje label:hover{background:#eff6ff}
+.pytanie .opcje input{accent-color:#1e3a5f;width:18px;height:18px}
+.pytanie .opcje label.wybrane{background:#dbeafe;border-color:#3b82f6}
+.przycisk-zakoncz{display:block;margin:26px auto 0;padding:16px 44px;background:#1e3a5f;color:#fff;border:none;border-radius:6px;font-weight:700;font-size:1rem;cursor:pointer;text-transform:uppercase;letter-spacing:1.5px;font-family:inherit}
+.przycisk-zakoncz:hover{background:#152a47}
+.auto-info{text-align:center;margin-top:20px;padding:14px;background:#fffbeb;border:2px solid #fcd34d;border-radius:6px;color:#78350f;font-weight:600}
+.bledy{color:#991b1b;padding:20px;text-align:center;font-size:.95rem;line-height:1.6}
 </style>
 </head>
 <body>
@@ -100,23 +45,10 @@
 <div class="ekran" id="ekranStart">
   <div class="karta">
     <h1>Sprawdzian</h1>
-    <div class="meta" id="metaTestu"></div>
+    <div class="meta" id="metaTestu">Ładowanie...</div>
     <label for="imieUcznia">Twoje imię i nazwisko:</label>
     <input type="text" id="imieUcznia" placeholder="np. Jan Kowalski" autocomplete="off">
     <button id="startBtn">Rozpocznij sprawdzian</button>
-  </div>
-</div>
-
-<!-- Ekran blokady — już rozwiązany -->
-<div class="ekran" id="ekranBlokada" style="display:none">
-  <div class="karta">
-    <h1>Ten sprawdzian został już zakończony</h1>
-    <div class="info-blokada">
-      W tej przeglądarce ten sprawdzian został już przez Ciebie rozwiązany.<br>
-      <strong>Numer Twojej próby: <span id="nrProbyBlokada">—</span></strong><br><br>
-      Jeśli chcesz napisać sprawdzian ponownie, poproś nauczyciela o nowy link.
-    </div>
-    <p class="meta" id="metaBlokada"></p>
   </div>
 </div>
 
@@ -133,39 +65,17 @@
     <div id="listaPytan"></div>
     <button class="przycisk-zakoncz" id="zakonczBtn">Zakończ sprawdzian</button>
     <div id="autoInfo" class="auto-info" style="display:none">
-      Wszystkie odpowiedzi zaznaczone. Automatyczne zakończenie za <span class="licznik" id="autoLicznik">3</span>… (kliknij „Zakończ sprawdzian", aby anulować)
+      Wszystkie odpowiedzi zaznaczone. Automatyczne zakończenie za <span id="autoLicznik">3</span>...
     </div>
   </div>
 </div>
 
 <div class="ekran" id="ekranKoniec" style="display:none">
-  <div class="wynik-box">
+  <div class="karta">
     <h1>Sprawdzian zakończony</h1>
-    <p class="podtytul">Pokaż ten ekran nauczycielowi — zobaczy Twój pełny wynik.</p>
-
-    <div style="text-align:center; margin-bottom:20px;">
-      <span class="proba-badge" id="probaBadge">Próba: 1</span>
-    </div>
-
-    <div class="wynik-glowny">
-      <div class="punkty" id="wynikPunkty">— / —</div>
-      <div class="proc" id="wynikProc">—</div>
-      <div class="opis" id="wynikOpis"></div>
-    </div>
-
-    <div class="kod-sekcja">
-      <h3>Kod identyfikacyjny sesji</h3>
-      <p>Zapisz lub pokaż nauczycielowi — ułatwia identyfikację Twojego sprawdzianu.</p>
-      <div class="kod-krotki" id="kodKrotki">----</div>
-      <div class="kod-qr" id="kodQR"></div>
-    </div>
-
-    <div class="bledy-lista" id="bledyLista"></div>
-
-    <div class="przyciski-koniec">
-      <button class="pierwszorzedny" onclick="window.print()">Wydrukuj / zapisz PDF</button>
-      <button class="drugi" onclick="location.reload()">Zamknij</button>
-    </div>
+    <p style="text-align:center;color:#6b7280;margin-top:16px;">Twój wynik został zapisany. Możesz zamknąć tę stronę.</p>
+    <p style="text-align:center;margin-top:20px;"><strong id="wynikPokaz" style="font-family:Georgia,serif;font-size:2rem;color:#1e3a5f;"></strong></p>
+    <p style="text-align:center;color:#6b7280;font-size:.9rem;margin-top:10px;">Nauczyciel widzi Twój wynik w swoim panelu.</p>
   </div>
 </div>
 
@@ -177,311 +87,157 @@
 </div>
 
 <script>
-/* ============================================================
-   NARZĘDZIA
-============================================================ */
-function b64Decode(s) {
-  s = s.replace(/-/g, "+").replace(/_/g, "/");
-  while (s.length % 4) s += "=";
-  try {
-    var bin = atob(s);
-    var bytes = new Uint8Array(bin.length);
-    for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
-    return new TextDecoder().decode(bytes);
-  } catch (e) { return null; }
-}
-function b64Encode(str) {
-  var bytes = new TextEncoder().encode(str);
-  var bin = "";
-  bytes.forEach(function(b) { bin += String.fromCharCode(b); });
-  return btoa(bin).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
-}
-function generujKodKrotki() {
-  var s = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";
-  var czesci = [];
-  for (var k = 0; k < 4; k++) {
-    var czesc = "";
-    for (var i = 0; i < 4; i++) czesc += s[Math.floor(Math.random() * s.length)];
-    czesci.push(czesc);
-  }
-  return czesci.join("-");
-}
+var TEST=null, PYTANIA=[], ODPOWIEDZI=[], IMIE="";
+var START_CZASU=0, KONIEC_CZASU=0, ZEGAR=null, AUTO=null, ZAKONCZONE=false;
 
-/* ============================================================
-   LICZNIK PRÓB (localStorage)
-============================================================ */
-function kluczProby(tid) { return "proba_" + tid; }
-function pobierzLiczbeProb(tid) {
-  try {
-    var v = parseInt(localStorage.getItem(kluczProby(tid)) || "0");
-    return isNaN(v) ? 0 : v;
-  } catch (e) { return 0; }
-}
-function zapiszLiczbeProb(tid, n) {
-  try { localStorage.setItem(kluczProby(tid), String(n)); } catch (e) {}
-}
+document.addEventListener("DOMContentLoaded", async function() {
+  var t = new URLSearchParams(location.search).get("t");
+  if(!t){ pokazBlad("Brak kodu sprawdzianu w adresie URL."); return; }
 
-/* ============================================================
-   STAN
-============================================================ */
-var TEST = null;
-var WERSJA = "A";
-var PYTANIA = [];
-var ODPOWIEDZI = [];
-var IMIE = "";
-var START_CZASU = 0;
-var KONIEC_CZASU = 0;
-var ZEGAR_INT = null;
-var AUTO_INT = null;
-var ZAKONCZONE = false;
-var NUMER_PROBY = 1;
+  await czekajNaSb();
+  if(!window.sb){ pokazBlad("Błąd inicjalizacji."); return; }
 
-/* ============================================================
-   START
-============================================================ */
-document.addEventListener("DOMContentLoaded", function() {
-  var params = new URLSearchParams(location.search);
-  var kod = params.get("k");
-  if (!kod) { pokazBlad("Brak kodu sprawdzianu w adresie URL."); return; }
+  var o = await window.sb.from("testy").select("*").eq("id", t).single();
+  if(o.error || !o.data){ pokazBlad("Nie znaleziono sprawdzianu. " + (o.error ? o.error.message : "")); return; }
+  TEST = o.data;
+  PYTANIA = TEST.pytania || [];
+  if(!PYTANIA.length){ pokazBlad("Sprawdzian nie zawiera pytań."); return; }
 
-  var json = null;
-try { json = LZString.decompressFromEncodedURIComponent(kod); } catch (e) {}
-if (!json) json = b64Decode(kod);
-if (!json) { pokazBlad("Kod sprawdzianu jest uszkodzony."); return; }
-
-  try { TEST = JSON.parse(json); }
-  catch (e) { pokazBlad("Nie udało się odczytać danych sprawdzianu."); return; }
-
-  if (Array.isArray(TEST.pytania)) {
-    WERSJA = TEST.wersja || "A";
-    PYTANIA = TEST.pytania;
-  } else if (Array.isArray(TEST.wersje)) {
-    var litera = params.get("w") || "A";
-    var w = TEST.wersje.find(function(x) { return x.litera === litera; }) || TEST.wersje[0];
-    WERSJA = w.litera;
-    PYTANIA = w.pytania;
-  } else {
-    pokazBlad("Nieprawidłowa struktura testu.");
-    return;
-  }
-
-  if (!PYTANIA.length) { pokazBlad("Sprawdzian nie zawiera pytań."); return; }
-
-  ODPOWIEDZI = PYTANIA.map(function() { return -1; });
-
-  /* Sprawdź, czy już był rozwiązany w tej przeglądarce */
-  var tid = TEST.id || "?";
-  var ileProb = pobierzLiczbeProb(tid);
+  ODPOWIEDZI = PYTANIA.map(function(){ return -1; });
 
   document.getElementById("metaTestu").innerHTML =
     "Klasa: <strong>" + (TEST.klasa || "—") + "</strong><br>" +
-    "Nauczyciel: <strong>" + (TEST.nauczyciel || "—") + "</strong><br>" +
     "Liczba pytań: <strong>" + PYTANIA.length + "</strong><br>" +
-    "Czas: <strong>" + (TEST.czas ? TEST.czas + " min" : "bez limitu") + "</strong>";
-
-  if (ileProb > 0) {
-    /* Blokada */
-    document.getElementById("ekranStart").style.display = "none";
-    document.getElementById("ekranBlokada").style.display = "flex";
-    document.getElementById("nrProbyBlokada").textContent = ileProb;
-    document.getElementById("metaBlokada").innerHTML =
-      "Klasa: <strong>" + (TEST.klasa || "—") + "</strong><br>" +
-      "Test ID: <strong>" + tid + "</strong>";
-    return;
-  }
-
-  NUMER_PROBY = 1;
+    "Czas: <strong>" + (TEST.czas_min ? TEST.czas_min + " min" : "bez limitu") + "</strong>";
 
   document.getElementById("startBtn").addEventListener("click", rozpocznij);
-  document.getElementById("imieUcznia").addEventListener("keydown", function(e) {
-    if (e.key === "Enter") rozpocznij();
-  });
-  document.getElementById("zakonczBtn").addEventListener("click", function() {
-    if (confirm("Czy na pewno zakończyć sprawdzian?")) zakoncz();
-  });
+  document.getElementById("imieUcznia").addEventListener("keydown", function(e){ if(e.key==="Enter") rozpocznij(); });
+  document.getElementById("zakonczBtn").addEventListener("click", function(){ if(confirm("Zakończyć sprawdzian?")) zakoncz(); });
 });
 
-function pokazBlad(msg) {
-  document.getElementById("ekranStart").style.display = "none";
-  document.getElementById("ekranBledu").style.display = "flex";
-  document.getElementById("trescBledu").textContent = msg;
+async function czekajNaSb(){
+  if(window.sbGotowy) return;
+  await new Promise(function(r){ var n=0; var i=setInterval(function(){ n++; if(window.sbGotowy||n>30){ clearInterval(i); r(); } },100); });
 }
 
-/* ============================================================
-   ROZPOCZĘCIE
-============================================================ */
-function rozpocznij() {
+function pokazBlad(m){
+  document.getElementById("ekranStart").style.display="none";
+  document.getElementById("ekranBledu").style.display="flex";
+  document.getElementById("trescBledu").textContent=m;
+}
+
+function rozpocznij(){
   var imie = document.getElementById("imieUcznia").value.trim();
-  if (!imie) { alert("Wpisz swoje imię i nazwisko."); return; }
+  if(!imie){ alert("Wpisz imię i nazwisko."); return; }
   IMIE = imie;
   START_CZASU = Date.now();
-  KONIEC_CZASU = TEST.czas ? START_CZASU + TEST.czas * 60 * 1000 : 0;
+  KONIEC_CZASU = TEST.czas_min ? START_CZASU + TEST.czas_min*60*1000 : 0;
 
-  document.getElementById("ekranStart").style.display = "none";
+  document.getElementById("ekranStart").style.display="none";
   document.body.classList.add("w-test");
-  document.getElementById("ekranTest").style.display = "block";
+  document.getElementById("ekranTest").style.display="block";
   document.getElementById("naglowekTestu").textContent = "Sprawdzian – " + (TEST.klasa || "");
   document.getElementById("infoUcznia").textContent = IMIE;
 
   renderPytania();
-  podepnijOdpowiedzi();
   aktualizujPostep();
-  startZegara();
+  if(TEST.czas_min) startZegar();
+  else document.getElementById("zegar").textContent = "∞";
 }
 
-function renderPytania() {
+function renderPytania(){
   var html = "";
-  PYTANIA.forEach(function(p, i) {
-    html += '<div class="pytanie" data-i="' + i + '">';
-    html += '<div class="tresc"><span class="nr">' + (i + 1) + '.</span> ' + p.q + '</div>';
+  PYTANIA.forEach(function(p,i){
+    html += '<div class="pytanie" data-i="'+i+'">';
+    html += '<div class="tresc"><span class="nr">'+(i+1)+'.</span> '+p.q+'</div>';
     html += '<div class="opcje">';
-    (p.opcje || []).forEach(function(op, j) {
-      var lit = String.fromCharCode(65 + j);
-      html += '<label><input type="radio" name="p' + i + '" value="' + j + '"> ';
-      html += '<span class="lit">' + lit + ')</span> <span>' + op + '</span></label>';
+    (p.opcje||[]).forEach(function(op,j){
+      var lit = String.fromCharCode(65+j);
+      html += '<label><input type="radio" name="p'+i+'" value="'+j+'"> <strong>'+lit+')</strong> '+op+'</label>';
     });
     html += '</div></div>';
   });
   document.getElementById("listaPytan").innerHTML = html;
-}
-
-function podepnijOdpowiedzi() {
-  document.querySelectorAll('.pytanie input[type=radio]').forEach(function(radio) {
-    radio.addEventListener("change", function() {
-      var i = parseInt(radio.name.substring(1));
-      ODPOWIEDZI[i] = parseInt(radio.value);
-      var pyt = radio.closest(".pytanie");
-      pyt.querySelectorAll("label").forEach(function(l) { l.classList.remove("wybrane"); });
-      radio.closest("label").classList.add("wybrane");
-      pyt.classList.add("odpowiedziane");
+  document.querySelectorAll('.pytanie input[type=radio]').forEach(function(r){
+    r.onchange = function(){
+      var i = parseInt(r.name.substring(1));
+      ODPOWIEDZI[i] = parseInt(r.value);
+      var pyt = r.closest(".pytanie");
+      pyt.querySelectorAll("label").forEach(function(l){ l.classList.remove("wybrane"); });
+      r.closest("label").classList.add("wybrane");
       aktualizujPostep();
-      sprawdzCzyWszystko();
-    });
+      sprawdzCzyGotowe();
+    };
   });
 }
 
-function aktualizujPostep() {
-  var odp = ODPOWIEDZI.filter(function(o) { return o !== -1; }).length;
-  document.getElementById("postep").textContent = "Odpowiedziano: " + odp + " / " + PYTANIA.length;
+function aktualizujPostep(){
+  var odp = ODPOWIEDZI.filter(function(o){ return o!==-1; }).length;
+  document.getElementById("postep").textContent = "Odpowiedziano: "+odp+" / "+PYTANIA.length;
 }
 
-function sprawdzCzyWszystko() {
-  if (ZAKONCZONE) return;
-  var brakuje = ODPOWIEDZI.filter(function(o) { return o === -1; }).length;
-  if (brakuje !== 0) return;
+function sprawdzCzyGotowe(){
+  if(ZAKONCZONE) return;
+  if(ODPOWIEDZI.filter(function(o){ return o===-1; }).length !== 0) return;
   var info = document.getElementById("autoInfo");
-  var licznik = document.getElementById("autoLicznik");
-  info.style.display = "block";
+  info.style.display="block";
   var n = 3;
-  licznik.textContent = n;
-  AUTO_INT = setInterval(function() {
+  document.getElementById("autoLicznik").textContent = n;
+  AUTO = setInterval(function(){
     n--;
-    licznik.textContent = n;
-    if (n <= 0) { clearInterval(AUTO_INT); AUTO_INT = null; zakoncz(); }
+    document.getElementById("autoLicznik").textContent = n;
+    if(n<=0){ clearInterval(AUTO); AUTO=null; zakoncz(); }
   }, 1000);
 }
 
-function startZegara() {
-  if (!TEST.czas) { document.getElementById("zegar").textContent = "∞"; return; }
+function startZegar(){
   odswiezZegar();
-  ZEGAR_INT = setInterval(odswiezZegar, 1000);
+  ZEGAR = setInterval(odswiezZegar, 1000);
 }
 
-function odswiezZegar() {
-  if (ZAKONCZONE) return;
+function odswiezZegar(){
+  if(ZAKONCZONE) return;
   var pozostalo = Math.max(0, KONIEC_CZASU - Date.now());
-  var sek = Math.floor(pozostalo / 1000);
-  var min = Math.floor(sek / 60);
-  var s = sek % 60;
+  var sek = Math.floor(pozostalo/1000);
+  var m = Math.floor(sek/60);
+  var s = sek%60;
   var el = document.getElementById("zegar");
-  el.textContent = String(min).padStart(2, "0") + ":" + String(s).padStart(2, "0");
-  if (pozostalo <= 60000) el.classList.add("ostrzezony");
-  if (pozostalo <= 0) { clearInterval(ZEGAR_INT); zakoncz(); }
+  el.textContent = String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");
+  if(pozostalo <= 60000) el.classList.add("ostrzezony");
+  if(pozostalo <= 0){ clearInterval(ZEGAR); zakoncz(); }
 }
 
-/* ============================================================
-   ZAKOŃCZENIE — pełny wynik dla ucznia + licznik prób
-============================================================ */
-function zakoncz() {
-  if (ZAKONCZONE) return;
+async function zakoncz(){
+  if(ZAKONCZONE) return;
   ZAKONCZONE = true;
-  if (ZEGAR_INT) { clearInterval(ZEGAR_INT); ZEGAR_INT = null; }
-  if (AUTO_INT) { clearInterval(AUTO_INT); AUTO_INT = null; }
+  if(ZEGAR) clearInterval(ZEGAR);
+  if(AUTO) clearInterval(AUTO);
 
   var punkty = 0;
-  ODPOWIEDZI.forEach(function(odp, i) {
-    if (odp === PYTANIA[i].poprawna) punkty++;
-  });
+  ODPOWIEDZI.forEach(function(o,i){ if(o === PYTANIA[i].poprawna) punkty++; });
   var max = PYTANIA.length;
-  var pct = Math.round(punkty / max * 100);
+  var procent = Math.round(punkty/max*100);
+  var sekundy = Math.round((Date.now() - START_CZASU)/1000);
 
-  /* Zapisz próbę — od teraz uczeń nie napisze ponownie */
-  var tid = TEST.id || "?";
-  var ileProb = pobierzLiczbeProb(tid) + 1;
-  zapiszLiczbeProb(tid, ileProb);
-  NUMER_PROBY = ileProb;
-
-  document.getElementById("wynikPunkty").textContent = punkty + " / " + max;
-  document.getElementById("wynikProc").textContent = pct + "%";
-
-  var komentarz = "Musisz jeszcze powtórzyć materiał.";
-  if (pct >= 80) komentarz = "Świetnie!";
-  else if (pct >= 60) komentarz = "Nieźle, ale warto powtórzyć.";
-  document.getElementById("wynikOpis").textContent = komentarz;
-
-  /* Licznik prób — kolor zmienia się, gdy > 1 */
-  var badge = document.getElementById("probaBadge");
-  badge.textContent = "Próba: " + NUMER_PROBY;
-  if (NUMER_PROBY > 1) badge.classList.add("wielokrotna");
-
-  /* Krótki kod */
-  var kodKrotki = generujKodKrotki();
-  document.getElementById("kodKrotki").textContent = kodKrotki;
-
-  /* Pełny wynik — zakodowany w QR (dla nauczycieli z kamerą) */
-  var pelnyWynik = {
-    v: 1,
-    tid: tid,
-    klasa: TEST.klasa || "",
-    wersja: WERSJA,
-    u: IMIE,
-    d: new Date().toISOString(),
-    a: ODPOWIEDZI,
-    pkt: punkty,
-    max: max,
-    proba: NUMER_PROBY,
-    kod: kodKrotki
-  };
-  var kodQR = "WYNIK:" + b64Encode(JSON.stringify(pelnyWynik));
-
-  try {
-    var holder = document.getElementById("kodQR");
-    holder.innerHTML = "";
-    new QRCode(holder, { text: kodQR, width: 200, height: 200, correctLevel: QRCode.CorrectLevel.L });
-  } catch (e) { console.error("QR błąd:", e); }
-
-  /* Lista pytań z odpowiedziami i wyjaśnieniami */
-  var html = '<h2>Szczegółowe wyniki</h2>';
-  PYTANIA.forEach(function(p, i) {
-    var odpU = ODPOWIEDZI[i];
-    var ok = (odpU === p.poprawna);
-    html += '<div class="pyt-szcz ' + (ok ? "ok" : "zle") + '">';
-    html += '<div class="tresc">' + (i + 1) + '. ' + p.q + '</div>';
-    html += '<div class="odp user ' + (ok ? "ok" : "") + '"><strong>' + (ok ? "✓" : "✗") + ' Twoja odpowiedź:</strong> ' +
-      (odpU >= 0 ? String.fromCharCode(65 + odpU) + ') ' + p.opcje[odpU] : "(brak)") + '</div>';
-    if (!ok) {
-      html += '<div class="odp poprawna"><strong>✓ Poprawna:</strong> ' +
-        String.fromCharCode(65 + p.poprawna) + ') ' + p.opcje[p.poprawna] + '</div>';
-    }
-    if (p.wyjasnienie) html += '<div class="wyjasnienie">' + p.wyjasnienie + '</div>';
-    html += '</div>';
+  var o = await window.sb.from("wyniki").insert({
+    test_id: TEST.id,
+    uczen_imie: IMIE,
+    punkty: punkty,
+    max_punktow: max,
+    procent: procent,
+    wersja: "A",
+    odpowiedzi: ODPOWIEDZI,
+    czas_sekundy: sekundy
   });
-  document.getElementById("bledyLista").innerHTML = html;
 
   document.body.classList.remove("w-test");
-  document.getElementById("ekranTest").style.display = "none";
-  document.getElementById("ekranKoniec").style.display = "flex";
-  window.scrollTo({ top: 0 });
+  document.getElementById("ekranTest").style.display="none";
+  document.getElementById("ekranKoniec").style.display="flex";
+  document.getElementById("wynikPokaz").textContent = punkty + " / " + max + " (" + procent + "%)";
+
+  if(o.error){
+    document.getElementById("wynikPokaz").textContent = "Wynik zapisany lokalnie, błąd wysyłki: " + o.error.message;
+  }
 }
 </script>
 </body>
