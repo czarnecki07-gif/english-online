@@ -43,14 +43,28 @@
     border-bottom: 1px solid var(--border);
     box-shadow: 0 1px 3px rgba(0,0,0,.04);
   }
+    /* --- logo: obrazek zamiast napisu "Angielski.online" --- */
   header.topbar .logo {
-    font-family: Georgia, serif;
-    font-size: 1.35rem;
-    font-weight: 700;
-    color: var(--primary);
-    letter-spacing: -.3px;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    line-height: 0;              /* brak pustego luzu pod obrazkiem */
+    text-decoration: none;
+    border-radius: 4px;
   }
-  header.topbar .logo span { color: var(--accent); }
+  header.topbar .logo img {
+    /* 2 × wysokość litery "A" z dotychczasowego napisu:
+       1.35rem (21,6 px) Georgia → kapitalik "A" ≈ 15 px → 2 × 15 px = 30 px */
+    height: 30px;
+    width: auto;
+    display: block;
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+  header.topbar .logo:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
   header.topbar .meta { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
   header.topbar .rola {
     padding: 5px 14px;
@@ -411,7 +425,7 @@
   /* ========= RESPONSIVE ========= */
   @media (max-width: 760px) {
     header.topbar { padding: 14px 18px; }
-    header.topbar .logo { font-size: 1.15rem; }
+    header.topbar .logo img { height: 26px; }   /* 2 × kapitalik "A" przy 1.15rem */
     .hero { padding: 60px 20px 70px; }
     .hero h1 { font-size: 1.7rem; }
     .hero .lead { font-size: 1rem; }
@@ -430,7 +444,9 @@
 <body>
 
 <header class="topbar">
-  <div class="logo">Angielski<span>.</span>online</div>
+  <a href="index.html" class="logo" aria-label="English ABC — strona główna">
+    <img src="logo.png" alt="English ABC — kurs angielskiego online">
+  </a>
   <div class="meta">
     <span class="rola" id="rolaBadge">—</span>
     <button class="ghost" id="wylogujBtn" style="display:none">Wyloguj</button>
