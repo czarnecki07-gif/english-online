@@ -406,12 +406,12 @@ async function odswiezWyniki(){
   var o=await window.sb.from("wyniki").select("*").eq("test_id",id).order("data_oddania",{ascending:false});
   if(o.error){kont.innerHTML='<div class="pusta">Błąd: '+o.error.message+'</div>';return}
   if(!o.data.length){kont.innerHTML='<div class="pusta">Brak wyników.</div>';return}
-html+='<tr><td>'+(i+1)+'</td><td><strong>'+esc(w.uczen_imie||"?")+'</strong></td><td>'+w.punkty+" / "+w.max_punktow+'</td><td class="'+k+'">'+pct+'%</td><td class="'+k+'">'+oc+'</td><td>'+new Date(w.data_oddania).toLocaleString("pl")+'</td>';
+  var html='<table><thead><tr><th>#</th><th>Uczeń</th><th>Klasa</th><th>Punkty</th><th>%</th><th>Ocena</th><th>Data</th><th></th></tr></thead><tbody>';
   o.data.forEach(function(w,i){
     var pct=w.procent||0;
     var k=pct>=80?"dobry":(pct>=50?"sredni":"zly");
     var oc=pct>=90?"5":pct>=75?"4":pct>=50?"3":pct>=30?"2":"1";
-html+='<tr><td>'+(i+1)+'</td><td><strong>'+esc(w.uczen_imie||"?")+'</strong></td><td>'+esc(w.kod_klasy||"—")+'</td><td>'+w.punkty+" / "+w.max_punktow+'</td><td class="'+k+'">'+pct+'%</td><td class="'+k+'">'+oc+'</td><td>'+new Date(w.data_oddania).toLocaleString("pl")+'</td>';
+    html+='<tr><td>'+(i+1)+'</td><td><strong>'+esc(w.uczen_imie||"?")+'</strong></td><td>'+esc(w.kod_klasy||"—")+'</td><td>'+w.punkty+" / "+w.max_punktow+'</td><td class="'+k+'">'+pct+'%</td><td class="'+k+'">'+oc+'</td><td>'+new Date(w.data_oddania).toLocaleString("pl")+'</td>';
     html+='<td><button class="drugie" data-szczegoly="'+w.id+'" style="padding:5px 12px;font-size:.8rem">Szczegóły</button></td></tr>';
   });
   html+='</tbody></table>';
