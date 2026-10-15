@@ -98,7 +98,8 @@ th{background:#fbfaf7;color:#1e3a5f;font-size:.8rem;text-transform:uppercase}
       </select>
     </div>
     <div><label>Czas (min, 0 = bez limitu)</label><input type="number" id="czas" value="30"></div>
-    <div><label>Liczba pytań</label><input type="number" id="liczba" value="20"></div>
+        <div><label>Liczba pytań</label><input type="number" id="liczba" value="20"></div>
+    <div><label>Liczba wersji</label><input type="number" id="liczbaWersji" value="1" min="1" max="26"></div>
   </div>
   <div id="brakKlasInfo" class="info-box" style="display:none">
     Nie masz jeszcze żadnej klasy. Dodaj ją w zakładce <strong>Moje klasy</strong>.
@@ -338,26 +339,69 @@ async function generujTest(){
   var klasa=document.getElementById("klasa").value.trim();
   var czas=parseInt(document.getElementById("czas").value)||0;
   var liczba=parseInt(document.getElementById("liczba").value)||20;
+  var liczbaWersji=parseInt(document.getElementById("liczbaWersji").value)||1;
+  if(liczbaWersji<1)liczbaWersji=1;
+  if(liczbaWersji>26)liczbaWersji=26;
   var zazn=pobierzZaznaczone();
   if(!klasa){alert("Wybierz klasę (zakładka Moje klasy).");return}
   if(!zazn.length){alert("Zaznacz lekcję.");return}
   var pula=[];
   zazn.forEach(function(id){lekcje[id].test.forEach(function(q){pula.push(q)})});
   if(pula.length<liczba){alert("Za mało pytań (dostępne: "+pula.length+").");return}
-  var wybrane=shuffle(pula).slice(0,liczba);
+
+  var wybranaKlasa = MOJE_KLASY.find(function(k){return k.nazwa === klasa;});
+  var kodKlasy = wybranaKlasa ? wybranaKlasa.kod : "";
+
   var btn=document.getElementById("generujBtn");
   btn.disabled=true;btn.textContent="Generuję...";
-  var o=await window.sb.from("testy").insert({nauczyciel_id:profil.id,klasa:klasa,nazwa:klasa,liczba_pytan:wybrane.length,czas_min:czas,pytania:wybrane,wersje:1}).select().single();
+
+  var wersjeInfo=[];
+  for (var w=0; w<liczbaWersji; w++){
+    var litera = String.fromCharCode(65+w);
+    var wybrane = shuffle(pula).slice(0, liczba);
+    var o=await window.sb.from("testy").insert({
+      nauczyciel_id: profil.id,
+      klasa: klasa,
+      nazwa: klasa + " · Wersja " + litera,
+      liczba_pytan: wybrane.length,
+      czas_min: czas,
+      pytania: wybrane,
+      wersje: 1,
+      wersja: litera
+    }).select().single();
+    if(o.error){alert("Błąd: "+o.error.message);btn.disabled=false;btn.textContent="Generuj test";return}
+    var link = location.origin+"/uczen.html?t="+o.data.id+"&k="+encodeURIComponent(kodKlasy);
+    wersjeInfo.push({ litera: litera, link: link });
+  }
+
   btn.disabled=false;btn.textContent="Generuj test";
-  if(o.error){alert("Błąd: "+o.error.message);return}
-  var wybranaKlasa = MOJE_KLASY.find(function(k){return k.nazwa === klasa;});
-var kodKlasy = wybranaKlasa ? wybranaKlasa.kod : "";
-var link=location.origin+"/uczen.html?t="+o.data.id+"&k="+encodeURIComponent(kodKlasy);
+
+  var html = '<div class="link-box"><h3>Test gotowy — ' + liczbaWersji + ' wersji</h3>';
+  html += '<p style="color:#166534;font-size:.9rem">Wyświetl wszystkie QR na projektorze — uczniowie obok siebie skanują różne. Dzięki temu nie mogą ściągać.</p>';
+  html += '<div style="display:flex;flex-wrap:wrap;gap:20px;margin-top:16px">';
+  wersjeInfo.forEach(function(w, i){
+    html += '<div style="border:2px solid #1e3a5f;border-radius:6px;padding:14px;text-align:center;background:#fff">';
+    html += '<div style="font-family:Georgia,serif;font-size:1.3rem;font-weight:700;color:#1e3a5f;margin-bottom:10px">Wersja ' + w.litera + '</div>';
+    html += '<div class="qr-holder" id="qr_' + i + '"></div>';
+    html += '<button class="drugie" data-copy-link="' + esc(w.link) + '" style="margin-top:10px;font-size:.8rem;padding:6px 14px">Kopiuj link</button>';
+    html += '</div>';
+  });
+  html += '</div></div>';
+
   var kont=document.getElementById("wynikGenerowania");
   kont.style.display="block";
-  kont.innerHTML='<div class="link-box"><h3>Test gotowy</h3><p style="color:#166534"><strong>W klasie:</strong> wyświetl QR na projektorze — uczniowie skanują.<br><strong>Zdalnie:</strong> kopiuj link i wyślij.</p><div class="link-siatka"><div><div class="qr-holder" id="qrNowy"></div></div><div><label>Link:</label><div class="link-url" id="linkTestu">'+esc(link)+'</div><button class="glowne" onclick="kopiujLink()">Kopiuj link</button></div></div></div>';
+  kont.innerHTML = html;
   kont.scrollIntoView({behavior:"smooth"});
-  setTimeout(function(){pokazQR(link,"qrNowy")},50);
+
+  wersjeInfo.forEach(function(w, i){
+    setTimeout(function(){ pokazQR(w.link, "qr_" + i); }, 50 + i*50);
+  });
+
+  kont.querySelectorAll("[data-copy-link]").forEach(function(b){
+    b.onclick = function(){
+      navigator.clipboard.writeText(b.dataset.copyLink).then(function(){ alert("Skopiowano!"); });
+    };
+  });
 }
 
 function kopiujLink(){
@@ -394,7 +438,7 @@ async function odswiezWyborTestow(){
   o.data.forEach(function(t){
     var opt=document.createElement("option");
     opt.value=t.id;
-    opt.textContent=(t.klasa||"?")+" · "+t.liczba_pytan+" pytań · "+new Date(t.data_utworzenia).toLocaleDateString("pl");
+    opt.textContent=(t.nazwa||t.klasa||"?")+" · "+t.liczba_pytan+" pytań · "+new Date(t.data_utworzenia).toLocaleDateString("pl");
     sel.appendChild(opt);
   });
 }
