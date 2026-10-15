@@ -140,6 +140,17 @@ document.addEventListener("DOMContentLoaded", async function() {
     "Liczba pytań: <strong>" + PYTANIA.length + "</strong><br>" +
     "Czas: <strong>" + (TEST.czas_min ? TEST.czas_min + " min" : "bez limitu") + "</strong>";
 
+    /* Sprawdź, czy uczeń już nie rozwiązał tego testu w tej przeglądarce */
+  var rozwiazany = localStorage.getItem("rozwiazany_" + t);
+  if (rozwiazany) {
+    document.getElementById("startBtn").disabled = true;
+    document.getElementById("startBtn").textContent = "Sprawdzian już rozwiązany";
+    var info = document.createElement("div");
+    info.style.cssText = "margin-top:16px;padding:14px;background:#fef2f2;border-left:4px solid #991b1b;color:#991b1b;border-radius:0 4px 4px 0;font-size:.9rem";
+    info.innerHTML = "<strong>Ten sprawdzian został już przez Ciebie rozwiązany.</strong><br>Jeśli chcesz go powtórzyć — poproś nauczyciela o nowy link.";
+    document.getElementById("ekranStart").querySelector(".karta").appendChild(info);
+  }
+
   document.getElementById("startBtn").addEventListener("click", rozpocznij);
   document.getElementById("imieUcznia").addEventListener("keydown", function(e){ if(e.key==="Enter") rozpocznij(); });
   document.getElementById("zakonczBtn").addEventListener("click", function(){ if(confirm("Zakończyć sprawdzian?")) zakoncz(); });
@@ -156,9 +167,17 @@ function pokazBlad(m){
   document.getElementById("trescBledu").textContent=m;
 }
 
-function rozpocznij(){
+async function rozpocznij(){
   var imie = document.getElementById("imieUcznia").value.trim();
   if(!imie){ alert("Wpisz imię i nazwisko."); return; }
+
+  /* Sprawdź w bazie, czy uczeń o tym imieniu już nie rozwiązał tego testu */
+  var sprawdz = await window.sb.from("wyniki").select("id").eq("test_id", TEST.id).ilike("uczen_imie", imie).limit(1);
+  if(sprawdz.data && sprawdz.data.length > 0){
+    alert("Ten sprawdzian został już przez Ciebie rozwiązany.\nJeśli chcesz go powtórzyć — poproś nauczyciela o nowy link.");
+    return;
+  }
+
   IMIE = imie;
   START_CZASU = Date.now();
   KONIEC_CZASU = TEST.czas_min ? START_CZASU + TEST.czas_min*60*1000 : 0;
@@ -262,6 +281,9 @@ var kodKlasy = new URLSearchParams(location.search).get("k") || "";
     odpowiedzi: ODPOWIEDZI,
     czas_sekundy: sekundy
   });
+
+   /* Zapamiętaj, że uczeń rozwiązał ten test w tej przeglądarce */
+  try { localStorage.setItem("rozwiazany_" + TEST.id, "1"); } catch (e) {}
 
   /* Pokazanie wyniku */
   document.body.classList.remove("w-test");
