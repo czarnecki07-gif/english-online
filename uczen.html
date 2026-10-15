@@ -250,9 +250,11 @@ async function zakoncz(){
   var sekundy = Math.round((Date.now() - START_CZASU)/1000);
 
   /* Zapis do bazy */
+var kodKlasy = new URLSearchParams(location.search).get("k") || "";
   var o = await window.sb.from("wyniki").insert({
     test_id: TEST.id,
     uczen_imie: IMIE,
+    kod_klasy: kodKlasy,
     punkty: punkty,
     max_punktow: max,
     procent: procent,

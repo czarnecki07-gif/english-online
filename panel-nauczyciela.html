@@ -350,7 +350,9 @@ async function generujTest(){
   var o=await window.sb.from("testy").insert({nauczyciel_id:profil.id,klasa:klasa,nazwa:klasa,liczba_pytan:wybrane.length,czas_min:czas,pytania:wybrane,wersje:1}).select().single();
   btn.disabled=false;btn.textContent="Generuj test";
   if(o.error){alert("Błąd: "+o.error.message);return}
-  var link=location.origin+"/uczen.html?t="+o.data.id;
+  var wybranaKlasa = MOJE_KLASY.find(function(k){return k.nazwa === klasa;});
+var kodKlasy = wybranaKlasa ? wybranaKlasa.kod : "";
+var link=location.origin+"/uczen.html?t="+o.data.id+"&k="+encodeURIComponent(kodKlasy);
   var kont=document.getElementById("wynikGenerowania");
   kont.style.display="block";
   kont.innerHTML='<div class="link-box"><h3>Test gotowy</h3><p style="color:#166534"><strong>W klasie:</strong> wyświetl QR na projektorze — uczniowie skanują.<br><strong>Zdalnie:</strong> kopiuj link i wyślij.</p><div class="link-siatka"><div><div class="qr-holder" id="qrNowy"></div></div><div><label>Link:</label><div class="link-url" id="linkTestu">'+esc(link)+'</div><button class="glowne" onclick="kopiujLink()">Kopiuj link</button></div></div></div>';
@@ -404,12 +406,12 @@ async function odswiezWyniki(){
   var o=await window.sb.from("wyniki").select("*").eq("test_id",id).order("data_oddania",{ascending:false});
   if(o.error){kont.innerHTML='<div class="pusta">Błąd: '+o.error.message+'</div>';return}
   if(!o.data.length){kont.innerHTML='<div class="pusta">Brak wyników.</div>';return}
-  var html='<table><thead><tr><th>#</th><th>Uczeń</th><th>Punkty</th><th>%</th><th>Ocena</th><th>Data</th><th></th></tr></thead><tbody>';
+html+='<tr><td>'+(i+1)+'</td><td><strong>'+esc(w.uczen_imie||"?")+'</strong></td><td>'+w.punkty+" / "+w.max_punktow+'</td><td class="'+k+'">'+pct+'%</td><td class="'+k+'">'+oc+'</td><td>'+new Date(w.data_oddania).toLocaleString("pl")+'</td>';
   o.data.forEach(function(w,i){
     var pct=w.procent||0;
     var k=pct>=80?"dobry":(pct>=50?"sredni":"zly");
     var oc=pct>=90?"5":pct>=75?"4":pct>=50?"3":pct>=30?"2":"1";
-    html+='<tr><td>'+(i+1)+'</td><td><strong>'+esc(w.uczen_imie||"?")+'</strong></td><td>'+w.punkty+" / "+w.max_punktow+'</td><td class="'+k+'">'+pct+'%</td><td class="'+k+'">'+oc+'</td><td>'+new Date(w.data_oddania).toLocaleString("pl")+'</td>';
+html+='<tr><td>'+(i+1)+'</td><td><strong>'+esc(w.uczen_imie||"?")+'</strong></td><td>'+esc(w.kod_klasy||"—")+'</td><td>'+w.punkty+" / "+w.max_punktow+'</td><td class="'+k+'">'+pct+'%</td><td class="'+k+'">'+oc+'</td><td>'+new Date(w.data_oddania).toLocaleString("pl")+'</td>';
     html+='<td><button class="drugie" data-szczegoly="'+w.id+'" style="padding:5px 12px;font-size:.8rem">Szczegóły</button></td></tr>';
   });
   html+='</tbody></table>';
