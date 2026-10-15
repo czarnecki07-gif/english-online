@@ -2,85 +2,162 @@
 <html lang="pl">
 <head>
 <meta charset="UTF-8">
-<title>Panel administratora — diagnostyka</title>
+<title>Panel administratora</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase-klient.js"></script>
 <style>
 body{font-family:Arial,sans-serif;background:#f7f5f0;margin:0;padding:20px;color:#1f2933}
-main{max-width:900px;margin:0 auto}
-.karta{background:#fff;border:1px solid #ddd;border-radius:6px;padding:20px;margin-bottom:16px}
+header{background:#1e3a5f;color:#fff;padding:16px;margin:-20px -20px 20px;display:flex;justify-content:space-between;align-items:center}
+header h1{margin:0;font-size:1.15rem}
+header a{color:#fff;text-decoration:none;margin-left:10px}
+main{max-width:1200px;margin:0 auto}
+section{background:#fff;border:1px solid #ddd;border-radius:6px;padding:20px;margin-bottom:16px}
 h2{color:#1e3a5f;margin-top:0}
-pre{background:#f0f4fb;border-left:4px solid #1e3a5f;padding:12px;border-radius:0 4px 4px 0;overflow-x:auto;font-size:.85rem}
-.ok{color:#166534;font-weight:700}
-.zle{color:#991b1b;font-weight:700}
+table{width:100%;border-collapse:collapse;margin-top:12px;font-size:.9rem}
+th,td{padding:10px 12px;text-align:left;border-bottom:1px solid #eee}
+th{background:#fbfaf7;color:#1e3a5f;font-size:.8rem;text-transform:uppercase}
+tr:hover{background:#fbfaf7}
+button{cursor:pointer;font-family:inherit}
+.aktywuj{background:#166534;color:#fff;border:none;padding:6px 14px;border-radius:4px;font-weight:600;font-size:.82rem}
+.aktywuj:hover{background:#14532d}
+.zablokuj{background:#991b1b;color:#fff;border:none;padding:6px 14px;border-radius:4px;font-weight:600;font-size:.82rem}
+.zablokuj:hover{background:#7f1d1d}
+.pusta{text-align:center;color:#999;padding:30px;font-style:italic}
+.ladowanie{text-align:center;padding:60px;color:#6b7280}
+.rola{background:#166534;color:#fff;padding:3px 10px;border-radius:3px;font-size:.72rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase}
+.rola.nie{background:#9ca3af}
+.rola.admin{background:#b45309}
+.statystyki{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:20px}
+.stat{background:#f0f4fb;border-left:4px solid #1e3a5f;padding:14px 18px;border-radius:0 4px 4px 0}
+.stat .liczba{font-family:Georgia,serif;font-size:1.8rem;font-weight:700;color:#1e3a5f}
+.stat .opis{color:#6b7280;font-size:.85rem}
 </style>
 </head>
 <body>
+
+<header>
+  <h1>Panel administratora</h1>
+  <div><a href="index.html">← Powrót</a><a href="#" id="wyloguj">Wyloguj</a></div>
+</header>
+
 <main>
-  <div class="karta">
-    <h2>Diagnostyka panelu admina</h2>
-    <p>Ta strona pokazuje, co widzi Twoja przeglądarka. Skopiuj mi wynik.</p>
-    <div id="wynik">Ładowanie...</div>
+  <div class="ladowanie" id="ladowanie">Ładowanie...</div>
+
+  <div id="tresc" style="display:none">
+    <section>
+      <h2>Statystyki</h2>
+      <div class="statystyki">
+        <div class="stat"><div class="liczba" id="statWszyscy">—</div><div class="opis">Wszyscy nauczyciele</div></div>
+        <div class="stat"><div class="liczba" id="statAktywni">—</div><div class="opis">Aktywni</div></div>
+        <div class="stat"><div class="liczba" id="statNieaktywni">—</div><div class="opis">Oczekujący</div></div>
+        <div class="stat"><div class="liczba" id="statKlasy">—</div><div class="opis">Utworzone klasy</div></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Nauczyciele</h2>
+      <div id="listaNauczycieli">Ładowanie...</div>
+    </section>
   </div>
 </main>
 
 <script>
-async function diagnostyka(){
-  var w = [];
-  w.push("Adres strony: " + location.origin + location.pathname);
-  w.push("localStorage — długość: " + localStorage.length);
-  w.push("");
-  w.push("Klucze w localStorage:");
-  for (var i = 0; i < localStorage.length; i++) {
-    var k = localStorage.key(i);
-    w.push("  " + k);
-  }
-  w.push("");
+var ja = null;
 
-  /* Czekaj na klienta Supabase */
-  var n = 0;
-  while(!window.sbGotowy && n < 50){
-    await new Promise(function(r){ setTimeout(r, 100); });
-    n++;
-  }
+async function czekajNaSb(){
+  if(window.sbGotowy)return;
+  await new Promise(function(r){var n=0;var i=setInterval(function(){n++;if(window.sbGotowy||n>30){clearInterval(i);r()}},100)});
+}
 
-  w.push("Czy sbGotowy: " + (window.sbGotowy ? "TAK" : "NIE"));
-  w.push("Czy window.sb istnieje: " + (window.sb ? "TAK" : "NIE"));
-  w.push("");
+async function start(){
+  await czekajNaSb();
+  if(!window.sb){document.getElementById("ladowanie").textContent="Błąd inicjalizacji.";return}
 
-  if(!window.sb){
-    w.push("BRAK klienta Supabase — plik supabase-klient.js się nie załadował.");
-    wyswietl(w);
+  var s = await window.sb.auth.getSession();
+  if(!s.data.session){location.href="login.html";return}
+
+  var o = await window.sb.from("profiles").select("*").eq("id", s.data.session.user.id).single();
+  ja = o.data;
+
+  if(!ja || !ja.admin){
+    document.getElementById("ladowanie").innerHTML =
+      '<div style="color:#991b1b;padding:40px;text-align:center">' +
+      '<h2>Brak dostępu</h2>' +
+      '<p>To konto nie ma uprawnień administratora.</p>' +
+      '<p><a href="index.html">← Powrót do strony głównej</a></p>' +
+      '</div>';
     return;
   }
 
-  /* Sprawdź sesję */
-  var s = await window.sb.auth.getSession();
-  w.push("Sesja istnieje: " + (s.data && s.data.session ? "TAK" : "NIE"));
-  if(s.data && s.data.session){
-    w.push("User ID: " + s.data.session.user.id);
-    w.push("E-mail: " + s.data.session.user.email);
-    w.push("");
-    var o = await window.sb.from("profiles").select("*").eq("id", s.data.session.user.id).single();
-    w.push("Profil pobrany: " + (o.data ? "TAK" : "NIE"));
-    if(o.error) w.push("Błąd profilu: " + o.error.message);
-    if(o.data){
-      w.push("  imie_nazwisko: " + (o.data.imie_nazwisko || "—"));
-      w.push("  aktywny: " + o.data.aktywny);
-      w.push("  admin: " + o.data.admin);
+  document.getElementById("ladowanie").style.display = "none";
+  document.getElementById("tresc").style.display = "block";
+  await odswiez();
+}
+
+async function odswiez(){
+  var o = await window.sb.from("profiles").select("*").order("data_rejestracji", { ascending: false });
+  if(o.error){ alert("Błąd: " + o.error.message); return; }
+
+  var wszyscy = o.data || [];
+  var aktywni = wszyscy.filter(function(p){ return p.aktywny; }).length;
+  var nieaktywni = wszyscy.length - aktywni;
+
+  var ko = await window.sb.from("klasy").select("id, nauczyciel_id");
+  var klasy = ko.data || [];
+
+  document.getElementById("statWszyscy").textContent = wszyscy.length;
+  document.getElementById("statAktywni").textContent = aktywni;
+  document.getElementById("statNieaktywni").textContent = nieaktywni;
+  document.getElementById("statKlasy").textContent = klasy.length;
+
+  var html = '<table><thead><tr><th>Imię i nazwisko</th><th>E-mail</th><th>Szkoła</th><th>Klasy</th><th>Status</th><th>Data rejestracji</th><th></th></tr></thead><tbody>';
+  wszyscy.forEach(function(p){
+    var ileKlas = klasy.filter(function(k){ return k.nauczyciel_id === p.id; }).length;
+    var status = p.aktywny
+      ? '<span class="rola">Aktywny</span>'
+      : '<span class="rola nie">Oczekuje</span>';
+    html += '<tr>';
+    html += '<td><strong>' + esc(p.imie_nazwisko || "—") + '</strong>';
+    if(p.admin) html += ' <span class="rola admin">Admin</span>';
+    html += '</td>';
+    html += '<td>' + esc(p.email) + '</td>';
+    html += '<td>' + esc(p.szkola || "—") + '</td>';
+    html += '<td>' + ileKlas + '</td>';
+    html += '<td>' + status + '</td>';
+    html += '<td>' + new Date(p.data_rejestracji).toLocaleString("pl") + '</td>';
+    html += '<td>';
+    if(p.aktywny){
+      html += '<button class="zablokuj" data-id="' + p.id + '" data-akcja="false">Zablokuj</button>';
+    } else {
+      html += '<button class="aktywuj" data-id="' + p.id + '" data-akcja="true">Aktywuj</button>';
     }
-  }
+    html += '</td></tr>';
+  });
+  html += '</tbody></table>';
+  document.getElementById("listaNauczycieli").innerHTML = html;
 
-  wyswietl(w);
+  document.querySelectorAll("[data-akcja]").forEach(function(b){
+    b.onclick = async function(){
+      var id = b.dataset.id;
+      var akcja = b.dataset.akcja === "true";
+      var o = await window.sb.from("profiles").update({ aktywny: akcja }).eq("id", id);
+      if(o.error){ alert("Błąd: " + o.error.message); return; }
+      await odswiez();
+    };
+  });
 }
 
-function wyswietl(linie){
-  document.getElementById("wynik").innerHTML = "<pre>" + linie.map(function(l){
-    return String(l).replace(/[&<>]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;"}[c]});
-  }).join("\n") + "</pre>";
-}
+function esc(s){return String(s||"").replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
 
-diagnostyka();
+document.getElementById("wyloguj").onclick = async function(e){
+  e.preventDefault();
+  if(!confirm("Wylogować?")) return;
+  await window.sb.auth.signOut();
+  location.href = "login.html";
+};
+
+if(document.readyState==="loading") document.addEventListener("DOMContentLoaded", start); else start();
 </script>
+
 </body>
 </html>
