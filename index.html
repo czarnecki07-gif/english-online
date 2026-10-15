@@ -3,56 +3,437 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Angielski online — strona główna</title>
+<title>Angielski online — kurs, sprawdziany, materiały dla nauczycieli</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase-klient.js"></script>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; background: #f7f5f0; color: #1f2933; font-size: 15px; line-height: 1.65; }
-  header.topbar { background: #1e3a5f; color: #fff; padding: 18px 26px; display: flex; justify-content: space-between; align-items: center; border-bottom: 4px solid #b45309; flex-wrap: wrap; gap: 12px; }
-  header.topbar h1 { font-family: Georgia, serif; font-size: 1.25rem; font-weight: 600; }
-  header.topbar .meta { font-size: .85rem; display: flex; gap: 10px; align-items: center; }
-  header.topbar .meta button { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,.4); padding: 6px 14px; border-radius: 4px; font-family: inherit; font-size: .82rem; cursor: pointer; }
-  header.topbar .meta button:hover { background: rgba(255,255,255,.15); }
-  header.topbar .meta .rola { background: rgba(255,255,255,.12); padding: 3px 12px; border-radius: 3px; font-size: .75rem; letter-spacing: 1px; text-transform: uppercase; font-weight: 600; }
-  main { max-width: 1150px; margin: 30px auto; padding: 0 20px; }
-  .hero { text-align: center; margin-bottom: 36px; padding: 30px 20px; background: #fff; border: 1px solid #e8e4dc; border-radius: 8px; }
-  .hero h2 { font-family: Georgia, serif; font-size: 1.7rem; color: #1e3a5f; margin-bottom: 10px; font-weight: 600; }
-  .hero p { color: #6b7280; font-size: .98rem; max-width: 640px; margin: 0 auto; }
-  .hero .badge { display: inline-block; background: #fffbeb; color: #78350f; border: 1px solid #fde68a; padding: 4px 14px; border-radius: 20px; font-size: .78rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 14px; }
-  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 18px; margin-bottom: 36px; }
-  .kafel { background: #fff; border: 1px solid #e8e4dc; border-radius: 8px; padding: 24px 26px; text-decoration: none; color: inherit; display: flex; flex-direction: column; gap: 10px; transition: .18s; position: relative; overflow: hidden; }
-  .kafel::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: #1e3a5f; }
-  .kafel.t::before { background: #b45309; }
-  .kafel.d::before { background: #0f766e; }
+  :root {
+    --primary: #1e3a5f;
+    --primary-dark: #152a47;
+    --accent: #ea580c;
+    --accent-hover: #c2410c;
+    --teal: #0f766e;
+    --text: #1f2933;
+    --muted: #6b7280;
+    --border: #e5e7eb;
+    --bg: #ffffff;
+    --bg-alt: #f9fafb;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ========= HEADER ========= */
+  header.topbar {
+    background: #fff;
+    padding: 16px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 14px;
+    position: sticky; top: 0; z-index: 50;
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 1px 3px rgba(0,0,0,.04);
+  }
+  header.topbar .logo {
+    font-family: Georgia, serif;
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--primary);
+    letter-spacing: -.3px;
+  }
+  header.topbar .logo span { color: var(--accent); }
+  header.topbar .meta { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  header.topbar .rola {
+    padding: 5px 14px;
+    border-radius: 20px;
+    font-size: .75rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight: 700;
+    background: #f3f4f6;
+    color: var(--muted);
+  }
+  header.topbar button.ghost {
+    background: #fff;
+    color: var(--primary);
+    border: 1.5px solid var(--primary);
+    padding: 7px 16px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: .85rem;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  header.topbar button.ghost:hover { background: var(--primary); color: #fff; }
+
+  /* ========= HERO ========= */
+  .hero {
+    padding: 80px 32px 90px;
+    background: linear-gradient(135deg, #eff6ff 0%, #fff7ed 100%);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::after {
+    content: "";
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+  }
+  .hero .label {
+    display: inline-block;
+    padding: 5px 16px;
+    background: #fff;
+    border: 1.5px solid var(--accent);
+    color: var(--accent);
+    border-radius: 20px;
+    font-size: .78rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 22px;
+  }
+  .hero h1 {
+    font-family: Georgia, serif;
+    font-size: clamp(1.9rem, 4vw, 3rem);
+    font-weight: 700;
+    color: var(--primary);
+    max-width: 860px;
+    margin: 0 auto 22px;
+    line-height: 1.2;
+    letter-spacing: -.5px;
+  }
+  .hero h1 em { font-style: normal; color: var(--accent); }
+  .hero p.lead {
+    color: var(--muted);
+    font-size: 1.1rem;
+    max-width: 640px;
+    margin: 0 auto 36px;
+  }
+  .hero-cta {
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+  .btn-primary {
+    background: var(--primary);
+    color: #fff;
+    padding: 15px 36px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: .3px;
+    transition: .18s;
+    box-shadow: 0 4px 14px rgba(30,58,95,.2);
+    border: none;
+    font-family: inherit;
+    cursor: pointer;
+  }
+  .btn-primary:hover { background: var(--primary-dark); transform: translateY(-1px); box-shadow: 0 6px 18px rgba(30,58,95,.28); }
+  .btn-accent {
+    background: var(--accent);
+    color: #fff;
+    padding: 15px 36px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: .3px;
+    transition: .18s;
+    box-shadow: 0 4px 14px rgba(234,88,12,.25);
+    border: none;
+    font-family: inherit;
+    cursor: pointer;
+  }
+  .btn-accent:hover { background: var(--accent-hover); transform: translateY(-1px); }
+  .btn-outline {
+    background: #fff;
+    color: var(--primary);
+    padding: 14px 34px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1rem;
+    border: 2px solid var(--primary);
+    transition: .18s;
+  }
+  .btn-outline:hover { background: var(--primary); color: #fff; }
+  .hero .drobne {
+    color: var(--muted);
+    font-size: .88rem;
+  }
+
+  /* ========= SEKCJA OGÓLNA ========= */
+  section.sekcja {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 70px 32px;
+  }
+  section.sekcja h2 {
+    font-family: Georgia, serif;
+    font-size: 1.9rem;
+    color: var(--primary);
+    margin-bottom: 12px;
+    text-align: center;
+    letter-spacing: -.3px;
+  }
+  section.sekcja .podtytul {
+    color: var(--muted);
+    text-align: center;
+    font-size: 1.05rem;
+    max-width: 640px;
+    margin: 0 auto 50px;
+  }
+
+  /* ========= DLA KOGO ========= */
+  .dla-kogo {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .dla-kogo .karta {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 36px 32px;
+    transition: .2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .dla-kogo .karta::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 5px;
+  }
+  .dla-kogo .karta.uczen::before { background: var(--accent); }
+  .dla-kogo .karta.nauczyciel::before { background: var(--teal); }
+  .dla-kogo .karta:hover {
+    box-shadow: 0 10px 30px rgba(0,0,0,.08);
+    transform: translateY(-3px);
+    border-color: transparent;
+  }
+  .dla-kogo .karta .etykieta {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .dla-kogo .karta.uczen .etykieta { background: #fff7ed; color: var(--accent); }
+  .dla-kogo .karta.nauczyciel .etykieta { background: #f0fdfa; color: var(--teal); }
+  .dla-kogo .karta h3 {
+    font-family: Georgia, serif;
+    font-size: 1.35rem;
+    color: var(--primary);
+    margin-bottom: 14px;
+    letter-spacing: -.3px;
+  }
+  .dla-kogo .karta ul {
+    list-style: none;
+    margin: 0 0 24px;
+    padding: 0;
+  }
+  .dla-kogo .karta ul li {
+    padding: 8px 0 8px 28px;
+    position: relative;
+    color: #374151;
+    font-size: .95rem;
+  }
+  .dla-kogo .karta ul li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    top: 8px;
+    font-weight: 700;
+    color: var(--teal);
+  }
+  .dla-kogo .karta.uczen ul li::before { color: var(--accent); }
+  .dla-kogo .karta .karta-btn {
+    display: inline-block;
+    padding: 12px 26px;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: .92rem;
+    text-decoration: none;
+    transition: .15s;
+  }
+  .dla-kogo .karta.uczen .karta-btn { background: var(--accent); color: #fff; }
+  .dla-kogo .karta.uczen .karta-btn:hover { background: var(--accent-hover); }
+  .dla-kogo .karta.nauczyciel .karta-btn { background: var(--teal); color: #fff; }
+  .dla-kogo .karta.nauczyciel .karta-btn:hover { background: #0d5c56; }
+
+  /* ========= KAFELKI ========= */
+  .kafelki {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 22px;
+  }
+  .kafel {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px 26px;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: .18s;
+    position: relative;
+    overflow: hidden;
+  }
+  .kafel::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: var(--primary);
+  }
   .kafel.a0::before { background: #0891b2; }
-  .kafel.a0 { background: linear-gradient(135deg, #f0fdfa 0%, #ffffff 100%); }
   .kafel.sciagawka::before { background: #4a5f7a; }
-  .kafel.sciagawka { background: linear-gradient(135deg, #eef2ff 0%, #ffffff 100%); }
-  .kafel:hover { box-shadow: 0 6px 20px rgba(30,58,95,.12); transform: translateY(-2px); border-color: #c8c2b5; }
-  .kafel h3 { font-family: Georgia, serif; font-size: 1.15rem; color: #1e3a5f; font-weight: 700; }
-  .kafel p { color: #6b7280; font-size: .9rem; line-height: 1.55; flex: 1; }
-  .kafel .tag { display: inline-block; font-size: .72rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #b45309; }
-  .kafel.d .tag { color: #0f766e; }
+  .kafel.test-poz::before { background: #7c3aed; }
+  .kafel.sprawdzian::before { background: var(--teal); }
+  .kafel:hover {
+    box-shadow: 0 12px 28px rgba(30,58,95,.1);
+    transform: translateY(-3px);
+    border-color: transparent;
+  }
+  .kafel .tag {
+    display: inline-block;
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--primary);
+  }
   .kafel.a0 .tag { color: #0891b2; }
   .kafel.sciagawka .tag { color: #4a5f7a; }
-  .kafel .arrow { color: #b45309; font-weight: 700; font-size: .9rem; margin-top: 4px; }
-  .kafel.a0 .arrow { color: #0891b2; }
-  .kafel.sciagawka .arrow { color: #4a5f7a; }
-  footer { text-align: center; padding: 30px 20px; color: #9ca3af; font-size: .85rem; border-top: 1px solid #e8e4dc; margin-top: 30px; }
-  footer .maly-link { color: #9ca3af; text-decoration: none; font-size: .82rem; }
-  footer .maly-link:hover { color: #1e3a5f; text-decoration: underline; }
+  .kafel.test-poz .tag { color: #7c3aed; }
+  .kafel.sprawdzian .tag { color: var(--teal); }
+  .kafel h3 {
+    font-family: Georgia, serif;
+    font-size: 1.15rem;
+    color: var(--primary);
+    font-weight: 700;
+    letter-spacing: -.2px;
+    line-height: 1.35;
+  }
+  .kafel p {
+    color: var(--muted);
+    font-size: .9rem;
+    line-height: 1.6;
+    flex: 1;
+  }
+  .kafel .arrow {
+    color: var(--accent);
+    font-weight: 700;
+    font-size: .9rem;
+    margin-top: 6px;
+  }
+
+  /* ========= DLA NAUCZYCIELI CTA ========= */
+  .cta-nauczyciel {
+    background: linear-gradient(135deg, var(--primary) 0%, #244669 100%);
+    color: #fff;
+    padding: 70px 32px;
+    text-align: center;
+    border-radius: 0;
+  }
+  .cta-nauczyciel .inner { max-width: 760px; margin: 0 auto; }
+  .cta-nauczyciel h2 {
+    font-family: Georgia, serif;
+    font-size: 2rem;
+    color: #fff;
+    margin-bottom: 16px;
+    letter-spacing: -.3px;
+  }
+  .cta-nauczyciel p {
+    color: #cbd5e1;
+    font-size: 1.05rem;
+    margin-bottom: 30px;
+    line-height: 1.65;
+  }
+  .cta-nauczyciel .btn-accent { box-shadow: 0 6px 20px rgba(234,88,12,.35); }
+
+  /* ========= STOPKA ========= */
+  footer {
+    background: var(--bg-alt);
+    padding: 40px 32px 30px;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: .88rem;
+  }
+  footer .stopka-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  footer .linki { display: flex; gap: 20px; flex-wrap: wrap; }
+  footer a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: .85rem;
+  }
+  footer a:hover { color: var(--primary); text-decoration: underline; }
+
+  /* ========= UKRYJ / LADOWANIE ========= */
   .ukryj { display: none !important; }
-  .ladowanie { text-align: center; padding: 60px 20px; color: #6b7280; }
+  .ladowanie {
+    text-align: center;
+    padding: 100px 20px;
+    color: var(--muted);
+    font-size: .95rem;
+  }
+
+  /* ========= RESPONSIVE ========= */
+  @media (max-width: 760px) {
+    header.topbar { padding: 14px 18px; }
+    header.topbar .logo { font-size: 1.15rem; }
+    .hero { padding: 60px 20px 70px; }
+    .hero h1 { font-size: 1.7rem; }
+    .hero .lead { font-size: 1rem; }
+    .btn-primary, .btn-accent, .btn-outline { padding: 13px 26px; font-size: .92rem; }
+    section.sekcja { padding: 50px 20px; }
+    section.sekcja h2 { font-size: 1.5rem; }
+    .dla-kogo { grid-template-columns: 1fr; gap: 20px; }
+    .dla-kogo .karta { padding: 28px 24px; }
+    .cta-nauczyciel { padding: 50px 20px; }
+    .cta-nauczyciel h2 { font-size: 1.5rem; }
+    footer .stopka-inner { flex-direction: column; text-align: center; }
+    footer .linki { justify-content: center; }
+  }
 </style>
 </head>
 <body>
 
 <header class="topbar">
-  <h1>Angielski online</h1>
+  <div class="logo">Angielski<span>.</span>online</div>
   <div class="meta">
     <span class="rola" id="rolaBadge">—</span>
-    <button id="wylogujBtn" style="display:none">Wyloguj</button>
+    <button class="ghost" id="wylogujBtn" style="display:none">Wyloguj</button>
   </div>
 </header>
 
@@ -60,94 +441,134 @@
   <div class="ladowanie" id="ladowanie">Ładowanie...</div>
 
   <div id="tresc" style="display:none;">
+
+    <!-- HERO -->
     <section class="hero">
-      <div class="badge" id="heroBadge">Wersja testowa</div>
-      <h2 id="heroTytul">Witaj na kursie angielskiego</h2>
-      <p id="heroOpis">Wybierz sekcję, którą chcesz otworzyć.</p>
+      <span class="label">Angielski od podstaw do poziomu zaawansowanego</span>
+      <h1>Wszystko, czego potrzebujesz,<br>żeby <em>skutecznie</em> uczyć się angielskiego</h1>
+      <p class="lead">
+        Kurs od poziomu A0 do C1, gotowe sprawdziany, ściągawki gramatyczne i narzędzia dla nauczycieli.
+        Bez instalacji. Bez logowania dla uczniów.
+      </p>
+      <div class="hero-cta">
+        <a href="kurs.html" class="btn-primary">Rozpocznij naukę</a>
+        <a href="#dla-nauczycieli" class="btn-outline">Jestem nauczycielem</a>
+      </div>
+      <p class="drobne">Wersja testowa — dostęp dla zaproszonych nauczycieli</p>
     </section>
 
-    <div class="grid">
+    <!-- DLA KOGO -->
+    <section class="sekcja">
+      <h2>Dla kogo jest nasza platforma?</h2>
+      <p class="podtytul">Dwie ścieżki — dla uczących się i dla tych, którzy uczą innych.</p>
+      <div class="dla-kogo">
+        <div class="karta uczen">
+          <span class="etykieta">Dla uczniów</span>
+          <h3>Ucz się we własnym tempie</h3>
+          <ul>
+            <li>Ponad 160 lekcji na poziomach A0–C1</li>
+            <li>Kliknij słowo, żeby usłyszeć wymowę</li>
+            <li>Karty pracy z natychmiastową informacją zwrotną</li>
+            <li>Test poziomujący z indywidualnym programem nauki</li>
+            <li>Ściągawka do druku i odsłuchu</li>
+          </ul>
+          <a href="kurs.html" class="karta-btn">Otwórz kurs →</a>
+        </div>
+        <div class="karta nauczyciel">
+          <span class="etykieta">Dla nauczycieli</span>
+          <h3>Prowadź klasy i sprawdziany</h3>
+          <ul>
+            <li>Konta nauczycielskie z podziałem na klasy</li>
+            <li>Generator testów z wieloma wersjami (A/B/C…)</li>
+            <li>Sprawdziany online — QR kod i link dla uczniów</li>
+            <li>Automatyczne zbieranie wyników z błędami</li>
+            <li>Mapa podręczników szkolnych i plany roczne</li>
+          </ul>
+          <a href="rejestracja.html" class="karta-btn">Załóż konto →</a>
+        </div>
+      </div>
+    </section>
 
-      <a class="kafel a0" href="kurs.html?level=A0">
-        <span class="tag">A0 — dla początkujących</span>
-        <h3>Zacznij od zera</h3>
-        <p>Kurs dla osób, które nigdy nie uczyły się angielskiego. Alfabet, liczby, powitania, kolory, rodzina, podstawowe czasowniki — krok po kroku.</p>
-        <span class="arrow">Otwórz kurs A0 →</span>
-      </a>
+    <!-- CO ZNAJDZIESZ -->
+    <section class="sekcja" style="background:var(--bg-alt);max-width:none;padding-left:0;padding-right:0;">
+      <div style="max-width:1200px;margin:0 auto;padding:0 32px;">
+        <h2>Co znajdziesz na stronie?</h2>
+        <p class="podtytul">Pięć głównych narzędzi, z których korzystasz od razu.</p>
+        <div class="kafelki">
 
-      <a class="kafel" href="kurs.html">
-        <span class="tag">Kurs</span>
-        <h3>Lekcje — 16 działów gramatyki i 16 tematów</h3>
-        <p>Każdy dział na pięciu poziomach A1–C1. Omówienie tematu, karta pracy, test. Kliknij dowolne angielskie słowo, aby usłyszeć wymowę.</p>
-        <span class="arrow">Otwórz kurs →</span>
-      </a>
+          <a class="kafel a0" href="kurs.html?level=A0">
+            <span class="tag">A0 — dla początkujących</span>
+            <h3>Zacznij od zera</h3>
+            <p>Kurs dla osób, które nigdy nie uczyły się angielskiego. Alfabet, liczby, powitania, kolory, rodzina, podstawowe czasowniki — krok po kroku.</p>
+            <span class="arrow">Otwórz kurs A0 →</span>
+          </a>
 
-      <a class="kafel sciagawka" href="sciagawka.html">
-        <span class="tag">Ściągawka</span>
-        <h3>Wszystko w jednym miejscu</h3>
-        <p>Gramatyka, czasowniki nieregularne, przedimki, przyimki, pisownia, liczebniki, rozmówki, idiomy. Do druku i do słuchania — kliknij dowolne angielskie słowo, żeby usłyszeć wymowę.</p>
-        <span class="arrow">Otwórz ściągawkę →</span>
-      </a>
+          <a class="kafel" href="kurs.html">
+            <span class="tag">Kurs A1–C1</span>
+            <h3>160 lekcji gramatyki i tematów</h3>
+            <p>16 działów gramatycznych i 16 tematycznych, każdy na pięciu poziomach. Teoria, karta pracy, test i odsłuch wymowy.</p>
+            <span class="arrow">Otwórz kurs →</span>
+          </a>
 
-      <a class="kafel t kafel-naucz" href="podreczniki.html">
-        <span class="tag">Podręczniki</span>
-        <h3>Mapa podręczników szkolnych</h3>
-        <p>Wybierz podręcznik i zobacz, które lekcje pasują do każdego unitu. Eksport rocznego planu.</p>
-        <span class="arrow">Otwórz mapę →</span>
-      </a>
+          <a class="kafel sciagawka" href="sciagawka.html">
+            <span class="tag">Ściągawka</span>
+            <h3>Wszystko do szybkiej powtórki</h3>
+            <p>Gramatyka, czasowniki nieregularne, przedimki, przyimki, pisownia, liczebniki, rozmówki, idiomy. Do druku i do słuchania.</p>
+            <span class="arrow">Otwórz ściągawkę →</span>
+          </a>
 
-      <a class="kafel d kafel-naucz" href="sprawdzian.html">
-        <span class="tag">Sprawdzian</span>
-        <h3>Generator sprawdzianu do druku</h3>
-        <p>Wybierz lekcje, liczbę pytań i wersji (A, B, C…). Wygeneruj arkusz + klucz odpowiedzi.</p>
-        <span class="arrow">Generuj sprawdzian →</span>
-      </a>
+          <a class="kafel test-poz" href="test-poziomujacy.html">
+            <span class="tag">Test poziomujący</span>
+            <h3>Sprawdź swój poziom angielskiego</h3>
+            <p>60 pytań — po 12 z każdego poziomu. Po zakończeniu dostaniesz wynik, listę słabych stron i indywidualny program nauki.</p>
+            <span class="arrow">Rozpocznij test →</span>
+          </a>
 
-      <a class="kafel d kafel-naucz" href="panel-nauczyciela.html">
-        <span class="tag">Sprawdzian online</span>
-        <h3>Panel nauczyciela — testy interaktywne</h3>
-        <p>Wygeneruj test dla klasy, wyślij uczniom link. Uczniowie rozwiązują w przeglądarce, dostajesz wyniki.</p>
-        <span class="arrow">Otwórz panel →</span>
-      </a>
+          <a class="kafel sprawdzian kafel-naucz" href="sprawdzian.html">
+            <span class="tag">Sprawdzian do druku</span>
+            <h3>Generator sprawdzianów</h3>
+            <p>Wybierz lekcje, liczbę pytań i wersji. Wygeneruj arkusz do druku wraz z kluczem odpowiedzi dla nauczyciela.</p>
+            <span class="arrow">Generuj sprawdzian →</span>
+          </a>
 
-      <a class="kafel kafel-naucz" href="instrukcja.html">
-        <span class="tag">Pomoc</span>
-        <h3>Instrukcja dla nauczyciela</h3>
-        <p>Krótki przewodnik: jak używać kursu, jak generować sprawdziany, jak odbierać wyniki uczniów.</p>
-        <span class="arrow">Czytaj →</span>
-      </a>
+          <a class="kafel sprawdzian kafel-naucz" href="panel-nauczyciela.html">
+            <span class="tag">Testy online</span>
+            <h3>Panel nauczyciela</h3>
+            <p>Generuj testy z QR kodem i linkiem dla uczniów. Wyniki zapisują się automatycznie wraz ze szczegółami błędów.</p>
+            <span class="arrow">Otwórz panel →</span>
+          </a>
 
-      <a class="kafel d" href="test-poziomujacy.html">
-        <span class="tag">Test poziomujący</span>
-        <h3>Sprawdź swój poziom angielskiego</h3>
-        <p>60 pytań — po 12 z każdego poziomu A1–C1. Po zakończeniu dostaniesz swój poziom, słabe strony i indywidualny program nauki do wydrukowania.</p>
-        <span class="arrow">Rozpocznij test →</span>
-      </a>
+        </div>
+      </div>
+    </section>
 
-      <a class="kafel" href="instrukcja-ucznia.html">
-        <span class="tag">Pomoc</span>
-        <h3>Instrukcja dla ucznia</h3>
-        <p>Jak wchodzić na lekcję, jak rozwiązywać karty pracy i testy, jak wysłać nauczycielowi wynik sprawdzianu.</p>
-        <span class="arrow">Czytaj →</span>
-      </a>
+    <!-- CTA DLA NAUCZYCIELI -->
+    <section class="cta-nauczyciel" id="dla-nauczycieli">
+      <div class="inner">
+        <h2>Uczysz angielskiego? Dołącz do nas.</h2>
+        <p>
+          Otrzymasz gotowy kurs, generator sprawdzianów i narzędzie do zbierania wyników online.
+          Wszystkie materiały możesz wykorzystać na swoich lekcjach — bezpłatnie w wersji testowej.
+        </p>
+        <a href="rejestracja.html" class="btn-accent">Zarejestruj się jako nauczyciel</a>
+      </div>
+    </section>
 
-    </div>
   </div>
 </main>
 
+<!-- STOPKA -->
 <footer>
-  Angielski online &copy; 2026 · Wersja testowa
-  <br>
-  <a class="maly-link" href="regulamin.html">Regulamin</a>
-  <span style="color:#c8c2b5">·</span>
-  <a class="maly-link" href="polityka-prywatnosci.html">Polityka prywatności</a>
-  <span style="color:#c8c2b5">·</span>
-  <a class="maly-link" href="instrukcja.html">Instrukcja dla nauczyciela</a>
-  <span style="color:#c8c2b5">·</span>
-  <a class="maly-link" href="instrukcja-ucznia.html">Instrukcja dla ucznia</a>
-  <span id="stopkaLogin" style="display:none">
-    <br><a class="maly-link" href="login.html">Zaloguj jako nauczyciel</a>
-  </span>
+  <div class="stopka-inner">
+    <div>Angielski online &copy; 2026 · Wersja testowa</div>
+    <div class="linki">
+      <a href="regulamin.html">Regulamin</a>
+      <a href="polityka-prywatnosci.html">Polityka prywatności</a>
+      <a href="instrukcja.html">Instrukcja dla nauczyciela</a>
+      <a href="instrukcja-ucznia.html">Instrukcja dla ucznia</a>
+      <a href="login.html" id="stopkaLogin" style="display:none">Zaloguj jako nauczyciel</a>
+    </div>
+  </div>
 </footer>
 
 <script>
@@ -164,41 +585,30 @@ async function inicjalizuj() {
 
   /* Domyślnie: widok ucznia */
   document.getElementById("rolaBadge").textContent = "Uczeń";
-  document.getElementById("heroBadge").textContent = "Dostęp uczniowski";
-  document.getElementById("heroTytul").textContent = "Witaj na kursie angielskiego";
-  document.getElementById("heroOpis").textContent = "Otwórz kurs i wybierz lekcję. Aby oddać sprawdzian, użyj linku od nauczyciela.";
   document.getElementById("stopkaLogin").style.display = "inline";
   document.querySelectorAll(".kafel-naucz").forEach(function(el) { el.classList.add("ukryj"); });
 
-  if (!window.sb) {
-    document.getElementById("ladowanie").style.display = "none";
-    document.getElementById("tresc").style.display = "block";
-    return;
-  }
+  if (window.sb) {
+    try {
+      var sesja = await window.sb.auth.getSession();
+      if (sesja && sesja.data && sesja.data.session) {
+        var user = sesja.data.session.user;
+        var odp = await window.sb.from("profiles").select("aktywny, imie_nazwisko").eq("id", user.id).single();
+        var profil = odp.data;
 
-  try {
-    var sesja = await window.sb.auth.getSession();
-    if (!sesja || !sesja.data || !sesja.data.session) {
-      document.getElementById("ladowanie").style.display = "none";
-      document.getElementById("tresc").style.display = "block";
-      return;
+        if (profil && profil.aktywny) {
+          document.getElementById("rolaBadge").textContent = "Nauczyciel";
+          document.getElementById("wylogujBtn").style.display = "inline-block";
+          document.getElementById("stopkaLogin").style.display = "none";
+          document.querySelectorAll(".kafel-naucz").forEach(function(el) { el.classList.remove("ukryj"); });
+
+          var heroLabel = document.querySelector(".hero .label");
+          if (heroLabel) heroLabel.textContent = "Witaj, " + (profil.imie_nazwisko || "nauczycielu");
+        }
+      }
+    } catch (e) {
+      console.error("Błąd sprawdzania sesji:", e);
     }
-
-    var user = sesja.data.session.user;
-    var odp = await window.sb.from("profiles").select("aktywny, imie_nazwisko").eq("id", user.id).single();
-    var profil = odp.data;
-
-    if (profil && profil.aktywny) {
-      document.getElementById("rolaBadge").textContent = "Nauczyciel";
-      document.getElementById("heroBadge").textContent = "Nauczyciel — pełny dostęp";
-      document.getElementById("heroTytul").textContent = "Witaj, " + (profil.imie_nazwisko || "nauczycielu");
-      document.getElementById("heroOpis").textContent = "Masz dostęp do wszystkich narzędzi: kurs, podręczniki, generator sprawdzianu, panel testów.";
-      document.getElementById("stopkaLogin").style.display = "none";
-      document.getElementById("wylogujBtn").style.display = "inline-block";
-      document.querySelectorAll(".kafel-naucz").forEach(function(el) { el.classList.remove("ukryj"); });
-    }
-  } catch (e) {
-    console.error("Błąd sprawdzania sesji:", e);
   }
 
   document.getElementById("ladowanie").style.display = "none";
