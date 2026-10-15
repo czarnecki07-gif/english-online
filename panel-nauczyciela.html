@@ -65,6 +65,7 @@ th{background:#fbfaf7;color:#1e3a5f;font-size:.8rem;text-transform:uppercase}
 .pyt-szcz .odp.poprawna{color:#166534;font-weight:600}
 .pyt-szcz .wyjasnienie{font-size:.82rem;color:#6b7280;margin-top:6px;font-style:italic;padding-left:18px}
 .modal-duzy .zamknij-box{text-align:right;margin-top:16px}
+.kod-klasy{font-family:monospace;background:#fffbeb;padding:6px 12px;border:2px solid #b45309;border-radius:4px;color:#78350f;font-weight:700;letter-spacing:1px;display:inline-block}
 </style>
 </head>
 <body>
@@ -76,6 +77,7 @@ th{background:#fbfaf7;color:#1e3a5f;font-size:.8rem;text-transform:uppercase}
 
 <nav>
   <button data-tab="nowy" class="active">Nowy test</button>
+  <button data-tab="klasy">Moje klasy</button>
   <button data-tab="testy">Moje testy</button>
   <button data-tab="wyniki">Wyniki uczniów</button>
 </nav>
@@ -85,13 +87,21 @@ th{background:#fbfaf7;color:#1e3a5f;font-size:.8rem;text-transform:uppercase}
 <section id="tab-nowy" class="active">
   <h2>Nowy test online</h2>
   <div class="info-box">
-    Wygeneruj test — dostaniesz <strong>QR kod i link</strong>. W klasie wyświetl QR na projektorze, zdalnie skopiuj link. Wyniki zobaczysz w zakładce „Wyniki uczniów".
+    Wygeneruj test — dostaniesz <strong>QR kod i link</strong>. W klasie wyświetl QR na projektorze, zdalnie skopiuj link.
   </div>
 
   <div class="rzad">
-    <div><label>Klasa</label><input type="text" id="klasa" placeholder="np. 3A"></div>
+    <div>
+      <label>Klasa</label>
+      <select id="klasa">
+        <option value="">— wybierz klasę —</option>
+      </select>
+    </div>
     <div><label>Czas (min, 0 = bez limitu)</label><input type="number" id="czas" value="30"></div>
     <div><label>Liczba pytań</label><input type="number" id="liczba" value="20"></div>
+  </div>
+  <div id="brakKlasInfo" class="info-box" style="display:none">
+    Nie masz jeszcze żadnej klasy. Dodaj ją w zakładce <strong>Moje klasy</strong>.
   </div>
 
   <label>Wybierz lekcje:</label>
@@ -112,6 +122,20 @@ th{background:#fbfaf7;color:#1e3a5f;font-size:.8rem;text-transform:uppercase}
   <button class="glowne" id="generujBtn">Generuj test</button>
 
   <div id="wynikGenerowania" style="display:none"></div>
+</section>
+
+<section id="tab-klasy">
+  <h2>Moje klasy</h2>
+  <div class="info-box">
+    Każda klasa ma swój unikalny kod. Gdy uczeń rozwiązuje pierwszy test z tej klasy, wpisuje kod raz — od tego momentu jego wyniki są przypisane do Ciebie. Dzięki temu <strong>widzisz tylko swoje klasy i swoich uczniów</strong>.
+  </div>
+
+  <div class="rzad">
+    <div><label>Nazwa klasy</label><input type="text" id="nowaKlasa" placeholder="np. 3A grupa 1"></div>
+    <div style="flex:0"><button class="glowne" id="dodajKlaseBtn">+ Dodaj klasę</button></div>
+  </div>
+
+  <div id="listaKlas">Ładowanie...</div>
 </section>
 
 <section id="tab-testy">
@@ -146,7 +170,7 @@ th{background:#fbfaf7;color:#1e3a5f;font-size:.8rem;text-transform:uppercase}
 </div></div>
 
 <script>
-var profil=null,lekcje={},filtrPoziom="all",WSZYSTKIE_LEKCJE={};
+var profil=null,lekcje={},filtrPoziom="all",WSZYSTKIE_LEKCJE={},MOJE_KLASY=[];
 
 document.querySelectorAll("nav button").forEach(function(b){
   b.onclick=function(){
@@ -156,6 +180,7 @@ document.querySelectorAll("nav button").forEach(function(b){
     document.getElementById("tab-"+b.dataset.tab).classList.add("active");
     if(b.dataset.tab==="testy")odswiezTesty();
     if(b.dataset.tab==="wyniki")odswiezWyborTestow();
+    if(b.dataset.tab==="klasy")odswiezKlasy();
   };
 });
 
@@ -172,11 +197,88 @@ async function start(){
   var o=await window.sb.from("profiles").select("*").eq("id",s.data.session.user.id).single();
   profil=o.data;
   if(!profil||!profil.aktywny){location.href="index.html";return}
+  await odswiezKlasy();
   await zaladujLekcje();
   renderujListeLekcji();
   odswiezWyborTestow();
 }
 
+/* ---------- KLASY ---------- */
+function generujKodKlasy(){
+  var s = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";
+  var r = "";
+  for (var i = 0; i < 6; i++) r += s[Math.floor(Math.random() * s.length)];
+  return r;
+}
+
+async function odswiezKlasy(){
+  var o = await window.sb.from("klasy").select("*").eq("nauczyciel_id", profil.id).order("data_utworzenia", { ascending: false });
+  MOJE_KLASY = o.data || [];
+  renderujListeKlas();
+  wypelnijSelectKlas();
+}
+
+function renderujListeKlas(){
+  var kont = document.getElementById("listaKlas");
+  if (!MOJE_KLASY.length) {
+    kont.innerHTML = '<div class="pusta">Nie masz jeszcze żadnej klasy. Dodaj pierwszą powyżej.</div>';
+    return;
+  }
+  var html = '<table><thead><tr><th>Nazwa</th><th>Kod klasy</th><th>Data utworzenia</th><th>Akcje</th></tr></thead><tbody>';
+  MOJE_KLASY.forEach(function(k){
+    html += '<tr>';
+    html += '<td><strong>' + esc(k.nazwa) + '</strong></td>';
+    html += '<td><span class="kod-klasy">' + esc(k.kod) + '</span></td>';
+    html += '<td>' + new Date(k.data_utworzenia).toLocaleString("pl") + '</td>';
+    html += '<td><button class="drugie" data-copy-kod="' + esc(k.kod) + '" style="padding:5px 12px;font-size:.8rem">Kopiuj kod</button> <button class="drugie czerwony" data-del-klasa="' + k.id + '" style="padding:5px 12px;font-size:.8rem">Usuń</button></td>';
+    html += '</tr>';
+  });
+  html += '</tbody></table>';
+  kont.innerHTML = html;
+
+  kont.querySelectorAll("[data-copy-kod]").forEach(function(b){
+    b.onclick = function(){
+      navigator.clipboard.writeText(b.dataset.copyKod).then(function(){ alert("Kod skopiowany: " + b.dataset.copyKod); });
+    };
+  });
+  kont.querySelectorAll("[data-del-klasa]").forEach(function(b){
+    b.onclick = async function(){
+      if (!confirm("Usunąć tę klasę? Wyniki uczniów pozostaną, ale klasa zniknie z listy.")) return;
+      await window.sb.from("klasy").delete().eq("id", b.dataset.delKlasa);
+      odswiezKlasy();
+    };
+  });
+}
+
+function wypelnijSelectKlas(){
+  var sel = document.getElementById("klasa");
+  var obecny = sel.value;
+  sel.innerHTML = '<option value="">— wybierz klasę —</option>';
+  MOJE_KLASY.forEach(function(k){
+    var opt = document.createElement("option");
+    opt.value = k.nazwa;
+    opt.textContent = k.nazwa;
+    sel.appendChild(opt);
+  });
+  if (obecny) sel.value = obecny;
+  document.getElementById("brakKlasInfo").style.display = MOJE_KLASY.length ? "none" : "block";
+}
+
+document.getElementById("dodajKlaseBtn").onclick = async function(){
+  var nazwa = document.getElementById("nowaKlasa").value.trim();
+  if (!nazwa) { alert("Wpisz nazwę klasy."); return; }
+  var kod = generujKodKlasy();
+  var btn = this;
+  btn.disabled = true; btn.textContent = "Dodaję...";
+  var o = await window.sb.from("klasy").insert({ nauczyciel_id: profil.id, nazwa: nazwa, kod: kod }).select().single();
+  btn.disabled = false; btn.textContent = "+ Dodaj klasę";
+  if (o.error) { alert("Błąd: " + o.error.message); return; }
+  document.getElementById("nowaKlasa").value = "";
+  odswiezKlasy();
+  alert("Klasa dodana. Kod do rozdania uczniom:\n\n" + kod);
+};
+
+/* ---------- LEKCJE ---------- */
 async function zaladujLekcje(){
   var pliki=["A0","G-A1","G-A2","G-B1","G-B2","G-C1","T-A1","T-A2","T-B1","T-B2","T-C1"];
   for(var i=0;i<pliki.length;i++){
@@ -237,7 +339,7 @@ async function generujTest(){
   var czas=parseInt(document.getElementById("czas").value)||0;
   var liczba=parseInt(document.getElementById("liczba").value)||20;
   var zazn=pobierzZaznaczone();
-  if(!klasa){alert("Wpisz klasę.");return}
+  if(!klasa){alert("Wybierz klasę (zakładka Moje klasy).");return}
   if(!zazn.length){alert("Zaznacz lekcję.");return}
   var pula=[];
   zazn.forEach(function(id){lekcje[id].test.forEach(function(q){pula.push(q)})});
@@ -265,7 +367,7 @@ async function odswiezTesty(){
   var o=await window.sb.from("testy").select("*").eq("nauczyciel_id",profil.id).order("data_utworzenia",{ascending:false});
   var kont=document.getElementById("listaTestow");
   if(o.error){kont.innerHTML='<div class="pusta">Błąd: '+o.error.message+'</div>';return}
-  if(!o.data.length){kont.innerHTML='<div class="pusta">Brak testów. Wygeneruj pierwszy w zakładce „Nowy test".</div>';return}
+  if(!o.data.length){kont.innerHTML='<div class="pusta">Brak testów. Wygeneruj pierwszy w zakładce "Nowy test".</div>';return}
   var html='<table><thead><tr><th>Klasa</th><th>Pytania</th><th>Czas</th><th>Data</th><th>Akcje</th></tr></thead><tbody>';
   o.data.forEach(function(t){
     var link=location.origin+"/uczen.html?t="+t.id;
@@ -323,10 +425,7 @@ async function odswiezWyniki(){
 
 async function pokazSzczegoly(wynik){
   var o = await window.sb.from("testy").select("pytania,klasa").eq("id",wynik.test_id).single();
-  if(o.error || !o.data){
-    alert("Nie można pobrać pytań testu: " + (o.error?o.error.message:"brak danych"));
-    return;
-  }
+  if(o.error || !o.data){alert("Nie można pobrać pytań testu: " + (o.error?o.error.message:"brak danych"));return;}
   var pytania = o.data.pytania || [];
   var odpUcznia = wynik.odpowiedzi || [];
 
