@@ -200,8 +200,7 @@ th{background:#fbfaf7;color:#1e3a5f;font-size:.8rem;text-transform:uppercase}
   <div class="modal-duzy">
     <h3 id="rTytul">Wczytaj rozkład podręcznika</h3>
     <div class="rozklad-opis-pol">
-      Format pozycji: <code>nr;unit;unit_tytul;lekcja_tytul;lekcja_id</code> — jedno w wierszu.
-      Ostatnia kolumna (ID lekcji) może być pusta — kliknij „Dopasuj automatycznie", żeby system spróbował ją znaleźć.
+      Możesz wgrać gotowy plik CSV. System sam rozpozna typowe formaty (z kolumnami „Temat" i „Dział"), przestawi kolumny i spróbuje dopasować lekcje z naszego kursu.
     </div>
     <div class="rzad">
       <div><label>Klucz podręcznika</label><input id="rKlucz" placeholder="np. impuls-1"></div>
@@ -222,7 +221,7 @@ th{background:#fbfaf7;color:#1e3a5f;font-size:.8rem;text-transform:uppercase}
       <button type="button" class="drugie" id="rAutoDopasuj">Dopasuj automatycznie</button>
       <span id="rInfoCsv" class="rozklad-info"></span>
     </div>
-    <textarea id="rPozycje" style="width:100%;min-height:240px;font-family:monospace;font-size:.82rem;padding:10px;border:1px solid #c8c2b5;border-radius:4px;box-sizing:border-box"></textarea>
+    <textarea id="rPozycje" style="width:100%;min-height:280px;font-family:monospace;font-size:.82rem;padding:10px;border:1px solid #c8c2b5;border-radius:4px;box-sizing:border-box"></textarea>
     <div class="rozklad-stopka">
       <button class="drugie" id="rAnuluj">Anuluj</button>
       <button class="glowne" id="rZapisz">Zapisz i udostępnij</button>
@@ -465,11 +464,6 @@ async function generujTest(){
       navigator.clipboard.writeText(b.dataset.copyLink).then(function(){ alert("Skopiowano!"); });
     };
   });
-}
-
-function kopiujLink(){
-  var t=document.getElementById("linkTestu").textContent;
-  navigator.clipboard.writeText(t).then(function(){alert("Skopiowano!")}).catch(function(){alert("Skopiuj ręcznie")});
 }
 
 async function odswiezTesty(){
@@ -745,36 +739,36 @@ document.getElementById("rAnuluj").onclick = function(){
 /* ---------- AUTO-DOPASOWANIE LEKCJI ---------- */
 
 var SLOWA_TEMATY = [
-  { lekcje: ["T1"], slowa: ["człowiek","identity","people","personal","personality","character","appearance"] },
+  { lekcje: ["T1"], slowa: ["człowiek","identity","people","personal","personality","character","appearance","look","wygląd"] },
   { lekcje: ["T2"], slowa: ["family","rodzina","relationship","relacje","friends","friend"] },
-  { lekcje: ["T3"], slowa: ["home","dom","house","flat","neighbourhood","mieszkan","room"] },
+  { lekcje: ["T3"], slowa: ["home","dom","house","flat","neighbourhood","mieszkan","room","pomieszczen"] },
   { lekcje: ["T4"], slowa: ["free time","hobby","sport","leisure","czas wolny","entertainment","pastime"] },
-  { lekcje: ["T5"], slowa: ["food","jedzenie","health","zdrowie","eating","restaurant","diet"] },
-  { lekcje: ["T6"], slowa: ["school","szkoła","education","edukacja","university","study","learning"] },
-  { lekcje: ["T7"], slowa: ["work","praca","job","career","kariera","employment","profession","office"] },
-  { lekcje: ["T8"], slowa: ["nature","natura","environment","środowisko","weather","animals","climate","world of nature"] },
-  { lekcje: ["T9"], slowa: ["technology","technologia","computer","internet","device","gadget","innovation","science and technology"] },
-  { lekcje: ["T10"], slowa: ["media","culture","kultura","film","tv","art","music","news"] },
+  { lekcje: ["T5"], slowa: ["food","jedzenie","health","zdrowie","eating","restaurant","diet","body","ciało","dolegliwo"] },
+  { lekcje: ["T6"], slowa: ["school","szkoła","education","edukacja","university","study","learning","uczen","uczeń"] },
+  { lekcje: ["T7"], slowa: ["work","praca","job","career","kariera","employment","profession","office","zawod"] },
+  { lekcje: ["T8"], slowa: ["nature","natura","environment","środowisko","weather","pogoda","animals","climate","world of nature","ekolog"] },
+  { lekcje: ["T9"], slowa: ["technology","technologia","computer","internet","device","gadget","innovation","science and technology","space","kosmos","nauka","wynalaz"] },
+  { lekcje: ["T10"], slowa: ["media","culture","kultura","film","tv","art","music","news","sztuka"] },
   { lekcje: ["T11"], slowa: ["communication","komunikacja","meeting","negotiation","email","business"] },
   { lekcje: ["T12"], slowa: ["society","społeczeństwo","rights","prawa","law","citizen","państwo","government"] },
-  { lekcje: ["T13"], slowa: ["future","przyszłość","ai","robot","tomorrow","innovation and ideas"] },
+  { lekcje: ["T13"], slowa: ["future","przyszłość","ai","robot","tomorrow","innovation and ideas","life goals","ambicje","plany"] },
   { lekcje: ["T14"], slowa: ["ethics","etyka","problem","dilemma","moral","conflict"] },
-  { lekcje: ["T15"], slowa: ["clothes","ubrania","fashion","moda","shopping","zakupy","wear"] },
+  { lekcje: ["T15"], slowa: ["clothes","ubrania","fashion","moda","shopping","zakupy","wear","wygląd"] },
   { lekcje: ["T16"], slowa: ["travel","podróż","holiday","wakacje","tourism","turystyka","transport","journey","trip"] }
 ];
 var SLOWA_GRAMATYKA = [
-  { lekcje: ["G1"], slowa: ["present","teraźniejsz","simple present","continuous"] },
-  { lekcje: ["G2"], slowa: ["past","przeszł","irregular"] },
+  { lekcje: ["G1"], slowa: ["present simple","present continuous","present tenses","teraźniejsz"] },
+  { lekcje: ["G2"], slowa: ["past simple","past continuous","past tenses","przeszł","irregular"] },
   { lekcje: ["G3"], slowa: ["future","przyszł","will","going to","plans"] },
-  { lekcje: ["G4"], slowa: ["modal","can","must","should","may","permission"] },
+  { lekcje: ["G4"], slowa: ["modal","can","must","should","may","permission","have to"] },
   { lekcje: ["G5"], slowa: ["conditional","warunkow","if"] },
   { lekcje: ["G6"], slowa: ["reported","mowa zależna","indirect speech"] },
   { lekcje: ["G7"], slowa: ["passive","bierna","passive voice"] },
   { lekcje: ["G8"], slowa: ["inversion","emfaza","emphasis","cleft"] },
   { lekcje: ["G9"], slowa: ["article","przedimek","a/an/the"] },
-  { lekcje: ["G10"], slowa: ["quantifier","określnik","countable","uncountable"] },
+  { lekcje: ["G10"], slowa: ["quantifier","określnik","countable","uncountable","much","many"] },
   { lekcje: ["G11"], slowa: ["preposition","przyimek","in on at"] },
-  { lekcje: ["G12"], slowa: ["comparative","superlative","stopniowanie"] },
+  { lekcje: ["G12"], slowa: ["comparative","superlative","stopniowanie","comparison"] },
   { lekcje: ["G13"], slowa: ["gerund","infinitive","-ing","bezokolicznik"] },
   { lekcje: ["G14"], slowa: ["relative","przydawk","who which that"] },
   { lekcje: ["G15"], slowa: ["question","pytanie","tags"] },
@@ -782,7 +776,7 @@ var SLOWA_GRAMATYKA = [
 ];
 
 function poziomDoId(poziom) {
-  if (!poziom) return "A1";
+  if (!poziom) return "A2";
   var p = String(poziom).toUpperCase();
   if (p.indexOf("A1") !== -1 && p.indexOf("A2") !== -1) return "A2";
   if (p.indexOf("A1") !== -1) return "A1";
@@ -791,7 +785,7 @@ function poziomDoId(poziom) {
   if (p.indexOf("B1") !== -1) return "B1";
   if (p.indexOf("B2") !== -1) return "B2";
   if (p.indexOf("C1") !== -1) return "C1";
-  return "A1";
+  return "A2";
 }
 
 function dopasujLekcjeAuto(tekst, poziom) {
@@ -838,20 +832,20 @@ function autoDopasujWModal(){
 
     var doSzukania = (cz[3] || "") + " " + (cz[2] || "");
     var dop = dopasujLekcjeAuto(doSzukania, poziom);
+    while (cz.length < 5) cz.push("");
     if (dop.length) {
       zmienione++;
-      while (cz.length < 5) cz.push("");
       cz[4] = dop[0];
       return cz.join(";");
     }
     bezDopasowania++;
-    while (cz.length < 5) cz.push("");
     return cz.join(";");
   });
 
   document.getElementById("rPozycje").value = noweLinie.filter(function(l){return l;}).join("\n");
+  var istniejacyInfo = document.getElementById("rInfoCsv").textContent;
   document.getElementById("rInfoCsv").textContent =
-    "Dopasowano: " + zmienione + " · Bez dopasowania: " + bezDopasowania;
+    istniejacyInfo + " · Dopasowano: " + zmienione + " · Bez dopasowania: " + bezDopasowania;
 }
 
 document.getElementById("rAutoDopasuj").onclick = autoDopasujWModal;
@@ -869,26 +863,70 @@ document.getElementById("rPlik").onchange = function(e){
   reader.onload = function(ev){
     var tekst = ev.target.result || "";
     tekst = tekst.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
-    tekst = tekst.replace(/^\uFEFF/, ""); // usuń BOM z Excela
+    tekst = tekst.replace(/^\uFEFF/, "");
 
-    var pierwsza = tekst.split("\n")[0] || "";
+    var linie = tekst.split("\n").filter(function(l){ return l.trim(); });
+    if (!linie.length) { document.getElementById("rInfoCsv").textContent = "Plik jest pusty."; return; }
+
+    var naglowek = linie[0];
     var sep = ";";
-    var semicolons = (pierwsza.match(/;/g) || []).length;
-    var commas = (pierwsza.match(/,/g) || []).length;
-    var tabs = (pierwsza.match(/\t/g) || []).length;
+    var semicolons = (naglowek.match(/;/g) || []).length;
+    var commas = (naglowek.match(/,/g) || []).length;
+    var tabs = (naglowek.match(/\t/g) || []).length;
     if (commas > semicolons && commas > tabs) sep = ",";
     else if (tabs > semicolons && tabs > commas) sep = "\t";
 
-    if (sep !== ";") {
-      tekst = tekst.split("\n").map(function(l){
-        return l.split(sep).map(function(x){ return x.trim(); }).join(";");
-      }).join("\n");
+    function podzielLinie(l) {
+      var czesci = [];
+      var obecne = "";
+      var wCudzyslowie = false;
+      for (var i = 0; i < l.length; i++) {
+        var ch = l.charAt(i);
+        if (ch === '"') {
+          if (wCudzyslowie && l.charAt(i+1) === '"') { obecne += '"'; i++; }
+          else { wCudzyslowie = !wCudzyslowie; }
+        } else if (ch === sep && !wCudzyslowie) {
+          czesci.push(obecne.trim());
+          obecne = "";
+        } else {
+          obecne += ch;
+        }
+      }
+      czesci.push(obecne.trim());
+      return czesci;
     }
 
-    document.getElementById("rPozycje").value = tekst;
-    var ile = tekst.split("\n").filter(function(l){return l.trim();}).length;
-    document.getElementById("rInfoCsv").textContent = "Wczytano " + ile + " wierszy z pliku " + f.name;
+    var naglowekKol = podzielLinie(naglowek).map(function(x){ return x.toLowerCase(); });
+    var idxTemat = naglowekKol.findIndex(function(x){ return x === "temat"; });
+    var idxDzial = naglowekKol.findIndex(function(x){ return x === "dział" || x === "dzial"; });
+    var idxNr = naglowekKol.findIndex(function(x){ return x === "nr porządkowy lekcji" || x === "nr porzadkowy lekcji" || x === "nr tematu"; });
 
+    var nowyFormat = (idxTemat !== -1 && idxDzial !== -1);
+    var wynik = [];
+    var nr = 1;
+
+    if (nowyFormat) {
+      for (var i = 1; i < linie.length; i++) {
+        var k = podzielLinie(linie[i]);
+        if (!k[idxTemat]) continue;
+        var temat = k[idxTemat] || "";
+        var dzial = k[idxDzial] || "";
+        var nrPorzadkowy = (idxNr !== -1 ? k[idxNr] : "") || nr;
+        wynik.push(nrPorzadkowy + ";" + dzial + ";" + dzial + ";" + temat + ";");
+        nr++;
+      }
+      document.getElementById("rInfoCsv").textContent = "Wczytano " + wynik.length + " lekcji (format rozpoznany: Temat + Dział) z pliku " + f.name;
+    } else {
+      for (var j = 0; j < linie.length; j++) {
+        var cz = podzielLinie(linie[j]);
+        if (cz.length < 3) continue;
+        while (cz.length < 5) cz.push("");
+        wynik.push(cz.join(";"));
+      }
+      document.getElementById("rInfoCsv").textContent = "Wczytano " + wynik.length + " wierszy z pliku " + f.name;
+    }
+
+    document.getElementById("rPozycje").value = wynik.join("\n");
     autoDopasujWModal();
   };
   reader.readAsText(f, "UTF-8");
