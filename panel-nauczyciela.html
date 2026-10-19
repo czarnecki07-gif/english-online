@@ -69,6 +69,9 @@ th{background:#fbfaf7;color:#1e3a5f;font-size:.8rem;text-transform:uppercase}
 .kod-klasy{font-family:monospace;background:#fffbeb;padding:6px 12px;border:2px solid #b45309;border-radius:4px;color:#78350f;font-weight:700;letter-spacing:1px;display:inline-block}
 .rozklad-stopka{display:flex;gap:8px;justify-content:flex-end;margin-top:18px}
 .rozklad-opis-pol{color:#6b7280;font-size:.85rem;margin-bottom:14px}
+.rozklad-narzedzia{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px}
+.rozklad-narzedzia button{padding:8px 16px;font-size:.85rem}
+.rozklad-info{color:#6b7280;font-size:.85rem;margin-left:auto}
 </style>
 </head>
 <body>
@@ -195,10 +198,10 @@ th{background:#fbfaf7;color:#1e3a5f;font-size:.8rem;text-transform:uppercase}
 
 <div class="modal" id="modalRozklad">
   <div class="modal-duzy">
-    <h3>Wczytaj rozkład podręcznika</h3>
+    <h3 id="rTytul">Wczytaj rozkład podręcznika</h3>
     <div class="rozklad-opis-pol">
       Format pozycji: <code>nr;unit;unit_tytul;lekcja_tytul;lekcja_id</code> — jedno w wierszu.
-      Pre-fill z <code>dane-podreczniki.js</code> zawiera tylko lekcje już zmapowane; możesz dopisać własne wiersze (np. Vocabulary, Grammar, Skills, Writing, Progress Check).
+      Ostatnia kolumna (ID lekcji) może być pusta — kliknij „Dopasuj automatycznie", żeby system spróbował ją znaleźć.
     </div>
     <div class="rzad">
       <div><label>Klucz podręcznika</label><input id="rKlucz" placeholder="np. impuls-1"></div>
@@ -213,6 +216,12 @@ th{background:#fbfaf7;color:#1e3a5f;font-size:.8rem;text-transform:uppercase}
     <label>Opis (opcjonalnie)</label>
     <input id="rOpis" style="margin-bottom:14px">
     <label>Pozycje rozkładu</label>
+    <div class="rozklad-narzedzia">
+      <input type="file" id="rPlik" accept=".csv,text/csv,.txt,text/plain" style="display:none">
+      <button type="button" class="drugie" id="rWgrajCsv">Wgraj plik CSV</button>
+      <button type="button" class="drugie" id="rAutoDopasuj">Dopasuj automatycznie</button>
+      <span id="rInfoCsv" class="rozklad-info"></span>
+    </div>
     <textarea id="rPozycje" style="width:100%;min-height:240px;font-family:monospace;font-size:.82rem;padding:10px;border:1px solid #c8c2b5;border-radius:4px;box-sizing:border-box"></textarea>
     <div class="rozklad-stopka">
       <button class="drugie" id="rAnuluj">Anuluj</button>
@@ -223,6 +232,7 @@ th{background:#fbfaf7;color:#1e3a5f;font-size:.8rem;text-transform:uppercase}
 
 <script>
 var profil=null,lekcje={},filtrPoziom="all",WSZYSTKIE_LEKCJE={},MOJE_KLASY=[];
+var ROZKLAD_EDYCJA_ID = null;
 
 document.querySelectorAll("nav button").forEach(function(b){
   b.onclick=function(){
@@ -613,6 +623,7 @@ async function odswiezRozklady(){
     html += '<td><button class="drugie" data-view="' + r.id + '" style="padding:5px 12px;font-size:.8rem">Zobacz</button> ';
     html += '<button class="glowne" data-assign="' + r.id + '" style="padding:6px 14px;font-size:.8rem">Przypisz do klasy</button>';
     if (moj) {
+      html += ' <button class="drugie" data-edit="' + r.id + '" style="padding:5px 12px;font-size:.8rem">Edytuj</button>';
       html += ' <button class="drugie czerwony" data-del-rozklad="' + r.id + '" style="padding:5px 12px;font-size:.8rem">Usuń</button>';
     }
     html += '</td></tr>';
@@ -624,6 +635,12 @@ async function odswiezRozklady(){
   });
   kont.querySelectorAll("[data-assign]").forEach(function(b){
     b.onclick = function(){ przypiszRozklad(b.dataset.assign); };
+  });
+  kont.querySelectorAll("[data-edit]").forEach(function(b){
+    b.onclick = function(){
+      var r = o.data.find(function(x){return x.id === b.dataset.edit;});
+      if (r) otworzEdycjeRozkladu(r);
+    };
   });
   kont.querySelectorAll("[data-del-rozklad]").forEach(function(b){
     b.onclick = async function(){
@@ -670,6 +687,10 @@ async function przypiszRozklad(rozkladId){
 }
 
 document.getElementById("nowyRozkladBtn").onclick = function(){
+  ROZKLAD_EDYCJA_ID = null;
+  document.getElementById("rTytul").textContent = "Wczytaj rozkład podręcznika";
+  document.getElementById("rInfoCsv").textContent = "";
+
   var klucz = document.getElementById("rozklPodrecznik").value;
   var p = (klucz && window.PODRECZNIKI) ? window.PODRECZNIKI[klucz] : null;
 
@@ -696,9 +717,185 @@ document.getElementById("nowyRozkladBtn").onclick = function(){
   document.getElementById("modalRozklad").classList.add("on");
 };
 
+function otworzEdycjeRozkladu(r){
+  ROZKLAD_EDYCJA_ID = r.id;
+  document.getElementById("rTytul").textContent = "Edytuj rozkład — " + (r.podrecznik_nazwa || "");
+  document.getElementById("rInfoCsv").textContent = "";
+
+  document.getElementById("rKlucz").value = r.podrecznik_klucz || "";
+  document.getElementById("rNazwa").value = r.podrecznik_nazwa || "";
+  document.getElementById("rWyd").value = r.wydawnictwo || "";
+  document.getElementById("rNumer").value = r.numer_dopuszczenia || "";
+  document.getElementById("rPoziom").value = r.poziom || "";
+  document.getElementById("rRok").value = r.rok_szkolny || "default";
+  document.getElementById("rOpis").value = r.opis || "";
+
+  var csv = (r.pozycje || []).map(function(p){
+    return p.nr + ";" + (p.unit||"") + ";" + (p.unit_tytul||"") + ";" + (p.lekcja_tytul||"") + ";" + (p.lekcja_id||"");
+  }).join("\n");
+  document.getElementById("rPozycje").value = csv;
+  document.getElementById("modalRozklad").classList.add("on");
+}
+
 document.getElementById("rAnuluj").onclick = function(){
   document.getElementById("modalRozklad").classList.remove("on");
+  ROZKLAD_EDYCJA_ID = null;
 };
+
+/* ---------- AUTO-DOPASOWANIE LEKCJI ---------- */
+
+var SLOWA_TEMATY = [
+  { lekcje: ["T1"], slowa: ["człowiek","identity","people","personal","personality","character","appearance"] },
+  { lekcje: ["T2"], slowa: ["family","rodzina","relationship","relacje","friends","friend"] },
+  { lekcje: ["T3"], slowa: ["home","dom","house","flat","neighbourhood","mieszkan","room"] },
+  { lekcje: ["T4"], slowa: ["free time","hobby","sport","leisure","czas wolny","entertainment","pastime"] },
+  { lekcje: ["T5"], slowa: ["food","jedzenie","health","zdrowie","eating","restaurant","diet"] },
+  { lekcje: ["T6"], slowa: ["school","szkoła","education","edukacja","university","study","learning"] },
+  { lekcje: ["T7"], slowa: ["work","praca","job","career","kariera","employment","profession","office"] },
+  { lekcje: ["T8"], slowa: ["nature","natura","environment","środowisko","weather","animals","climate","world of nature"] },
+  { lekcje: ["T9"], slowa: ["technology","technologia","computer","internet","device","gadget","innovation","science and technology"] },
+  { lekcje: ["T10"], slowa: ["media","culture","kultura","film","tv","art","music","news"] },
+  { lekcje: ["T11"], slowa: ["communication","komunikacja","meeting","negotiation","email","business"] },
+  { lekcje: ["T12"], slowa: ["society","społeczeństwo","rights","prawa","law","citizen","państwo","government"] },
+  { lekcje: ["T13"], slowa: ["future","przyszłość","ai","robot","tomorrow","innovation and ideas"] },
+  { lekcje: ["T14"], slowa: ["ethics","etyka","problem","dilemma","moral","conflict"] },
+  { lekcje: ["T15"], slowa: ["clothes","ubrania","fashion","moda","shopping","zakupy","wear"] },
+  { lekcje: ["T16"], slowa: ["travel","podróż","holiday","wakacje","tourism","turystyka","transport","journey","trip"] }
+];
+var SLOWA_GRAMATYKA = [
+  { lekcje: ["G1"], slowa: ["present","teraźniejsz","simple present","continuous"] },
+  { lekcje: ["G2"], slowa: ["past","przeszł","irregular"] },
+  { lekcje: ["G3"], slowa: ["future","przyszł","will","going to","plans"] },
+  { lekcje: ["G4"], slowa: ["modal","can","must","should","may","permission"] },
+  { lekcje: ["G5"], slowa: ["conditional","warunkow","if"] },
+  { lekcje: ["G6"], slowa: ["reported","mowa zależna","indirect speech"] },
+  { lekcje: ["G7"], slowa: ["passive","bierna","passive voice"] },
+  { lekcje: ["G8"], slowa: ["inversion","emfaza","emphasis","cleft"] },
+  { lekcje: ["G9"], slowa: ["article","przedimek","a/an/the"] },
+  { lekcje: ["G10"], slowa: ["quantifier","określnik","countable","uncountable"] },
+  { lekcje: ["G11"], slowa: ["preposition","przyimek","in on at"] },
+  { lekcje: ["G12"], slowa: ["comparative","superlative","stopniowanie"] },
+  { lekcje: ["G13"], slowa: ["gerund","infinitive","-ing","bezokolicznik"] },
+  { lekcje: ["G14"], slowa: ["relative","przydawk","who which that"] },
+  { lekcje: ["G15"], slowa: ["question","pytanie","tags"] },
+  { lekcje: ["G16"], slowa: ["phrasal","czasowniki frazowe"] }
+];
+
+function poziomDoId(poziom) {
+  if (!poziom) return "A1";
+  var p = String(poziom).toUpperCase();
+  if (p.indexOf("A1") !== -1 && p.indexOf("A2") !== -1) return "A2";
+  if (p.indexOf("A1") !== -1) return "A1";
+  if (p.indexOf("A2") !== -1) return "A2";
+  if (p.indexOf("B1") !== -1 && p.indexOf("B2") !== -1) return "B2";
+  if (p.indexOf("B1") !== -1) return "B1";
+  if (p.indexOf("B2") !== -1) return "B2";
+  if (p.indexOf("C1") !== -1) return "C1";
+  return "A1";
+}
+
+function dopasujLekcjeAuto(tekst, poziom) {
+  if (!tekst || !lekcje || !Object.keys(lekcje).length) return [];
+  var t = tekst.toLowerCase();
+  var p = poziomDoId(poziom);
+  var wyniki = [];
+
+  function sprawdz(lista) {
+    lista.forEach(function(wpis) {
+      var trafienie = false;
+      wpis.slowa.forEach(function(s) {
+        if (t.indexOf(s.toLowerCase()) !== -1) trafienie = true;
+      });
+      if (trafienie) {
+        wpis.lekcje.forEach(function(baza) {
+          var id = baza + p;
+          if (lekcje[id] && wyniki.indexOf(id) === -1) wyniki.push(id);
+        });
+      }
+    });
+  }
+  sprawdz(SLOWA_GRAMATYKA);
+  sprawdz(SLOWA_TEMATY);
+  return wyniki.slice(0, 3);
+}
+
+function autoDopasujWModal(){
+  var tekst = document.getElementById("rPozycje").value;
+  if (!tekst.trim()) return;
+  var poziom = document.getElementById("rPoziom").value;
+  var linie = tekst.split("\n");
+  var zmienione = 0;
+  var bezDopasowania = 0;
+
+  var noweLinie = linie.map(function(l){
+    l = l.trim();
+    if (!l) return "";
+    var cz = l.split(";").map(function(x){ return x.trim(); });
+    if (cz.length < 3) return l;
+
+    var istniejace = cz[4] || "";
+    if (istniejace && lekcje[istniejace]) return cz.join(";");
+
+    var doSzukania = (cz[3] || "") + " " + (cz[2] || "");
+    var dop = dopasujLekcjeAuto(doSzukania, poziom);
+    if (dop.length) {
+      zmienione++;
+      while (cz.length < 5) cz.push("");
+      cz[4] = dop[0];
+      return cz.join(";");
+    }
+    bezDopasowania++;
+    while (cz.length < 5) cz.push("");
+    return cz.join(";");
+  });
+
+  document.getElementById("rPozycje").value = noweLinie.filter(function(l){return l;}).join("\n");
+  document.getElementById("rInfoCsv").textContent =
+    "Dopasowano: " + zmienione + " · Bez dopasowania: " + bezDopasowania;
+}
+
+document.getElementById("rAutoDopasuj").onclick = autoDopasujWModal;
+
+/* ---------- CSV ---------- */
+
+document.getElementById("rWgrajCsv").onclick = function(){
+  document.getElementById("rPlik").click();
+};
+
+document.getElementById("rPlik").onchange = function(e){
+  var f = e.target.files[0];
+  if (!f) return;
+  var reader = new FileReader();
+  reader.onload = function(ev){
+    var tekst = ev.target.result || "";
+    tekst = tekst.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
+    tekst = tekst.replace(/^\uFEFF/, ""); // usuń BOM z Excela
+
+    var pierwsza = tekst.split("\n")[0] || "";
+    var sep = ";";
+    var semicolons = (pierwsza.match(/;/g) || []).length;
+    var commas = (pierwsza.match(/,/g) || []).length;
+    var tabs = (pierwsza.match(/\t/g) || []).length;
+    if (commas > semicolons && commas > tabs) sep = ",";
+    else if (tabs > semicolons && tabs > commas) sep = "\t";
+
+    if (sep !== ";") {
+      tekst = tekst.split("\n").map(function(l){
+        return l.split(sep).map(function(x){ return x.trim(); }).join(";");
+      }).join("\n");
+    }
+
+    document.getElementById("rPozycje").value = tekst;
+    var ile = tekst.split("\n").filter(function(l){return l.trim();}).length;
+    document.getElementById("rInfoCsv").textContent = "Wczytano " + ile + " wierszy z pliku " + f.name;
+
+    autoDopasujWModal();
+  };
+  reader.readAsText(f, "UTF-8");
+  e.target.value = "";
+};
+
+/* ---------- ZAPIS ---------- */
 
 document.getElementById("rZapisz").onclick = async function(){
   var klucz = document.getElementById("rKlucz").value.trim();
@@ -711,10 +908,10 @@ document.getElementById("rZapisz").onclick = async function(){
     linia = linia.trim();
     if (!linia) return;
     var cz = linia.split(";").map(function(x){ return x.trim(); });
-    if (cz.length < 4) return;
+    if (cz.length < 3) return;
     pozycje.push({
       nr: parseInt(cz[0]) || (i+1),
-      unit: cz[1],
+      unit: cz[1] || "",
       unit_tytul: cz[2] || "",
       lekcja_tytul: cz[3] || "",
       lekcja_id: cz[4] || "",
@@ -723,7 +920,7 @@ document.getElementById("rZapisz").onclick = async function(){
   });
   if (!pozycje.length) { alert("Brak pozycji. Format: nr;unit;unit_tytul;lekcja_tytul;lekcja_id"); return; }
 
-  var o = await window.sb.from("rozklady").insert({
+  var dane = {
     podrecznik_klucz: klucz,
     podrecznik_nazwa: nazwa,
     wydawnictwo: document.getElementById("rWyd").value.trim(),
@@ -731,17 +928,28 @@ document.getElementById("rZapisz").onclick = async function(){
     poziom: document.getElementById("rPoziom").value.trim(),
     rok_szkolny: document.getElementById("rRok").value.trim() || "default",
     opis: document.getElementById("rOpis").value.trim(),
-    pozycje: pozycje,
-    autor_id: profil.id,
-    autor_nazwa: profil.imie_nazwisko || profil.email,
-    czy_publiczny: true
-  }).select().single();
+    pozycje: pozycje
+  };
 
-  if (o.error) { alert("Błąd zapisu: " + o.error.message); return; }
+  var o;
+  if (ROZKLAD_EDYCJA_ID) {
+    dane.data_modyfikacji = new Date().toISOString();
+    o = await window.sb.from("rozklady").update(dane).eq("id", ROZKLAD_EDYCJA_ID);
+    if (o.error) { alert("Błąd zapisu: " + o.error.message); return; }
+    alert("Rozkład zaktualizowany (" + pozycje.length + " pozycji).");
+  } else {
+    dane.autor_id = profil.id;
+    dane.autor_nazwa = profil.imie_nazwisko || profil.email;
+    dane.czy_publiczny = true;
+    o = await window.sb.from("rozklady").insert(dane).select().single();
+    if (o.error) { alert("Błąd zapisu: " + o.error.message); return; }
+    alert("Rozkład zapisany i udostępniony innym nauczycielom (" + pozycje.length + " pozycji).");
+  }
+
   document.getElementById("modalRozklad").classList.remove("on");
+  ROZKLAD_EDYCJA_ID = null;
   document.getElementById("rozklPodrecznik").value = klucz;
   odswiezRozklady();
-  alert("Rozkład zapisany i udostępniony innym nauczycielom.");
 };
 
 document.getElementById("rozklPodrecznik").onchange = odswiezRozklady;
