@@ -473,6 +473,19 @@ function przewinDoGory() {
 
 /* ---------- START ---------- */
 document.addEventListener("DOMContentLoaded", async function() {
+  var params = new URLSearchParams(location.search);
+  var selParam = params.get("sel");
+  if (selParam) {
+    var idList = selParam.split(",").map(function(x){return x.trim();}).filter(Boolean);
+    if (idList.length) {
+      try { localStorage.setItem("sprawdzian_zaznaczone", JSON.stringify(idList)); } catch(e) {}
+    }
+    var liczbaParam = params.get("liczba");
+    if (liczbaParam) {
+      try { localStorage.setItem("sprawdzian_liczba", liczbaParam); } catch(e) {}
+    }
+  }
+
   /* Sprawdź logowanie */
   var zalogowany = await sprawdzSesje();
   if (!zalogowany) {

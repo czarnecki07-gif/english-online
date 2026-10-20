@@ -738,7 +738,8 @@ function otworzSprawdzianDlaUnitu(r, unit){
     localStorage.setItem("sprawdzian_liczba", "20");
   } catch(e) {}
 
-  window.open("sprawdzian.html", "_blank");
+  var url = "sprawdzian.html?sel=" + encodeURIComponent(uniq.join(",")) + "&liczba=20";
+  window.open(url, "_blank");
 }
 
 function renderujPodpowiedz(p, r){
