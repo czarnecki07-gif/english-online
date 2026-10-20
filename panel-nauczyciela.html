@@ -76,7 +76,7 @@ th{background:#fbfaf7;color:#1e3a5f;font-size:.8rem;text-transform:uppercase}
 .rozklad-filtry{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid #eee}
 .rozklad-filtry .chip{padding:6px 14px;border:1px solid #c8c2b5;background:#fff;border-radius:20px;font-size:.82rem;cursor:pointer;font-family:inherit}
 .rozklad-filtry .chip.active{background:#1e3a5f;color:#fff;border-color:#1e3a5f}
-.typ-badge{display:inline-block;padding:3px 10px;border-radius:12px;font-size:.75rem;font-weight:600;white-space:nowrap}
+.typ-badge{display:inline-block;padding:3px 10px;border-radius:3px;font-size:.75rem;font-weight:600;white-space:nowrap;letter-spacing:.3px}
 .rozklad-tabela small{font-size:.78rem}
 </style>
 </head>
@@ -647,7 +647,7 @@ async function odswiezRozklady(){
 }
 
 /* ============================================================
-   TYP LEKCJI + PODPOWIEDZI (mechanizm 1)
+   TYP LEKCJI + PODPOWIEDZI
 ============================================================ */
 
 function typLekcjiInfo(unitTytul) {
@@ -656,33 +656,33 @@ function typLekcjiInfo(unitTytul) {
   if (t === "" || t.indexOf("organiz") !== -1 || t.indexOf("diagnoz") !== -1
       || t.indexOf("omówienie") !== -1 || t.indexOf("omowienie") !== -1
       || t.indexOf("correction") !== -1 || t.indexOf("evaluation") !== -1) {
-    return { ikona: "⚙️", nazwa: "Administracyjna", kolor: "#6b7280", akcja: "administracyjna" };
+    return { nazwa: "Administracyjna", kolor: "#6b7280", akcja: "administracyjna" };
   }
   if (t.indexOf("unit test") !== -1 || t.indexOf("mid-term test") !== -1 || t.indexOf("end-of-year test") !== -1) {
-    return { ikona: "📝", nazwa: "Test", kolor: "#7c3aed", akcja: "sprawdzian" };
+    return { nazwa: "Test", kolor: "#7c3aed", akcja: "sprawdzian" };
   }
   if (t.indexOf("vocabulary") !== -1) {
-    return { ikona: "📚", nazwa: "Słownictwo", kolor: "#0891b2", akcja: "closest" };
+    return { nazwa: "Słownictwo", kolor: "#0891b2", akcja: "closest" };
   }
   if (t.indexOf("grammar") !== -1) {
-    return { ikona: "📐", nazwa: "Gramatyka", kolor: "#b45309", akcja: "closest" };
+    return { nazwa: "Gramatyka", kolor: "#b45309", akcja: "closest" };
   }
   if (t.indexOf("reading") !== -1 || t.indexOf("listening") !== -1) {
-    return { ikona: "📖", nazwa: "Czytanie / Słuchanie", kolor: "#0f766e", akcja: "closest" };
+    return { nazwa: "Czytanie / Słuchanie", kolor: "#0f766e", akcja: "closest" };
   }
   if (t.indexOf("writing") !== -1) {
-    return { ikona: "✍️", nazwa: "Pisanie", kolor: "#166534", akcja: "sciagawka" };
+    return { nazwa: "Pisanie", kolor: "#166534", akcja: "sciagawka" };
   }
   if (t.indexOf("speaking") !== -1 || t.indexOf("debate") !== -1 || t.indexOf("functions") !== -1) {
-    return { ikona: "💬", nazwa: "Mówienie", kolor: "#166534", akcja: "sciagawka" };
+    return { nazwa: "Mówienie", kolor: "#166534", akcja: "sciagawka" };
   }
   if (t.indexOf("global skills") !== -1 || t.indexOf("vision 360") !== -1 || t.indexOf("mediation") !== -1) {
-    return { ikona: "🌍", nazwa: "Umiejętności", kolor: "#4a5f7a", akcja: "wlasne" };
+    return { nazwa: "Umiejętności", kolor: "#4a5f7a", akcja: "wlasne" };
   }
   if (t.indexOf("review") !== -1) {
-    return { ikona: "🔄", nazwa: "Powtórzenie", kolor: "#4a5f7a", akcja: "closest" };
+    return { nazwa: "Powtórzenie", kolor: "#4a5f7a", akcja: "closest" };
   }
-  return { ikona: "❓", nazwa: "Inne", kolor: "#6b7280", akcja: "closest" };
+  return { nazwa: "Inne", kolor: "#6b7280", akcja: "closest" };
 }
 
 function kandydaciDlaLekcji(p, poziom) {
@@ -743,22 +743,22 @@ function otworzSprawdzianDlaUnitu(r, unit){
 
 function renderujPodpowiedz(p, r){
   if (p.lekcja_id) {
-    return '<a href="lekcja.html?id=' + p.lekcja_id + '" target="_blank" style="color:#166534;font-weight:600">' + p.lekcja_id + '</a> <small style="color:#6b7280">→ otwórz</small>';
+    return '<a href="lekcja.html?id=' + p.lekcja_id + '" target="_blank" style="color:#166534;font-weight:600">' + p.lekcja_id + '</a> <small style="color:#6b7280">— otwórz</small>';
   }
 
   var typ = typLekcjiInfo(p.unit_tytul);
 
   if (typ.akcja === "administracyjna") {
-    return '<span style="color:#6b7280">⚙️ Lekcja administracyjna — brak materiału (to normalne)</span>';
+    return '<span style="color:#6b7280">Lekcja administracyjna — brak materiału (to normalne)</span>';
   }
   if (typ.akcja === "wlasne") {
-    return '<span style="color:#4a5f7a">🌍 Brak odpowiednika — użyj własnych materiałów lub pomiń</span>';
+    return '<span style="color:#4a5f7a">Brak odpowiednika — użyj własnych materiałów lub pomiń</span>';
   }
   if (typ.akcja === "sprawdzian") {
-    return '<button class="drugie" data-sprawdzian-unit="' + esc(p.unit) + '" style="padding:4px 12px;font-size:.8rem">📝 Generuj sprawdzian z tego unitu</button>';
+    return '<button class="drugie" data-sprawdzian-unit="' + esc(p.unit) + '" style="padding:4px 12px;font-size:.8rem">Generuj sprawdzian z tego unitu</button>';
   }
   if (typ.akcja === "sciagawka") {
-    return '<a href="sciagawka.html" target="_blank" class="drugie" style="display:inline-block;padding:4px 12px;font-size:.8rem;text-decoration:none">📄 Otwórz ściągawkę</a>';
+    return '<a href="sciagawka.html" target="_blank" class="drugie" style="display:inline-block;padding:4px 12px;font-size:.8rem;text-decoration:none">Otwórz ściągawkę</a>';
   }
   if (typ.akcja === "closest") {
     var kandydaci = kandydaciDlaLekcji(p, r.poziom);
@@ -768,13 +768,13 @@ function renderujPodpowiedz(p, r){
       }).join('');
       return '<small style="color:#6b7280">Sugestie: </small>' + btn;
     }
-    return '<span style="color:#b45309">💡 Brak sugestii — pomiń lub użyj własnych materiałów</span>';
+    return '<span style="color:#b45309">Brak sugestii — pomiń lub użyj własnych materiałów</span>';
   }
-  return '<span style="color:#b45309">💡 Brak dopasowania</span>';
+  return '<span style="color:#b45309">Brak dopasowania</span>';
 }
 
 /* ============================================================
-   PODGLĄD ROZKŁADU (mechanizm 1 + 4 + notka 22aa)
+   PODGLĄD ROZKŁADU
 ============================================================ */
 
 function pokazRozklad(r){
@@ -794,7 +794,7 @@ function pokazRozklad(r){
 
   var html = '';
   html += '<div class="info-22aa" title="Zgodnie z art. 22aa Ustawy o systemie oświaty nauczyciel może realizować program nauczania z podręcznikiem, materiałem edukacyjnym lub bez nich — decyzja należy do nauczyciela, po zatwierdzeniu programu przez dyrektora szkoły.">';
-  html += 'ℹ️ Rozkład może być realizowany z podręcznikiem lub bez – decyzja należy do nauczyciela (art. 22aa Ustawy o systemie oświaty).';
+  html += 'Rozkład może być realizowany z podręcznikiem lub bez — decyzja należy do nauczyciela (art. 22aa Ustawy o systemie oświaty).';
   html += '</div>';
 
   html += '<div class="rozklad-filtry">';
@@ -836,7 +836,7 @@ function renderujTabeleRozkladu(r, filtr){
     var typ = typLekcjiInfo(p.unit_tytul);
     html += '<tr>';
     html += '<td>' + p.nr + '</td>';
-    html += '<td><span class="typ-badge" style="background:' + typ.kolor + '20;color:' + typ.kolor + ';border:1px solid ' + typ.kolor + '40">' + typ.ikona + ' ' + typ.nazwa + '</span></td>';
+    html += '<td><span class="typ-badge" style="background:' + typ.kolor + '15;color:' + typ.kolor + ';border:1px solid ' + typ.kolor + '55">' + typ.nazwa + '</span></td>';
     html += '<td><small style="color:#6b7280">' + esc(p.unit || "") + ' · ' + esc(p.unit_tytul || "") + '</small><br>' + esc(p.lekcja_tytul || "") + '</td>';
     html += '<td>' + renderujPodpowiedz(p, r) + '</td>';
     html += '</tr>';
@@ -1134,7 +1134,7 @@ document.getElementById("rPlik").onchange = function(e){
         wynik.push(cz.join(";"));
       }
       document.getElementById("rInfoCsv").textContent =
-        "Wczytano " + wynik.length + " wierszy z pliku " + f.name +
+        'Wczytano ' + wynik.length + ' wierszy z pliku ' + f.name +
         ' (nie rozpoznano kolumn "Temat" i "Dział" — sprawdź nagłówek pliku)';
     }
 
@@ -1200,7 +1200,7 @@ document.getElementById("rZapisz").onclick = async function(){
   odswiezRozklady();
 };
 
-document.getElementById("rozklPodrecznik").onchange = odswiezRozklady;
+document.getElementById("rozklPodrecznik").onchange = odswiezRozkladу;
 
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",start);else start();
 </script>
