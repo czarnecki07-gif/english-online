@@ -39,7 +39,6 @@ button{cursor:pointer;font-family:inherit}
 .info-box{background:#fffbeb;border-left:4px solid #b45309;padding:12px;margin-bottom:14px;color:#78350f;font-size:.88rem}
 .link-box{background:#f0fdf4;border:2px solid #166534;border-radius:6px;padding:18px;margin-top:18px}
 .link-box h3{color:#166534;margin-top:0}
-.link-siatka{display:grid;grid-template-columns:260px 1fr;gap:20px}
 .qr-holder{background:#fff;padding:10px;border:1px solid #d1fae5;display:inline-block}
 .link-url{font-family:monospace;font-size:.78rem;background:#fff;padding:10px;border:1px solid #d1fae5;word-break:break-all;margin-bottom:10px}
 table{width:100%;border-collapse:collapse;margin-top:12px;font-size:.9rem}
@@ -78,6 +77,7 @@ th{background:#fbfaf7;color:#1e3a5f;font-size:.8rem;text-transform:uppercase}
 .rozklad-filtry .chip.active{background:#1e3a5f;color:#fff;border-color:#1e3a5f}
 .typ-badge{display:inline-block;padding:3px 10px;border-radius:3px;font-size:.75rem;font-weight:600;white-space:nowrap;letter-spacing:.3px}
 .rozklad-tabela small{font-size:.78rem}
+.ml-kod{font-family:monospace;background:#f0f4fb;padding:6px 12px;border:2px solid #1e3a5f;border-radius:4px;color:#1e3a5f;font-weight:700;letter-spacing:2px;font-size:1rem;display:inline-block}
 </style>
 </head>
 <body>
@@ -90,6 +90,7 @@ th{background:#fbfaf7;color:#1e3a5f;font-size:.8rem;text-transform:uppercase}
 <nav>
   <button data-tab="nowy" class="active">Nowy test</button>
   <button data-tab="klasy">Moje klasy</button>
+  <button data-tab="moje-lekcje">Moje lekcje</button>
   <button data-tab="testy">Moje testy</button>
   <button data-tab="wyniki">Wyniki uczniów</button>
   <button data-tab="rozklady">Rozkłady</button>
@@ -150,6 +151,37 @@ th{background:#fbfaf7;color:#1e3a5f;font-size:.8rem;text-transform:uppercase}
   </div>
 
   <div id="listaKlas">Ładowanie...</div>
+</section>
+
+<section id="tab-moje-lekcje">
+  <h2>Moje lekcje</h2>
+  <div class="info-box">
+    Wybierz klasę, żeby zobaczyć jej rozkład. Kliknięcie <strong>Otwórz lekcję</strong> zapisuje datę realizacji i otwiera lekcję w nowej karcie. <strong>Kod</strong> obok lekcji to hasło, które mówisz uczniom — wpisują je na stronie głównej i widzą tę samą lekcję.
+  </div>
+
+  <div class="rzad">
+    <div style="flex:2">
+      <label>Klasa</label>
+      <select id="mlKlasa"><option value="">— wybierz klasę —</option></select>
+    </div>
+    <div style="flex:2">
+      <label>Podręcznik</label>
+      <div id="mlPodrecznik" style="padding:9px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:4px;color:#6b7280;font-size:.92rem">—</div>
+    </div>
+  </div>
+
+  <div id="mlBanner" style="display:none"></div>
+  <div id="mlStatystyki"></div>
+
+  <div class="rozklad-filtry" id="mlFiltry">
+    <button class="chip active" data-mlf="all">Wszystkie</button>
+    <button class="chip" data-mlf="matched">Dopasowane</button>
+    <button class="chip" data-mlf="unmatched">Bez dopasowania</button>
+    <button class="chip" data-mlf="done">Zrealizowane</button>
+    <button class="chip" data-mlf="todo">Do zrealizowania</button>
+  </div>
+
+  <div id="mlTabela"></div>
 </section>
 
 <section id="tab-testy">
@@ -238,6 +270,11 @@ th{background:#fbfaf7;color:#1e3a5f;font-size:.8rem;text-transform:uppercase}
 <script>
 var profil=null,lekcje={},filtrPoziom="all",WSZYSTKIE_LEKCJE={},MOJE_KLASY=[];
 var ROZKLAD_EDYCJA_ID = null;
+var ML_KLASA_ID = null;
+var ML_ROZKLAD = null;
+var ML_PRZYPISANIE = null;
+var ML_REALIZACJE = [];
+var ML_FILTR = "all";
 
 document.querySelectorAll("nav button").forEach(function(b){
   b.onclick=function(){
@@ -249,6 +286,7 @@ document.querySelectorAll("nav button").forEach(function(b){
     if(b.dataset.tab==="wyniki")odswiezWyborTestow();
     if(b.dataset.tab==="klasy")odswiezKlasy();
     if(b.dataset.tab==="rozklady"){wypelnijPodrecznikiRozklady();odswiezRozklady();}
+    if(b.dataset.tab==="moje-lekcje")inicjalizujMojeLekcje();
   };
 });
 
@@ -646,10 +684,6 @@ async function odswiezRozklady(){
   });
 }
 
-/* ============================================================
-   TYP LEKCJI + PODPOWIEDZI
-============================================================ */
-
 function typLekcjiInfo(unitTytul) {
   var t = (unitTytul || "").toLowerCase().trim();
 
@@ -773,10 +807,6 @@ function renderujPodpowiedz(p, r){
   }
   return '<span style="color:#b45309">Brak dopasowania</span>';
 }
-
-/* ============================================================
-   PODGLĄD ROZKŁADU
-============================================================ */
 
 function pokazRozklad(r){
   if (!r) return;
@@ -1202,6 +1232,259 @@ document.getElementById("rZapisz").onclick = async function(){
 };
 
 document.getElementById("rozklPodrecznik").onchange = odswiezRozklady;
+
+/* ============================================================
+   MOJE LEKCJE
+============================================================ */
+
+async function inicjalizujMojeLekcje(){
+  var sel = document.getElementById("mlKlasa");
+  if (!sel) return;
+  var obecny = sel.value || ML_KLASA_ID;
+  sel.innerHTML = '<option value="">— wybierz klasę —</option>';
+  if (!MOJE_KLASY.length) {
+    document.getElementById("mlTabela").innerHTML = '<div class="pusta">Nie masz jeszcze żadnej klasy. Dodaj ją w zakładce „Moje klasy".</div>';
+    document.getElementById("mlPodrecznik").textContent = "—";
+    return;
+  }
+  MOJE_KLASY.forEach(function(k){
+    var opt = document.createElement("option");
+    opt.value = k.id;
+    opt.textContent = k.nazwa;
+    sel.appendChild(opt);
+  });
+  if (obecny && MOJE_KLASY.find(function(k){ return k.id === obecny; })) {
+    sel.value = obecny;
+  } else {
+    sel.value = MOJE_KLASY[0].id;
+  }
+  await wybierzKlaseML();
+}
+
+document.getElementById("mlKlasa").onchange = wybierzKlaseML;
+
+async function wybierzKlaseML(){
+  var sel = document.getElementById("mlKlasa");
+  ML_KLASA_ID = sel.value || null;
+  if (!ML_KLASA_ID) {
+    document.getElementById("mlTabela").innerHTML = "";
+    document.getElementById("mlPodrecznik").textContent = "—";
+    document.getElementById("mlBanner").style.display = "none";
+    document.getElementById("mlStatystyki").innerHTML = "";
+    return;
+  }
+
+  var op = await window.sb.from("przypisania_klas").select("*").eq("klasa_id", ML_KLASA_ID).maybeSingle();
+  ML_PRZYPISANIE = op.data;
+
+  if (!ML_PRZYPISANIE) {
+    document.getElementById("mlPodrecznik").textContent = "Brak przypisanego rozkładu";
+    document.getElementById("mlTabela").innerHTML = '<div class="pusta">Ta klasa nie ma przypisanego rozkładu. Przejdź do zakładki „Rozkłady" i kliknij „Przypisz do klasy" przy wybranym rozkładzie.</div>';
+    document.getElementById("mlBanner").style.display = "none";
+    document.getElementById("mlStatystyki").innerHTML = "";
+    return;
+  }
+
+  var or = await window.sb.from("rozklady").select("*").eq("id", ML_PRZYPISANIE.rozklad_id).single();
+  if (or.error || !or.data) {
+    document.getElementById("mlTabela").innerHTML = '<div class="pusta">Nie można wczytać rozkładu.</div>';
+    return;
+  }
+  ML_ROZKLAD = or.data;
+  document.getElementById("mlPodrecznik").textContent = (ML_ROZKLAD.podrecznik_nazwa || "") + (ML_ROZKLAD.poziom ? " (" + ML_ROZKLAD.poziom + ")" : "");
+
+  var ore = await window.sb.from("realizacje").select("*").eq("klasa_id", ML_KLASA_ID).eq("rozklad_id", ML_ROZKLAD.id);
+  ML_REALIZACJE = ore.data || [];
+
+  renderujMojeLekcje();
+  aktualizujBanerML();
+}
+
+function realizacjaDla(pozycjaNr){
+  return ML_REALIZACJE.find(function(r){ return r.pozycja_nr === pozycjaNr; });
+}
+
+function renderujMojeLekcje(){
+  if (!ML_ROZKLAD) return;
+  var pozycje = ML_ROZKLAD.pozycje || [];
+  var dopasowane = pozycje.filter(function(p){ return p.lekcja_id; }).length;
+  var zrealizowane = ML_REALIZACJE.length;
+
+  var statsHtml = '<div style="display:flex;gap:24px;flex-wrap:wrap;margin-bottom:16px;padding:12px 16px;background:#f0f4fb;border-left:4px solid #1e3a5f;border-radius:0 4px 4px 0">'
+    + '<div><strong style="font-size:1.4rem;color:#1e3a5f">' + pozycje.length + '</strong><br><small style="color:#6b7280">lekcji łącznie</small></div>'
+    + '<div><strong style="font-size:1.4rem;color:#166534">' + dopasowane + '</strong><br><small style="color:#6b7280">z kursem</small></div>'
+    + '<div><strong style="font-size:1.4rem;color:#b45309">' + (pozycje.length - dopasowane) + '</strong><br><small style="color:#6b7280">bez dopasowania</small></div>'
+    + '<div><strong style="font-size:1.4rem;color:#7c3aed">' + zrealizowane + '</strong><br><small style="color:#6b7280">zrealizowanych</small></div>'
+    + '</div>';
+  document.getElementById("mlStatystyki").innerHTML = statsHtml;
+
+  var filtered = pozycje;
+  if (ML_FILTR === "matched") filtered = pozycje.filter(function(p){ return p.lekcja_id; });
+  if (ML_FILTR === "unmatched") filtered = pozycje.filter(function(p){ return !p.lekcja_id; });
+  if (ML_FILTR === "done") filtered = pozycje.filter(function(p){ return realizacjaDla(p.nr); });
+  if (ML_FILTR === "todo") filtered = pozycje.filter(function(p){ return !realizacjaDla(p.nr); });
+
+  if (!filtered.length) {
+    document.getElementById("mlTabela").innerHTML = '<div class="pusta">Brak lekcji w tym filtrze.</div>';
+    return;
+  }
+
+  var html = '<table><thead><tr>'
+    + '<th style="width:40px">Nr</th>'
+    + '<th style="width:130px">Typ</th>'
+    + '<th>Temat (podręcznik)</th>'
+    + '<th style="width:90px">Kod</th>'
+    + '<th style="width:100px">Realizacja</th>'
+    + '<th style="width:230px">Akcje</th>'
+    + '</tr></thead><tbody>';
+
+  filtered.forEach(function(p){
+    var typ = typLekcjiInfo(p.unit_tytul);
+    var real = realizacjaDla(p.nr);
+    var dataStr = real ? new Date(real.data_realizacji).toLocaleDateString("pl") : "—";
+
+    html += '<tr>';
+    html += '<td>' + p.nr + '</td>';
+    html += '<td><span class="typ-badge" style="background:' + typ.kolor + '15;color:' + typ.kolor + ';border:1px solid ' + typ.kolor + '55">' + typ.nazwa + '</span></td>';
+    html += '<td><small style="color:#6b7280">' + esc(p.unit || "") + ' · ' + esc(p.unit_tytul || "") + '</small><br>' + esc(p.lekcja_tytul || "") + '</td>';
+
+    if (p.lekcja_id) {
+      html += '<td><span class="ml-kod">' + p.lekcja_id + '</span></td>';
+    } else {
+      html += '<td><small style="color:#b45309">—</small></td>';
+    }
+
+    html += '<td>' + (real ? '<span style="color:#166534;font-weight:600">' + dataStr + '</span>' : '<small style="color:#9ca3af">—</small>') + '</td>';
+
+    html += '<td>';
+    if (p.lekcja_id) {
+      html += '<button class="glowne" data-ml-otworz="' + p.nr + '" style="padding:6px 12px;font-size:.78rem;text-transform:none">Otwórz lekcję</button> ';
+      html += '<button class="drugie" data-ml-druk="' + p.nr + '" style="padding:6px 10px;font-size:.78rem">Drukuj</button> ';
+      if (real) {
+        html += '<button class="drugie czerwony" data-ml-cofnij="' + p.nr + '" style="padding:6px 10px;font-size:.78rem" title="Cofnij realizację">Cofnij</button>';
+      }
+    } else {
+      html += podpowiedzDlaMojeLekcje(p);
+    }
+    html += '</td></tr>';
+  });
+
+  html += '</tbody></table>';
+  document.getElementById("mlTabela").innerHTML = html;
+
+  document.querySelectorAll('#mlTabela [data-ml-otworz]').forEach(function(b){
+    b.onclick = function(){ otworzLekcjeML(parseInt(b.dataset.mlOtworz)); };
+  });
+  document.querySelectorAll('#mlTabela [data-ml-druk]').forEach(function(b){
+    b.onclick = function(){ wydrukujLekcjeML(parseInt(b.dataset.mlDruk)); };
+  });
+  document.querySelectorAll('#mlTabela [data-ml-cofnij]').forEach(function(b){
+    b.onclick = function(){ cofnijRealizacjeML(parseInt(b.dataset.mlCofnij)); };
+  });
+  document.querySelectorAll('#mlTabela [data-ml-sprawdzian-unit]').forEach(function(b){
+    b.onclick = function(){ otworzSprawdzianDlaUnitu(ML_ROZKLAD, b.dataset.mlSprawdzianUnit); };
+  });
+}
+
+function podpowiedzDlaMojeLekcje(p){
+  var typ = typLekcjiInfo(p.unit_tytul);
+  if (typ.akcja === "administracyjna") return '<small style="color:#6b7280">Administracyjna — brak materiału</small>';
+  if (typ.akcja === "wlasne") return '<small style="color:#4a5f7a">Własne materiały</small>';
+  if (typ.akcja === "sprawdzian") return '<button class="glowne" data-ml-sprawdzian-unit="' + esc(p.unit) + '" style="padding:6px 12px;font-size:.78rem;text-transform:none">Generuj sprawdzian</button>';
+  if (typ.akcja === "sciagawka") return '<a href="sciagawka.html" target="_blank" class="drugie" style="display:inline-block;padding:6px 10px;font-size:.78rem;text-decoration:none">Ściągawka</a>';
+  return '<small style="color:#b45309">Brak sugestii</small>';
+}
+
+async function otworzLekcjeML(pozycjaNr){
+  var p = (ML_ROZKLAD.pozycje || []).find(function(x){ return x.nr === pozycjaNr; });
+  if (!p || !p.lekcja_id) return;
+
+  var existing = realizacjaDla(p.nr);
+  if (!existing) {
+    try {
+      await window.sb.from("realizacje").insert({
+        klasa_id: ML_KLASA_ID,
+        rozklad_id: ML_ROZKLAD.id,
+        pozycja_nr: p.nr,
+        lekcja_id: p.lekcja_id,
+        lekcja_tytul: p.lekcja_tytul
+      });
+    } catch(e) { console.error(e); }
+  }
+
+  window.open("lekcja.html?id=" + p.lekcja_id, "_blank");
+  await wybierzKlaseML();
+}
+
+async function wydrukujLekcjeML(pozycjaNr){
+  var p = (ML_ROZKLAD.pozycje || []).find(function(x){ return x.nr === pozycjaNr; });
+  if (!p || !p.lekcja_id) return;
+
+  var existing = realizacjaDla(p.nr);
+  if (!existing) {
+    try {
+      await window.sb.from("realizacje").insert({
+        klasa_id: ML_KLASA_ID,
+        rozklad_id: ML_ROZKLAD.id,
+        pozycja_nr: p.nr,
+        lekcja_id: p.lekcja_id,
+        lekcja_tytul: p.lekcja_tytul
+      });
+    } catch(e) { console.error(e); }
+  }
+
+  window.open("lekcja.html?id=" + p.lekcja_id + "&druk=1", "_blank");
+  await wybierzKlaseML();
+}
+
+async function cofnijRealizacjeML(pozycjaNr){
+  if (!confirm("Cofnąć realizację tej lekcji?")) return;
+  await window.sb.from("realizacje").delete().eq("klasa_id", ML_KLASA_ID).eq("rozklad_id", ML_ROZKLAD.id).eq("pozycja_nr", pozycjaNr);
+  await wybierzKlaseML();
+}
+
+function aktualizujBanerML(){
+  var banner = document.getElementById("mlBanner");
+  if (!ML_ROZKLAD || !ML_KLASA_ID) { banner.style.display = "none"; return; }
+
+  var lastKey = "last_sprawdzian_" + ML_KLASA_ID;
+  var last = parseInt(localStorage.getItem(lastKey) || "0");
+
+  var noweRealizacje = ML_REALIZACJE.filter(function(r){
+    return new Date(r.data_realizacji).getTime() > last;
+  });
+
+  if (noweRealizacje.length >= 4) {
+    banner.style.display = "block";
+    banner.innerHTML = '<div style="background:#fef3c7;border:2px solid #b45309;border-radius:6px;padding:16px 20px;margin-bottom:16px;color:#78350f">'
+      + '<div style="font-weight:700;margin-bottom:10px;font-size:.95rem">Masz ' + noweRealizacje.length + ' zrealizowanych lekcji od ostatniego sprawdzianu.</div>'
+      + '<button class="glowne" id="mlGenSprawdzian" style="padding:10px 20px;text-transform:none">Generuj sprawdzian z ostatnich ' + noweRealizacje.length + '</button>'
+      + '</div>';
+    document.getElementById("mlGenSprawdzian").onclick = function(){
+      var ids = [];
+      var sorted = noweRealizacje.slice().sort(function(a,b){ return new Date(a.data_realizacji) - new Date(b.data_realizacji); });
+      sorted.forEach(function(r){
+        if (r.lekcja_id && ids.indexOf(r.lekcja_id) === -1) ids.push(r.lekcja_id);
+      });
+      if (!ids.length) { alert("Brak dopasowanych lekcji do wygenerowania sprawdzianu."); return; }
+      var url = "sprawdzian.html?sel=" + encodeURIComponent(ids.join(",")) + "&liczba=20";
+      window.open(url, "_blank");
+      localStorage.setItem(lastKey, String(Date.now()));
+      aktualizujBanerML();
+    };
+  } else {
+    banner.style.display = "none";
+  }
+}
+
+document.querySelectorAll("#mlFiltry [data-mlf]").forEach(function(b){
+  b.onclick = function(){
+    document.querySelectorAll("#mlFiltry [data-mlf]").forEach(function(x){ x.classList.remove("active"); });
+    b.classList.add("active");
+    ML_FILTR = b.dataset.mlf;
+    renderujMojeLekcje();
+  };
+});
 
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",start);else start();
 </script>
