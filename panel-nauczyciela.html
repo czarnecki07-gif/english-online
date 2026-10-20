@@ -43,7 +43,7 @@ button{cursor:pointer;font-family:inherit}
 .qr-holder{background:#fff;padding:10px;border:1px solid #d1fae5;display:inline-block}
 .link-url{font-family:monospace;font-size:.78rem;background:#fff;padding:10px;border:1px solid #d1fae5;word-break:break-all;margin-bottom:10px}
 table{width:100%;border-collapse:collapse;margin-top:12px;font-size:.9rem}
-th,td{padding:9px;text-align:left;border-bottom:1px solid #eee}
+th,td{padding:9px;text-align:left;border-bottom:1px solid #eee;vertical-align:top}
 th{background:#fbfaf7;color:#1e3a5f;font-size:.8rem;text-transform:uppercase}
 .pusta{text-align:center;color:#999;padding:20px;font-style:italic}
 .dobry{color:#166534;font-weight:700}
@@ -52,7 +52,7 @@ th{background:#fbfaf7;color:#1e3a5f;font-size:.8rem;text-transform:uppercase}
 .modal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;padding:20px;z-index:1000}
 .modal.on{display:flex}
 .modal-tresc{background:#fff;border-radius:10px;padding:30px;text-align:center;max-width:500px}
-.modal-duzy{background:#fff;border-radius:10px;padding:26px 30px;max-width:820px;width:100%;max-height:90vh;overflow-y:auto}
+.modal-duzy{background:#fff;border-radius:10px;padding:26px 30px;max-width:920px;width:100%;max-height:90vh;overflow-y:auto}
 .modal-duzy h3{font-family:Georgia,serif;color:#1e3a5f;font-size:1.15rem;margin-top:0;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid #eee}
 .modal-duzy .naglowek-info{background:#f0f4fb;border-left:4px solid #1e3a5f;padding:12px 16px;border-radius:0 4px 4px 0;margin-bottom:16px;font-size:.9rem;color:#1e3a5f}
 .pyt-szcz{background:#fff;border-left:4px solid #1e3a5f;border-radius:0 6px 6px 0;padding:14px 18px;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
@@ -72,6 +72,12 @@ th{background:#fbfaf7;color:#1e3a5f;font-size:.8rem;text-transform:uppercase}
 .rozklad-narzedzia{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px}
 .rozklad-narzedzia button{padding:8px 16px;font-size:.85rem}
 .rozklad-info{color:#6b7280;font-size:.85rem;margin-left:auto}
+.info-22aa{background:#eff6ff;border-left:4px solid #3b82f6;padding:10px 14px;margin-bottom:14px;font-size:.85rem;color:#1e40af;border-radius:0 4px 4px 0;cursor:help}
+.rozklad-filtry{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid #eee}
+.rozklad-filtry .chip{padding:6px 14px;border:1px solid #c8c2b5;background:#fff;border-radius:20px;font-size:.82rem;cursor:pointer;font-family:inherit}
+.rozklad-filtry .chip.active{background:#1e3a5f;color:#fff;border-color:#1e3a5f}
+.typ-badge{display:inline-block;padding:3px 10px;border-radius:12px;font-size:.75rem;font-weight:600;white-space:nowrap}
+.rozklad-tabela small{font-size:.78rem}
 </style>
 </head>
 <body>
@@ -266,7 +272,6 @@ async function start(){
   odswiezWyborTestow();
 }
 
-/* ---------- KLASY ---------- */
 function generujKodKlasy(){
   var s = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";
   var r = "";
@@ -341,7 +346,6 @@ document.getElementById("dodajKlaseBtn").onclick = async function(){
   alert("Klasa dodana. Kod do rozdania uczniom:\n\n" + kod);
 };
 
-/* ---------- LEKCJE ---------- */
 async function zaladujLekcje(){
   var pliki=["A0","G-A1","G-A2","G-B1","G-B2","G-C1","T-A1","T-A2","T-B1","T-B2","T-C1"];
   for(var i=0;i<pliki.length;i++){
@@ -568,10 +572,6 @@ document.getElementById("zaznaczWszystkie").onclick=function(){document.querySel
 document.getElementById("generujBtn").onclick=generujTest;
 document.getElementById("wyloguj").onclick=async function(e){e.preventDefault();if(!confirm("Wylogować?"))return;await window.sb.auth.signOut();location.href="login.html"};
 
-/* ============================================================
-   ROZKŁADY MATERIAŁU
-============================================================ */
-
 function wypelnijPodrecznikiRozklady(){
   var sel = document.getElementById("rozklPodrecznik");
   if (!sel) return;
@@ -608,11 +608,12 @@ async function odswiezRozklady(){
   var html = '<table><thead><tr><th>Autor</th><th>Rok</th><th>Lekcji</th><th>Data</th><th>Akcje</th></tr></thead><tbody>';
   o.data.forEach(function(r){
     var poz = r.pozycje || [];
+    var dop = poz.filter(function(p){ return p.lekcja_id; }).length;
     var moj = (r.autor_id === profil.id);
     html += '<tr>';
     html += '<td>' + esc(r.autor_nazwa || "?") + (moj ? ' <em style="color:#b45309">(Ty)</em>' : '') + '</td>';
     html += '<td>' + esc(r.rok_szkolny || "default") + '</td>';
-    html += '<td>' + poz.length + '</td>';
+    html += '<td>' + poz.length + ' <small style="color:#166534">(' + dop + ' dop.)</small></td>';
     html += '<td>' + new Date(r.data_utworzenia).toLocaleDateString("pl") + '</td>';
     html += '<td><button class="drugie" data-view="' + r.id + '" style="padding:5px 12px;font-size:.8rem">Zobacz</button> ';
     html += '<button class="glowne" data-assign="' + r.id + '" style="padding:6px 14px;font-size:.8rem">Przypisz do klasy</button>';
@@ -645,24 +646,208 @@ async function odswiezRozklady(){
   });
 }
 
+/* ============================================================
+   TYP LEKCJI + PODPOWIEDZI (mechanizm 1)
+============================================================ */
+
+function typLekcjiInfo(unitTytul) {
+  var t = (unitTytul || "").toLowerCase().trim();
+
+  if (t === "" || t.indexOf("organiz") !== -1 || t.indexOf("diagnoz") !== -1
+      || t.indexOf("omówienie") !== -1 || t.indexOf("omowienie") !== -1
+      || t.indexOf("correction") !== -1 || t.indexOf("evaluation") !== -1) {
+    return { ikona: "⚙️", nazwa: "Administracyjna", kolor: "#6b7280", akcja: "administracyjna" };
+  }
+  if (t.indexOf("unit test") !== -1 || t.indexOf("mid-term test") !== -1 || t.indexOf("end-of-year test") !== -1) {
+    return { ikona: "📝", nazwa: "Test", kolor: "#7c3aed", akcja: "sprawdzian" };
+  }
+  if (t.indexOf("vocabulary") !== -1) {
+    return { ikona: "📚", nazwa: "Słownictwo", kolor: "#0891b2", akcja: "closest" };
+  }
+  if (t.indexOf("grammar") !== -1) {
+    return { ikona: "📐", nazwa: "Gramatyka", kolor: "#b45309", akcja: "closest" };
+  }
+  if (t.indexOf("reading") !== -1 || t.indexOf("listening") !== -1) {
+    return { ikona: "📖", nazwa: "Czytanie / Słuchanie", kolor: "#0f766e", akcja: "closest" };
+  }
+  if (t.indexOf("writing") !== -1) {
+    return { ikona: "✍️", nazwa: "Pisanie", kolor: "#166534", akcja: "sciagawka" };
+  }
+  if (t.indexOf("speaking") !== -1 || t.indexOf("debate") !== -1 || t.indexOf("functions") !== -1) {
+    return { ikona: "💬", nazwa: "Mówienie", kolor: "#166534", akcja: "sciagawka" };
+  }
+  if (t.indexOf("global skills") !== -1 || t.indexOf("vision 360") !== -1 || t.indexOf("mediation") !== -1) {
+    return { ikona: "🌍", nazwa: "Umiejętności", kolor: "#4a5f7a", akcja: "wlasne" };
+  }
+  if (t.indexOf("review") !== -1) {
+    return { ikona: "🔄", nazwa: "Powtórzenie", kolor: "#4a5f7a", akcja: "closest" };
+  }
+  return { ikona: "❓", nazwa: "Inne", kolor: "#6b7280", akcja: "closest" };
+}
+
+function kandydaciDlaLekcji(p, poziom) {
+  if (!lekcje || !Object.keys(lekcje).length) return [];
+  var tekst = ((p.lekcja_tytul || "") + " " + (p.unit_tytul || "")).toLowerCase();
+  var lvl = poziomDoId(poziom);
+  var typT = (p.unit_tytul || "").toLowerCase();
+
+  var listy = [];
+  if (typT.indexOf("grammar") !== -1) {
+    listy = [SLOWA_GRAMATYKA];
+  } else if (typT.indexOf("vocabulary") !== -1 || typT.indexOf("reading") !== -1
+             || typT.indexOf("listening") !== -1 || typT.indexOf("review") !== -1) {
+    listy = [SLOWA_TEMATY];
+  } else {
+    listy = [SLOWA_TEMATY, SLOWA_GRAMATYKA];
+  }
+
+  var wyniki = [];
+  listy.forEach(function(lista){
+    lista.forEach(function(wpis){
+      var trafienie = false;
+      wpis.slowa.forEach(function(s){
+        if (tekst.indexOf(s.toLowerCase()) !== -1) trafienie = true;
+      });
+      if (trafienie) {
+        wpis.lekcje.forEach(function(baza){
+          var id = baza + lvl;
+          if (lekcje[id] && wyniki.indexOf(id) === -1) wyniki.push(id);
+        });
+      }
+    });
+  });
+
+  return wyniki.slice(0, 3);
+}
+
+function otworzSprawdzianDlaUnitu(r, unit){
+  var ids = (r.pozycje || []).filter(function(p){
+    return p.unit === unit && p.lekcja_id;
+  }).map(function(p){ return p.lekcja_id; });
+
+  var uniq = [];
+  ids.forEach(function(id){ if (uniq.indexOf(id) === -1) uniq.push(id); });
+
+  if (!uniq.length) {
+    alert("W tym unicie nie ma jeszcze dopasowanych lekcji.\n\nMożesz przypisać lekcje ręcznie w trybie edycji (przycisk „Edytuj” przy rozkładzie), a potem wrócić tutaj.");
+    return;
+  }
+
+  try {
+    localStorage.setItem("sprawdzian_zaznaczone", JSON.stringify(uniq));
+    localStorage.setItem("sprawdzian_liczba", "20");
+  } catch(e) {}
+
+  window.open("sprawdzian.html", "_blank");
+}
+
+function renderujPodpowiedz(p, r){
+  if (p.lekcja_id) {
+    return '<a href="lekcja.html?id=' + p.lekcja_id + '" target="_blank" style="color:#166534;font-weight:600">' + p.lekcja_id + '</a> <small style="color:#6b7280">→ otwórz</small>';
+  }
+
+  var typ = typLekcjiInfo(p.unit_tytul);
+
+  if (typ.akcja === "administracyjna") {
+    return '<span style="color:#6b7280">⚙️ Lekcja administracyjna — brak materiału (to normalne)</span>';
+  }
+  if (typ.akcja === "wlasne") {
+    return '<span style="color:#4a5f7a">🌍 Brak odpowiednika — użyj własnych materiałów lub pomiń</span>';
+  }
+  if (typ.akcja === "sprawdzian") {
+    return '<button class="drugie" data-sprawdzian-unit="' + esc(p.unit) + '" style="padding:4px 12px;font-size:.8rem">📝 Generuj sprawdzian z tego unitu</button>';
+  }
+  if (typ.akcja === "sciagawka") {
+    return '<a href="sciagawka.html" target="_blank" class="drugie" style="display:inline-block;padding:4px 12px;font-size:.8rem;text-decoration:none">📄 Otwórz ściągawkę</a>';
+  }
+  if (typ.akcja === "closest") {
+    var kandydaci = kandydaciDlaLekcji(p, r.poziom);
+    if (kandydaci.length) {
+      var btn = kandydaci.map(function(id){
+        return '<a href="lekcja.html?id=' + id + '" target="_blank" class="chip" style="text-decoration:none;margin-right:4px;display:inline-block">' + id + '</a>';
+      }).join('');
+      return '<small style="color:#6b7280">Sugestie: </small>' + btn;
+    }
+    return '<span style="color:#b45309">💡 Brak sugestii — pomiń lub użyj własnych materiałów</span>';
+  }
+  return '<span style="color:#b45309">💡 Brak dopasowania</span>';
+}
+
+/* ============================================================
+   PODGLĄD ROZKŁADU (mechanizm 1 + 4 + notka 22aa)
+============================================================ */
+
 function pokazRozklad(r){
   if (!r) return;
-  var html = '<div style="margin-bottom:10px;color:#6b7280">'
-    + esc(r.wydawnictwo||"") + ' · ' + esc(r.numer_dopuszczenia||"") + ' · ' + esc(r.poziom||"") + '</div>';
-  html += '<table><thead><tr><th>Nr</th><th>Unit</th><th>Lekcja (podręcznik)</th><th>Nasza lekcja</th></tr></thead><tbody>';
-  (r.pozycje||[]).forEach(function(p){
-    html += '<tr><td>' + p.nr + '</td>';
-    html += '<td>' + esc(p.unit + " — " + (p.unit_tytul||"")) + '</td>';
-    html += '<td>' + esc(p.lekcja_tytul||"") + '</td>';
-    html += '<td>' + (p.lekcja_id ? '<a href="lekcja.html?id=' + p.lekcja_id + '" target="_blank">' + p.lekcja_id + '</a>' : '<span style="color:#b45309">— brak —</span>') + '</td></tr>';
-  });
-  html += '</tbody></table>';
-  document.getElementById("modalSzczegolyTytul").textContent = "Podgląd rozkładu — " + r.podrecznik_nazwa;
-  document.getElementById("modalSzczegolyInfo").innerHTML = "<strong>Autor:</strong> " + esc(r.autor_nazwa||"?")
-    + "<br><strong>Rok:</strong> " + esc(r.rok_szkolny||"default")
-    + (r.opis ? "<br>" + esc(r.opis) : "");
+  var pozycje = r.pozycje || [];
+  var dopasowane = pozycje.filter(function(p){ return p.lekcja_id; }).length;
+  var niedopasowane = pozycje.length - dopasowane;
+
+  document.getElementById("modalSzczegolyTytul").textContent = "Podgląd rozkładu — " + (r.podrecznik_nazwa || "");
+
+  document.getElementById("modalSzczegolyInfo").innerHTML =
+    "<strong>Autor:</strong> " + esc(r.autor_nazwa || "?") +
+    " &nbsp;·&nbsp; <strong>Rok:</strong> " + esc(r.rok_szkolny || "default") +
+    " &nbsp;·&nbsp; <strong>Poziom:</strong> " + esc(r.poziom || "—") +
+    " &nbsp;·&nbsp; <strong>Lekcji:</strong> " + pozycje.length +
+    (r.opis ? "<br>" + esc(r.opis) : "");
+
+  var html = '';
+  html += '<div class="info-22aa" title="Zgodnie z art. 22aa Ustawy o systemie oświaty nauczyciel może realizować program nauczania z podręcznikiem, materiałem edukacyjnym lub bez nich — decyzja należy do nauczyciela, po zatwierdzeniu programu przez dyrektora szkoły.">';
+  html += 'ℹ️ Rozkład może być realizowany z podręcznikiem lub bez – decyzja należy do nauczyciela (art. 22aa Ustawy o systemie oświaty).';
+  html += '</div>';
+
+  html += '<div class="rozklad-filtry">';
+  html += '<button class="chip active" data-filtr="all">Wszystkie (' + pozycje.length + ')</button>';
+  html += '<button class="chip" data-filtr="matched">Dopasowane (' + dopasowane + ')</button>';
+  html += '<button class="chip" data-filtr="unmatched">Bez dopasowania (' + niedopasowane + ')</button>';
+  html += '</div>';
+
+  html += '<div id="rozkladTabela" class="rozklad-tabela"></div>';
+
   document.getElementById("modalSzczegolyTresc").innerHTML = html;
+
+  renderujTabeleRozkladu(r, "all");
+
+  document.querySelectorAll('#modalSzczegolyTresc [data-filtr]').forEach(function(b){
+    b.onclick = function(){
+      document.querySelectorAll('#modalSzczegolyTresc [data-filtr]').forEach(function(x){ x.classList.remove("active"); });
+      b.classList.add("active");
+      renderujTabeleRozkladu(r, b.dataset.filtr);
+    };
+  });
+
   document.getElementById("modalSzczegoly").classList.add("on");
+}
+
+function renderujTabeleRozkladu(r, filtr){
+  var pozycje = r.pozycje || [];
+  if (filtr === "matched") pozycje = pozycje.filter(function(p){ return p.lekcja_id; });
+  if (filtr === "unmatched") pozycje = pozycje.filter(function(p){ return !p.lekcja_id; });
+
+  if (!pozycje.length) {
+    document.getElementById("rozkladTabela").innerHTML = '<div class="pusta">Brak lekcji w tym filtrze.</div>';
+    return;
+  }
+
+  var html = '<table><thead><tr><th style="width:44px">Nr</th><th style="width:150px">Typ</th><th>Lekcja (podręcznik)</th><th style="width:40%">Nasza lekcja / podpowiedź</th></tr></thead><tbody>';
+
+  pozycje.forEach(function(p){
+    var typ = typLekcjiInfo(p.unit_tytul);
+    html += '<tr>';
+    html += '<td>' + p.nr + '</td>';
+    html += '<td><span class="typ-badge" style="background:' + typ.kolor + '20;color:' + typ.kolor + ';border:1px solid ' + typ.kolor + '40">' + typ.ikona + ' ' + typ.nazwa + '</span></td>';
+    html += '<td><small style="color:#6b7280">' + esc(p.unit || "") + ' · ' + esc(p.unit_tytul || "") + '</small><br>' + esc(p.lekcja_tytul || "") + '</td>';
+    html += '<td>' + renderujPodpowiedz(p, r) + '</td>';
+    html += '</tr>';
+  });
+
+  html += '</tbody></table>';
+  document.getElementById("rozkladTabela").innerHTML = html;
+
+  document.querySelectorAll('#rozkladTabela [data-sprawdzian-unit]').forEach(function(b){
+    b.onclick = function(){ otworzSprawdzianDlaUnitu(r, b.dataset.sprawdzianUnit); };
+  });
 }
 
 async function przypiszRozklad(rozkladId){
@@ -736,41 +921,39 @@ document.getElementById("rAnuluj").onclick = function(){
   ROZKLAD_EDYCJA_ID = null;
 };
 
-/* ---------- AUTO-DOPASOWANIE LEKCJI ---------- */
-
 var SLOWA_TEMATY = [
   { lekcje: ["T1"], slowa: ["człowiek","identity","people","personal","personality","character","appearance","look","wygląd"] },
   { lekcje: ["T2"], slowa: ["family","rodzina","relationship","relacje","friends","friend"] },
   { lekcje: ["T3"], slowa: ["home","dom","house","flat","neighbourhood","mieszkan","room","pomieszczen"] },
   { lekcje: ["T4"], slowa: ["free time","hobby","sport","leisure","czas wolny","entertainment","pastime"] },
   { lekcje: ["T5"], slowa: ["food","jedzenie","health","zdrowie","eating","restaurant","diet","body","ciało","dolegliwo"] },
-  { lekcje: ["T6"], slowa: ["school","szkoła","education","edukacja","university","study","learning","uczen","uczeń"] },
+  { lekcje: ["T6"], slowa: ["school","szkoła","education","edukacja","university","study","learning"] },
   { lekcje: ["T7"], slowa: ["work","praca","job","career","kariera","employment","profession","office","zawod"] },
-  { lekcje: ["T8"], slowa: ["nature","natura","environment","środowisko","weather","pogoda","animals","climate","world of nature","ekolog"] },
-  { lekcje: ["T9"], slowa: ["technology","technologia","computer","internet","device","gadget","innovation","science and technology","space","kosmos","nauka","wynalaz"] },
+  { lekcje: ["T8"], slowa: ["nature","natura","environment","środowisko","weather","pogoda","animals","climate","ekolog"] },
+  { lekcje: ["T9"], slowa: ["technology","technologia","computer","internet","device","gadget","innovation","science","space","kosmos","nauka","wynalaz"] },
   { lekcje: ["T10"], slowa: ["media","culture","kultura","film","tv","art","music","news","sztuka"] },
   { lekcje: ["T11"], slowa: ["communication","komunikacja","meeting","negotiation","email","business"] },
   { lekcje: ["T12"], slowa: ["society","społeczeństwo","rights","prawa","law","citizen","państwo","government"] },
-  { lekcje: ["T13"], slowa: ["future","przyszłość","ai","robot","tomorrow","innovation and ideas","life goals","ambicje","plany"] },
+  { lekcje: ["T13"], slowa: ["future","przyszłość","ai","robot","innovation and ideas","life goals","ambicje","plany"] },
   { lekcje: ["T14"], slowa: ["ethics","etyka","problem","dilemma","moral","conflict"] },
-  { lekcje: ["T15"], slowa: ["clothes","ubrania","fashion","moda","shopping","zakupy","wear","wygląd"] },
+  { lekcje: ["T15"], slowa: ["clothes","ubrania","fashion","moda","shopping","zakupy","wear"] },
   { lekcje: ["T16"], slowa: ["travel","podróż","holiday","wakacje","tourism","turystyka","transport","journey","trip"] }
 ];
 var SLOWA_GRAMATYKA = [
   { lekcje: ["G1"], slowa: ["present simple","present continuous","present tenses","teraźniejsz"] },
   { lekcje: ["G2"], slowa: ["past simple","past continuous","past tenses","przeszł","irregular"] },
-  { lekcje: ["G3"], slowa: ["future","przyszł","will","going to","plans"] },
+  { lekcje: ["G3"], slowa: ["future","przyszł","will","going to"] },
   { lekcje: ["G4"], slowa: ["modal","can","must","should","may","permission","have to"] },
-  { lekcje: ["G5"], slowa: ["conditional","warunkow","if"] },
+  { lekcje: ["G5"], slowa: ["conditional","warunkow"] },
   { lekcje: ["G6"], slowa: ["reported","mowa zależna","indirect speech"] },
   { lekcje: ["G7"], slowa: ["passive","bierna","passive voice"] },
   { lekcje: ["G8"], slowa: ["inversion","emfaza","emphasis","cleft"] },
   { lekcje: ["G9"], slowa: ["article","przedimek","a/an/the"] },
   { lekcje: ["G10"], slowa: ["quantifier","określnik","countable","uncountable","much","many"] },
-  { lekcje: ["G11"], slowa: ["preposition","przyimek","in on at"] },
+  { lekcje: ["G11"], slowa: ["preposition","przyimek"] },
   { lekcje: ["G12"], slowa: ["comparative","superlative","stopniowanie","comparison"] },
-  { lekcje: ["G13"], slowa: ["gerund","infinitive","-ing","bezokolicznik"] },
-  { lekcje: ["G14"], slowa: ["relative","przydawk","who which that"] },
+  { lekcje: ["G13"], slowa: ["gerund","infinitive","bezokolicznik"] },
+  { lekcje: ["G14"], slowa: ["relative","przydawk"] },
   { lekcje: ["G15"], slowa: ["question","pytanie","tags"] },
   { lekcje: ["G16"], slowa: ["phrasal","czasowniki frazowe"] }
 ];
@@ -850,8 +1033,6 @@ function autoDopasujWModal(){
 
 document.getElementById("rAutoDopasuj").onclick = autoDopasujWModal;
 
-/* ---------- CSV ---------- */
-
 document.getElementById("rWgrajCsv").onclick = function(){
   document.getElementById("rPlik").click();
 };
@@ -861,7 +1042,19 @@ document.getElementById("rPlik").onchange = function(e){
   if (!f) return;
   var reader = new FileReader();
   reader.onload = function(ev){
-    var tekst = ev.target.result || "";
+    var buffer = ev.target.result;
+    var tekst = "";
+
+    try {
+      tekst = new TextDecoder("utf-8", { fatal: false }).decode(buffer);
+      var pierwszaLinia = tekst.split("\n")[0] || "";
+      if (pierwszaLinia.indexOf("\uFFFD") !== -1) {
+        try { tekst = new TextDecoder("windows-1250").decode(buffer); } catch (e2) {}
+      }
+    } catch (err) {
+      try { tekst = new TextDecoder("windows-1250").decode(buffer); } catch (e2) { tekst = ""; }
+    }
+
     tekst = tekst.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
     tekst = tekst.replace(/^\uFEFF/, "");
 
@@ -897,11 +1090,21 @@ document.getElementById("rPlik").onchange = function(e){
     }
 
     var naglowekKol = podzielLinie(naglowek).map(function(x){ return x.toLowerCase(); });
-    var idxTemat = naglowekKol.findIndex(function(x){ return x === "temat"; });
-    var idxDzial = naglowekKol.findIndex(function(x){ return x === "dział" || x === "dzial"; });
-    var idxNr = naglowekKol.findIndex(function(x){ return x === "nr porządkowy lekcji" || x === "nr porzadkowy lekcji" || x === "nr tematu"; });
 
-    var nowyFormat = (idxTemat !== -1 && idxDzial !== -1);
+    var idxTemat = naglowekKol.findIndex(function(x){
+      return (x === "temat" || x.indexOf("temat ") === 0 || x.indexOf("temat:") === 0) && x.indexOf("podstawy") === -1;
+    });
+    var idxDzial = naglowekKol.findIndex(function(x){
+      return x.indexOf("dzia") === 0;
+    });
+    var idxNr = naglowekKol.findIndex(function(x){
+      return x.indexOf("nr porz") === 0 || x.indexOf("nr tem") === 0 || x.indexOf("nr lekcji") === 0;
+    });
+    var idxPodrozdzial = naglowekKol.findIndex(function(x){
+      return x.indexOf("podrozdzia") === 0;
+    });
+
+    var nowyFormat = (idxTemat !== -1);
     var wynik = [];
     var nr = 1;
 
@@ -910,12 +1113,19 @@ document.getElementById("rPlik").onchange = function(e){
         var k = podzielLinie(linie[i]);
         if (!k[idxTemat]) continue;
         var temat = k[idxTemat] || "";
-        var dzial = k[idxDzial] || "";
-        var nrPorzadkowy = (idxNr !== -1 ? k[idxNr] : "") || nr;
-        wynik.push(nrPorzadkowy + ";" + dzial + ";" + dzial + ";" + temat + ";");
+        var dzial = (idxDzial !== -1 ? k[idxDzial] : "") || "";
+        var podrozdzial = (idxPodrozdzial !== -1 ? k[idxPodrozdzial] : "") || "";
+        var nrPorzadkowy = (idxNr !== -1 && k[idxNr]) ? k[idxNr] : nr;
+        var unitTytul = podrozdzial || dzial;
+        wynik.push(nrPorzadkowy + ";" + dzial + ";" + unitTytul + ";" + temat + ";");
         nr++;
       }
-      document.getElementById("rInfoCsv").textContent = "Wczytano " + wynik.length + " lekcji (format rozpoznany: Temat + Dział) z pliku " + f.name;
+      document.getElementById("rInfoCsv").textContent =
+        "Wczytano " + wynik.length + " lekcji (format: Temat" +
+        (idxDzial !== -1 ? " + Dział" : "") +
+        (idxPodrozdzial !== -1 ? " + Podrozdział" : "") +
+        (idxNr !== -1 ? " + Nr" : "") +
+        ") z pliku " + f.name;
     } else {
       for (var j = 0; j < linie.length; j++) {
         var cz = podzielLinie(linie[j]);
@@ -923,17 +1133,17 @@ document.getElementById("rPlik").onchange = function(e){
         while (cz.length < 5) cz.push("");
         wynik.push(cz.join(";"));
       }
-      document.getElementById("rInfoCsv").textContent = "Wczytano " + wynik.length + " wierszy z pliku " + f.name;
+      document.getElementById("rInfoCsv").textContent =
+        "Wczytano " + wynik.length + " wierszy z pliku " + f.name +
+        " (nie rozpoznano kolumn „Temat" i „Dział" — sprawdź nagłówek pliku)";
     }
 
     document.getElementById("rPozycje").value = wynik.join("\n");
     autoDopasujWModal();
   };
-  reader.readAsText(f, "UTF-8");
+  reader.readAsArrayBuffer(f);
   e.target.value = "";
 };
-
-/* ---------- ZAPIS ---------- */
 
 document.getElementById("rZapisz").onclick = async function(){
   var klucz = document.getElementById("rKlucz").value.trim();
