@@ -1135,7 +1135,7 @@ document.getElementById("rPlik").onchange = function(e){
       }
       document.getElementById("rInfoCsv").textContent =
         "Wczytano " + wynik.length + " wierszy z pliku " + f.name +
-        " (nie rozpoznano kolumn „Temat" i „Dział" — sprawdź nagłówek pliku)";
+        ' (nie rozpoznano kolumn "Temat" i "Dział" — sprawdź nagłówek pliku)';
     }
 
     document.getElementById("rPozycje").value = wynik.join("\n");
