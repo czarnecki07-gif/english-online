@@ -180,7 +180,6 @@ var DATA = {};
 var filtrPoziom = "all";
 var filtrTyp = "all";
 
-/* ---------- SPRAWDZENIE LOGOWANIA ---------- */
 async function czekajNaSb(){
   if (window.sbGotowy) return;
   await new Promise(function(r){
@@ -199,7 +198,6 @@ async function sprawdzSesje(){
   } catch (e) { return false; }
 }
 
-/* ---------- ŁADOWANIE LEKCJI ---------- */
 function wczytajWszystkie(cb) {
   var zaladowane = 0;
   PLIKI.forEach(function(g) {
@@ -471,7 +469,6 @@ function przewinDoGory() {
   document.getElementById("wybor").scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
-/* ---------- START ---------- */
 document.addEventListener("DOMContentLoaded", async function() {
   var params = new URLSearchParams(location.search);
   var selParam = params.get("sel");
@@ -486,7 +483,6 @@ document.addEventListener("DOMContentLoaded", async function() {
     }
   }
 
-  /* Sprawdź logowanie */
   var zalogowany = await sprawdzSesje();
   if (!zalogowany) {
     window.location.href = "login.html";

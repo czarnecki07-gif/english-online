@@ -97,6 +97,25 @@
   }
   .lesson-header .back-btn:hover { background: rgba(255,255,255,.15); border-color: rgba(255,255,255,.7); }
 
+  @media print {
+    .voice-bar, .iphone-hint, .hint-box, .read-sel-btn, .exercise-actions,
+    #checkTestBtn, .test-result, .lesson-header .back-btn,
+    .section-title .time-badge { display: none !important; }
+    .lesson-header { background: #fff !important; color: #1e3a5f !important; border-bottom: 2px solid #1e3a5f !important; }
+    .lesson-header h1 { color: #1e3a5f !important; }
+    .exercise input[type="text"] { border: none !important; border-bottom: 1px solid #666 !important; border-radius: 0 !important; background: transparent !important; padding: 2px 0 !important; }
+    .test-q label { page-break-inside: avoid; }
+    .word { cursor: default; }
+  }
+  body.druk .voice-bar,
+  body.druk .iphone-hint,
+  body.druk .hint-box,
+  body.druk .read-sel-btn,
+  body.druk .exercise-actions,
+  body.druk #checkTestBtn,
+  body.druk .test-result { display: none !important; }
+  body.druk .exercise input[type="text"] { border: none; border-bottom: 1px solid #666; border-radius: 0; background: transparent; }
+
   .voice-bar {
     background: var(--surface);
     padding: 11px 26px;
@@ -748,6 +767,7 @@
   </div>
   <div class="meta">
     <span class="level-badge" id="lessonLevel">-</span>
+    <button class="back-btn" id="drukBtn" style="display:none">Drukuj</button>
     <button class="back-btn" id="backBtn">Wróć</button>
   </div>
 </div>
@@ -801,7 +821,6 @@ var lessonId = new URLSearchParams(location.search).get("id") || "G1A1";
 var lessonData = null;
 
 function getGroup(id) {
-  /* A0-x → plik A0.js */
   if (/^A0-\d+$/.test(id)) return "A0";
   var m = id.match(/^([GT])(\d+)(A1|A2|B1|B2|C1|TEST)$/);
   if (!m) return null;
@@ -1265,6 +1284,13 @@ document.addEventListener("DOMContentLoaded", function() {
   loadLessonData(lessonId, function() {
     renderLesson();
     makeWordsClickable();
+
+    if (new URLSearchParams(location.search).get("druk") === "1") {
+      document.body.classList.add("druk");
+      var db = document.getElementById("drukBtn");
+      if (db) { db.style.display = "inline-block"; db.onclick = function(){ window.print(); }; }
+      setTimeout(function(){ window.print(); }, 600);
+    }
   });
 });
 </script>
