@@ -138,6 +138,11 @@
     <span class="level-badge" id="lessonLevel">-</span>
     <button class="back-btn" id="drukBtn" style="display:none">Drukuj</button>
     <button class="back-btn" id="backBtn">Wróć</button>
+    <span id="backMenu" style="display:none;margin-left:8px">
+      <button class="back-btn" data-goto="rozkład" style="margin-right:4px">Rozkład</button>
+      <button class="back-btn" data-goto="panel" style="margin-right:4px">Panel</button>
+      <button class="back-btn" data-goto="index">Strona główna</button>
+    </span>
   </div>
 </div>
 
@@ -607,8 +612,33 @@ document.addEventListener("DOMContentLoaded", function() {
   attachVoiceSelectors();
   showIphoneHint();
 
-  document.getElementById("backBtn").addEventListener("click", function() {
+   var backBtnEl = document.getElementById("backBtn");
+  var backMenuEl = document.getElementById("backMenu");
+
+  backBtnEl.addEventListener("click", function() {
+    var params = new URLSearchParams(location.search);
+    var fromPanel = params.get("from") === "panel-nauczyciela.html"
+                    || (document.referrer && document.referrer.indexOf("panel-nauczyciela.html") !== -1);
+
+    if (fromPanel) {
+      var widoczne = backMenuEl.style.display !== "none";
+      backMenuEl.style.display = widoczne ? "none" : "inline";
+      return;
+    }
     window.location.href = backUrl;
+  });
+
+  backMenuEl.querySelectorAll("[data-goto]").forEach(function(b) {
+    b.addEventListener("click", function() {
+      var cel = b.dataset.goto;
+      if (cel === "rozkład") {
+        window.location.href = "panel-nauczyciela.html#rozklady";
+      } else if (cel === "panel") {
+        window.location.href = "panel-nauczyciela.html";
+      } else {
+        window.location.href = "index.html";
+      }
+    });
   });
 
   var btn = document.getElementById("checkTestBtn");
