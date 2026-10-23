@@ -304,7 +304,7 @@ async function start(){
   profil=o.data;
   if(!profil||!profil.aktywny){location.href="index.html";return}
   await odswiezKlasy();
-  wypelnijPodrecznikiRozklady();
+  await wypelnijPodrecznikiRozklady();
   await zaladujLekcje();
   renderujListeLekcji();
   odswiezWyborTestow();
@@ -610,24 +610,62 @@ document.getElementById("zaznaczWszystkie").onclick=function(){document.querySel
 document.getElementById("generujBtn").onclick=generujTest;
 document.getElementById("wyloguj").onclick=async function(e){e.preventDefault();if(!confirm("Wylogować?"))return;await window.sb.auth.signOut();location.href="login.html"};
 
-function wypelnijPodrecznikiRozklady(){
+/* ============================================================
+   LISTA PODRĘCZNIKÓW — z bazy + z pliku dane-podreczniki.js
+============================================================ */
+
+async function wypelnijPodrecznikiRozklady(){
   var sel = document.getElementById("rozklPodrecznik");
   if (!sel) return;
-  if (!window.PODRECZNIKI) {
-    sel.innerHTML = '<option value="">Błąd — brak dane-podreczniki.js</option>';
-    return;
-  }
   var obecny = sel.value;
+  sel.innerHTML = '<option value="">Ładowanie…</option>';
+
+  var mapa = {};
+
+  if (window.PODRECZNIKI) {
+    Object.keys(window.PODRECZNIKI).forEach(function(k){
+      var p = window.PODRECZNIKI[k];
+      mapa[k] = {
+        klucz: k,
+        nazwa: p.nazwa || k,
+        wydawnictwo: p.wydawnictwo || "",
+        zrodlo: "plik"
+      };
+    });
+  }
+
+  try {
+    var o = await window.sb.from("rozklady").select("podrecznik_klucz, podrecznik_nazwa, wydawnictwo").eq("czy_publiczny", true);
+    (o.data || []).forEach(function(r){
+      if (!r.podrecznik_klucz) return;
+      if (!mapa[r.podrecznik_klucz]) {
+        mapa[r.podrecznik_klucz] = {
+          klucz: r.podrecznik_klucz,
+          nazwa: r.podrecznik_nazwa || r.podrecznik_klucz,
+          wydawnictwo: r.wydawnictwo || "",
+          zrodlo: "baza"
+        };
+      }
+    });
+  } catch (e) {
+    console.error("Błąd pobierania podręczników z bazy:", e);
+  }
+
+  var lista = Object.keys(mapa).map(function(k){ return mapa[k]; });
+  lista.sort(function(a,b){
+    return (a.wydawnictwo + a.nazwa).localeCompare(b.wydawnictwo + b.nazwa);
+  });
+
   sel.innerHTML = '<option value="">— wybierz —</option>';
-  Object.keys(window.PODRECZNIKI).sort(function(a,b){
-    return (window.PODRECZNIKI[a].nazwa||"").localeCompare(window.PODRECZNIKI[b].nazwa||"");
-  }).forEach(function(k){
-    var p = window.PODRECZNIKI[k];
+  lista.forEach(function(p){
     var opt = document.createElement("option");
-    opt.value = k;
-    opt.textContent = (p.wydawnictwo||"?") + " — " + (p.nazwa||k);
+    opt.value = p.klucz;
+    var prefix = p.wydawnictwo ? (p.wydawnictwo + " — ") : "";
+    var suffix = p.zrodlo === "baza" ? " (z bazy)" : "";
+    opt.textContent = prefix + p.nazwa + suffix;
     sel.appendChild(opt);
   });
+
   if (obecny) sel.value = obecny;
 }
 
@@ -680,6 +718,7 @@ async function odswiezRozklady(){
       if (!confirm("Usunąć rozkład? Klasy, które go używają, stracą przypisanie.")) return;
       await window.sb.from("rozklady").delete().eq("id", b.dataset.delRozklad);
       odswiezRozklady();
+      wypelnijPodrecznikiRozklady();
     };
   });
 }
@@ -1227,6 +1266,7 @@ document.getElementById("rZapisz").onclick = async function(){
 
   document.getElementById("modalRozklad").classList.remove("on");
   ROZKLAD_EDYCJA_ID = null;
+  await wypelnijPodrecznikiRozklady();
   document.getElementById("rozklPodrecznik").value = klucz;
   odswiezRozklady();
 };
