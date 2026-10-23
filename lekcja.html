@@ -612,33 +612,38 @@ document.addEventListener("DOMContentLoaded", function() {
   attachVoiceSelectors();
   showIphoneHint();
 
-   var backBtnEl = document.getElementById("backBtn");
+    var backBtnEl = document.getElementById("backBtn");
   var backMenuEl = document.getElementById("backMenu");
+  var backLinkRozklad = document.getElementById("backLinkRozklad");
+  var backLinkPanel = document.getElementById("backLinkPanel");
 
-  backBtnEl.addEventListener("click", function() {
-    var params = new URLSearchParams(location.search);
-    var fromPanel = params.get("from") === "panel-nauczyciela.html"
-                    || (document.referrer && document.referrer.indexOf("panel-nauczyciela.html") !== -1);
+  var paramsLek = new URLSearchParams(location.search);
+  var fromPanel = paramsLek.get("from") === "panel";
+  var klasaId = paramsLek.get("klasa");
+  var rozkladId = paramsLek.get("rozklad");
 
-    if (fromPanel) {
-      var widoczne = backMenuEl.style.display !== "none";
-      backMenuEl.style.display = widoczne ? "none" : "inline";
-      return;
-    }
-    window.location.href = backUrl;
+  if (fromPanel && rozkladId) {
+    backLinkRozklad.href = "panel-nauczyciela.html?klasa=" + encodeURIComponent(klasaId || "") + "&rozklad=" + encodeURIComponent(rozkladId);
+  } else {
+    backLinkRozklad.style.display = "none";
+  }
+
+  if (fromPanel) {
+    backLinkPanel.href = "panel-nauczyciela.html";
+  } else {
+    backLinkPanel.href = backUrl;
+    backLinkPanel.textContent = "Wróć do poprzedniej strony";
+  }
+
+  backBtnEl.addEventListener("click", function(e) {
+    e.stopPropagation();
+    backMenuEl.style.display = backMenuEl.style.display === "none" ? "block" : "none";
   });
 
-  backMenuEl.querySelectorAll("[data-goto]").forEach(function(b) {
-    b.addEventListener("click", function() {
-      var cel = b.dataset.goto;
-      if (cel === "rozkład") {
-        window.location.href = "panel-nauczyciela.html#rozklady";
-      } else if (cel === "panel") {
-        window.location.href = "panel-nauczyciela.html";
-      } else {
-        window.location.href = "index.html";
-      }
-    });
+  document.addEventListener("click", function(e) {
+    if (!backMenuEl.contains(e.target) && e.target !== backBtnEl) {
+      backMenuEl.style.display = "none";
+    }
   });
 
   var btn = document.getElementById("checkTestBtn");
