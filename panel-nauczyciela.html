@@ -1452,10 +1452,13 @@ async function otworzLekcjeML(pozycjaNr){
     } catch(e) { console.error(e); }
   }
 
-  window.open("lekcja.html?id=" + p.lekcja_id, "_blank");
+  var url = "lekcja.html?id=" + encodeURIComponent(p.lekcja_id)
+    + "&from=panel"
+    + "&klasa=" + encodeURIComponent(ML_KLASA_ID)
+    + "&rozklad=" + encodeURIComponent(ML_ROZKLAD.id);
+  window.open(url, "_blank");
   await wybierzKlaseML();
 }
-
 async function wydrukujLekcjeML(pozycjaNr){
   var p = (ML_ROZKLAD.pozycje || []).find(function(x){ return x.nr === pozycjaNr; });
   if (!p || !p.lekcja_id) return;
@@ -1473,7 +1476,12 @@ async function wydrukujLekcjeML(pozycjaNr){
     } catch(e) { console.error(e); }
   }
 
-  window.open("lekcja.html?id=" + p.lekcja_id + "&druk=1", "_blank");
+  var url = "lekcja.html?id=" + encodeURIComponent(p.lekcja_id)
+    + "&from=panel"
+    + "&klasa=" + encodeURIComponent(ML_KLASA_ID)
+    + "&rozklad=" + encodeURIComponent(ML_ROZKLAD.id)
+    + "&druk=1";
+  window.open(url, "_blank");
   await wybierzKlaseML();
 }
 
@@ -1525,6 +1533,30 @@ document.querySelectorAll("#mlFiltry [data-mlf]").forEach(function(b){
     renderujMojeLekcje();
   };
 });
+
+(function(){
+  var params = new URLSearchParams(location.search);
+  var klasaId = params.get("klasa");
+  var rozkladId = params.get("rozklad");
+  if (!klasaId) return;
+
+  function poczekajNaDane() {
+    if (!MOJE_KLASY.length || !profil) {
+      setTimeout(poczekajNaDane, 300);
+      return;
+    }
+    var btn = document.querySelector('nav button[data-tab="moje-lekcje"]');
+    if (btn) btn.click();
+    setTimeout(function(){
+      var sel = document.getElementById("mlKlasa");
+      if (sel) {
+        sel.value = klasaId;
+        wybierzKlaseML();
+      }
+    }, 300);
+  }
+  setTimeout(poczekajNaDane, 500);
+})();
 
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",start);else start();
 </script>

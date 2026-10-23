@@ -134,15 +134,15 @@
 
 <div class="lesson-header">
   <div><h1 id="lessonTitle">Ładowanie...</h1></div>
-  <div class="meta">
+  <div class="meta" style="position:relative">
     <span class="level-badge" id="lessonLevel">-</span>
     <button class="back-btn" id="drukBtn" style="display:none">Drukuj</button>
-    <button class="back-btn" id="backBtn">Wróć</button>
-    <span id="backMenu" style="display:none;margin-left:8px">
-      <button class="back-btn" data-goto="rozkład" style="margin-right:4px">Rozkład</button>
-      <button class="back-btn" data-goto="panel" style="margin-right:4px">Panel</button>
-      <button class="back-btn" data-goto="index">Strona główna</button>
-    </span>
+    <button class="back-btn" id="backBtn">Wróć ▾</button>
+    <div id="backMenu" style="display:none;position:absolute;right:0;top:44px;background:#fff;border:1px solid #c8c2b5;border-radius:6px;box-shadow:0 8px 24px rgba(0,0,0,.18);z-index:200;min-width:280px;overflow:hidden;text-align:left">
+      <a id="backLinkRozklad" href="#" style="display:block;padding:12px 18px;color:#1e3a5f;text-decoration:none;font-size:.88rem;border-bottom:1px solid #f0f0f0;font-weight:600">Wróć do rozkładu klasy</a>
+      <a id="backLinkPanel" href="#" style="display:block;padding:12px 18px;color:#1e3a5f;text-decoration:none;font-size:.88rem;border-bottom:1px solid #f0f0f0">Wróć do panelu nauczyciela</a>
+      <a id="backLinkIndex" href="index.html" style="display:block;padding:12px 18px;color:#1e3a5f;text-decoration:none;font-size:.88rem">Wróć do strony głównej</a>
+    </div>
   </div>
 </div>
 
