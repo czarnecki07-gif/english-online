@@ -293,7 +293,16 @@ function renderTest(test) {
 }
 
 function normalizeText(s) {
-  return s.toLowerCase().trim().replace(/\s+/g, " ").replace(/[.!?,;:]+$/g, "").replace(/[\u2018\u2019\u00B4`]/g, "'");
+  if (s == null) return "";
+  var out = String(s);
+  out = out.replace(/[\u200B-\u200D\uFEFF\u00AD]/g, "");
+  out = out.replace(/[\s\u00A0\u1680\u2000-\u200A\u2028\u2029\u202F\u205F\u3000]+/g, " ");
+  out = out.toLowerCase().trim();
+  out = out.replace(/[.!?,;:]+[\s]*$/g, "");
+  out = out.replace(/[\u2018\u2019\u00B4`\u02BC\u02B9]/g, "'");
+  out = out.replace(/[\u2013\u2014\u2212]/g, "-");
+  out = out.replace(/\u2026/g, "...");
+  return out.trim();
 }
 
 function initWorkbook() {
@@ -351,7 +360,8 @@ function initWorkbook() {
           feedback.innerHTML = "✗ Źle. Spróbuj jeszcze raz.";
         } else {
           feedback.className = "feedback show wrong";
-          feedback.innerHTML = "✗ Źle. Poprawna odpowiedź: <b>" + (answers[0] || "?") + "</b>";
+          var odpPokaz1 = String(answers[0] || "?").replace(/[&<>]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;"}[c]; });
+feedback.innerHTML = "✗ Źle. Poprawna odpowiedź: <b>" + odpPokaz1 + "</b>";
           lockAll();
         }
       });
@@ -360,11 +370,12 @@ function initWorkbook() {
         if (e.key === "Enter" && btnCheck && !btnCheck.disabled) btnCheck.click();
       });
 
-      if (btnSkip) {
+            if (btnSkip) {
         btnSkip.addEventListener("click", function() {
           if (finished) return;
           feedback.className = "feedback show wrong";
-          feedback.innerHTML = "Poprawna odpowiedź: <b>" + (answers[0] || "?") + "</b>";
+          var odpPokaz2 = String(answers[0] || "?").replace(/[&<>]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;"}[c]; });
+          feedback.innerHTML = "Poprawna odpowiedź: <b>" + odpPokaz2 + "</b>";
           lockAll();
         });
       }
