@@ -881,109 +881,129 @@ window.LESSON_DATA["G9A2"] = {
    G10A2 – Określniki ilości
 ============================================================ */
 window.LESSON_DATA["G10A2"] = {
-  tytul: "Określniki – some, any, much, many",
+  tytul: "Określniki ilości – some, any, much, many, a few, a little",
   poziom: "A2",
   dzial: "G10",
   teoria: `
-    <h3>Tekst do zapamiętania</h3>
-    <p class="en" style="display:block; padding:14px 18px; line-height:1.9;">
-      In my kitchen I have some apples, some bread and a little cheese. There isn't any milk in the fridge, so I need to buy some. How much money do I have? I don't have much, only a few coins. How many eggs are there? There are a few, maybe three or four. I usually don't put much sugar in my tea, just a little. There are a lot of vegetables in the shop.
-    </p>
+    <h3>1. SOME czy ANY? (Trochę, jakieś)</h3>
+    <p>To zależy od <b>rodzaju zdania</b>.</p>
+    <p><b>SOME</b> stosujemy w zdaniach twierdzących (+).</p>
+    <p><span class="en">I have some apples.</span></p>
+    <p class="pl">(Mam kilka jabłek)</p>
+    <p><b>ANY</b> stosujemy w pytaniach (?) i przeczeniach (−).</p>
+    <p><span class="en">Do you have any milk?</span></p>
+    <p class="pl">(Czy masz jakieś mleko?)</p>
+    <p><span class="en">I don't have any money.</span></p>
+    <p class="pl">(Nie mam żadnych pieniędzy)</p>
+    <div class="tip-box">
+      <b>Wyjątek:</b> Gdy coś komuś <b>miło proponujesz</b> lub o coś <b>grzecznie prosisz</b>, używasz <b>some</b> w pytaniu.<br>
+      <span class="en">Would you like some tea?</span><br>
+      <span class="pl">(Chcesz trochę herbaty?)</span>
+    </div>
 
-    <h3>Some czy any?</h3>
-    <table>
-      <tr><th>SOME (twierdzenia)</th><th>ANY (pytania i przeczenia)</th></tr>
-      <tr>
-        <td class="en">I have some money.<br>There are some books.</td>
-        <td class="en">Do you have any money?<br>I don't have any money.</td>
-      </tr>
-    </table>
-    <p><b>Wyjątek:</b> w uprzejmych pytaniach możemy użyć <b>some</b>:<br>
-    <span class="en">Would you like some tea? (uprzejma propozycja)</span></p>
+    <h3>2. MUCH czy MANY? (Dużo)</h3>
+    <p>To zależy od tego, czy da się coś <b>policzyć</b>.</p>
+    <p><b>MUCH</b> – do rzeczy <b>niepoliczalnych</b>.</p>
+    <p><span class="en">How much money?</span> <span class="pl">(Ile pieniędzy?)</span></p>
+    <p class="pl">Pieniądze jako słowo są niepoliczalne – nie mówisz „mam pięć pieniędzy".</p>
+    <p><span class="en">I don't have much time.</span> <span class="pl">(Nie mam dużo czasu)</span></p>
+    <p><b>MANY</b> – do rzeczy <b>policzalnych</b> (w liczbie mnogiej).</p>
+    <p><span class="en">How many books?</span> <span class="pl">(Ile książek?)</span></p>
+    <p><span class="en">How many people?</span> <span class="pl">(Ilu ludzi?)</span></p>
+    <div class="tip-box">
+      <b>A LOT OF</b> – to bezpieczny „wytrych". Pasuje do wszystkiego (policzalnych i niepoliczalnych), głównie w twierdzeniach.<br>
+      <span class="en">I have a lot of money.</span> oraz <span class="en">I have a lot of books.</span>
+    </div>
 
-    <h3>Much czy many?</h3>
-    <table>
-      <tr><th>MUCH – niepoliczalne</th><th>MANY – policzalne</th></tr>
-      <tr>
-        <td class="en">How much money?<br>I don't have much time.</td>
-        <td class="en">How many books?<br>How many people?</td>
-      </tr>
-    </table>
+    <h3>3. A FEW czy A LITTLE? (Trochę, kilka)</h3>
+    <p>Używamy, gdy mamy czegoś <b>wystarczająco dużo</b> (pozytywny wydźwięk).</p>
+    <p><b>A FEW</b> – kilka (do <b>policzalnych</b>).</p>
+    <p><span class="en">I have a few friends.</span></p>
+    <p class="pl">(Mam kilku przyjaciół – i to super)</p>
+    <p><b>A LITTLE</b> – trochę (do <b>niepoliczalnych</b>).</p>
+    <p><span class="en">I have a little money.</span></p>
+    <p class="pl">(Mam trochę pieniędzy – wystarczy na kawę)</p>
 
-    <h3>A lot of – działa z oboma</h3>
-    <p><span class="en">I have a lot of money. I have a lot of books.</span></p>
-
-    <h3>A few / a little</h3>
-    <table>
-      <tr><th>A FEW – policzalne</th><th>A LITTLE – niepoliczalne</th></tr>
-      <tr>
-        <td class="en">I have a few books. <span class="pl">(kilka)</span></td>
-        <td class="en">I have a little money. <span class="pl">(trochę)</span></td>
-      </tr>
-    </table>
-
-    <h3>Few / little – bez "a" (negatywne)</h3>
-    <table>
-      <tr><th>FEW = mało (prawie nic)</th><th>LITTLE = mało (prawie nic)</th></tr>
-      <tr>
-        <td class="en">I have few friends. <span class="pl">(niewielu – to smutne)</span></td>
-        <td class="en">I have little time. <span class="pl">(prawie wcale)</span></td>
-      </tr>
-    </table>
+    <h3>4. FEW czy LITTLE? (Mało, prawie nic)</h3>
+    <p>Gdy <b>zabierasz literkę „a"</b>, zmieniasz sens na <b>negatywny</b>. Oznacza to, że czegoś ci brakuje.</p>
+    <p><b>FEW</b> – mało (do <b>policzalnych</b>).</p>
+    <p><span class="en">I have few friends.</span></p>
+    <p class="pl">(Mam mało przyjaciół – jest mi smutno)</p>
+    <p><b>LITTLE</b> – mało (do <b>niepoliczalnych</b>).</p>
+    <p><span class="en">I have little time.</span></p>
+    <p class="pl">(Mam mało czasu – spieszę się, prawie wcale go nie mam)</p>
 
     <div class="tip-box">
-      <b>Zapamiętaj:</b><br>
-      <b>some</b> – twierdzenia · <b>any</b> – pytania/przeczenia<br>
+      <b>Ściąga:</b><br>
+      <b>some</b> – twierdzenia · <b>any</b> – pytania i przeczenia<br>
       <b>much</b> – niepoliczalne · <b>many</b> – policzalne<br>
-      <b>a few</b> = kilka · <b>a little</b> = trochę
+      <b>a few / a little</b> = „trochę, wystarczy" (pozytywne)<br>
+      <b>few / little</b> = „mało, prawie nic" (negatywne)
     </div>
   `,
   karta: [
-    { type: "header", text: "A. some czy any?" },
-    { type: "gap", text: '<span class="en">I have ________ money.</span>', answers: ["some"] },
-    { type: "gap", text: '<span class="en">Do you have ________ questions?</span>', answers: ["any"] },
-    { type: "gap", text: '<span class="en">I don\'t have ________ time.</span>', answers: ["any"] },
-    { type: "gap", text: '<span class="en">There are ________ books on the table.</span>', answers: ["some"] },
-    { type: "gap", text: '<span class="en">Is there ________ milk in the fridge?</span>', answers: ["any"] },
-    { type: "gap", text: '<span class="en">Would you like ________ tea?</span>', answers: ["some"] },
-    { type: "gap", text: '<span class="en">I need to buy ________ bread.</span>', answers: ["some"] },
-    { type: "header", text: "B. much czy many?" },
-    { type: "gap", text: '<span class="en">How ________ money do you have?</span>', answers: ["much"] },
-    { type: "gap", text: '<span class="en">How ________ books are there?</span>', answers: ["many"] },
-    { type: "gap", text: '<span class="en">How ________ people came?</span>', answers: ["many"] },
-    { type: "gap", text: '<span class="en">How ________ water is there?</span>', answers: ["much"] },
-    { type: "gap", text: '<span class="en">I don\'t have ________ time.</span>', answers: ["much"] },
-    { type: "gap", text: '<span class="en">She doesn\'t have ________ friends.</span>', answers: ["many"] },
-    { type: "header", text: "C. a few czy a little?" },
-    { type: "gap", text: '<span class="en">I have ________ books.</span>', answers: ["a few"] },
-    { type: "gap", text: '<span class="en">I have ________ money.</span>', answers: ["a little"] },
-    { type: "gap", text: '<span class="en">I speak ________ English.</span>', answers: ["a little"] },
-    { type: "gap", text: '<span class="en">There are ________ apples.</span>', answers: ["a few"] },
-    { type: "gap", text: '<span class="en">I have ________ sugar in my tea.</span>', answers: ["a little"] },
-    { type: "header", text: "D. Popraw błędy" },
+    { type: "header", text: "A. SOME czy ANY?" },
+    { type: "gap", text: '<span class="en">I have ________ apples.</span> <span class="pl">(twierdzenie)</span>', answers: ["some"] },
+    { type: "gap", text: '<span class="en">Do you have ________ milk?</span> <span class="pl">(pytanie)</span>', answers: ["any"] },
+    { type: "gap", text: '<span class="en">I don\'t have ________ money.</span> <span class="pl">(przeczenie)</span>', answers: ["any"] },
+    { type: "gap", text: '<span class="en">There are ________ books on the table.</span> <span class="pl">(twierdzenie)</span>', answers: ["some"] },
+    { type: "gap", text: '<span class="en">Is there ________ water in the fridge?</span> <span class="pl">(pytanie)</span>', answers: ["any"] },
+    { type: "gap", text: '<span class="en">Would you like ________ tea?</span> <span class="pl">(uprzejma propozycja – wyjątek!)</span>', answers: ["some"] },
+
+    { type: "header", text: "B. MUCH czy MANY?" },
+    { type: "gap", text: '<span class="en">How ________ money do you have?</span> <span class="pl">(pieniądze – niepoliczalne)</span>', answers: ["much"] },
+    { type: "gap", text: '<span class="en">How ________ books are there?</span> <span class="pl">(książki – policzalne)</span>', answers: ["many"] },
+    { type: "gap", text: '<span class="en">How ________ people came?</span> <span class="pl">(ludzie – policzalne)</span>', answers: ["many"] },
+    { type: "gap", text: '<span class="en">I don\'t have ________ time.</span> <span class="pl">(czas – niepoliczalne)</span>', answers: ["much"] },
+    { type: "gap", text: '<span class="en">She doesn\'t have ________ friends.</span> <span class="pl">(przyjaciele – policzalne)</span>', answers: ["many"] },
+
+    { type: "header", text: "C. A FEW czy A LITTLE? (trochę, wystarczy – pozytywne)" },
+    { type: "gap", text: '<span class="en">I have ________ friends.</span> <span class="pl">(kilku – i to super)</span>', answers: ["a few"] },
+    { type: "gap", text: '<span class="en">I have ________ money.</span> <span class="pl">(trochę – wystarczy na kawę)</span>', answers: ["a little"] },
+    { type: "gap", text: '<span class="en">There are ________ apples in the basket.</span> <span class="pl">(kilka)</span>', answers: ["a few"] },
+    { type: "gap", text: '<span class="en">I speak ________ English.</span> <span class="pl">(trochę)</span>', answers: ["a little"] },
+
+    { type: "header", text: "D. FEW czy LITTLE? (mało, prawie nic – negatywne)" },
+    { type: "gap", text: '<span class="en">I have ________ friends.</span> <span class="pl">(mało – jest mi smutno)</span>', answers: ["few"] },
+    { type: "gap", text: '<span class="en">I have ________ time.</span> <span class="pl">(mało – spieszę się)</span>', answers: ["little"] },
+    { type: "gap", text: '<span class="en">There are ________ people here.</span> <span class="pl">(mało ludzi – prawie nikogo)</span>', answers: ["few"] },
+    { type: "gap", text: '<span class="en">There is ________ water in the bottle.</span> <span class="pl">(mało – prawie nic)</span>', answers: ["little"] },
+
+    { type: "header", text: "E. Mieszanka – wybierz właściwe słowo" },
+    { type: "gap", text: '<span class="en">I need to buy ________ bread.</span> <span class="pl">(twierdzenie)</span>', answers: ["some"] },
+    { type: "gap", text: '<span class="en">How ________ sugar do you take?</span> <span class="pl">(cukier – niepoliczalne)</span>', answers: ["much"] },
+    { type: "gap", text: '<span class="en">She has ________ money, so she can buy a coffee.</span> <span class="pl">(trochę – pozytywne)</span>', answers: ["a little"] },
+    { type: "gap", text: '<span class="en">He has ________ friends – nobody likes him.</span> <span class="pl">(mało – negatywne)</span>', answers: ["few"] },
+    { type: "gap", text: '<span class="en">Do you have ________ questions?</span> <span class="pl">(pytanie)</span>', answers: ["any"] },
+
+    { type: "header", text: "F. Popraw błędy" },
     { type: "gap", text: '<span class="en">I don\'t have some money. → ________</span>', answers: ["i don't have any money", "i don't have any money.", "i do not have any money", "i do not have any money."], wide: true },
     { type: "gap", text: '<span class="en">How many money? → ________</span>', answers: ["how much money", "how much money?"], wide: true },
     { type: "gap", text: '<span class="en">How much books? → ________</span>', answers: ["how many books", "how many books?"], wide: true },
     { type: "gap", text: '<span class="en">I have a little books. → ________</span>', answers: ["i have a few books", "i have a few books."], wide: true },
-    { type: "header", text: "E. Przetłumacz" },
+    { type: "gap", text: '<span class="en">I have few money. → ________</span>', answers: ["i have little money", "i have little money."], wide: true },
+
+    { type: "header", text: "G. Przetłumacz" },
     { type: "gap", text: '<span class="pl">Mam trochę pieniędzy.</span>', answers: ["i have some money", "i have some money.", "i have a little money", "i have a little money."], wide: true },
     { type: "gap", text: '<span class="pl">Ile masz pieniędzy?</span>', answers: ["how much money do you have", "how much money do you have?"], wide: true },
     { type: "gap", text: '<span class="pl">Ile masz książek?</span>', answers: ["how many books do you have", "how many books do you have?"], wide: true },
     { type: "gap", text: '<span class="pl">Nie mam dużo czasu.</span>', answers: ["i don't have much time", "i don't have much time.", "i do not have much time", "i do not have much time."], wide: true },
-    { type: "header", text: "F. Napisz" },
-    { type: "open", text: "Napisz 5 zdań o tym, co masz: ile masz pieniędzy, książek, czasu, przyjaciół, jedzenia.", placeholder: "np. I have a few books. I don't have much time..." }
+    { type: "gap", text: '<span class="pl">Mam mało przyjaciół (jest mi smutno).</span>', answers: ["i have few friends", "i have few friends."], wide: true },
+
+    { type: "header", text: "H. Napisz o sobie" },
+    { type: "open", text: "Napisz 5 zdań o tym, co masz: ile masz pieniędzy, książek, czasu, przyjaciół, jedzenia w domu. Użyj some, any, much, many, a few, a little, few, little.", placeholder: "np. I have a few books. I don't have much time. I have little money this week..." }
   ],
   test: [
-    { q: "I have ______ money.", opcje: ["some", "any", "many", "much"], poprawna: 0, wyjasnienie: "Twierdzenie → some." },
-    { q: "Do you have ______ questions?", opcje: ["some", "any", "many", "much"], poprawna: 1, wyjasnienie: "Pytanie → any." },
-    { q: "How ______ money?", opcje: ["much", "many", "some", "any"], poprawna: 0, wyjasnienie: "Money – niepoliczalne → much." },
-    { q: "How ______ books?", opcje: ["much", "many", "some", "any"], poprawna: 1, wyjasnienie: "Books – policzalne → many." },
-    { q: "There are ______ books on the table.", opcje: ["some", "any", "much", "a little"], poprawna: 0, wyjasnienie: "Twierdzenie → some." },
-    { q: "I have ______ books. (kilka)", opcje: ["a few", "a little", "much", "any"], poprawna: 0, wyjasnienie: "Policzalne → a few." },
-    { q: "I have ______ money. (trochę)", opcje: ["a few", "a little", "many", "any"], poprawna: 1, wyjasnienie: "Niepoliczalne → a little." },
-    { q: "I don't have ______ questions.", opcje: ["some", "any", "much", "many"], poprawna: 1, wyjasnienie: "Przeczenie → any." },
-    { q: "How ______ people came?", opcje: ["much", "many", "some", "any"], poprawna: 1, wyjasnienie: "People – policzalne → many." },
-    { q: "I don't have ______ time.", opcje: ["some", "any", "many", "few"], poprawna: 1, wyjasnienie: "Przeczenie z 'time' (niepoliczalne) → any." }
+    { q: "1. SOME czy ANY? – I have ______ apples. (twierdzenie)", opcje: ["some", "any", "many", "much"], poprawna: 0, wyjasnienie: "Twierdzenie → some." },
+    { q: "2. SOME czy ANY? – Do you have ______ questions? (pytanie)", opcje: ["some", "any", "many", "much"], poprawna: 1, wyjasnienie: "Pytanie → any." },
+    { q: "3. SOME czy ANY? – Would you like ______ tea? (uprzejma propozycja – wyjątek)", opcje: ["some", "any", "much", "many"], poprawna: 0, wyjasnienie: "Uprzejma propozycja → some (wyjątek)." },
+    { q: "4. MUCH czy MANY? – How ______ money do you have?", opcje: ["much", "many", "some", "any"], poprawna: 0, wyjasnienie: "Pieniądze – niepoliczalne → much." },
+    { q: "5. MUCH czy MANY? – How ______ books do you have?", opcje: ["much", "many", "some", "any"], poprawna: 1, wyjasnienie: "Książki – policzalne → many." },
+    { q: "6. A FEW czy A LITTLE? – I have ______ friends (kilku, i to super).", opcje: ["a few", "a little", "few", "little"], poprawna: 0, wyjasnienie: "Policzalne + pozytywne → a few." },
+    { q: "7. A FEW czy A LITTLE? – I have ______ money (trochę, wystarczy na kawę).", opcje: ["a few", "a little", "few", "little"], poprawna: 1, wyjasnienie: "Niepoliczalne + pozytywne → a little." },
+    { q: "8. FEW czy LITTLE? – I have ______ friends (mało, jest mi smutno).", opcje: ["few", "little", "a few", "a little"], poprawna: 0, wyjasnienie: "Policzalne + negatywne → few (bez 'a')." },
+    { q: "9. FEW czy LITTLE? – I have ______ time (mało, spieszę się).", opcje: ["few", "little", "a few", "a little"], poprawna: 1, wyjasnienie: "Niepoliczalne + negatywne → little (bez 'a')." },
+    { q: "10. Co znaczy 'a few' a co 'few'?", opcje: ["a few = mało, few = kilka", "a few = kilka (wystarczy), few = mało (prawie nic)", "oba znaczą to samo", "a few = trochę (niepoliczalne)"], poprawna: 1, wyjasnienie: "'a few' = kilka (pozytywne), 'few' = mało (negatywne)." }
   ]
 };
 
