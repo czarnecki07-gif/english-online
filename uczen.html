@@ -18,12 +18,22 @@ body{font-family:Arial,sans-serif;background:#f7f5f0;color:#1f2933;line-height:1
 .karta input[type=text]:focus{outline:none;border-color:#1e3a5f}
 .karta button{margin-top:18px;width:100%;padding:14px 24px;background:#1e3a5f;color:#fff;border:none;border-radius:6px;font-weight:700;font-size:1rem;cursor:pointer;letter-spacing:1px;text-transform:uppercase;font-family:inherit}
 .karta button:hover{background:#152a47}
+.ostrzezenie{background:#fef3c7;border:2px solid #b45309;border-left:5px solid #b45309;border-radius:6px;padding:14px 16px;margin-bottom:20px;font-size:.88rem;color:#78350f;line-height:1.6}
+.ostrzezenie strong{color:#7f1d1d;display:block;margin-bottom:6px;font-size:.95rem}
+.ostrzezenie ul{margin:8px 0 0 18px;padding:0}
+.ostrzezenie li{margin-bottom:3px}
 body.w-test{background:#bfdbfe}
 .test-header{position:sticky;top:0;z-index:10;background:#1e3a5f;color:#fff;padding:14px 26px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
 .test-header .info{font-size:.9rem}
 .test-header .info strong{font-size:1.05rem}
+.test-header .prawa{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 .test-header .zegar{font-family:monospace;font-size:1.5rem;font-weight:700;background:rgba(255,255,255,.15);padding:6px 16px;border-radius:6px}
 .test-header .zegar.ostrzezony{background:#dc2626}
+.ostrzezenia-licznik{background:#7f1d1d;color:#fff;padding:6px 12px;border-radius:6px;font-weight:700;font-size:.85rem;white-space:nowrap;display:none}
+.ostrzezenia-licznik.widoczne{display:inline-block}
+.ostrzezenia-licznik.uwaga{background:#b45309}
+.ostrzezenia-licznik.krytyczne{background:#dc2626;animation:pulse 1s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.65}}
 .test-main{max-width:780px;margin:22px auto;padding:0 20px 40px}
 .postep{background:rgba(255,255,255,.7);border-radius:6px;padding:10px 16px;margin-bottom:18px;text-align:center;font-weight:600;color:#1e3a5f}
 .pytanie{background:#fff;border:1px solid #dbeafe;border-radius:8px;padding:20px 24px;margin-bottom:14px}
@@ -47,6 +57,7 @@ body.w-test{background:#bfdbfe}
 .wynik-glowny .punkty{font-family:Georgia,serif;font-size:3.4rem;font-weight:700;color:#1e3a5f;margin:14px 0;line-height:1}
 .wynik-glowny .proc{color:#6b7280;font-size:1.05rem;margin-bottom:14px}
 .wynik-glowny .komentarz{color:#4b5563;font-size:.95rem;max-width:520px;margin:0 auto}
+.wynik-glowny .ostrzezenie-info{margin-top:18px;padding:12px 16px;background:#fef3c7;border-left:4px solid #b45309;border-radius:0 4px 4px 0;font-size:.88rem;color:#78350f;text-align:left}
 .bledy-lista{margin-top:26px}
 .bledy-lista h2{font-family:Georgia,serif;color:#1e3a5f;font-size:1.15rem;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid #e8e4dc}
 .pyt-szcz{background:#fff;border-left:4px solid #1e3a5f;border-radius:0 6px 6px 0;padding:16px 20px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
@@ -70,6 +81,17 @@ body.w-test{background:#bfdbfe}
   <div class="karta">
     <h1>Sprawdzian</h1>
     <div class="meta" id="metaTestu">Ładowanie...</div>
+
+    <div class="ostrzezenie">
+      <strong>Ważne — przeczytaj przed rozpoczęciem</strong>
+      <ul>
+        <li><b>Nie opuszczaj strony testu</b> (nie przełączaj kart, nie otwieraj innych aplikacji, nie wychodź z przeglądarki) aż do zakończenia.</li>
+        <li>System wykrywa opuszczenie strony.</li>
+        <li>Po <b>3. opuszczeniu</b> test zostanie automatycznie zakończony.</li>
+        <li>Nauczyciel otrzyma informację, ile razy opuściłeś stronę.</li>
+      </ul>
+    </div>
+
     <label for="imieUcznia">Twoje imię i nazwisko:</label>
     <input type="text" id="imieUcznia" placeholder="np. Jan Kowalski" autocomplete="off">
     <button id="startBtn">Rozpocznij sprawdzian</button>
@@ -82,7 +104,10 @@ body.w-test{background:#bfdbfe}
       <strong id="naglowekTestu"></strong><br>
       <span id="infoUcznia"></span>
     </div>
-    <div class="zegar" id="zegar">--:--</div>
+    <div class="prawa">
+      <div class="ostrzezenia-licznik" id="ostrzezeniaLicznik">0/3</div>
+      <div class="zegar" id="zegar">--:--</div>
+    </div>
   </div>
   <div class="test-main">
     <div class="postep" id="postep"></div>
@@ -101,6 +126,7 @@ body.w-test{background:#bfdbfe}
       <div class="punkty" id="wynikPunkty">— / —</div>
       <div class="proc" id="wynikProc">—</div>
       <div class="komentarz" id="wynikKomentarz"></div>
+      <div class="ostrzezenie-info" id="wynikOstrzezenia" style="display:none"></div>
     </div>
     <div class="bledy-lista" id="bledyLista"></div>
     <div class="wynik-przyciski">
@@ -119,6 +145,11 @@ body.w-test{background:#bfdbfe}
 <script>
 var TEST=null, PYTANIA=[], ODPOWIEDZI=[], IMIE="";
 var START_CZASU=0, KONIEC_CZASU=0, ZEGAR=null, AUTO=null, ZAKONCZONE=false;
+
+var WYKROCZENIA=0;
+var MAX_WYKROCZEN=3;
+var DETEKTOR_AKTYWNY=false;
+var BLUR_TIMEOUT=null;
 
 document.addEventListener("DOMContentLoaded", async function() {
   var t = new URLSearchParams(location.search).get("t");
@@ -140,7 +171,6 @@ document.addEventListener("DOMContentLoaded", async function() {
     "Liczba pytań: <strong>" + PYTANIA.length + "</strong><br>" +
     "Czas: <strong>" + (TEST.czas_min ? TEST.czas_min + " min" : "bez limitu") + "</strong>";
 
-    /* Sprawdź, czy uczeń już nie rozwiązał tego testu w tej przeglądarce */
   var rozwiazany = localStorage.getItem("rozwiazany_" + t);
   if (rozwiazany) {
     document.getElementById("startBtn").disabled = true;
@@ -154,7 +184,52 @@ document.addEventListener("DOMContentLoaded", async function() {
   document.getElementById("startBtn").addEventListener("click", rozpocznij);
   document.getElementById("imieUcznia").addEventListener("keydown", function(e){ if(e.key==="Enter") rozpocznij(); });
   document.getElementById("zakonczBtn").addEventListener("click", function(){ if(confirm("Zakończyć sprawdzian?")) zakoncz(); });
+
+  /* === DETEKTOR OPUSZCZEŃ === */
+  document.addEventListener("visibilitychange", function() {
+    if (document.hidden) {
+      rejestrujOpuszczenie("karta ukryta");
+    }
+  });
+
+  window.addEventListener("blur", function() {
+    if (!DETEKTOR_AKTYWNY || ZAKONCZONE) return;
+    if (BLUR_TIMEOUT) clearTimeout(BLUR_TIMEOUT);
+    BLUR_TIMEOUT = setTimeout(function() {
+      rejestrujOpuszczenie("okno testu straciło focus");
+      BLUR_TIMEOUT = null;
+    }, 1000);
+  });
+
+  window.addEventListener("focus", function() {
+    if (BLUR_TIMEOUT) { clearTimeout(BLUR_TIMEOUT); BLUR_TIMEOUT = null; }
+  });
 });
+
+function rejestrujOpuszczenie(powod) {
+  if (!DETEKTOR_AKTYWNY || ZAKONCZONE) return;
+  WYKROCZENIA++;
+  console.warn("Opuszczenie testu #" + WYKROCZENIA + " — " + powod);
+
+  aktualizujLicznikOstrzezen();
+
+  if (WYKROCZENIA >= MAX_WYKROCZEN) {
+    alert("Test został zakończony — opuściłeś stronę testu " + WYKROCZENIA + " razy.\n\nNauczyciel otrzyma informację o liczbie opuszczeń.");
+    zakoncz();
+  } else {
+    alert("Uwaga!\n\nOpuściłeś stronę testu (" + WYKROCZENIA + "/" + MAX_WYKROCZEN + ").\n\nPrzy kolejnym opuszczeniu test zostanie automatycznie zakończony.");
+  }
+}
+
+function aktualizujLicznikOstrzezen() {
+  var el = document.getElementById("ostrzezeniaLicznik");
+  if (!el) return;
+  el.classList.add("widoczne");
+  el.textContent = "Ostrzeżenia: " + WYKROCZENIA + "/" + MAX_WYKROCZEN;
+  el.classList.remove("uwaga", "krytyczne");
+  if (WYKROCZENIA >= MAX_WYKROCZEN - 1) el.classList.add("krytyczne");
+  else if (WYKROCZENIA > 0) el.classList.add("uwaga");
+}
 
 async function czekajNaSb(){
   if(window.sbGotowy) return;
@@ -171,7 +246,6 @@ async function rozpocznij(){
   var imie = document.getElementById("imieUcznia").value.trim();
   if(!imie){ alert("Wpisz imię i nazwisko."); return; }
 
-  /* Sprawdź w bazie, czy uczeń o tym imieniu już nie rozwiązał tego testu */
   var sprawdz = await window.sb.from("wyniki").select("id").eq("test_id", TEST.id).ilike("uczen_imie", imie).limit(1);
   if(sprawdz.data && sprawdz.data.length > 0){
     alert("Ten sprawdzian został już przez Ciebie rozwiązany.\nJeśli chcesz go powtórzyć — poproś nauczyciela o nowy link.");
@@ -181,6 +255,8 @@ async function rozpocznij(){
   IMIE = imie;
   START_CZASU = Date.now();
   KONIEC_CZASU = TEST.czas_min ? START_CZASU + TEST.czas_min*60*1000 : 0;
+  WYKROCZENIA = 0;
+  DETEKTOR_AKTYWNY = true;
 
   document.getElementById("ekranStart").style.display="none";
   document.body.classList.add("w-test");
@@ -259,6 +335,8 @@ function odswiezZegar(){
 async function zakoncz(){
   if(ZAKONCZONE) return;
   ZAKONCZONE = true;
+  DETEKTOR_AKTYWNY = false;
+  if(BLUR_TIMEOUT) { clearTimeout(BLUR_TIMEOUT); BLUR_TIMEOUT = null; }
   if(ZEGAR) clearInterval(ZEGAR);
   if(AUTO) clearInterval(AUTO);
 
@@ -268,8 +346,7 @@ async function zakoncz(){
   var procent = Math.round(punkty/max*100);
   var sekundy = Math.round((Date.now() - START_CZASU)/1000);
 
-  /* Zapis do bazy */
-var kodKlasy = new URLSearchParams(location.search).get("k") || "";
+  var kodKlasy = new URLSearchParams(location.search).get("k") || "";
   var o = await window.sb.from("wyniki").insert({
     test_id: TEST.id,
     uczen_imie: IMIE,
@@ -279,13 +356,12 @@ var kodKlasy = new URLSearchParams(location.search).get("k") || "";
     procent: procent,
     wersja: "A",
     odpowiedzi: ODPOWIEDZI,
-    czas_sekundy: sekundy
+    czas_sekundy: sekundy,
+    opuszczenia: WYKROCZENIA
   });
 
-   /* Zapamiętaj, że uczeń rozwiązał ten test w tej przeglądarce */
   try { localStorage.setItem("rozwiazany_" + TEST.id, "1"); } catch (e) {}
 
-  /* Pokazanie wyniku */
   document.body.classList.remove("w-test");
   document.getElementById("ekranTest").style.display="none";
   document.getElementById("ekranKoniec").style.display="block";
@@ -302,7 +378,16 @@ var kodKlasy = new URLSearchParams(location.search).get("k") || "";
   }
   document.getElementById("wynikKomentarz").textContent = komentarz;
 
-  /* Lista pytań z odpowiedziami */
+  var infoOstrz = document.getElementById("wynikOstrzezenia");
+  if (WYKROCZENIA > 0) {
+    infoOstrz.style.display = "block";
+    infoOstrz.innerHTML = "<strong>Uwaga:</strong> opuściłeś stronę testu " + WYKROCZENIA + " raz" +
+      (WYKROCZENIA === 1 ? "" : (WYKROCZENIA < 5 ? "y" : "y")) +
+      ". Informacja o tym została zapisana i przekazana nauczycielowi.";
+  } else {
+    infoOstrz.style.display = "none";
+  }
+
   var html = '<h2>Szczegóły odpowiedzi</h2>';
   PYTANIA.forEach(function(p,i){
     var odpU = ODPOWIEDZI[i];

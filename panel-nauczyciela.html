@@ -549,12 +549,15 @@ async function odswiezWyniki(){
   var o=await window.sb.from("wyniki").select("*").eq("test_id",id).order("data_oddania",{ascending:false});
   if(o.error){kont.innerHTML='<div class="pusta">Błąd: '+o.error.message+'</div>';return}
   if(!o.data.length){kont.innerHTML='<div class="pusta">Brak wyników.</div>';return}
-  var html='<table><thead><tr><th>#</th><th>Uczeń</th><th>Klasa</th><th>Punkty</th><th>%</th><th>Ocena</th><th>Data</th><th></th></tr></thead><tbody>';
+  var html='<table><thead><tr><th>#</th><th>Uczeń</th><th>Klasa</th><th>Punkty</th><th>%</th><th>Ocena</th><th>Opuszczenia</th><th>Data</th><th></th></tr></thead><tbody>';
   o.data.forEach(function(w,i){
     var pct=w.procent||0;
     var k=pct>=80?"dobry":(pct>=50?"sredni":"zly");
     var oc=pct>=90?"5":pct>=75?"4":pct>=50?"3":pct>=30?"2":"1";
-    html+='<tr><td>'+(i+1)+'</td><td><strong>'+esc(w.uczen_imie||"?")+'</strong></td><td>'+esc(w.kod_klasy||"—")+'</td><td>'+w.punkty+" / "+w.max_punktow+'</td><td class="'+k+'">'+pct+'%</td><td class="'+k+'">'+oc+'</td><td>'+new Date(w.data_oddania).toLocaleString("pl")+'</td>';
+    var op = w.opuszczenia || 0;
+    var opKlasa = op >= 3 ? "zly" : (op > 0 ? "sredni" : "dobry");
+    var opTekst = op === 0 ? "0" : op + " ⚠";
+    html+='<tr><td>'+(i+1)+'</td><td><strong>'+esc(w.uczen_imie||"?")+'</strong></td><td>'+esc(w.kod_klasy||"—")+'</td><td>'+w.punkty+" / "+w.max_punktow+'</td><td class="'+k+'">'+pct+'%</td><td class="'+k+'">'+oc+'</td><td class="'+opKlasa+'">'+opTekst+'</td><td>'+new Date(w.data_oddania).toLocaleString("pl")+'</td>';
     html+='<td><button class="drugie" data-szczegoly="'+w.id+'" style="padding:5px 12px;font-size:.8rem">Szczegóły</button></td></tr>';
   });
   html+='</tbody></table>';
@@ -574,11 +577,17 @@ async function pokazSzczegoly(wynik){
   var pytania = o.data.pytania || [];
   var odpUcznia = wynik.odpowiedzi || [];
 
-  document.getElementById("modalSzczegolyTytul").textContent = "Szczegóły — " + (wynik.uczen_imie || "?");
+    document.getElementById("modalSzczegolyTytul").textContent = "Szczegóły — " + (wynik.uczen_imie || "?");
+
+  var opLiczba = wynik.opuszczenia || 0;
+  var opInfo = opLiczba === 0 ? "0 (brak)" : (opLiczba + " — uczeń opuścił stronę testu");
+  var opStyl = opLiczba >= 3 ? "color:#991b1b;font-weight:700" : (opLiczba > 0 ? "color:#b45309;font-weight:700" : "color:#166534");
+
   document.getElementById("modalSzczegolyInfo").innerHTML =
     "<strong>Uczeń:</strong> " + esc(wynik.uczen_imie || "?") + "<br>" +
     "<strong>Klasa:</strong> " + esc(o.data.klasa || "—") + "<br>" +
     "<strong>Wynik:</strong> " + wynik.punkty + " / " + wynik.max_punktow + " (" + wynik.procent + "%)<br>" +
+    "<strong>Opuszczenia strony:</strong> <span style='" + opStyl + "'>" + opInfo + "</span><br>" +
     "<strong>Data oddania:</strong> " + new Date(wynik.data_oddania).toLocaleString("pl");
 
   var html = "";
