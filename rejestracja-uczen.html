@@ -117,7 +117,7 @@
     <div class="sekcja-kod">
       <label for="kodKlasy">Kod klasy (opcjonalnie)</label>
       <input type="text" id="kodKlasy" maxlength="10" autocomplete="off" placeholder="np. MS3T5Y">
-      <span class="pomoc">Jeśli nauczyciel podał Ci kod klasy, wpisz go tutaj.</span>
+      <span class="pomoc">Jeśli nauczyciel podał Ci kod klasy, wpisz go tutaj — dostaniesz dostęp do lekcji z rozkładu klasy.</span>
     </div>
 
     <button type="submit" id="btnRejestruj">Zarejestruj się</button>
@@ -160,19 +160,31 @@ document.getElementById("formRejestracji").addEventListener("submit", async func
   btn.textContent = "Rejestracja...";
 
   try {
-    // Krok 1: jeśli jest kod klasy, znajdź klasę
+    // === KROK 1: jeśli jest kod klasy, znajdź klasę i pobierz lekcje z rozkładu ===
     var klasaId = null;
+    var dostepLekcje = [];
+    var nazwaKlasy = null;
+    var ostrzezenieKod = null;
+
     if (kodKlasy) {
       var kl = await window.sb.from("klasy").select("id, nazwa").eq("kod", kodKlasy).limit(1);
       if (kl.data && kl.data.length > 0) {
         klasaId = kl.data[0].id;
+        nazwaKlasy = kl.data[0].nazwa;
+
+        // Pobierz lekcje z rozkładu przypisanego do klasy
+        var lek = await window.sb.rpc("lekcje_z_rozkladu_klasy", { p_klasa_id: klasaId });
+        if (lek.data && Array.isArray(lek.data)) {
+          dostepLekcje = lek.data;
+        } else if (lek.data) {
+          try { dostepLekcje = JSON.parse(lek.data); } catch(e) { dostepLekcje = []; }
+        }
       } else {
-        kom.className = "komunikat info";
-        kom.innerHTML = "Kod klasy <strong>" + escHtml(kodKlasy) + "</strong> nie został znaleziony. Konto powstanie bez przypisania do klasy — możesz poprosić nauczyciela o poprawny kod później.";
+        ostrzezenieKod = "Kod klasy " + kodKlasy + " nie został znaleziony. Konto powstanie bez przypisania do klasy.";
       }
     }
 
-    // Krok 2: utwórz konto w auth
+    // === KROK 2: utwórz konto w auth ===
     var reg = await window.sb.auth.signUp({
       email: email,
       password: haslo,
@@ -188,7 +200,7 @@ document.getElementById("formRejestracji").addEventListener("submit", async func
       return;
     }
 
-    // Krok 3: zapis do profiles
+    // === KROK 3: zapis do profiles ===
     var profilDane = {
       id: reg.data.user.id,
       email: email,
@@ -196,6 +208,7 @@ document.getElementById("formRejestracji").addEventListener("submit", async func
       typ_konta: "uczen",
       plan: "free",
       dostep_poziomy: ["A0", "A1"],
+      dostep_lekcje: dostepLekcje,
       aktywny: true,
       admin: false,
       klasa_id: klasaId
@@ -204,7 +217,7 @@ document.getElementById("formRejestracji").addEventListener("submit", async func
     var prof = await window.sb.from("profiles").insert(profilDane).select().single();
     if (prof.error) throw prof.error;
 
-    // Sukces
+    // === KROK 4: komunikat sukcesu ===
     kom.className = "komunikat ok";
     var tekstSukces = "Konto zostało utworzone. ";
     if (reg.data.session) {
@@ -212,12 +225,21 @@ document.getElementById("formRejestracji").addEventListener("submit", async func
     } else {
       tekstSukces += "Sprawdź e-mail i kliknij link potwierdzający, a potem zaloguj się.";
     }
-    if (klasaId) tekstSukces += " Jesteś przypisany do klasy.";
+    if (klasaId) {
+      tekstSukces += " Jesteś przypisany do klasy " + escHtml(nazwaKlasy || "") + ".";
+      if (dostepLekcje.length > 0) {
+        tekstSukces += " Masz dostęp do " + dostepLekcje.length + " lekcji z rozkładu klasy.";
+      } else {
+        tekstSukces += " Nauczyciel nie ma jeszcze przypisanego rozkładu do tej klasy — dostęp do lekcji pojawi się później.";
+      }
+    }
+    if (ostrzezenieKod) {
+      tekstSukces += " " + escHtml(ostrzezenieKod);
+    }
     kom.innerHTML = tekstSukces;
 
-    // Jeśli sesja aktywna — przekieruj po 2 sek.
     if (reg.data.session) {
-      setTimeout(function() { window.location.href = "index.html"; }, 2000);
+      setTimeout(function() { window.location.href = "index.html"; }, 3000);
     }
 
   } catch (err) {
