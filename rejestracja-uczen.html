@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rejestracja ucznia — EnglishABC</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-klient.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+    background: #f7f5f0; color: #1f2933;
+    min-height: 100vh; display: flex; align-items: center; justify-content: center;
+    padding: 20px;
+  }
+  .karta {
+    background: #fff; border: 1px solid #e8e4dc; border-radius: 10px;
+    padding: 36px 40px; max-width: 480px; width: 100%;
+    box-shadow: 0 8px 32px rgba(30,58,95,.1);
+    position: relative; overflow: hidden;
+  }
+  .karta::before {
+    content: ""; position: absolute; top: 0; left: 0; right: 0; height: 5px;
+    background: linear-gradient(90deg, #ea580c, #c2410c, #b45309);
+  }
+  h1 {
+    font-family: Georgia, serif; font-size: 1.45rem;
+    color: #1e3a5f; margin-bottom: 6px; text-align: center;
+  }
+  .podtytul {
+    color: #6b7280; font-size: .88rem; text-align: center;
+    margin-bottom: 24px;
+  }
+  label {
+    display: block; margin-bottom: 6px; font-weight: 600;
+    font-size: .88rem; color: #4b5563;
+  }
+  input {
+    width: 100%; padding: 11px 14px; border: 2px solid #c8c2b5;
+    border-radius: 6px; font-family: inherit; font-size: .95rem;
+    margin-bottom: 14px; transition: .15s;
+  }
+  input:focus {
+    outline: none; border-color: #ea580c;
+    box-shadow: 0 0 0 3px rgba(234,88,12,.1);
+  }
+  .pomoc {
+    display: block; font-size: .78rem; color: #9ca3af;
+    margin-top: -10px; margin-bottom: 14px;
+  }
+  button {
+    width: 100%; padding: 14px; background: #ea580c; color: #fff;
+    border: none; border-radius: 6px; font-family: inherit;
+    font-weight: 700; font-size: .95rem; cursor: pointer;
+    letter-spacing: 1.2px; text-transform: uppercase;
+    margin-top: 4px; transition: .15s;
+  }
+  button:hover:not(:disabled) { background: #c2410c; }
+  button:disabled { opacity: .55; cursor: not-allowed; }
+  .komunikat {
+    margin-top: 16px; padding: 12px 14px; border-radius: 6px;
+    font-size: .88rem; display: none; line-height: 1.55;
+  }
+  .komunikat.ok {
+    background: #f0fdf4; color: #166534;
+    border-left: 4px solid #166534; display: block;
+  }
+  .komunikat.blad {
+    background: #fef2f2; color: #991b1b;
+    border-left: 4px solid #991b1b; display: block;
+  }
+  .komunikat.info {
+    background: #eff6ff; color: #1e40af;
+    border-left: 4px solid #3b82f6; display: block;
+  }
+  .stopka-linki {
+    margin-top: 22px; padding-top: 18px; border-top: 1px solid #e8e4dc;
+    font-size: .85rem; color: #6b7280; text-align: center; line-height: 1.8;
+  }
+  .stopka-linki a {
+    color: #1e3a5f; text-decoration: none; font-weight: 600;
+  }
+  .stopka-linki a:hover { text-decoration: underline; }
+  .sekcja-kod {
+    background: #fef3e7; border: 1px solid #fcd9b6;
+    border-radius: 6px; padding: 12px 14px; margin: 4px 0 18px;
+  }
+  .sekcja-kod label { color: #7c2d12; margin-bottom: 6px; }
+  .sekcja-kod input {
+    border-color: #fcd9b6; background: #fff;
+    text-transform: uppercase; letter-spacing: 1.5px;
+    font-family: monospace; text-align: center;
+  }
+  .sekcja-kod .pomoc { color: #a16207; margin-bottom: 0; }
+</style>
+</head>
+<body>
+
+<div class="karta">
+  <h1>Załóż konto ucznia</h1>
+  <p class="podtytul">Dostęp do kursu, kart pracy i testów — bezpłatnie na poziomach A0 i A1</p>
+
+  <form id="formRejestracji">
+    <label for="imie">Imię i nazwisko</label>
+    <input type="text" id="imie" required autocomplete="name" placeholder="np. Jan Kowalski">
+
+    <label for="email">E-mail</label>
+    <input type="email" id="email" required autocomplete="email" placeholder="twoj@email.com">
+
+    <label for="haslo">Hasło (min. 6 znaków)</label>
+    <input type="password" id="haslo" required minlength="6" autocomplete="new-password" placeholder="minimum 6 znaków">
+
+    <label for="haslo2">Powtórz hasło</label>
+    <input type="password" id="haslo2" required minlength="6" autocomplete="new-password" placeholder="wpisz hasło jeszcze raz">
+
+    <div class="sekcja-kod">
+      <label for="kodKlasy">Kod klasy (opcjonalnie)</label>
+      <input type="text" id="kodKlasy" maxlength="10" autocomplete="off" placeholder="np. MS3T5Y">
+      <span class="pomoc">Jeśli nauczyciel podał Ci kod klasy, wpisz go tutaj.</span>
+    </div>
+
+    <button type="submit" id="btnRejestruj">Zarejestruj się</button>
+  </form>
+
+  <div id="komunikat" class="komunikat"></div>
+
+  <div class="stopka-linki">
+    Masz już konto? <a href="login.html">Zaloguj się</a><br>
+    Jesteś nauczycielem? <a href="rejestracja.html">Załóż konto nauczyciela</a>
+  </div>
+</div>
+
+<script>
+document.getElementById("formRejestracji").addEventListener("submit", async function(e) {
+  e.preventDefault();
+
+  var btn = document.getElementById("btnRejestruj");
+  var kom = document.getElementById("komunikat");
+  var imie = document.getElementById("imie").value.trim();
+  var email = document.getElementById("email").value.trim();
+  var haslo = document.getElementById("haslo").value;
+  var haslo2 = document.getElementById("haslo2").value;
+  var kodKlasy = document.getElementById("kodKlasy").value.trim().toUpperCase();
+
+  kom.className = "komunikat";
+  kom.textContent = "";
+
+  if (!imie) { pokazBlad("Wpisz imię i nazwisko."); return; }
+  if (!email) { pokazBlad("Wpisz adres e-mail."); return; }
+  if (haslo.length < 6) { pokazBlad("Hasło musi mieć minimum 6 znaków."); return; }
+  if (haslo !== haslo2) { pokazBlad("Hasła nie są takie same."); return; }
+
+  if (!window.sbGotowy) {
+    await czekajNaSb();
+    if (!window.sbGotowy) { pokazBlad("Trwa inicjalizacja. Spróbuj ponownie za chwilę."); return; }
+  }
+
+  btn.disabled = true;
+  btn.textContent = "Rejestracja...";
+
+  try {
+    // Krok 1: jeśli jest kod klasy, znajdź klasę
+    var klasaId = null;
+    if (kodKlasy) {
+      var kl = await window.sb.from("klasy").select("id, nazwa").eq("kod", kodKlasy).limit(1);
+      if (kl.data && kl.data.length > 0) {
+        klasaId = kl.data[0].id;
+      } else {
+        kom.className = "komunikat info";
+        kom.innerHTML = "Kod klasy <strong>" + escHtml(kodKlasy) + "</strong> nie został znaleziony. Konto powstanie bez przypisania do klasy — możesz poprosić nauczyciela o poprawny kod później.";
+      }
+    }
+
+    // Krok 2: utwórz konto w auth
+    var reg = await window.sb.auth.signUp({
+      email: email,
+      password: haslo,
+      options: {
+        data: { imie_nazwisko: imie, typ_konta: "uczen" }
+      }
+    });
+
+    if (reg.error) throw reg.error;
+
+    if (!reg.data.user) {
+      pokazBlad("Nie udało się utworzyć konta. Spróbuj ponownie.");
+      return;
+    }
+
+    // Krok 3: zapis do profiles
+    var profilDane = {
+      id: reg.data.user.id,
+      email: email,
+      imie_nazwisko: imie,
+      typ_konta: "uczen",
+      plan: "free",
+      dostep_poziomy: ["A0", "A1"],
+      aktywny: true,
+      admin: false,
+      klasa_id: klasaId
+    };
+
+    var prof = await window.sb.from("profiles").insert(profilDane).select().single();
+    if (prof.error) throw prof.error;
+
+    // Sukces
+    kom.className = "komunikat ok";
+    var tekstSukces = "Konto zostało utworzone. ";
+    if (reg.data.session) {
+      tekstSukces += "Możesz się teraz zalogować.";
+    } else {
+      tekstSukces += "Sprawdź e-mail i kliknij link potwierdzający, a potem zaloguj się.";
+    }
+    if (klasaId) tekstSukces += " Jesteś przypisany do klasy.";
+    kom.innerHTML = tekstSukces;
+
+    // Jeśli sesja aktywna — przekieruj po 2 sek.
+    if (reg.data.session) {
+      setTimeout(function() { window.location.href = "index.html"; }, 2000);
+    }
+
+  } catch (err) {
+    var msg = err && err.message ? err.message : "Błąd rejestracji.";
+    if (msg.indexOf("already registered") !== -1 || msg.indexOf("already been registered") !== -1) {
+      msg = "Ten e-mail jest już zarejestrowany. Spróbuj się zalogować.";
+    } else if (msg.indexOf("invalid email") !== -1) {
+      msg = "Adres e-mail jest nieprawidłowy.";
+    } else if (msg.indexOf("Password") !== -1) {
+      msg = "Hasło jest zbyt słabe. Użyj minimum 6 znaków.";
+    } else if (msg.indexOf("row-level security") !== -1) {
+      msg = "Błąd zapisu profilu. Zgłoś administratorowi: RLS blokuje insert.";
+    }
+    pokazBlad(msg);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "Zarejestruj się";
+  }
+});
+
+function pokazBlad(tekst) {
+  var kom = document.getElementById("komunikat");
+  kom.className = "komunikat blad";
+  kom.textContent = tekst;
+}
+
+function escHtml(s) {
+  return String(s).replace(/[&<>"']/g, function(c) {
+    return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+  });
+}
+
+async function czekajNaSb() {
+  if (window.sbGotowy) return;
+  await new Promise(function(r) {
+    var n = 0;
+    var i = setInterval(function() {
+      n++;
+      if (window.sbGotowy || n > 30) { clearInterval(i); r(); }
+    }, 100);
+  });
+}
+</script>
+
+</body>
+</html>
