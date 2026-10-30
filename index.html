@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pl">
 <head>
 <meta charset="UTF-8">
@@ -67,6 +67,10 @@
   header.topbar .rola.nauczyciel {
     background: #f0fdfa;
     color: var(--teal);
+  }
+  header.topbar .rola.uczen {
+    background: #fff7ed;
+    color: var(--accent);
   }
   header.topbar button.ghost {
     background: #fff;
@@ -282,6 +286,10 @@
     text-decoration: none;
   }
   footer a:hover { color: var(--primary); text-decoration: underline; }
+  footer a.admin-link {
+    color: #b45309;
+    font-weight: 600;
+  }
 
   .ukryj { display: none !important; }
 
@@ -304,6 +312,7 @@ header.topbar {padding:13px max(24px,calc((100vw - 1240px)/2));border-bottom:1px
 header.topbar .logo img {height:52px;}
 header.topbar .rola {background:#eff4fb;color:var(--primary);letter-spacing:.4px;padding:9px 17px;font-size:.73rem;}
 header.topbar .rola.nauczyciel {background:#e8f1ff;color:#0750aa;}
+header.topbar .rola.uczen {background:#ffecef;color:var(--accent);}
 header.topbar button.ghost {border-radius:25px;border-color:#d3dfef;}
 main {display:block;padding:0;}
 .kontener {max-width:none;}
@@ -357,7 +366,6 @@ footer .linki {gap:15px;}
 @media(max-width:900px) {.hero-copy{width:65%;}.hero-art{width:45%;opacity:.65}.hero h1 strong{white-space:normal}.features-inner{max-width:800px;}}
 @media(max-width:700px){header.topbar{padding:12px 16px}header.topbar .logo img{height:38px}.hero-inner{padding:30px 20px;min-height:310px;align-items:flex-start}.hero-copy{width:100%}.hero-art{width:70%;opacity:.16}.hero h1{font-size:2.15rem}.hero-description{font-size:.96rem}.hero-slogan{font-size:1.12rem}.features{padding:24px 14px}.karta{padding:20px 18px;min-height:0}.teacher-visual{height:120px}.witaj h1{font-size:1.7rem}}
 @media(prefers-reduced-motion:no-preference){.przycisk{transition:transform .18s,background-color .18s,box-shadow .18s}.przycisk:hover{transform:translateY(-1px);box-shadow:0 5px 14px #102a511c}}
-
 
 /* Większe logo English ABC, bez modyfikacji skryptów i nawigacji */
 header.topbar .logo img {height: 80px; width:auto; max-width:min(64vw,340px); object-fit:contain;}
@@ -414,7 +422,11 @@ header.topbar .logo img {height: 80px; width:auto; max-width:min(64vw,340px); ob
         </div>
 
         <div class="przyciski">
-          <a href="kurs.html" class="przycisk glowny-uczen">
+          <a href="rejestracja-uczen.html" class="przycisk glowny-uczen" id="przyciskRejestracjaUczen">
+            <span>Załóż konto ucznia</span>
+            <span class="strzalka">→</span>
+          </a>
+          <a href="kurs.html" class="przycisk poboczny">
             <span>Przejdź do kursu (A0–C1)</span>
             <span class="strzalka">→</span>
           </a>
@@ -483,6 +495,9 @@ header.topbar .logo img {height: 80px; width:auto; max-width:min(64vw,340px); ob
       <a href="polityka-prywatnosci.html">Polityka prywatności</a>
       <a href="instrukcja.html">Instrukcja dla nauczyciela</a>
       <a href="instrukcja-ucznia.html">Instrukcja dla ucznia</a>
+      <a href="rejestracja-uczen.html" id="stopkaRejestracjaUczen">Zarejestruj się jako uczeń</a>
+      <a href="login.html" id="stopkaLogin" style="display:none">Zaloguj jako nauczyciel</a>
+      <a href="panel-admina.html" id="stopkaAdmin" class="admin-link" style="display:none">Panel admina</a>
     </div>
   </div>
 </footer>
@@ -499,28 +514,59 @@ async function inicjalizuj() {
     });
   }
 
-  document.getElementById("rolaBadge").textContent = "Uczeń";
+  document.getElementById("rolaBadge").textContent = "Gość";
+  document.getElementById("stopkaRejestracjaUczen").style.display = "inline";
+  document.getElementById("stopkaLogin").style.display = "inline";
+  document.getElementById("stopkaAdmin").style.display = "none";
 
   if (window.sb) {
     try {
       var sesja = await window.sb.auth.getSession();
       if (sesja && sesja.data && sesja.data.session) {
         var user = sesja.data.session.user;
-        var odp = await window.sb.from("profiles").select("aktywny, imie_nazwisko").eq("id", user.id).single();
+        var odp = await window.sb.from("profiles")
+          .select("aktywny, imie_nazwisko, typ_konta, admin, plan")
+          .eq("id", user.id)
+          .single();
         var profil = odp.data;
 
         if (profil && profil.aktywny) {
-          document.getElementById("rolaBadge").textContent = "Nauczyciel";
-          document.getElementById("rolaBadge").classList.add("nauczyciel");
           document.getElementById("wylogujBtn").style.display = "inline-block";
-          document.getElementById("nauczycielNiezalogowany").classList.add("ukryj");
-          document.getElementById("nauczycielZalogowany").classList.remove("ukryj");
+          document.getElementById("stopkaRejestracjaUczen").style.display = "none";
+          document.getElementById("stopkaLogin").style.display = "none";
+          document.getElementById("przyciskRejestracjaUczen").classList.add("ukryj");
 
-          document.getElementById("witajTytul").textContent = "Witaj, " + (profil.imie_nazwisko || "nauczycielu");
-          document.getElementById("witajOpis").textContent = "Wybierz, co chcesz teraz zrobić.";
+          if (profil.admin === true) {
+            document.getElementById("stopkaAdmin").style.display = "inline";
+          }
 
-          document.getElementById("nauczycielTytul").textContent = "Twój panel nauczyciela";
-          document.getElementById("nauczycielOpis").textContent = "Masz zalogowaną sesję. Kliknij, żeby przejść do panelu.";
+          var rola = profil.typ_konta || "nauczyciel";
+
+          if (rola === "nauczyciel") {
+            document.getElementById("rolaBadge").textContent = "Nauczyciel";
+            document.getElementById("rolaBadge").classList.add("nauczyciel");
+            document.getElementById("nauczycielNiezalogowany").classList.add("ukryj");
+            document.getElementById("nauczycielZalogowany").classList.remove("ukryj");
+
+            document.getElementById("witajTytul").textContent = "Witaj, " + (profil.imie_nazwisko || "nauczycielu");
+            document.getElementById("witajOpis").textContent = "Wybierz, co chcesz teraz zrobić.";
+            document.getElementById("nauczycielTytul").textContent = "Twój panel nauczyciela";
+            document.getElementById("nauczycielOpis").textContent = "Masz zalogowaną sesję. Kliknij, żeby przejść do panelu.";
+          } else {
+            document.getElementById("rolaBadge").textContent = "Uczeń";
+            document.getElementById("rolaBadge").classList.add("uczen");
+            document.getElementById("nauczycielNiezalogowany").classList.add("ukryj");
+            document.getElementById("nauczycielZalogowany").classList.add("ukryj");
+
+            var powitanie = "Witaj, " + (profil.imie_nazwisko || "uczniu");
+            if (profil.plan === "premium") {
+              powitanie += " (premium)";
+            }
+            document.getElementById("witajTytul").textContent = powitanie;
+            document.getElementById("witajOpis").textContent = "Wybierz, czego chcesz się teraz uczyć.";
+            document.getElementById("nauczycielTytul").textContent = "Jesteś zalogowany jako uczeń";
+            document.getElementById("nauczycielOpis").textContent = "Karta nauczyciela jest niedostępna dla uczniów. Wyloguj się (przycisk w prawym górnym rogu), żeby zalogować jako nauczyciel.";
+          }
         }
       }
     } catch (e) {
