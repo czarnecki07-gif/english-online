@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<title>Panel admina — EnglishABC</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-klient.js"></script>
+<style>
+body{font-family:Arial,sans-serif;background:#f7f5f0;margin:0;padding:20px;color:#1f2933}
+header{background:#7f1d1d;color:#fff;padding:16px 26px;margin:-20px -20px 0;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+header h1{margin:0;font-size:1.15rem}
+header a{color:#fff;text-decoration:none;margin-left:12px}
+nav{background:#fff;border-bottom:1px solid #ddd;padding:0 26px;margin:0 -20px 20px;display:flex;gap:4px;flex-wrap:wrap}
+nav button{background:none;border:none;padding:14px 18px;font-weight:600;color:#6b7280;border-bottom:3px solid transparent;cursor:pointer;font-family:inherit;font-size:.92rem}
+nav button.active{color:#7f1d1d;border-bottom-color:#b45309}
+main{max-width:1200px;margin:0 auto}
+section{display:none;background:#fff;border:1px solid #ddd;border-radius:6px;padding:20px;margin-bottom:16px}
+section.active{display:block}
+h2{color:#7f1d1d;margin-top:0;font-size:1.2rem}
+label{display:block;font-weight:600;font-size:.88rem;margin-bottom:4px;color:#4b5563}
+input,select{width:100%;padding:9px;border:1px solid #ccc;border-radius:4px;font-size:.95rem;box-sizing:border-box;font-family:inherit}
+.rzad{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:14px;align-items:flex-end}
+.rzad>div{flex:1;min-width:150px}
+button{cursor:pointer;font-family:inherit}
+.glowne{background:#7f1d1d;color:#fff;border:none;padding:10px 22px;border-radius:4px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;font-size:.85rem}
+.glowne:hover{background:#991b1b}
+.drugie{background:#fff;color:#7f1d1d;border:1px solid #7f1d1d;padding:6px 14px;border-radius:4px;font-weight:600;font-size:.82rem}
+.drugie:hover{background:#7f1d1d;color:#fff}
+.zielony{background:#fff;color:#166534;border:1px solid #166534}
+.zielony:hover{background:#166534;color:#fff}
+.czerwony{background:#fff;color:#991b1b;border:1px solid #991b1b}
+.czerwony:hover{background:#991b1b;color:#fff}
+table{width:100%;border-collapse:collapse;margin-top:12px;font-size:.88rem}
+th,td{padding:9px;text-align:left;border-bottom:1px solid #eee;vertical-align:top}
+th{background:#fbfaf7;color:#7f1d1d;font-size:.78rem;text-transform:uppercase;letter-spacing:.5px}
+.pusta{text-align:center;color:#999;padding:30px;font-style:italic}
+.badge{display:inline-block;padding:2px 9px;border-radius:10px;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.4px}
+.badge.premium{background:#fef3c7;color:#b45309;border:1px solid #fcd34d}
+.badge.free{background:#f3f4f6;color:#6b7280;border:1px solid #e5e7eb}
+.badge.uczen{background:#fff7ed;color:#ea580c;border:1px solid #fed7aa}
+.badge.nauczyciel{background:#f0fdfa;color:#0f766e;border:1px solid #99f6e4}
+.badge.aktywny{background:#f0fdf4;color:#166534;border:1px solid #bbf7d0}
+.badge.nieaktywny{background:#fef2f2;color:#991b1b;border:1px solid #fecaca}
+.info-box{background:#eff6ff;border-left:4px solid #3b82f6;padding:12px 14px;margin-bottom:16px;font-size:.88rem;color:#1e40af;border-radius:0 4px 4px 0}
+.ostrzezenie{background:#fef3c7;border-left:4px solid #b45309;padding:12px 14px;margin-bottom:16px;font-size:.88rem;color:#78350f;border-radius:0 4px 4px 0}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;padding:20px;z-index:1000}
+.modal.on{display:flex}
+.modal-tresc{background:#fff;border-radius:8px;padding:26px 30px;max-width:520px;width:100%;max-height:90vh;overflow-y:auto}
+.modal-tresc h3{margin-top:0;color:#7f1d1d}
+.modal-tresc .zamknij{display:flex;gap:8px;justify-content:flex-end;margin-top:20px}
+.ladowanie{text-align:center;padding:80px 20px;color:#6b7280}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Panel administratora</h1>
+  <div><a href="index.html">← Powrót</a><a href="#" id="wyloguj">Wyloguj</a></div>
+</header>
+
+<nav>
+  <button data-tab="uzytkownicy" class="active">Użytkownicy</button>
+  <button data-tab="oplaty">Opłaty</button>
+  <button data-tab="statystyki">Statystyki</button>
+</nav>
+
+<main>
+
+<div class="ladowanie" id="ladowanie">Ładowanie...</div>
+
+<div id="tresc" style="display:none;">
+
+<section id="tab-uzytkownicy" class="active">
+  <h2>Użytkownicy</h2>
+  <div class="rzad">
+    <div><label>Typ</label>
+      <select id="filtrTyp">
+        <option value="all">Wszyscy</option>
+        <option value="uczen">Uczniowie</option>
+        <option value="nauczyciel">Nauczyciele</option>
+      </select>
+    </div>
+    <div><label>Plan</label>
+      <select id="filtrPlan">
+        <option value="all">Wszystkie</option>
+        <option value="premium">Premium</option>
+        <option value="free">Free</option>
+      </select>
+    </div>
+    <div style="flex:2"><label>Szukaj (imię, e-mail)</label>
+      <input type="text" id="filtrSzukaj" placeholder="np. jan, kowalski@...">
+    </div>
+    <div style="flex:0"><button class="drugie" id="odswiezBtn">Odśwież</button></div>
+  </div>
+  <div id="listaUzytkownikow"></div>
+</section>
+
+<section id="tab-oplaty">
+  <h2>Historia opłat</h2>
+  <div class="info-box">Opłaty są dodawane przez admina (na razie ręcznie). Po integracji P24 — automatycznie.</div>
+  <div id="listaOplat"></div>
+</section>
+
+<section id="tab-statystyki">
+  <h2>Statystyki</h2>
+  <div id="statystyki"></div>
+</section>
+
+</div>
+
+</main>
+
+<!-- Modal: nadanie premium -->
+<div class="modal" id="modalPremium">
+  <div class="modal-tresc">
+    <h3>Nadaj premium</h3>
+    <p style="font-size:.88rem;color:#6b7280;margin-top:0" id="premiumKto"></p>
+    <label>Premium do (data)</label>
+    <input type="date" id="premiumData">
+    <label style="margin-top:14px">Powód nadania</label>
+    <input type="text" id="premiumPowod" placeholder="np. uczeń w trudnej sytuacji, ambasador, test">
+    <div class="zamknij">
+      <button class="drugie" onclick="zamknijModal()">Anuluj</button>
+      <button class="glowne" id="premiumZapisz">Nadaj premium</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: dodanie do klasy -->
+<div class="modal" id="modalKlasa">
+  <div class="modal-tresc">
+    <h3>Dodaj do klasy</h3>
+    <p style="font-size:.88rem;color:#6b7280;margin-top:0" id="klasaKto"></p>
+    <label>Klasa</label>
+    <select id="klasaWybor"><option value="">— wybierz klasę —</option></select>
+    <div class="zamknij">
+      <button class="drugie" onclick="zamknijModal()">Anuluj</button>
+      <button class="glowne" id="klasaZapisz">Dodaj</button>
+    </div>
+  </div>
+</div>
+
+<script>
+var ja = null;
+var WSZYSCY = [];
+var KLASY = [];
+var AKCJA_USER = null;
+
+async function czekajNaSb(){
+  if(window.sbGotowy) return;
+  await new Promise(function(r){var n=0;var i=setInterval(function(){n++;if(window.sbGotowy||n>30){clearInterval(i);r()}},100)});
+}
+
+async function start(){
+  await czekajNaSb();
+  if(!window.sb){ document.getElementById("ladowanie").textContent="Błąd inicjalizacji."; return; }
+
+  var s = await window.sb.auth.getSession();
+  if(!s.data.session){ location.href="login.html"; return; }
+
+  var o = await window.sb.from("profiles").select("*").eq("id", s.data.session.user.id).single();
+  ja = o.data;
+
+  if(!ja || !ja.aktywny || !ja.admin){
+    document.getElementById("ladowanie").innerHTML = '<div style="color:#991b1b;padding:40px;text-align:center"><h2>Brak dostępu</h2><p>To konto nie ma uprawnień administratora.</p><p><a href="index.html">← Powrót</a></p></div>';
+    return;
+  }
+
+  document.getElementById("ladowanie").style.display = "none";
+  document.getElementById("tresc").style.display = "block";
+
+  await odswiez();
+  await odswiezOplaty();
+  await odswiezStatystyki();
+}
+
+async function odswiez(){
+  var o = await window.sb.from("profiles").select("*").order("data_rejestracji", {ascending:false});
+  if(o.error){ alert("Błąd: " + o.error.message); return; }
+  WSZYSCY = o.data || [];
+
+  var ko = await window.sb.from("klasy").select("id, nazwa, kod, nauczyciel_id");
+  KLASY = ko.data || [];
+
+  renderuj();
+  wypelnijWyborKlas();
+}
+
+function renderuj(){
+  var typ = document.getElementById("filtrTyp").value;
+  var plan = document.getElementById("filtrPlan").value;
+  var szukaj = document.getElementById("filtrSzukaj").value.toLowerCase().trim();
+
+  var lista = WSZYSCY.slice();
+  if(typ !== "all") lista = lista.filter(function(u){ return u.typ_konta === typ; });
+  if(plan !== "all") lista = lista.filter(function(u){ return u.plan === plan; });
+  if(szukaj){
+    lista = lista.filter(function(u){
+      var t = ((u.imie_nazwisko||"") + " " + (u.email||"")).toLowerCase();
+      return t.indexOf(szukaj) !== -1;
+    });
+  }
+
+  var kont = document.getElementById("listaUzytkownikow");
+  if(!lista.length){ kont.innerHTML = '<div class="pusta">Brak użytkowników spełniających kryteria.</div>'; return; }
+
+  var html = '<table><thead><tr>' +
+    '<th>Imię i nazwisko</th>' +
+    '<th>E-mail</th>' +
+    '<th>Typ</th>' +
+    '<th>Plan</th>' +
+    '<th>Premium do</th>' +
+    '<th>Klasa</th>' +
+    '<th>Status</th>' +
+    '<th>Akcje</th>' +
+    '</tr></thead><tbody>';
+
+  lista.forEach(function(u){
+    var klasaNazwa = "—";
+    if(u.klasa_id){
+      var k = KLASY.find(function(x){ return x.id === u.klasa_id; });
+      if(k) klasaNazwa = k.nazwa;
+    }
+
+    var premiumDo = "—";
+    if(u.premium_do){
+      var d = new Date(u.premium_do);
+      var minione = d < new Date();
+      premiumDo = '<span style="' + (minione ? 'color:#991b1b' : 'color:#166534') + '">' + d.toLocaleDateString("pl") + '</span>';
+      if(minione) premiumDo += ' <small>(wygasło)</small>';
+    }
+
+    var badgePlan = u.plan === "premium" ? '<span class="badge premium">Premium</span>' : '<span class="badge free">Free</span>';
+    var badgeTyp = u.typ_konta === "nauczyciel" ? '<span class="badge nauczyciel">Nauczyciel</span>' : '<span class="badge uczen">Uczeń</span>';
+    var badgeStatus = u.aktywny ? '<span class="badge aktywny">Aktywny</span>' : '<span class="badge nieaktywny">Nieaktywny</span>';
+
+    html += '<tr>';
+    html += '<td><strong>' + esc(u.imie_nazwisko || "—") + '</strong>';
+    if(u.admin) html += ' <span class="badge" style="background:#7f1d1d;color:#fff">ADMIN</span>';
+    html += '</td>';
+    html += '<td>' + esc(u.email || "—") + '</td>';
+    html += '<td>' + badgeTyp + '</td>';
+    html += '<td>' + badgePlan + (u.premium_source ? '<br><small style="color:#6b7280">(' + esc(u.premium_source) + ')</small>' : '') + '</td>';
+    html += '<td>' + premiumDo + '</td>';
+    html += '<td>' + esc(klasaNazwa) + '</td>';
+    html += '<td>' + badgeStatus + '</td>';
+    html += '<td style="white-space:nowrap">';
+    if(u.plan !== "premium"){
+      html += '<button class="drugie" data-akcja="premium" data-id="' + u.id + '" style="margin-right:4px">Premium</button>';
+    } else if(u.premium_source === "admin_grant"){
+      html += '<button class="drugie czerwony" data-akcja="cofnij" data-id="' + u.id + '" style="margin-right:4px">Cofnij premium</button>';
+    }
+    if(u.typ_konta === "uczen"){
+      html += '<button class="drugie" data-akcja="klasa" data-id="' + u.id + '" style="margin-right:4px">Klasa</button>';
+    }
+    if(u.aktywny){
+      html += '<button class="drugie czerwony" data-akcja="dezaktywuj" data-id="' + u.id + '">Dezaktywuj</button>';
+    } else {
+      html += '<button class="drugie zielony" data-akcja="aktywuj" data-id="' + u.id + '">Aktywuj</button>';
+    }
+    html += '</td></tr>';
+  });
+
+  html += '</tbody></table>';
+  kont.innerHTML = html;
+
+  kont.querySelectorAll("[data-akcja]").forEach(function(b){
+    b.onclick = function(){
+      var id = b.dataset.id;
+      var akcja = b.dataset.akcja;
+      var u = WSZYSCY.find(function(x){ return x.id === id; });
+      if(akcja === "premium") otworzPremium(u);
+      else if(akcja === "cofnij") cofnijPremium(u);
+      else if(akcja === "klasa") otworzKlase(u);
+      else if(akcja === "dezaktywuj") dezaktywuj(u);
+      else if(akcja === "aktywuj") aktywuj(u);
+    };
+  });
+}
+
+function otworzPremium(u){
+  AKCJA_USER = u;
+  document.getElementById("premiumKto").textContent = u.imie_nazwisko + " (" + u.email + ")";
+  var zaRok = new Date();
+  zaRok.setFullYear(zaRok.getFullYear() + 1);
+  document.getElementById("premiumData").value = zaRok.toISOString().slice(0,10);
+  document.getElementById("premiumPowod").value = "";
+  document.getElementById("modalPremium").classList.add("on");
+}
+
+document.getElementById("premiumZapisz").onclick = async function(){
+  if(!AKCJA_USER) return;
+  var data = document.getElementById("premiumData").value;
+  var powod = document.getElementById("premiumPowod").value.trim();
+  if(!data){ alert("Wybierz datę wygaśnięcia."); return; }
+  if(!powod){ alert("Wpisz powód nadania premium."); return; }
+
+  var btn = this;
+  btn.disabled = true;
+
+  var o = await window.sb.from("profiles").update({
+    plan: "premium",
+    premium_do: new Date(data + "T23:59:59").toISOString(),
+    premium_source: "admin_grant",
+    premium_granted_by: ja.id,
+    premium_grant_reason: powod,
+    dostep_poziomy: ["A0","A1","A2","B1","B2","C1"]
+  }).eq("id", AKCJA_USER.id);
+
+  btn.disabled = false;
+  if(o.error){ alert("Błąd: " + o.error.message); return; }
+
+  zamknijModal();
+  await odswiez();
+  await odswiezStatystyki();
+};
+
+async function cofnijPremium(u){
+  if(!confirm("Cofnąć premium dla " + u.imie_nazwisko + "?")) return;
+  var o = await window.sb.from("profiles").update({
+    plan: "free",
+    premium_do: null,
+    premium_source: null,
+    premium_granted_by: null,
+    premium_grant_reason: null,
+    dostep_poziomy: ["A0","A1"]
+  }).eq("id", u.id);
+  if(o.error){ alert("Błąd: " + o.error.message); return; }
+  await odswiez();
+  await odswiezStatystyki();
+}
+
+function otworzKlase(u){
+  AKCJA_USER = u;
+  document.getElementById("klasaKto").textContent = u.imie_nazwisko + " (" + u.email + ")";
+  document.getElementById("klasaWybor").value = u.klasa_id || "";
+  document.getElementById("modalKlasa").classList.add("on");
+}
+
+document.getElementById("klasaZapisz").onclick = async function(){
+  if(!AKCJA_USER) return;
+  var klasaId = document.getElementById("klasaWybor").value || null;
+  var o = await window.sb.from("profiles").update({ klasa_id: klasaId }).eq("id", AKCJA_USER.id);
+  if(o.error){ alert("Błąd: " + o.error.message); return; }
+  zamknijModal();
+  await odswiez();
+};
+
+async function dezaktywuj(u){
+  if(!confirm("Dezaktywować konto " + u.imie_nazwisko + "? Użytkownik nie będzie mógł się zalogować.")) return;
+  var o = await window.sb.from("profiles").update({ aktywny: false }).eq("id", u.id);
+  if(o.error){ alert("Błąd: " + o.error.message); return; }
+  await odswiez();
+  await odswiezStatystyki();
+}
+
+async function aktywuj(u){
+  var o = await window.sb.from("profiles").update({ aktywny: true }).eq("id", u.id);
+  if(o.error){ alert("Błąd: " + o.error.message); return; }
+  await odswiez();
+  await odswiezStatystyki();
+}
+
+function wypelnijWyborKlas(){
+  var sel = document.getElementById("klasaWybor");
+  sel.innerHTML = '<option value="">— brak klasy —</option>';
+  KLASY.forEach(function(k){
+    var opt = document.createElement("option");
+    opt.value = k.id;
+    opt.textContent = k.nazwa + " (" + k.kod + ")";
+    sel.appendChild(opt);
+  });
+}
+
+async function odswiezOplaty(){
+  var o = await window.sb.from("oplaty").select("*").order("data", {ascending:false}).limit(100);
+  if(o.error){ document.getElementById("listaOplat").innerHTML = '<div class="pusta">Błąd: ' + esc(o.error.message) + '</div>'; return; }
+  if(!o.data || !o.data.length){
+    document.getElementById("listaOplat").innerHTML = '<div class="pusta">Brak opłat w systemie. Na razie opłaty są dodawane ręcznie — dodamy formularz w kolejnym kroku.</div>';
+    return;
+  }
+  var html = '<table><thead><tr><th>Data</th><th>Użytkownik</th><th>Klasa</th><th>Typ</th><th>Kwota</th><th>Miesięcy</th><th>Okres</th><th>Status</th></tr></thead><tbody>';
+  o.data.forEach(function(p){
+    var user = WSZYSCY.find(function(x){ return x.id === p.user_id; });
+    var klasa = p.klasa_id ? KLASY.find(function(x){ return x.id === p.klasa_id; }) : null;
+    html += '<tr>';
+    html += '<td>' + new Date(p.data).toLocaleDateString("pl") + '</td>';
+    html += '<td>' + (user ? esc(user.imie_nazwisko || user.email) : '—') + '</td>';
+    html += '<td>' + (klasa ? esc(klasa.nazwa) : '—') + '</td>';
+    html += '<td>' + esc(p.typ || '—') + '</td>';
+    html += '<td>' + (p.kwota || 0) + ' PLN</td>';
+    html += '<td>' + (p.miesiecy || 0) + '</td>';
+    html += '<td>' + (p.okres_od || '—') + ' → ' + (p.okres_do || '—') + '</td>';
+    html += '<td>' + esc(p.status || '—') + '</td>';
+    html += '</tr>';
+  });
+  html += '</tbody></table>';
+  document.getElementById("listaOplat").innerHTML = html;
+}
+
+async function odswiezStatystyki(){
+  var uczniowie = WSZYSCY.filter(function(u){ return u.typ_konta === "uczen"; });
+  var nauczyciele = WSZYSCY.filter(function(u){ return u.typ_konta === "nauczyciel"; });
+  var premium = WSZYSCY.filter(function(u){ return u.plan === "premium"; });
+  var adminGrant = WSZYSCY.filter(function(u){ return u.premium_source === "admin_grant"; });
+
+  var html = '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px">';
+  html += '<div style="background:#f0f4fb;border-left:4px solid #1e3a5f;padding:14px 18px"><div style="font-size:1.8rem;font-weight:700;color:#1e3a5f">' + WSZYSCY.length + '</div><div style="color:#6b7280;font-size:.85rem">Wszyscy użytkownicy</div></div>';
+  html += '<div style="background:#fff7ed;border-left:4px solid #ea580c;padding:14px 18px"><div style="font-size:1.8rem;font-weight:700;color:#ea580c">' + uczniowie.length + '</div><div style="color:#6b7280;font-size:.85rem">Uczniowie</div></div>';
+  html += '<div style="background:#f0fdfa;border-left:4px solid #0f766e;padding:14px 18px"><div style="font-size:1.8rem;font-weight:700;color:#0f766e">' + nauczyciele.length + '</div><div style="color:#6b7280;font-size:.85rem">Nauczyciele</div></div>';
+  html += '<div style="background:#fef3c7;border-left:4px solid #b45309;padding:14px 18px"><div style="font-size:1.8rem;font-weight:700;color:#b45309">' + premium.length + '</div><div style="color:#6b7280;font-size:.85rem">Premium (łącznie)</div></div>';
+  html += '<div style="background:#fef3c7;border-left:4px solid #7f1d1d;padding:14px 18px"><div style="font-size:1.8rem;font-weight:700;color:#7f1d1d">' + adminGrant.length + '</div><div style="color:#6b7280;font-size:.85rem">Premium od admina</div></div>';
+  html += '</div>';
+  document.getElementById("statystyki").innerHTML = html;
+}
+
+function zamknijModal(){
+  document.getElementById("modalPremium").classList.remove("on");
+  document.getElementById("modalKlasa").classList.remove("on");
+  AKCJA_USER = null;
+}
+
+function esc(s){ return String(s||"").replace(/[&<>"']/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); }
+
+document.querySelectorAll("nav button").forEach(function(b){
+  b.onclick = function(){
+    document.querySelectorAll("nav button").forEach(function(x){ x.classList.remove("active"); });
+    document.querySelectorAll("section").forEach(function(s){ s.classList.remove("active"); });
+    b.classList.add("active");
+    document.getElementById("tab-" + b.dataset.tab).classList.add("active");
+  };
+});
+
+document.getElementById("filtrTyp").onchange = renderuj;
+document.getElementById("filtrPlan").onchange = renderuj;
+document.getElementById("filtrSzukaj").oninput = renderuj;
+document.getElementById("odswiezBtn").onclick = odswiez;
+
+document.getElementById("wyloguj").onclick = async function(e){
+  e.preventDefault();
+  if(!confirm("Wylogować?")) return;
+  await window.sb.auth.signOut();
+  location.href = "login.html";
+};
+
+if(document.readyState === "loading") document.addEventListener("DOMContentLoaded", start);
+else start();
+</script>
+
+</body>
+</html>
