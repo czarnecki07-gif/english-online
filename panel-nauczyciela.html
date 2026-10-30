@@ -267,6 +267,25 @@ th{background:#fbfaf7;color:#1e3a5f;font-size:.8rem;text-transform:uppercase}
   </div>
 </div>
 
+<div class="modal" id="modalUczniowie">
+  <div class="modal-duzy">
+    <h3 id="uczTytul">Uczniowie w klasie</h3>
+    <div id="uczTresc"></div>
+    <div class="zamknij-box"><button class="glowne" onclick="zamknijUczniow()">Zamknij</button></div>
+  </div>
+</div>
+
+<div class="modal" id="modalPrzydziel">
+  <div class="modal-duzy">
+    <h3 id="przTytul">Przydziel lekcje</h3>
+    <div id="przTresc" style="max-height:60vh; overflow-y:auto; padding:10px; border:1px solid #ddd; margin-bottom:15px"></div>
+    <div class="zamknij-box">
+      <button class="drugie" onclick="zamknijPrzydziel()">Anuluj</button>
+      <button class="glowne" onclick="zapiszPrzydzial()">Zapisz dostęp</button>
+    </div>
+  </div>
+</div>
+
 <script>
 var profil=null,lekcje={},filtrPoziom="all",WSZYSTKIE_LEKCJE={},MOJE_KLASY=[];
 var ROZKLAD_EDYCJA_ID = null;
@@ -275,6 +294,8 @@ var ML_ROZKLAD = null;
 var ML_PRZYPISANIE = null;
 var ML_REALIZACJE = [];
 var ML_FILTR = "all";
+var AKCJA_KLASA_ID = null;
+var AKCJA_UCZEN_ID = null;
 
 document.querySelectorAll("nav button").forEach(function(b){
   b.onclick=function(){
@@ -336,12 +357,15 @@ function renderujListeKlas(){
     html += '<td><strong>' + esc(k.nazwa) + '</strong></td>';
     html += '<td><span class="kod-klasy">' + esc(k.kod) + '</span></td>';
     html += '<td>' + new Date(k.data_utworzenia).toLocaleString("pl") + '</td>';
-    html += '<td><button class="drugie" data-copy-kod="' + esc(k.kod) + '" style="padding:5px 12px;font-size:.8rem">Kopiuj kod</button> <button class="drugie czerwony" data-del-klasa="' + k.id + '" style="padding:5px 12px;font-size:.8rem">Usuń</button></td>';
+    html += '<td><button class="drugie" data-ucz="' + k.id + '" data-nazwa="' + esc(k.nazwa) + '" style="padding:5px 12px;font-size:.8rem">Uczniowie</button> <button class="drugie" data-copy-kod="' + esc(k.kod) + '" style="padding:5px 12px;font-size:.8rem">Kopiuj kod</button> <button class="drugie czerwony" data-del-klasa="' + k.id + '" style="padding:5px 12px;font-size:.8rem">Usuń</button></td>';
     html += '</tr>';
   });
   html += '</tbody></table>';
   kont.innerHTML = html;
 
+  kont.querySelectorAll("[data-ucz]").forEach(function(b){
+    b.onclick = function(){ pokazUczniow(b.dataset.ucz, b.dataset.nazwa); };
+  });
   kont.querySelectorAll("[data-copy-kod]").forEach(function(b){
     b.onclick = function(){
       navigator.clipboard.writeText(b.dataset.copyKod).then(function(){ alert("Kod skopiowany: " + b.dataset.copyKod); });
@@ -577,7 +601,7 @@ async function pokazSzczegoly(wynik){
   var pytania = o.data.pytania || [];
   var odpUcznia = wynik.odpowiedzi || [];
 
-    document.getElementById("modalSzczegolyTytul").textContent = "Szczegóły — " + (wynik.uczen_imie || "?");
+  document.getElementById("modalSzczegolyTytul").textContent = "Szczegóły — " + (wynik.uczen_imie || "?");
 
   var opLiczba = wynik.opuszczenia || 0;
   var opInfo = opLiczba === 0 ? "0 (brak)" : (opLiczba + " — uczeń opuścił stronę testu");
@@ -1468,6 +1492,7 @@ async function otworzLekcjeML(pozycjaNr){
   window.open(url, "_blank");
   await wybierzKlaseML();
 }
+
 async function wydrukujLekcjeML(pozycjaNr){
   var p = (ML_ROZKLAD.pozycje || []).find(function(x){ return x.nr === pozycjaNr; });
   if (!p || !p.lekcja_id) return;
@@ -1542,6 +1567,99 @@ document.querySelectorAll("#mlFiltry [data-mlf]").forEach(function(b){
     renderujMojeLekcje();
   };
 });
+
+/* ============================================================
+   KROK 4b — PRZYDZIELANIE LEKCJI UCZNIOM
+============================================================ */
+
+async function pokazUczniow(klasaId, nazwaKlasy) {
+  AKCJA_KLASA_ID = klasaId;
+  document.getElementById("uczTytul").textContent = "Uczniowie w klasie " + nazwaKlasy;
+  document.getElementById("uczTresc").innerHTML = '<div class="pusta">Ładowanie...</div>';
+  document.getElementById("modalUczniowie").classList.add("on");
+
+  var o = await window.sb.from("profiles").select("id, imie_nazwisko, email, dostep_lekcji, plan").eq("klasa_id", klasaId).eq("typ_konta", "uczen");
+  var uczniowie = o.data || [];
+
+  if(!uczniowie.length) {
+    document.getElementById("uczTresc").innerHTML = '<div class="pusta">Brak uczniów w tej klasie. Uczniowie dołączają przez kod klasy podczas rejestracji.</div>';
+    return;
+  }
+
+  var html = '<table><thead><tr><th>Imię</th><th>E-mail</th><th>Plan</th><th>Liczba lekcji</th><th>Akcje</th></tr></thead><tbody>';
+  uczniowie.forEach(function(u){
+    var ileLekcji = u.dostep_lekcji ? u.dostep_lekcji.length : 0;
+    html += '<tr>';
+    html += '<td><strong>' + esc(u.imie_nazwisko || "—") + '</strong></td>';
+    html += '<td>' + esc(u.email || "—") + '</td>';
+    html += '<td>' + (u.plan === 'premium' ? '<span style="background:#fef3c7;color:#b45309;padding:2px 8px;border-radius:4px;font-size:.7rem;font-weight:700">Premium</span>' : '<span style="background:#f3f4f6;color:#6b7280;padding:2px 8px;border-radius:4px;font-size:.7rem;font-weight:700">Free</span>') + '</td>';
+    html += '<td>' + ileLekcji + '</td>';
+    html += '<td><button class="drugie" data-przydziel="' + u.id + '" data-imie="' + esc(u.imie_nazwisko||u.email) + '" style="padding:5px 12px;font-size:.8rem">Przydziel lekcje</button></td>';
+    html += '</tr>';
+  });
+  html += '</tbody></table>';
+  document.getElementById("uczTresc").innerHTML = html;
+
+  document.querySelectorAll("#uczTresc [data-przydziel]").forEach(function(b){
+    b.onclick = function(){ pokazPrzydziel(b.dataset.przydziel, b.dataset.imie); };
+  });
+}
+
+function zamknijUczniow(){ document.getElementById("modalUczniowie").classList.remove("on"); }
+
+async function pokazPrzydziel(uczenId, nazwaUcznia) {
+  AKCJA_UCZEN_ID = uczenId;
+  document.getElementById("przTytul").textContent = "Lekcje dla: " + nazwaUcznia;
+  document.getElementById("przTresc").innerHTML = 'Ładowanie...';
+  document.getElementById("modalPrzydziel").classList.add("on");
+
+  var o = await window.sb.from("profiles").select("dostep_lekcji, plan").eq("id", uczenId).single();
+  if(o.error) { alert("Błąd: " + o.error.message); return; }
+  
+  var przypisane = o.data.dostep_lekcji || [];
+  var isPremium = o.data.plan === 'premium';
+
+  var html = '';
+  if(isPremium) {
+     html += '<div class="info-box" style="margin-bottom:12px">Ten uczeń ma plan <strong>Premium</strong> – ma dostęp do wszystkich lekcji. Możesz mu jednak przypisać konkretne lekcje (przyda się, gdy wróci na plan Free).</div>';
+  }
+  
+  html += '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px">';
+  
+  var ids = Object.keys(WSZYSTKIE_LEKCJE).sort();
+  ids.forEach(function(id){
+    var l = WSZYSTKIE_LEKCJE[id];
+    var checked = przypisane.indexOf(id) !== -1 ? 'checked' : '';
+    html += '<label style="display:flex;align-items:center;gap:8px;font-weight:400;font-size:.85rem;padding:8px;border:1px solid #eee;border-radius:4px;cursor:pointer">';
+    html += '<input type="checkbox" value="' + id + '" ' + checked + ' style="width:auto">';
+    html += '<span><strong>' + id + '</strong> – ' + esc(l.tytul) + '</span>';
+    html += '</label>';
+  });
+  html += '</div>';
+
+  document.getElementById("przTresc").innerHTML = html;
+}
+
+function zamknijPrzydziel(){ document.getElementById("modalPrzydziel").classList.remove("on"); }
+
+async function zapiszPrzydzial() {
+  if(!AKCJA_UCZEN_ID) return;
+  var checkboxes = document.querySelectorAll('#przTresc input[type="checkbox"]:checked');
+  var ids = [];
+  checkboxes.forEach(function(c){ ids.push(c.value); });
+
+  var o = await window.sb.from("profiles").update({ dostep_lekcji: ids }).eq("id", AKCJA_UCZEN_ID);
+  
+  if(o.error) { alert("Błąd zapisu: " + o.error.message); return; }
+  
+  alert("Zapisano dostęp do " + ids.length + " lekcji.");
+  zamknijPrzydziel();
+  
+  if (document.getElementById("modalUczniowie").classList.contains("on")) {
+    var title = document.getElementById("uczTytul").textContent.replace('Uczniowie w klasie ', '');
+    pokazUczniow(AKCJA_KLASA_ID, title);
+  }
+}
 
 (function(){
   var params = new URLSearchParams(location.search);
