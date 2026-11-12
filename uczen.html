@@ -8,7 +8,7 @@
 <script src="supabase-klient.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:Arial,sans-serif;background:#f7f5f0;color:#1f2933;line-height:1.6}
+body{font-family:Arial,sans-serif;background:#f7f5f0;color:#1f2933;line-height:1.6;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
 .ekran{min-height:100vh;padding:40px 20px;display:flex;align-items:center;justify-content:center}
 .karta{background:#fff;border:1px solid #e8e4dc;border-radius:8px;padding:32px 36px;max-width:580px;width:100%;box-shadow:0 4px 20px rgba(0,0,0,.06)}
 .karta h1{font-family:Georgia,serif;font-size:1.4rem;color:#1e3a5f;margin-bottom:8px}
@@ -18,24 +18,20 @@ body{font-family:Arial,sans-serif;background:#f7f5f0;color:#1f2933;line-height:1
 .karta input[type=text]:focus{outline:none;border-color:#1e3a5f}
 .karta button{margin-top:18px;width:100%;padding:14px 24px;background:#1e3a5f;color:#fff;border:none;border-radius:6px;font-weight:700;font-size:1rem;cursor:pointer;letter-spacing:1px;text-transform:uppercase;font-family:inherit}
 .karta button:hover{background:#152a47}
-.ostrzezenie{background:#fef3c7;border:2px solid #b45309;border-left:5px solid #b45309;border-radius:6px;padding:14px 16px;margin-bottom:20px;font-size:.88rem;color:#78350f;line-height:1.6}
-.ostrzezenie strong{color:#7f1d1d;display:block;margin-bottom:6px;font-size:.95rem}
-.ostrzezenie ul{margin:8px 0 0 18px;padding:0}
-.ostrzezenie li{margin-bottom:3px}
-body.w-test{background:#bfdbfe}
+.ostrzezenie{background:#fef2f2;border:2px solid #991b1b;border-left:6px solid #991b1b;border-radius:6px;padding:16px 18px;margin-bottom:20px;font-size:.88rem;color:#7f1d1d;line-height:1.65}
+.ostrzezenie strong{display:block;margin-bottom:8px;font-size:.98rem;color:#991b1b;text-transform:uppercase;letter-spacing:.5px}
+.ostrzezenie ul{margin:8px 0 0 20px;padding:0}
+.ostrzezenie li{margin-bottom:4px}
+.ostrzezenie b{color:#7f1d1d}
+body.w-test{background:#22c55e}
 .test-header{position:sticky;top:0;z-index:10;background:#1e3a5f;color:#fff;padding:14px 26px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
 .test-header .info{font-size:.9rem}
 .test-header .info strong{font-size:1.05rem}
-.test-header .prawa{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 .test-header .zegar{font-family:monospace;font-size:1.5rem;font-weight:700;background:rgba(255,255,255,.15);padding:6px 16px;border-radius:6px}
 .test-header .zegar.ostrzezony{background:#dc2626}
-.ostrzezenia-licznik{background:#7f1d1d;color:#fff;padding:6px 12px;border-radius:6px;font-weight:700;font-size:.85rem;white-space:nowrap;display:none}
-.ostrzezenia-licznik.widoczne{display:inline-block}
-.ostrzezenia-licznik.uwaga{background:#b45309}
-.ostrzezenia-licznik.krytyczne{background:#dc2626;animation:pulse 1s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.65}}
+.test-header .tryb{background:#166534;padding:4px 12px;border-radius:12px;font-size:.72rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase}
 .test-main{max-width:780px;margin:22px auto;padding:0 20px 40px}
-.postep{background:rgba(255,255,255,.7);border-radius:6px;padding:10px 16px;margin-bottom:18px;text-align:center;font-weight:600;color:#1e3a5f}
+.postep{background:rgba(255,255,255,.92);border-radius:6px;padding:10px 16px;margin-bottom:18px;text-align:center;font-weight:700;color:#1e3a5f}
 .pytanie{background:#fff;border:1px solid #dbeafe;border-radius:8px;padding:20px 24px;margin-bottom:14px}
 .pytanie .nr{color:#1e3a5f;font-weight:700;margin-right:10px}
 .pytanie .tresc{font-weight:600;margin-bottom:14px}
@@ -48,16 +44,17 @@ body.w-test{background:#bfdbfe}
 .przycisk-zakoncz:hover{background:#152a47}
 .auto-info{text-align:center;margin-top:20px;padding:14px;background:#fffbeb;border:2px solid #fcd34d;border-radius:6px;color:#78350f;font-weight:600}
 .bledy{color:#991b1b;padding:20px;text-align:center;font-size:.95rem;line-height:1.6}
-
-/* EKRAN KOŃCOWY */
 .wynik-main{max-width:820px;margin:30px auto;padding:0 20px 60px}
 .wynik-glowny{background:#fff;border:1px solid #e8e4dc;border-radius:8px;padding:32px;text-align:center;margin-bottom:20px;position:relative;overflow:hidden}
 .wynik-glowny::before{content:"";position:absolute;top:0;left:0;right:0;height:6px;background:#1e3a5f}
+.wynik-glowny.przerwany::before{background:#991b1b}
 .wynik-glowny h1{font-family:Georgia,serif;color:#1e3a5f;font-size:1.5rem;margin-bottom:6px}
+.wynik-glowny.przerwany h1{color:#991b1b}
 .wynik-glowny .punkty{font-family:Georgia,serif;font-size:3.4rem;font-weight:700;color:#1e3a5f;margin:14px 0;line-height:1}
+.wynik-glowny.przerwany .punkty{color:#991b1b}
 .wynik-glowny .proc{color:#6b7280;font-size:1.05rem;margin-bottom:14px}
-.wynik-glowny .komentarz{color:#4b5563;font-size:.95rem;max-width:520px;margin:0 auto}
-.wynik-glowny .ostrzezenie-info{margin-top:18px;padding:12px 16px;background:#fef3c7;border-left:4px solid #b45309;border-radius:0 4px 4px 0;font-size:.88rem;color:#78350f;text-align:left}
+.wynik-glowny .komentarz{color:#4b5563;font-size:.95rem;max-width:580px;margin:0 auto;line-height:1.65}
+.wynik-glowny .powod-przerwania{margin-top:18px;padding:12px 16px;background:#fef2f2;border-left:4px solid #991b1b;border-radius:0 4px 4px 0;font-size:.88rem;color:#7f1d1d;text-align:left}
 .bledy-lista{margin-top:26px}
 .bledy-lista h2{font-family:Georgia,serif;color:#1e3a5f;font-size:1.15rem;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid #e8e4dc}
 .pyt-szcz{background:#fff;border-left:4px solid #1e3a5f;border-radius:0 6px 6px 0;padding:16px 20px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
@@ -83,12 +80,10 @@ body.w-test{background:#bfdbfe}
     <div class="meta" id="metaTestu">Ładowanie...</div>
 
     <div class="ostrzezenie">
-      <strong>Ważne — przeczytaj przed rozpoczęciem</strong>
+      <strong>⚠ UWAGA — TEST MONITOROWANY</strong>
       <ul>
-        <li><b>Nie opuszczaj strony testu</b> (nie przełączaj kart, nie otwieraj innych aplikacji, nie wychodź z przeglądarki) aż do zakończenia.</li>
-        <li>System wykrywa opuszczenie strony.</li>
-        <li>Po <b>3. opuszczeniu</b> test zostanie automatycznie zakończony.</li>
-        <li>Nauczyciel otrzyma informację, ile razy opuściłeś stronę.</li>
+        <li>Test przez cały czas musi być w trybie <b>pełnoekranowym</b>.</li>
+        <li><b>Nie wolno opuszczać testu</b> — przełączenie karty, Alt+Tab, minimalizacja okna, wyjście z pełnego ekranu, próba zamknięcia — <b>spowoduje automatyczne zakończenie testu</b>.</li>
       </ul>
     </div>
 
@@ -104,10 +99,8 @@ body.w-test{background:#bfdbfe}
       <strong id="naglowekTestu"></strong><br>
       <span id="infoUcznia"></span>
     </div>
-    <div class="prawa">
-      <div class="ostrzezenia-licznik" id="ostrzezeniaLicznik">0/3</div>
-      <div class="zegar" id="zegar">--:--</div>
-    </div>
+    <span class="tryb" id="trybBadge">🔒 TEST MONITOROWANY</span>
+    <div class="zegar" id="zegar">--:--</div>
   </div>
   <div class="test-main">
     <div class="postep" id="postep"></div>
@@ -121,16 +114,16 @@ body.w-test{background:#bfdbfe}
 
 <div id="ekranKoniec" style="display:none">
   <div class="wynik-main">
-    <div class="wynik-glowny">
-      <h1>Wynik sprawdzianu</h1>
+    <div class="wynik-glowny" id="wynikGlowny">
+      <h1 id="wynikTytul">Wynik sprawdzianu</h1>
       <div class="punkty" id="wynikPunkty">— / —</div>
       <div class="proc" id="wynikProc">—</div>
       <div class="komentarz" id="wynikKomentarz"></div>
-      <div class="ostrzezenie-info" id="wynikOstrzezenia" style="display:none"></div>
+      <div class="powod-przerwania" id="wynikPowod" style="display:none"></div>
     </div>
     <div class="bledy-lista" id="bledyLista"></div>
     <div class="wynik-przyciski">
-      <button onclick="window.print()">Wydrukuj / zapisz PDF</button>
+      <button onclick="window.location.href='index.html'">Wróć na stronę główną</button>
     </div>
   </div>
 </div>
@@ -145,11 +138,10 @@ body.w-test{background:#bfdbfe}
 <script>
 var TEST=null, PYTANIA=[], ODPOWIEDZI=[], IMIE="";
 var START_CZASU=0, KONIEC_CZASU=0, ZEGAR=null, AUTO=null, ZAKONCZONE=false;
-
-var WYKROCZENIA=0;
-var MAX_WYKROCZEN=3;
-var DETEKTOR_AKTYWNY=false;
-var BLUR_TIMEOUT=null;
+var AKTYWNY_DETEKTOR=false;
+var FS_BYL_AKTYWNY=false;
+var PRZERWANIE_POWOD=null;
+var BLUR_TIMER=null;
 
 document.addEventListener("DOMContentLoaded", async function() {
   var t = new URLSearchParams(location.search).get("t");
@@ -184,52 +176,7 @@ document.addEventListener("DOMContentLoaded", async function() {
   document.getElementById("startBtn").addEventListener("click", rozpocznij);
   document.getElementById("imieUcznia").addEventListener("keydown", function(e){ if(e.key==="Enter") rozpocznij(); });
   document.getElementById("zakonczBtn").addEventListener("click", function(){ if(confirm("Zakończyć sprawdzian?")) zakoncz(); });
-
-  /* === DETEKTOR OPUSZCZEŃ === */
-  document.addEventListener("visibilitychange", function() {
-    if (document.hidden) {
-      rejestrujOpuszczenie("karta ukryta");
-    }
-  });
-
-  window.addEventListener("blur", function() {
-    if (!DETEKTOR_AKTYWNY || ZAKONCZONE) return;
-    if (BLUR_TIMEOUT) clearTimeout(BLUR_TIMEOUT);
-    BLUR_TIMEOUT = setTimeout(function() {
-      rejestrujOpuszczenie("okno testu straciło focus");
-      BLUR_TIMEOUT = null;
-    }, 1000);
-  });
-
-  window.addEventListener("focus", function() {
-    if (BLUR_TIMEOUT) { clearTimeout(BLUR_TIMEOUT); BLUR_TIMEOUT = null; }
-  });
 });
-
-function rejestrujOpuszczenie(powod) {
-  if (!DETEKTOR_AKTYWNY || ZAKONCZONE) return;
-  WYKROCZENIA++;
-  console.warn("Opuszczenie testu #" + WYKROCZENIA + " — " + powod);
-
-  aktualizujLicznikOstrzezen();
-
-  if (WYKROCZENIA >= MAX_WYKROCZEN) {
-    alert("Test został zakończony — opuściłeś stronę testu " + WYKROCZENIA + " razy.\n\nNauczyciel otrzyma informację o liczbie opuszczeń.");
-    zakoncz();
-  } else {
-    alert("Uwaga!\n\nOpuściłeś stronę testu (" + WYKROCZENIA + "/" + MAX_WYKROCZEN + ").\n\nPrzy kolejnym opuszczeniu test zostanie automatycznie zakończony.");
-  }
-}
-
-function aktualizujLicznikOstrzezen() {
-  var el = document.getElementById("ostrzezeniaLicznik");
-  if (!el) return;
-  el.classList.add("widoczne");
-  el.textContent = "Ostrzeżenia: " + WYKROCZENIA + "/" + MAX_WYKROCZEN;
-  el.classList.remove("uwaga", "krytyczne");
-  if (WYKROCZENIA >= MAX_WYKROCZEN - 1) el.classList.add("krytyczne");
-  else if (WYKROCZENIA > 0) el.classList.add("uwaga");
-}
 
 async function czekajNaSb(){
   if(window.sbGotowy) return;
@@ -242,21 +189,43 @@ function pokazBlad(m){
   document.getElementById("trescBledu").textContent=m;
 }
 
+async function probujFullscreen() {
+  try {
+    var el = document.documentElement;
+    if (el.requestFullscreen) {
+      await el.requestFullscreen();
+      return true;
+    } else if (el.webkitRequestFullscreen) {
+      await el.webkitRequestFullscreen();
+      return true;
+    } else if (el.msRequestFullscreen) {
+      await el.msRequestFullscreen();
+      return true;
+    }
+  } catch(e) {
+    console.warn("Fullscreen niedostępne:", e);
+  }
+  return false;
+}
+
 async function rozpocznij(){
   var imie = document.getElementById("imieUcznia").value.trim();
   if(!imie){ alert("Wpisz imię i nazwisko."); return; }
 
+  var fsOK = await probujFullscreen();
+
   var sprawdz = await window.sb.from("wyniki").select("id").eq("test_id", TEST.id).ilike("uczen_imie", imie).limit(1);
   if(sprawdz.data && sprawdz.data.length > 0){
     alert("Ten sprawdzian został już przez Ciebie rozwiązany.\nJeśli chcesz go powtórzyć — poproś nauczyciela o nowy link.");
+    if (document.fullscreenElement) document.exitFullscreen().catch(function(){});
     return;
   }
 
   IMIE = imie;
   START_CZASU = Date.now();
   KONIEC_CZASU = TEST.czas_min ? START_CZASU + TEST.czas_min*60*1000 : 0;
-  WYKROCZENIA = 0;
-  DETEKTOR_AKTYWNY = true;
+  PRZERWANIE_POWOD = null;
+  FS_BYL_AKTYWNY = fsOK;
 
   document.getElementById("ekranStart").style.display="none";
   document.body.classList.add("w-test");
@@ -268,6 +237,95 @@ async function rozpocznij(){
   aktualizujPostep();
   if(TEST.czas_min) startZegar();
   else document.getElementById("zegar").textContent = "∞";
+
+  AKTYWNY_DETEKTOR = true;
+  zainstalujBlokady();
+}
+
+function przerwijTest(powod) {
+  if (ZAKONCZONE || !AKTYWNY_DETEKTOR) return;
+  if (PRZERWANIE_POWOD) return;
+  PRZERWANIE_POWOD = powod;
+  console.warn("PRZERWANIE TESTU:", powod);
+  zakoncz();
+}
+
+document.addEventListener("visibilitychange", function() {
+  if (!AKTYWNY_DETEKTOR || ZAKONCZONE) return;
+  if (document.hidden) {
+    przerwijTest("Uczeń opuścił kartę testu");
+  }
+});
+
+window.addEventListener("blur", function() {
+  if (!AKTYWNY_DETEKTOR || ZAKONCZONE) return;
+  if (BLUR_TIMER) clearTimeout(BLUR_TIMER);
+  BLUR_TIMER = setTimeout(function() {
+    BLUR_TIMER = null;
+    if (!AKTYWNY_DETEKTOR || ZAKONCZONE) return;
+    przerwijTest("Okno testu straciło focus");
+  }, 400);
+});
+
+window.addEventListener("focus", function() {
+  if (BLUR_TIMER) { clearTimeout(BLUR_TIMER); BLUR_TIMER = null; }
+});
+
+document.addEventListener("fullscreenchange", function() {
+  if (!AKTYWNY_DETEKTOR || ZAKONCZONE) return;
+  if (!document.fullscreenElement && FS_BYL_AKTYWNY) {
+    przerwijTest("Uczeń wyszedł z trybu pełnoekranowego");
+  }
+});
+
+window.addEventListener("beforeunload", function(e) {
+  if (!AKTYWNY_DETEKTOR || ZAKONCZONE) return;
+  zapiszAwaryjnie("Próba zamknięcia lub opuszczenia strony");
+  e.preventDefault();
+  e.returnValue = "Test w trakcie. Jeśli wyjdziesz, test zostanie przerwany.";
+  return e.returnValue;
+});
+
+function zainstalujBlokady() {
+  document.addEventListener("contextmenu", function(e) {
+    if (AKTYWNY_DETEKTOR) e.preventDefault();
+  });
+  ["copy", "cut", "paste"].forEach(function(evt) {
+    document.addEventListener(evt, function(e) {
+      if (AKTYWNY_DETEKTOR) e.preventDefault();
+    });
+  });
+  document.addEventListener("selectstart", function(e) {
+    if (AKTYWNY_DETEKTOR) e.preventDefault();
+  });
+  document.addEventListener("keydown", function(e) {
+    if (!AKTYWNY_DETEKTOR) return;
+    if (e.key === "F12") { e.preventDefault(); return; }
+    if (e.ctrlKey && e.shiftKey && ["I","J","C","i","j","c"].indexOf(e.key) !== -1) { e.preventDefault(); return; }
+    if (e.ctrlKey && ["u","U","s","S","p","P"].indexOf(e.key) !== -1) { e.preventDefault(); return; }
+    if (e.ctrlKey && ["c","C","v","V","x","X","a","A"].indexOf(e.key) !== -1) { e.preventDefault(); return; }
+  });
+}
+
+function zapiszAwaryjnie(powod) {
+  try {
+    var kodKlasy = new URLSearchParams(location.search).get("k") || "";
+    var dane = {
+      test_id: TEST.id,
+      uczen_imie: IMIE,
+      kod_klasy: kodKlasy,
+      punkty: 0,
+      max_punktow: PYTANIA.length,
+      procent: 0,
+      wersja: "A",
+      odpowiedzi: ODPOWIEDZI,
+      czas_sekundy: Math.round((Date.now() - START_CZASU)/1000),
+      opuszczenia: 1,
+      przerwany: true,
+      powod_przerwania: powod
+    };
+    window.sb.from("wyniki").insert(dane).then(function(){}).catch(function(){});
+  } catch(e) { console.warn("Awaryjny zapis nieudany:", e); }
 }
 
 function renderPytania(){
@@ -335,16 +393,25 @@ function odswiezZegar(){
 async function zakoncz(){
   if(ZAKONCZONE) return;
   ZAKONCZONE = true;
-  DETEKTOR_AKTYWNY = false;
-  if(BLUR_TIMEOUT) { clearTimeout(BLUR_TIMEOUT); BLUR_TIMEOUT = null; }
+  AKTYWNY_DETEKTOR = false;
+  if(BLUR_TIMER) { clearTimeout(BLUR_TIMER); BLUR_TIMER = null; }
   if(ZEGAR) clearInterval(ZEGAR);
   if(AUTO) clearInterval(AUTO);
+
+  if (document.fullscreenElement) {
+    document.exitFullscreen().catch(function(){});
+  }
 
   var punkty = 0;
   ODPOWIEDZI.forEach(function(o,i){ if(o === PYTANIA[i].poprawna) punkty++; });
   var max = PYTANIA.length;
   var procent = Math.round(punkty/max*100);
   var sekundy = Math.round((Date.now() - START_CZASU)/1000);
+
+  if (PRZERWANIE_POWOD) {
+    punkty = 0;
+    procent = 0;
+  }
 
   var kodKlasy = new URLSearchParams(location.search).get("k") || "";
   var o = await window.sb.from("wyniki").insert({
@@ -357,7 +424,9 @@ async function zakoncz(){
     wersja: "A",
     odpowiedzi: ODPOWIEDZI,
     czas_sekundy: sekundy,
-    opuszczenia: WYKROCZENIA
+    opuszczenia: PRZERWANIE_POWOD ? 1 : 0,
+    przerwany: PRZERWANIE_POWOD ? true : false,
+    powod_przerwania: PRZERWANIE_POWOD || null
   });
 
   try { localStorage.setItem("rozwiazany_" + TEST.id, "1"); } catch (e) {}
@@ -367,25 +436,27 @@ async function zakoncz(){
   document.getElementById("ekranKoniec").style.display="block";
   window.scrollTo(0,0);
 
-  document.getElementById("wynikPunkty").textContent = punkty + " / " + max;
-  document.getElementById("wynikProc").textContent = procent + "%";
+  var wynikGlowny = document.getElementById("wynikGlowny");
+  if (PRZERWANIE_POWOD) {
+    wynikGlowny.classList.add("przerwany");
+    document.getElementById("wynikTytul").textContent = "Test przerwany";
+    document.getElementById("wynikPunkty").textContent = "0 / " + max;
+    document.getElementById("wynikProc").textContent = "0%";
+    document.getElementById("wynikKomentarz").textContent = "Test został zakończony automatycznie, ponieważ opuściłeś stronę testu. Wynik nie jest liczony.";
 
-  var komentarz = "Musisz jeszcze powtórzyć materiał.";
-  if(procent >= 80) komentarz = "Świetnie!";
-  else if(procent >= 60) komentarz = "Nieźle, ale warto powtórzyć.";
-  if(o.error){
-    komentarz += " (Uwaga: wynik nie został wysłany do nauczyciela — " + o.error.message + ")";
-  }
-  document.getElementById("wynikKomentarz").textContent = komentarz;
-
-  var infoOstrz = document.getElementById("wynikOstrzezenia");
-  if (WYKROCZENIA > 0) {
-    infoOstrz.style.display = "block";
-    infoOstrz.innerHTML = "<strong>Uwaga:</strong> opuściłeś stronę testu " + WYKROCZENIA + " raz" +
-      (WYKROCZENIA === 1 ? "" : (WYKROCZENIA < 5 ? "y" : "y")) +
-      ". Informacja o tym została zapisana i przekazana nauczycielowi.";
+    var powodEl = document.getElementById("wynikPowod");
+    powodEl.style.display = "block";
+    powodEl.innerHTML = "<strong>Powód:</strong> " + PRZERWANIE_POWOD;
   } else {
-    infoOstrz.style.display = "none";
+    document.getElementById("wynikPunkty").textContent = punkty + " / " + max;
+    document.getElementById("wynikProc").textContent = procent + "%";
+    var komentarz = "Musisz jeszcze powtórzyć materiał.";
+    if(procent >= 80) komentarz = "Świetnie!";
+    else if(procent >= 60) komentarz = "Nieźle, ale warto powtórzyć.";
+    if(o.error){
+      komentarz += " (Uwaga: wynik nie został wysłany do nauczyciela — " + o.error.message + ")";
+    }
+    document.getElementById("wynikKomentarz").textContent = komentarz;
   }
 
   var html = '<h2>Szczegóły odpowiedzi</h2>';
