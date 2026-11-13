@@ -78,6 +78,19 @@ body.w-test{background:#22c55e}
 .wynik-przyciski{text-align:center;margin-top:26px}
 .wynik-przyciski button{padding:12px 28px;background:#1e3a5f;color:#fff;border:none;border-radius:6px;font-weight:600;cursor:pointer;font-family:inherit;font-size:.9rem}
 .wynik-przyciski button:hover{background:#152a47}
+
+/* Własny modal (zamiast browser confirm) */
+.modal-wlasny{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:9999;display:none;align-items:center;justify-content:center;padding:20px}
+.modal-wlasny.on{display:flex}
+.modal-wewnatrz{background:#fff;padding:28px 32px;border-radius:10px;max-width:440px;width:100%;box-shadow:0 10px 40px rgba(0,0,0,.3);text-align:center}
+.modal-wewnatrz h3{font-family:Georgia,serif;color:#1e3a5f;margin:0 0 12px;font-size:1.2rem}
+.modal-wewnatrz p{color:#4b5563;margin:0 0 4px;line-height:1.6;font-size:.92rem}
+.modal-przyciski{display:flex;gap:10px;justify-content:center;margin-top:22px;flex-wrap:wrap}
+.modal-przyciski button{padding:12px 26px;border-radius:6px;font-weight:700;font-size:.95rem;cursor:pointer;font-family:inherit}
+.modal-przyciski .modal-anuluj{background:#fff;color:#1e3a5f;border:2px solid #1e3a5f}
+.modal-przyciski .modal-anuluj:hover{background:#eff6ff}
+.modal-przyciski .modal-tak{background:#991b1b;color:#fff;border:2px solid #991b1b}
+.modal-przyciski .modal-tak:hover{background:#7f1d1d}
 </style>
 </head>
 <body>
@@ -150,11 +163,25 @@ body.w-test{background:#22c55e}
   </div>
 </div>
 
+<!-- WŁASNY MODAL: potwierdzenie zakończenia -->
+<div class="modal-wlasny" id="modalZakoncz">
+  <div class="modal-wewnatrz">
+    <h3>Zakończyć sprawdzian?</h3>
+    <p>Ta czynność jest nieodwracalna.</p>
+    <p>Test zostanie wysłany z aktualnie zaznaczonymi odpowiedziami.</p>
+    <div class="modal-przyciski">
+      <button class="modal-anuluj" id="btnZakonczNie">Anuluj</button>
+      <button class="modal-tak" id="btnZakonczTak">Tak, zakończ</button>
+    </div>
+  </div>
+</div>
+
 <script>
+console.log("uczen.html — wersja 3 (custom modal, bez confirm)");
+
 var TEST=null, PYTANIA=[], ODPOWIEDZI=[], IMIE="";
 var START_CZASU=0, KONIEC_CZASU=0, ZEGAR=null, ZAKONCZONE=false;
 var AKTYWNY_DETEKTOR=false;
-var POTWIERDZANIE_AKTYWNE=false;
 var FS_BYL_AKTYWNY=false;
 var PRZERWANIE_POWOD=null;
 var BLUR_TIMER=null;
@@ -193,12 +220,16 @@ document.addEventListener("DOMContentLoaded", async function() {
   document.getElementById("startBtn").addEventListener("click", rozpocznij);
   document.getElementById("imieUcznia").addEventListener("keydown", function(e){ if(e.key==="Enter") rozpocznij(); });
 
+  // "Zakończ sprawdzian" — własny modal (bez confirm())
   document.getElementById("zakonczBtn").addEventListener("click", function(){
-    POTWIERDZANIE_AKTYWNE = true;
-    if (BLUR_TIMER) { clearTimeout(BLUR_TIMER); BLUR_TIMER = null; }
-    var ok = confirm("Zakończyć sprawdzian?");
-    POTWIERDZANIE_AKTYWNE = false;
-    if (ok) zakoncz();
+    document.getElementById("modalZakoncz").classList.add("on");
+  });
+  document.getElementById("btnZakonczNie").addEventListener("click", function(){
+    document.getElementById("modalZakoncz").classList.remove("on");
+  });
+  document.getElementById("btnZakonczTak").addEventListener("click", function(){
+    document.getElementById("modalZakoncz").classList.remove("on");
+    zakoncz();
   });
 
   document.getElementById("btnSprawdz").addEventListener("click", function(){
@@ -206,8 +237,8 @@ document.addEventListener("DOMContentLoaded", async function() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   });
 
+  // "WYSYŁAM" — bez żadnego dialogu
   document.getElementById("btnWyslij").addEventListener("click", function(){
-    // Bez confirm() — panel już jest potwierdzeniem. Kliknięcie WYSYŁAM = świadoma decyzja.
     zakoncz();
   });
 });
@@ -277,7 +308,7 @@ async function rozpocznij(){
 }
 
 function przerwijTest(powod) {
-  if (ZAKONCZONE || !AKTYWNY_DETEKTOR || POTWIERDZANIE_AKTYWNE) return;
+  if (ZAKONCZONE || !AKTYWNY_DETEKTOR) return;
   if (PRZERWANIE_POWOD) return;
   PRZERWANIE_POWOD = powod;
   console.warn("PRZERWANIE TESTU:", powod);
@@ -285,18 +316,18 @@ function przerwijTest(powod) {
 }
 
 document.addEventListener("visibilitychange", function() {
-  if (!AKTYWNY_DETEKTOR || ZAKONCZONE || POTWIERDZANIE_AKTYWNE) return;
+  if (!AKTYWNY_DETEKTOR || ZAKONCZONE) return;
   if (document.hidden) {
     przerwijTest("Uczeń opuścił kartę testu");
   }
 });
 
 window.addEventListener("blur", function() {
-  if (!AKTYWNY_DETEKTOR || ZAKONCZONE || POTWIERDZANIE_AKTYWNE) return;
+  if (!AKTYWNY_DETEKTOR || ZAKONCZONE) return;
   if (BLUR_TIMER) clearTimeout(BLUR_TIMER);
   BLUR_TIMER = setTimeout(function() {
     BLUR_TIMER = null;
-    if (!AKTYWNY_DETEKTOR || ZAKONCZONE || POTWIERDZANIE_AKTYWNE) return;
+    if (!AKTYWNY_DETEKTOR || ZAKONCZONE) return;
     przerwijTest("Okno testu straciło focus");
   }, 400);
 });
@@ -306,15 +337,15 @@ window.addEventListener("focus", function() {
 });
 
 document.addEventListener("fullscreenchange", function() {
-  if (!AKTYWNY_DETEKTOR || ZAKONCZONE || POTWIERDZANIE_AKTYWNE) return;
+  if (!AKTYWNY_DETEKTOR || ZAKONCZONE) return;
   if (!document.fullscreenElement && FS_BYL_AKTYWNY) {
     przerwijTest("Uczeń wyszedł z trybu pełnoekranowego");
   }
 });
 
+// BEZ zapisu awaryjnego w beforeunload — żeby anulowanie dialogu nie tworzyło 0/20
 window.addEventListener("beforeunload", function(e) {
   if (!AKTYWNY_DETEKTOR || ZAKONCZONE) return;
-  zapiszAwaryjnie("Próba zamknięcia lub opuszczenia strony");
   e.preventDefault();
   e.returnValue = "Test w trakcie. Jeśli wyjdziesz, test zostanie przerwany.";
   return e.returnValue;
@@ -339,27 +370,6 @@ function zainstalujBlokady() {
     if (e.ctrlKey && ["u","U","s","S","p","P"].indexOf(e.key) !== -1) { e.preventDefault(); return; }
     if (e.ctrlKey && ["c","C","v","V","x","X","a","A"].indexOf(e.key) !== -1) { e.preventDefault(); return; }
   });
-}
-
-function zapiszAwaryjnie(powod) {
-  try {
-    var kodKlasy = new URLSearchParams(location.search).get("k") || "";
-    var dane = {
-      test_id: TEST.id,
-      uczen_imie: IMIE,
-      kod_klasy: kodKlasy,
-      punkty: 0,
-      max_punktow: PYTANIA.length,
-      procent: 0,
-      wersja: TEST.wersja || "A",
-      odpowiedzi: ODPOWIEDZI,
-      czas_sekundy: Math.round((Date.now() - START_CZASU)/1000),
-      opuszczenia: 1,
-      przerwany: true,
-      powod_przerwania: powod
-    };
-    window.sb.from("wyniki").insert(dane).then(function(){}).catch(function(){});
-  } catch(e) { console.warn("Awaryjny zapis nieudany:", e); }
 }
 
 function renderPytania(){
