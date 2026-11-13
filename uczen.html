@@ -154,6 +154,7 @@ body.w-test{background:#22c55e}
 var TEST=null, PYTANIA=[], ODPOWIEDZI=[], IMIE="";
 var START_CZASU=0, KONIEC_CZASU=0, ZEGAR=null, ZAKONCZONE=false;
 var AKTYWNY_DETEKTOR=false;
+var POTWIERDZANIE_AKTYWNE=false;
 var FS_BYL_AKTYWNY=false;
 var PRZERWANIE_POWOD=null;
 var BLUR_TIMER=null;
@@ -174,8 +175,9 @@ document.addEventListener("DOMContentLoaded", async function() {
   ODPOWIEDZI = PYTANIA.map(function(){ return -1; });
 
   document.getElementById("metaTestu").innerHTML =
-    "Klasa: <strong>" + (TEST.klasa || "—") + "</strong><br>" +
-    "Liczba pytań: <strong>" + PYTANIA.length + "</strong><br>" +
+    "Klasa: <strong>" + (TEST.klasa || "—") + "</strong>" +
+    (TEST.wersja ? " · Wersja <strong>" + TEST.wersja + "</strong>" : "") +
+    "<br>Liczba pytań: <strong>" + PYTANIA.length + "</strong><br>" +
     "Czas: <strong>" + (TEST.czas_min ? TEST.czas_min + " min" : "bez limitu") + "</strong>";
 
   var rozwiazany = localStorage.getItem("rozwiazany_" + t);
@@ -190,7 +192,14 @@ document.addEventListener("DOMContentLoaded", async function() {
 
   document.getElementById("startBtn").addEventListener("click", rozpocznij);
   document.getElementById("imieUcznia").addEventListener("keydown", function(e){ if(e.key==="Enter") rozpocznij(); });
-  document.getElementById("zakonczBtn").addEventListener("click", function(){ if(confirm("Zakończyć sprawdzian bez sprawdzania odpowiedzi?")) zakoncz(); });
+
+  document.getElementById("zakonczBtn").addEventListener("click", function(){
+    POTWIERDZANIE_AKTYWNE = true;
+    if (BLUR_TIMER) { clearTimeout(BLUR_TIMER); BLUR_TIMER = null; }
+    var ok = confirm("Zakończyć sprawdzian?");
+    POTWIERDZANIE_AKTYWNE = false;
+    if (ok) zakoncz();
+  });
 
   document.getElementById("btnSprawdz").addEventListener("click", function(){
     document.getElementById("wyslijPanel").style.display = "none";
@@ -198,9 +207,8 @@ document.addEventListener("DOMContentLoaded", async function() {
   });
 
   document.getElementById("btnWyslij").addEventListener("click", function(){
-    if(confirm("Czy na pewno chcesz wysłać sprawdzian? Po wysłaniu nie będzie już możliwości zmiany odpowiedzi.")) {
-      zakoncz();
-    }
+    // Bez confirm() — panel już jest potwierdzeniem. Kliknięcie WYSYŁAM = świadoma decyzja.
+    zakoncz();
   });
 });
 
@@ -256,7 +264,7 @@ async function rozpocznij(){
   document.getElementById("ekranStart").style.display="none";
   document.body.classList.add("w-test");
   document.getElementById("ekranTest").style.display="block";
-  document.getElementById("naglowekTestu").textContent = "Sprawdzian – " + (TEST.klasa || "");
+  document.getElementById("naglowekTestu").textContent = "Sprawdzian – " + (TEST.klasa || "") + (TEST.wersja ? " (wersja " + TEST.wersja + ")" : "");
   document.getElementById("infoUcznia").textContent = IMIE;
 
   renderPytania();
@@ -269,7 +277,7 @@ async function rozpocznij(){
 }
 
 function przerwijTest(powod) {
-  if (ZAKONCZONE || !AKTYWNY_DETEKTOR) return;
+  if (ZAKONCZONE || !AKTYWNY_DETEKTOR || POTWIERDZANIE_AKTYWNE) return;
   if (PRZERWANIE_POWOD) return;
   PRZERWANIE_POWOD = powod;
   console.warn("PRZERWANIE TESTU:", powod);
@@ -277,18 +285,18 @@ function przerwijTest(powod) {
 }
 
 document.addEventListener("visibilitychange", function() {
-  if (!AKTYWNY_DETEKTOR || ZAKONCZONE) return;
+  if (!AKTYWNY_DETEKTOR || ZAKONCZONE || POTWIERDZANIE_AKTYWNE) return;
   if (document.hidden) {
     przerwijTest("Uczeń opuścił kartę testu");
   }
 });
 
 window.addEventListener("blur", function() {
-  if (!AKTYWNY_DETEKTOR || ZAKONCZONE) return;
+  if (!AKTYWNY_DETEKTOR || ZAKONCZONE || POTWIERDZANIE_AKTYWNE) return;
   if (BLUR_TIMER) clearTimeout(BLUR_TIMER);
   BLUR_TIMER = setTimeout(function() {
     BLUR_TIMER = null;
-    if (!AKTYWNY_DETEKTOR || ZAKONCZONE) return;
+    if (!AKTYWNY_DETEKTOR || ZAKONCZONE || POTWIERDZANIE_AKTYWNE) return;
     przerwijTest("Okno testu straciło focus");
   }, 400);
 });
@@ -298,7 +306,7 @@ window.addEventListener("focus", function() {
 });
 
 document.addEventListener("fullscreenchange", function() {
-  if (!AKTYWNY_DETEKTOR || ZAKONCZONE) return;
+  if (!AKTYWNY_DETEKTOR || ZAKONCZONE || POTWIERDZANIE_AKTYWNE) return;
   if (!document.fullscreenElement && FS_BYL_AKTYWNY) {
     przerwijTest("Uczeń wyszedł z trybu pełnoekranowego");
   }
@@ -343,7 +351,7 @@ function zapiszAwaryjnie(powod) {
       punkty: 0,
       max_punktow: PYTANIA.length,
       procent: 0,
-      wersja: "A",
+      wersja: TEST.wersja || "A",
       odpowiedzi: ODPOWIEDZI,
       czas_sekundy: Math.round((Date.now() - START_CZASU)/1000),
       opuszczenia: 1,
@@ -425,7 +433,9 @@ async function zakoncz(){
   }
 
   var punkty = 0;
-  ODPOWIEDZI.forEach(function(o,i){ if(o === PYTANIA[i].poprawna) punkty++; });
+  ODPOWIEDZI.forEach(function(o,i){
+    if (parseInt(o) === parseInt(PYTANIA[i].poprawna)) punkty++;
+  });
   var max = PYTANIA.length;
   var procent = Math.round(punkty/max*100);
   var sekundy = Math.round((Date.now() - START_CZASU)/1000);
@@ -443,7 +453,7 @@ async function zakoncz(){
     punkty: punkty,
     max_punktow: max,
     procent: procent,
-    wersja: "A",
+    wersja: TEST.wersja || "A",
     odpowiedzi: ODPOWIEDZI,
     czas_sekundy: sekundy,
     opuszczenia: PRZERWANIE_POWOD ? 1 : 0,
@@ -484,13 +494,14 @@ async function zakoncz(){
   var html = '<h2>Szczegóły odpowiedzi</h2>';
   PYTANIA.forEach(function(p,i){
     var odpU = ODPOWIEDZI[i];
-    var ok = (odpU === p.poprawna);
+    var poprawna = parseInt(p.poprawna);
+    var ok = (parseInt(odpU) === poprawna);
     html += '<div class="pyt-szcz '+(ok?"ok":"zle")+'">';
     html += '<div class="tresc"><span class="nr">'+(i+1)+'.</span> '+p.q+'</div>';
     html += '<div class="odp user '+(ok?"ok":"")+'"><strong>'+(ok?"✓":"✗")+' Twoja odpowiedź:</strong> ';
     html += (odpU >= 0 ? String.fromCharCode(65+odpU)+') '+p.opcje[odpU] : "(brak)") + '</div>';
     if(!ok){
-      html += '<div class="odp poprawna"><strong>✓ Poprawna:</strong> '+String.fromCharCode(65+p.poprawna)+') '+p.opcje[p.poprawna]+'</div>';
+      html += '<div class="odp poprawna"><strong>✓ Poprawna:</strong> '+String.fromCharCode(65+poprawna)+') '+p.opcje[poprawna]+'</div>';
     }
     if(p.wyjasnienie) html += '<div class="wyjasnienie">'+p.wyjasnienie+'</div>';
     html += '</div>';

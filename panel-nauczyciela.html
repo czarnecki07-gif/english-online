@@ -111,7 +111,7 @@ th{background:#fbfaf7;color:#1e3a5f;font-size:.8rem;text-transform:uppercase}
         <option value="">— wybierz klasę —</option>
       </select>
     </div>
-    <div><label>Czas (min, 0 = bez limitu)</label><input type="number" id="czas" value="30"></div>
+    <div><label>Czas (min, 0 = bez limitu)</label><input type="number" id="czas" value="15"></div>
         <div><label>Liczba pytań</label><input type="number" id="liczba" value="20"></div>
     <div><label>Liczba wersji</label><input type="number" id="liczbaWersji" value="1" min="1" max="26"></div>
   </div>
@@ -420,7 +420,7 @@ async function zaladujLekcje(){
   });
 }
 
-function esc(s){return String(s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
+function esc(s){return String(s||"").replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
 
 function renderujListeLekcji(){
   var kont=document.getElementById("listaLekcji");
@@ -537,10 +537,10 @@ async function odswiezTesty(){
   var kont=document.getElementById("listaTestow");
   if(o.error){kont.innerHTML='<div class="pusta">Błąd: '+o.error.message+'</div>';return}
   if(!o.data.length){kont.innerHTML='<div class="pusta">Brak testów. Wygeneruj pierwszy w zakładce "Nowy test".</div>';return}
-  var html='<table><thead><tr><th>Klasa</th><th>Pytania</th><th>Czas</th><th>Data</th><th>Akcje</th></tr></thead><tbody>';
+  var html='<table><thead><tr><th>Nazwa testu</th><th>Pytania</th><th>Czas</th><th>Data</th><th>Akcje</th></tr></thead><tbody>';
   o.data.forEach(function(t){
     var link=location.origin+"/uczen.html?t="+t.id;
-    html+='<tr><td><strong>'+esc(t.klasa||"—")+'</strong></td><td>'+t.liczba_pytan+'</td><td>'+(t.czas_min?t.czas_min+" min":"—")+'</td><td>'+new Date(t.data_utworzenia).toLocaleString("pl")+'</td>';
+    html+='<tr><td><strong>'+esc(t.nazwa || t.klasa || "—")+'</strong></td><td>'+t.liczba_pytan+'</td><td>'+(t.czas_min?t.czas_min+" min":"—")+'</td><td>'+new Date(t.data_utworzenia).toLocaleString("pl")+'</td>';
     html+='<td><button class="drugie" data-qr="'+t.id+'" data-link="'+esc(link)+'">Pokaż QR</button> <button class="drugie" data-copy="'+esc(link)+'">Kopiuj link</button> <button class="drugie czerwony" data-del="'+t.id+'">Usuń</button></td></tr>';
   });
   html+='</tbody></table>';
@@ -554,14 +554,15 @@ document.getElementById("modalZamknij").onclick=function(){document.getElementBy
 document.getElementById("modalKopiuj").onclick=function(){navigator.clipboard.writeText(document.getElementById("modalQRLink").textContent).then(function(){alert("Skopiowano!")})};
 
 async function odswiezWyborTestow(){
-  var o=await window.sb.from("testy").select("id,klasa,liczba_pytan,data_utworzenia").eq("nauczyciel_id",profil.id).order("data_utworzenia",{ascending:false});
+  var o=await window.sb.from("testy").select("id,nazwa,klasa,wersja,liczba_pytan,data_utworzenia").eq("nauczyciel_id",profil.id).order("data_utworzenia",{ascending:false});
   var sel=document.getElementById("wyborTestu");
   sel.innerHTML='<option value="">— wybierz —</option>';
   if(!o.data)return;
   o.data.forEach(function(t){
     var opt=document.createElement("option");
     opt.value=t.id;
-    opt.textContent=(t.nazwa||t.klasa||"?")+" · "+t.liczba_pytan+" pytań · "+new Date(t.data_utworzenia).toLocaleDateString("pl");
+    var wersjaInfo = t.wersja ? " (Wersja " + t.wersja + ")" : "";
+    opt.textContent=(t.nazwa||t.klasa||"?") + wersjaInfo + " · "+t.liczba_pytan+" pytań · "+new Date(t.data_utworzenia).toLocaleDateString("pl");
     sel.appendChild(opt);
   });
 }
@@ -573,16 +574,37 @@ async function odswiezWyniki(){
   var o=await window.sb.from("wyniki").select("*").eq("test_id",id).order("data_oddania",{ascending:false});
   if(o.error){kont.innerHTML='<div class="pusta">Błąd: '+o.error.message+'</div>';return}
   if(!o.data.length){kont.innerHTML='<div class="pusta">Brak wyników.</div>';return}
-  var html='<table><thead><tr><th>#</th><th>Uczeń</th><th>Klasa</th><th>Punkty</th><th>%</th><th>Ocena</th><th>Opuszczenia</th><th>Data</th><th></th></tr></thead><tbody>';
+  
+  var html='<table><thead><tr><th>#</th><th>Uczeń</th><th>Klasa</th><th>Wersja</th><th>Punkty</th><th>%</th><th>Ocena</th><th>Opuszczenia</th><th>Data</th><th></th></tr></thead><tbody>';
   o.data.forEach(function(w,i){
     var pct=w.procent||0;
     var k=pct>=80?"dobry":(pct>=50?"sredni":"zly");
     var oc=pct>=90?"5":pct>=75?"4":pct>=50?"3":pct>=30?"2":"1";
+    
+    var przerw = w.przerwany === true;
+    var statusWynik = przerw
+      ? '<strong class="zly">PRZERWANY</strong>' + (w.powod_przerwania ? '<br><small style="color:#991b1b">' + esc(w.powod_przerwania) + '</small>' : '')
+      : (w.punkty + " / " + w.max_punktow);
+      
+    var pctShow = przerw ? "—" : (pct + "%");
+    var ocShow = przerw ? "—" : oc;
+    
     var op = w.opuszczenia || 0;
     var opKlasa = op >= 3 ? "zly" : (op > 0 ? "sredni" : "dobry");
     var opTekst = op === 0 ? "0" : op + " ⚠";
-    html+='<tr><td>'+(i+1)+'</td><td><strong>'+esc(w.uczen_imie||"?")+'</strong></td><td>'+esc(w.kod_klasy||"—")+'</td><td>'+w.punkty+" / "+w.max_punktow+'</td><td class="'+k+'">'+pct+'%</td><td class="'+k+'">'+oc+'</td><td class="'+opKlasa+'">'+opTekst+'</td><td>'+new Date(w.data_oddania).toLocaleString("pl")+'</td>';
-    html+='<td><button class="drugie" data-szczegoly="'+w.id+'" style="padding:5px 12px;font-size:.8rem">Szczegóły</button></td></tr>';
+    
+    html+='<tr>';
+    html+='<td>'+(i+1)+'</td>';
+    html+='<td><strong>'+esc(w.uczen_imie||"?")+'</strong></td>';
+    html+='<td>'+esc(w.kod_klasy||"—")+'</td>';
+    html+='<td><strong>'+esc(w.wersja||"—")+'</strong></td>';
+    html+='<td>'+statusWynik+'</td>';
+    html+='<td class="'+k+'">'+pctShow+'</td>';
+    html+='<td class="'+k+'">'+ocShow+'</td>';
+    html+='<td class="'+opKlasa+'">'+opTekst+'</td>';
+    html+='<td>'+new Date(w.data_oddania).toLocaleString("pl")+'</td>';
+    html+='<td><button class="drugie" data-szczegoly="'+w.id+'" style="padding:5px 12px;font-size:.8rem">Szczegóły</button></td>';
+    html+='</tr>';
   });
   html+='</tbody></table>';
   kont.innerHTML=html;
@@ -596,7 +618,7 @@ async function odswiezWyniki(){
 }
 
 async function pokazSzczegoly(wynik){
-  var o = await window.sb.from("testy").select("pytania,klasa").eq("id",wynik.test_id).single();
+  var o = await window.sb.from("testy").select("pytania,klasa,nazwa,wersja").eq("id",wynik.test_id).single();
   if(o.error || !o.data){alert("Nie można pobrać pytań testu: " + (o.error?o.error.message:"brak danych"));return;}
   var pytania = o.data.pytania || [];
   var odpUcznia = wynik.odpowiedzi || [];
@@ -607,23 +629,27 @@ async function pokazSzczegoly(wynik){
   var opInfo = opLiczba === 0 ? "0 (brak)" : (opLiczba + " — uczeń opuścił stronę testu");
   var opStyl = opLiczba >= 3 ? "color:#991b1b;font-weight:700" : (opLiczba > 0 ? "color:#b45309;font-weight:700" : "color:#166534");
 
+  var statusTestuInfo = wynik.przerwany ? "<br><strong style='color:#991b1b'>STATUS: PRZERWANY</strong><br><small style='color:#991b1b'>" + esc(wynik.powod_przerwania || "") + "</small>" : "";
+
   document.getElementById("modalSzczegolyInfo").innerHTML =
     "<strong>Uczeń:</strong> " + esc(wynik.uczen_imie || "?") + "<br>" +
     "<strong>Klasa:</strong> " + esc(o.data.klasa || "—") + "<br>" +
-    "<strong>Wynik:</strong> " + wynik.punkty + " / " + wynik.max_punktow + " (" + wynik.procent + "%)<br>" +
+    "<strong>Wersja testu:</strong> " + esc(wynik.wersja || o.data.wersja || "—") + "<br>" +
+    "<strong>Wynik:</strong> " + wynik.punkty + " / " + wynik.max_punktow + " (" + wynik.procent + "%)" + statusTestuInfo + "<br>" +
     "<strong>Opuszczenia strony:</strong> <span style='" + opStyl + "'>" + opInfo + "</span><br>" +
     "<strong>Data oddania:</strong> " + new Date(wynik.data_oddania).toLocaleString("pl");
 
   var html = "";
   pytania.forEach(function(p, i){
     var odp = odpUcznia[i];
-    var ok = (odp === p.poprawna);
+    var poprawna = parseInt(p.poprawna);
+    var ok = (parseInt(odp) === poprawna);
     html += '<div class="pyt-szcz ' + (ok ? "ok" : "zle") + '">';
     html += '<div class="tresc"><span class="nr">' + (i+1) + '.</span> ' + esc(p.q) + '</div>';
     html += '<div class="odp user ' + (ok ? "ok" : "") + '"><strong>' + (ok ? "✓" : "✗") + ' Odpowiedź ucznia:</strong> ';
     html += (odp >= 0 && p.opcje[odp] !== undefined ? String.fromCharCode(65+odp) + ') ' + esc(p.opcje[odp]) : "(brak)") + '</div>';
     if(!ok){
-      html += '<div class="odp poprawna"><strong>✓ Poprawna:</strong> ' + String.fromCharCode(65+p.poprawna) + ') ' + esc(p.opcje[p.poprawna]) + '</div>';
+      html += '<div class="odp poprawna"><strong>✓ Poprawna:</strong> ' + String.fromCharCode(65+poprawna) + ') ' + esc(p.opcje[poprawna]) + '</div>';
     }
     if(p.wyjasnienie) html += '<div class="wyjasnienie">' + esc(p.wyjasnienie) + '</div>';
     html += '</div>';
